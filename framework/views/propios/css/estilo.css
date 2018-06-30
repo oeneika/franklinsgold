@@ -1,0 +1,30 @@
+@media (min-width: 1025px){
+	.oculto{
+		display: none!important;
+	}
+}
+
+li.active strong, .naranja{
+	color: #DB8F18;
+}
+
+.wrapper-content{
+	padding: 10px 10px 20px;
+}
+
+.navbar-top-links li a{
+	padding: 20px;
+}
+
+
+#wrapper{
+	background-color: #1D1D1D;
+}
+
+.nav > li > a{
+	color: white;
+}
+
+.nav-header{
+	background: #252525;
+}

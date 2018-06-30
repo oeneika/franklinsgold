@@ -37,9 +37,9 @@ twig:
   
 # Configuración del sitio
 build:
-  production: false
-  name: Ocrend Framework 3
-  url: http://localhost/Ocrend-Framework/
+  production: true
+  name: Franklins Gold
+  url: http://localhost/franklinsgold/framework/
   timezone: America/Caracas
 
 # Configuración de cookies
@@ -58,4 +58,4 @@ api:
 # Configuración de ruta
 router:
   ssl: false
-  path: localhost/Ocrend-Framework/
+  path: localhost/franklinsgold/framework/

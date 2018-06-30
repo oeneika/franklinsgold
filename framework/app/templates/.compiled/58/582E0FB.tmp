@@ -1,0 +1,43 @@
+<?php
+
+/* overall/footer.twig */
+class __TwigTemplate_121b39ac217c710149827d86dd5c8667e3a00729e6bc9b8233fc61f615307ece extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<div class=\"footer\">
+                    <div class=\"pull-right\">
+                        Desarrollado por: Corporación JSK [ www.corporacionjsk.com ]
+                    </div>
+                    <div>
+                        <strong>Caracas, Venezuela</strong> Franklins Gold &copy; 2018
+                    </div>
+</div>";
+    }
+
+    public function getTemplateName()
+    {
+        return "overall/footer.twig";
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  19 => 1,);
+    }
+
+    public function getSourceContext()
+    {
+        return new Twig_Source("", "overall/footer.twig", "C:\\xampp\\htdocs\\franklinsgold\\framework\\app\\templates\\overall\\footer.twig");
+    }
+}

@@ -1,15 +1,139 @@
 {% extends 'overall/layout' %}
 {% block appBody %}
-    <div class="box-ocrend">
-        <h1>OCREND FRAMEWORK 3</h1>
-        <p>Bienvenido ¡empecemos a programar!</p>
-        {% if is_logged %}
-            <p>Sesión iniciada como <b>{{ owner_user.name }}::{{ owner_user.id_user }}</b></p>
-        {% endif %}
-        <div>
-            <a href="https://framework.ocrend.com" target="_blank">Documentación</a>
-            <span>-</span>
-            <a href="https://framework.ocrend.com/donaciones" target="_blank">Donaciones</a>
-        </div>
-    </div>
+<div id="page-wrapper" class="gray-bg">
+<div class="row border-bottom">
+    {% include 'overall/header' %}
+</div>
+
+            <div class="wrapper wrapper-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                    <div>
+                                        <span class="pull-right text-right">
+                                        <small>Promedio de las ventas en el último mes en: Estados Unidos <strong>Venezuela</strong></small>
+                                            <br/>
+                                            # Ventas: 162,862
+                                        </span>
+                                        <h1 class="m-b-xs">$ 50,992</h1>
+                                        <h3 class="font-bold no-margins">
+                                            Margen de ingreso semestral
+                                        </h3>
+                                    </div>
+
+                                <div>
+                                    <canvas id="lineChart" height="70"></canvas>
+                                </div>
+
+                                <div class="m-t-md">
+                                    <small class="pull-right">
+                                        <i class="fa fa-clock-o"> </i>
+                                        Actualizado el 16.07.2015
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-lg-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <span class="label label-primary pull-right">Hoy</span>
+                                <h5>Ventas Diarias</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">22 285,400</h1>
+                                <small>Nuevo</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <span class="label label-info pull-right">Mensual</span>
+                                <h5>Ventas del mes</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">60 420,600</h1>
+                                <small>Nuevo</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <span class="label label-warning pull-right">Anual</span>
+                                <h5>Ventas del año</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">$ 120 430,800</h1>
+                                <small>Nuevo</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{% include 'overall/footer' %}
+</div>
 {% endblock %}
+
+{% block appFooter %}
+<script>
+        $(document).ready(function() {
+
+            var lineData = {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [
+                    {
+                        label: "Example dataset",
+                        fillColor: "rgba(220,220,220,0.5)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    },
+                    {
+                        label: "Example dataset",
+                        fillColor: "rgba(26,179,148,0.5)",
+                        strokeColor: "rgba(26,179,148,0.7)",
+                        pointColor: "rgba(26,179,148,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(26,179,148,1)",
+                        data: [28, 48, 40, 19, 86, 27, 90]
+                    }
+                ]
+            };
+
+            var lineOptions = {
+                scaleShowGridLines: true,
+                scaleGridLineColor: "rgba(0,0,0,.05)",
+                scaleGridLineWidth: 1,
+                bezierCurve: true,
+                bezierCurveTension: 0.4,
+                pointDot: true,
+                pointDotRadius: 4,
+                pointDotStrokeWidth: 1,
+                pointHitDetectionRadius: 20,
+                datasetStroke: true,
+                datasetStrokeWidth: 2,
+                datasetFill: true,
+                responsive: true,
+            };
+
+
+            var ctx = document.getElementById("lineChart").getContext("2d");
+            var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+
+        });
+    </script>
+    {% endblock %}
