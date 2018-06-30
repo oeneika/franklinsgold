@@ -26,6 +26,9 @@ class sucursalController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);
-        $this->template->display('sucursal/sucursal');
+        $s = new Model\Sucursal;
+        $this->template->display('sucursal/sucursal', array(
+        	'sucursal'=> $s->get()
+        ));
     }
 }

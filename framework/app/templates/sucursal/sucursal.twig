@@ -46,16 +46,18 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            {% for i in 1..10 %}  
+                                            {% for s in sucursal if false != sucursal %}  
                                             <tr>
-                                                <td>1</td>
-                                                <td>Fraklins Gold El Sambil</td>
-                                                <td>C.C Sambil, Chacao</td>
+                                                <td>{{ s.idsucursal }}</td>
+                                                <td>{{ s.nombre }}</td>
+                                                <td>{{ s.direccion }}</td>
                                                 <td>
                                                 <a href="" style="font-size:22px;" title="Editar" data-toggle="modal" data-target="#editarSucursal"><i class="fa fa-sliders naranja"></i></a>
                                                 <a href="" style="margin-left: 20px;font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
                                                 </td>
                                             </tr>
+                                            {% else %}
+                                                 <tr><td>No hay resultados</td></tr>
                                             {% endfor %}
                                         </tbody>
                                         <tfoot>

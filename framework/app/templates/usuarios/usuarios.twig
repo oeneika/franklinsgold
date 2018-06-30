@@ -53,22 +53,24 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            {% for i in 1..10 %}  
+                                            {% for u in usuario if false != usuario %}  
                                             <tr>
-                                                <td>1</td>
-                                                <td>Alexander</td>
-                                                <td>Jesus</td>
-                                                <td>De Azevedo</td>
-                                                <td>Ilarraza</td>
-                                                <td>Oeneika</td>
-                                                <td>Sexo</td>
-                                                <td>02121234567</td>
-                                                <td>oeneikaphotos@gmail.com</td>
+                                                <td>{{ u.idusuario }}</td>
+                                                <td>{{ u.primer_nombre }}</td>
+                                                <td>{{ u.segundo_nombre }}</td>
+                                                <td>{{ u.primer_apellido }}</td>
+                                                <td>{{ u.segundo_apellido }}</td>
+                                                <td>{{ u.usuario }}</td>
+                                                <td>{{ u.sexo }}</td>
+                                                <td>{{ u.telefono }}</td>
+                                                <td>{{ u.correo }}</td>
                                                 <td>
-                                                <a href="" style="font-size:22px;" title="Editar" data-toggle="modal" data-target="#editarUsuario"><i class="fa fa-sliders naranja"></i></a>
+                                                <a href="usuarios/editar/{{ u.idusuario }}" style="font-size:22px;" title="Editar" data-toggle="modal" data-target="#editarUsuario"><i class="fa fa-sliders naranja"></i></a>
                                                 <a href="" style="margin-left: 20px;font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
                                                 </td>
                                             </tr>
+                                            {% else %}
+                                                 <tr><td>No hay resultados</td></tr>
                                             {% endfor %}
                                         </tbody>
                                         <tfoot>

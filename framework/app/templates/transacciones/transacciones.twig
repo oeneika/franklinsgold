@@ -41,20 +41,24 @@
                                             <th>Fecha</th>
                                             <th>Usuario Persona</th>
                                             <th>Codigo Moneda</th>
+                                            <th>Sucursal</th>
                                             <th>Acciones</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            {% for i in 1..10 %}  
+                                            {% for t in transacciones if false != transacciones %}  
                                             <tr>
-                                                <td>12/02/2018</td>
-                                                <td>Fraklins</td>
-                                                <td>1</td>
+                                                <td>{{ t.fecha }}</td>
+                                                <td>{{ t.usuario_idusuario }}</td>
+                                                <td>{{ t.moneda_codigo }}</td>
+                                                <td>{{ t.sucursal_idsucursal }}</td>
                                                 <td>
                                                 <a href="" style="font-size:22px;" title="Editar" data-toggle="modal" data-target="#editarTransaccion"><i class="fa fa-sliders naranja"></i></a>
                                                 <a href="" style="margin-left: 20px;font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
                                                 </td>
                                             </tr>
+                                            {% else %}
+                                                 <tr><td>No hay resultados</td></tr>
                                             {% endfor %}
                                         </tbody>
                                         <tfoot>
