@@ -13,7 +13,7 @@ database:
       host: localhost
       user: root
       pass:
-      name: franklinsgold
+      name: corpora1_franklinsgold
       port: default
       socket: default
     sqlite3:

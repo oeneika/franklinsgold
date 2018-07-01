@@ -1,0 +1,10 @@
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (1, '2/4/2018', 87.78, 97.86, 'Cherokee', 82, 1);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (2, '6/5/2018', 2.77, 77.01, 'Tundra', 17, 2);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (3, '11/27/2017', 69.03, 88.57, 'Rally Wagon G3500', 57, 3);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (4, '5/24/2018', 52.6, 92.29, 'Expedition', 13, 4);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (5, '6/2/2018', 4.63, 60.24, 'VUE', 72, 5);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (6, '9/9/2017', 58.08, 77.03, 'Nitro', 73, 6);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (7, '10/8/2017', 27.95, 41.05, '62', 27, 7);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (8, '8/12/2017', 93.65, 69.42, 'C-Class', 85, 8);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (9, '9/1/2017', 80.38, 66.38, 'Sequoia', 79, 9);
+insert into moneda (codigo, fecha_elaboracion, diametro, espesor, composicion, peso, origen_idorigen) values (10, '10/19/2017', 82.88, 88.14, 'Escalade EXT', 73, 10);
