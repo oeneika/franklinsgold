@@ -44,6 +44,9 @@ $app->post('/lostpass', function() use($app) {
     return $app->json($u->lostpass());   
 });
 
+
+
+
 /**
   * Acción vía ajax de usuarios en api/usuarios/crear
   *

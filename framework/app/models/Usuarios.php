@@ -21,6 +21,17 @@ class Usuarios extends Models implements IModels {
       * Característica para establecer conexión con base de datos. 
     */
     use DBModel;
+
+    private $primer_nombre;
+    private $segundo_nombre;
+    private $primer_apellido;
+    private $segundo_apellido;
+    private $usuario;
+    private $pass;
+    private $sexom;
+    private $sexof;
+    private $telefono;
+    private $correo;
     
         /**
           * Controla los errores de entrada del formulario
@@ -30,17 +41,16 @@ class Usuarios extends Models implements IModels {
         final private function errors(bool $edit = false) {
           global $http;
             # Obtener los datos $_POST
-            $usuario = $http->request->get('usuario');
-            $primer_nombre = $http->request->get('primer_nombre');
-            $segundo_nombre = $http->request->get('segundo_nombre');
-            $primer_apellido = $http->request->get('primer_apellido');
-            $segundo_apellido = $http->request->get('segundo_apellido');
-            $usuario = $http->request->get('usuario');
-            $pass = $http->request->get('pass');
-            $sexom = $http->request->get('masculinoRadio');
-            $sexof = $http->request->get('femeninoRadio');
-            $telefono = $http->request->get('telefono');
-            $email = $http->request->get('email');
+            $this->primer_nombre = $http->request->get('primer_nombre');
+            $this->segundo_nombre = $http->request->get('segundo_nombre');
+            $this->primer_apellido = $http->request->get('primer_apellido');
+            $this->segundo_apellido = $http->request->get('segundo_apellido');
+            $this->usuario = $http->request->get('usuario');
+            $this->pass = $http->request->get('pass');
+            $this->sexom = $http->request->get('masculinoRadio');
+            $this->sexof = $http->request->get('femeninoRadio');
+            $this->telefono = $http->request->get('telefono');
+            $this->email = $http->request->get('email');
 
             # Verificar que no están vacíos
             if (Helper\Functions::e($primer_nombre, $segundo_nombre, $primer_apellido,
@@ -55,19 +65,23 @@ class Usuarios extends Models implements IModels {
     
         }
 
+    final public function crear() {
+      try {
+        global $http;
+                  
+        # Controlar errores de entrada en el formulario
+        $this->errors();
 
+        # Insertar elementos
+        $this->db->query("INSERT INTO sucursal
+        (primer_nombre,segundo_nombre,primer_apellido, segundo_apellido, usuario, masculinoRadio, telefono, email)
+        VALUES ($this->primer_nombre,$this->segundo_nombre, $this->primer_apellido,$this->segundo_apellido,
+        $this->usuario, $this->sexom, $this->telefono, $this->email);");
 
-    final public function crear(){
-      $this->db->insert('usuario',array(
-        'primer_nombre' => $http->request->get('primer_nombre'),
-        'segundo_nombre' => $http->request->get('segundo_nombre'),
-        'primer_apellido' => $http->request->get('primer_apellido'),
-        'segundo_apellido' => $http->request->get('segundo_apellido'),
-        'usuario' => $http->request->get('usuario'),
-        'sexo' => $http->request->get('sexo'),
-        'telefono' => $http->request->get('telefono'),
-        'correo' => $http->request->get('correo')
-      ));
+        return array('success' => 1, 'message' => 'Creado con éxito.');
+      } catch(ModelsException $e) {
+        return array('success' => 0, 'message' => $e->getMessage());
+      }
     }
 
     final public function editar(){
