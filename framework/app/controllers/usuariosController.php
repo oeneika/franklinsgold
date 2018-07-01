@@ -39,11 +39,11 @@ class usuariosController extends Controllers implements IControllers {
         		$u -> eliminar();
         		break;
         	default:
-        		# code...
+        		$this->template->display('usuarios/usuarios',array(
+        		'usuario' => $u->get()
+        		));
         		break;
         }
-        $this->template->display('usuarios/usuarios',array(
-        	'usuario' => $u->get()
-        ));
+        
     }
 }

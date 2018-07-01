@@ -88,27 +88,38 @@
 <script>
         $(document).ready(function() {
 
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.info('Franklins Gold', '¡Bienvenido al sistema!');
+
+            }, 1300);
+
             var lineData = {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"],
                 datasets: [
                     {
                         label: "Example dataset",
-                        fillColor: "rgba(220,220,220,0.5)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
+                        fillColor: "rgba(221, 175, 5,0.5)",
+                        strokeColor: "rgba(221, 175, 5,1)",
+                        pointColor: "rgba(221, 175, 5,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        pointHighlightStroke: "rgba(221, 175, 5,1)",
                         data: [65, 59, 80, 81, 56, 55, 40]
                     },
                     {
                         label: "Example dataset",
-                        fillColor: "rgba(26,179,148,0.5)",
-                        strokeColor: "rgba(26,179,148,0.7)",
-                        pointColor: "rgba(26,179,148,1)",
+                        fillColor: "rgba(253, 134, 38,0.5)",
+                        strokeColor: "rgba(253, 134, 38,0.7)",
+                        pointColor: "rgba(253, 134, 38,1)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(26,179,148,1)",
+                        pointHighlightStroke: "rgba(253, 134, 38,1)",
                         data: [28, 48, 40, 19, 86, 27, 90]
                     }
                 ]

@@ -89,6 +89,19 @@
 
     <script src="views/js/plugins/dataTables/datatables.min.js"></script>
 
+            <script>
+                function direccionamiento(lugar) {
+                    switch (lugar) {
+                        case "home":
+                            location.href = "home/";
+                            break;
+                        default:
+                            console.log("No existe ");
+                    }
+                }
+            </script>
+    
+
     
     {% block appFooter %}
     {% endblock %}

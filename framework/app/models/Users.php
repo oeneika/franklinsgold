@@ -319,13 +319,21 @@ class Users extends Models implements IModels {
             global $http;
 
             # Obtener los datos $_POST
-            $name = $http->request->get('name');
-            $email = $http->request->get('email');
+            $usuario = $http->request->get('usuario');
+            $primer_nombre = $http->request->get('primer_nombre');
+            $segundo_nombre = $http->request->get('segundo_nombre');
+            $primer_apellido = $http->request->get('primer_apellido');
+            $segundo_apellido = $http->request->get('segundo_apellido');
+            $usuario = $http->request->get('usuario');
             $pass = $http->request->get('pass');
-            $pass_repeat = $http->request->get('pass_repeat');
+            $sexom = $http->request->get('masculinoRadio');
+            $sexof = $http->request->get('femeninoRadio');
+            $telefono = $http->request->get('telefono');
+            $email = $http->request->get('email');
 
             # Verificar que no están vacíos
-            if (Helper\Functions::e($name, $email, $pass, $pass_repeat)) {
+            if (Helper\Functions::e($primer_nombre, $segundo_nombre, $primer_apellido,
+            $segundo_apellido,$usuario,$telefono,$email)) {
                 throw new ModelsException('Todos los datos son necesarios');
             }
 

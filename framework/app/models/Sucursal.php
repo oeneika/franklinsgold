@@ -22,7 +22,8 @@ class Sucursal extends Models implements IModels {
     */
     use DBModel;
 
-    private $codigo;
+    private $nombre;
+    private $direccion;
 
     
     /**
@@ -32,9 +33,10 @@ class Sucursal extends Models implements IModels {
     */
     final private function errors() {
       global $http;
-      $this->anio_ini = $http->request->get('anio_ini');
+      $this->nombre = $http->request->get('nombre');
+       $this->direccion  = $http->request->get('direccion');
 
-      if($this->functions->e($this->anio_ini,$this->anio_fin,$this->color_short,$this->color_camisa,$this->uniforme,$this->tipo)){
+      if($this->functions->e($this->nombre,$this->direccion)){
         throw new ModelsException('Todos los campos son obligatorios!');
       }
       # throw new ModelsException('¡Esto es un error!');
@@ -53,9 +55,9 @@ class Sucursal extends Models implements IModels {
         $this->errors();
 
         # Insertar elementos
-        $this->db->query("INSERT INTO sucursal_4
-        (anio_ini_color,anio_fin_color,color_short,color_camisa,codigo_producto,tipo)
-        VALUES ($this->anio_ini,$this->anio_fin, '$this->color_short', '$this->color_camisa', $this->uniforme,$this->tipo);");
+        $this->db->query("INSERT INTO sucursal
+        (nombre,direccion)
+        VALUES ($this->nombre,$this->direccion);");
 
         return array('success' => 1, 'message' => 'Creado con éxito.');
       } catch(ModelsException $e) {
