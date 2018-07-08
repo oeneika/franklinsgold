@@ -14,3 +14,9 @@ use app\models as Model;
 $app->get('/', function() use($app) {
     return $app->json(array()); 
 });
+
+$app->get('origenes/get', function() use($app) {
+    $o = new Model\Origen; 
+
+    return $app->json($o->getOrigenes());
+});

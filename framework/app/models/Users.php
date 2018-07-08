@@ -18,6 +18,7 @@ use Ocrend\Kernel\Models\IModels;
 use Ocrend\Kernel\Models\ModelsException;
 use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
+use Ocrend\Kernel\Helpers\Functions;
 
 /**
  * Modelo Users
@@ -45,6 +46,23 @@ class Users extends Models implements IModels {
      * @var array
      */
     private $recentAttempts = array();
+
+
+    /**
+     * Datos del usuario usados por el crud Usuarios
+     */
+    private $primer_nombre;
+    private $segundo_nombre;
+    private $primer_apellido;
+    private $segundo_apellido;
+    private $tipo;
+    private $usuario;
+    private $pass;
+    private $pass2;
+    private $sexo;
+    private $telefono;
+    private $email;
+
 
     /**
      * Hace un set() a la sesión login_user_recentAttempts con el valor actualizado.
@@ -221,30 +239,7 @@ class Users extends Models implements IModels {
                 $this->restoreAttempts($email);
             }
         }
-    }   
-
-    /**
-     * Obtiene datos de un usuario según su id en la base de datos
-     *    
-     * @param int $id: Id del usuario a obtener
-     * @param string $select : Por defecto es *, se usa para obtener sólo los parámetros necesarios 
-     *
-     * @return false|array con información del usuario
-     */   
-    public function getUserById(int $id, string $select = '*') {
-        return $this->db->select($select,'users',null,"id_user='$id'",1);
-    }
-    
-    /**
-     * Obtiene a todos los usuarios
-     *    
-     * @param string $select : Por defecto es *, se usa para obtener sólo los parámetros necesarios 
-     *
-     * @return false|array con información de los usuarios
-     */  
-    public function getUsers(string $select = '*') {
-        return $this->db->select($select,'users');
-    }
+    }      
 
     /**
      * Obtiene datos del usuario conectado actualmente
@@ -485,6 +480,220 @@ class Users extends Models implements IModels {
         # Devolover al sitio de inicio
         Helper\Functions::redir($config['build']['url'] . '?sucess=' . (int) $success);
     }
+
+
+    #A partir de aquí estan los metodos utilziados por el crud Usuarios
+
+    /**
+     * Revisa errores en el formulario
+     * 
+     * @return exception
+    */ 
+    private function errors(bool $edit = false){
+
+        global $http;
+
+        $this->primer_nombre = $http->request->get('primer_nombre');
+        $this->segundo_nombre = $http->request->get('segundo_nombre');
+        $this->primer_apellido = $http->request->get('primer_apellido');
+        $this->segundo_apellido = $http->request->get('segundo_apellido');
+        
+        $this->tipo = $http->request->get('tipo');
+        $this->usuario = $http->request->get('usuario');
+        $this->pass = $http->request->get('pass');
+        $this->pass2 = $http->request->get('pass2');
+        $this->sexo = $http->request->get('sexo');
+        $this->telefono = $http->request->get('telefono');
+        $this->email = $http->request->get('email');
+
+
+        # Verificar que no están vacíos
+        if (Helper\Functions::e($this->primer_nombre, $this->primer_apellido,
+        $this->segundo_apellido,$this->telefono)) {
+            throw new ModelsException('Todos los campos marcados con "*" son necesarios.');
+        }
+
+        if (Helper\Functions::e($this->pass,$this->pass2,$this->usuario,$this->email) and !$edit) {
+            throw new ModelsException('Todos los campos marcados con "*" son necesarios.');
+        }
+
+        if($this->tipo!=0 and $this->tipo!=1) {
+            throw new ModelsException('Tipo de usuario no válido.');
+        }
+
+
+        if($this->sexo!="M" and $this->sexo!="F") {
+            throw new ModelsException('Sexo no válido.');
+        }
+
+
+        # Veriricar contraseñas y email
+        if (!$edit) {           
+             $this->checkPassMatch($this->pass, $this->pass2);
+             $this->checkEmail($this->email);
+
+            #Revisa la exitencia del nombre de usuario que se está introduciendo
+            if($this->checkUsuario($this->usuario) != null){
+                throw new ModelsException('El nombre de usuario ya esta en uso.'); 
+            }
+        }
+
+    }
+
+    /**
+     * Agrega usuarios 
+     * 
+     * @return array
+    */ 
+    public function add() : array {
+        try {
+
+            #Revisa errores del formulario
+            $this->errors();
+
+            
+            $u = array(
+            'primer_nombre' => $this->primer_nombre,
+            'segundo_nombre' => $this->segundo_nombre,
+            'primer_apellido' => $this->primer_apellido,
+            'segundo_apellido' => $this->segundo_apellido,
+            'tipo' => $this->tipo,
+            'usuario' => $this->usuario,
+            'pass' => Helper\Strings::hash($this->pass),
+            'sexo' => $this->sexo,
+            'telefono' => $this->telefono,
+            'email' => $this->email
+            );
+  
+  
+             #Array con datos validos para el insert
+             $data = array();
+  
+             #Valida que los datos no esten vacios y los inserta en el array "data"
+             foreach ($u as $key=>$val) {
+               if(NULL !== $u[$key] && !Functions::emp($u[$key])){
+                 $data[$key] = $u[$key];
+               }
+             }
+  
+            # Registrar al usuario
+            $id_user =  $this->db->insert('users',$data);
+
+            return array('success' => 1, 'message' => 'Usuario creado con éxito!');
+        } catch(ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
+
+    /**
+     * Edita usuarios 
+     * 
+     * @return array
+    */ 
+    public function edit() : array {
+        try {
+
+            global $http;
+
+            $id = $http->request->get('id_user');
+
+            $this->errors(true);
+
+            $u = array(
+                'primer_nombre' => $this->primer_nombre,
+                'segundo_nombre' => $this->segundo_nombre,
+                'primer_apellido' => $this->primer_apellido,
+                'segundo_apellido' => $this->segundo_apellido,
+                'tipo' => $this->tipo,
+                'pass' => Helper\Strings::hash($this->pass),
+                'sexo' => $this->sexo,
+                'telefono' => $this->telefono
+            );
+
+
+            #Array con datos validos para el update
+            $data = array();
+
+            #Valida que los datos no esten vacios y los inserta en el array "data"
+            foreach ($u as $key=>$val) {
+                if(NULL !== $u[$key] && !Functions::emp($u[$key])){
+                    $data[$key] = $u[$key];
+                }
+            }
+
+
+            #Edita un usuario
+            $this->db->update('users',$data,"id_user = '$id'",'1');
+
+            return array('success' => 1, 'message' => 'Usuario editado con éxito!');
+        } catch(ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
+
+    /**
+     * Verifica la existencia del nombre de usuario
+     * 
+     * @return array
+    */ 
+    public function checkUsuario(String $nombre_usuario) {
+        
+        return $this->db->select("usuario",'users',null,"usuario='$nombre_usuario'");
+
+    }
+
+    /**
+     * Verifica la existencia del nombre de usuario
+     * 
+     * @return array
+    */ 
+    public function checkTelefono(int $numero_telefonico) {
+        
+        return $this->db->select("usuario",'users',null,"usuario=$numero_telefonico");
+
+    }
+
+    /**
+     * Eliminar usuario
+    */
+    final public function del() {
+        Global $config;
+
+       $res = $this->db->delete('users',"id_user='$this->id'",'1');
+
+      # Redireccionar al controlador usuarios con un success=true
+      Functions::redir($config['build']['url'] . 'usuarios/&success=true');
+
+    }
+
+
+
+    /**
+     * Obtiene datos de un usuario según su id en la base de datos
+     *    
+     * @param int $id: Id del usuario a obtener
+     * @param string $select : Por defecto es *, se usa para obtener sólo los parámetros necesarios 
+     *
+     * @return false|array con información del usuario
+     */   
+    public function getUserById(int $id, string $select = '*') {
+        return $this->db->select($select,'users',null,"id_user='$id'",1);
+    }
+    
+    /**
+     * Obtiene a todos los usuarios
+     *    
+     * @param string $select : Por defecto es *, se usa para obtener sólo los parámetros necesarios 
+     *
+     * @return false|array con información de los usuarios
+     */  
+    public function getUsers(string $select = '*') {
+        return $this->db->select($select,'users');
+    }
+
+
 
     /**
      * __construct()

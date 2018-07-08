@@ -53,9 +53,9 @@ $app->post('/lostpass', function() use($app) {
   * @return json
 */
 $app->post('/usuarios/crear', function() use($app) {
-  $u = new Model\Usuarios; 
+  $u = new Model\Users; 
 
-  return $app->json($u->crear());   
+  return $app->json($u->add());   
 });
 
 
@@ -65,9 +65,33 @@ $app->post('/usuarios/crear', function() use($app) {
   * @return json
 */
 $app->post('/usuarios/editar', function() use($app) {
-  $u = new Model\Usuarios; 
+  $u = new Model\Users; 
 
-  return $app->json($u->editar());   
+  return $app->json($u->edit());   
+});
+
+
+/**
+  * Acción vía ajax de monedas en api/monedas/crear
+  *
+  * @return json
+*/
+$app->post('/monedas/crear', function() use($app) {
+  $m = new Model\Monedas; 
+
+  return $app->json($m->add());   
+});
+
+
+/**
+  * Acción vía ajax de monedas en api/monedas/editar
+  *
+  * @return json
+*/
+$app->post('/monedas/editar', function() use($app) {
+  $m = new Model\Monedas; 
+
+  return $app->json($m->edit());   
 });
 
 /**
@@ -80,7 +104,8 @@ $app->post('/sucursal/crear', function() use($app) {
 
   return $app->json($s->add());   
 });
-/**
+
+/**
  * Endpoint para login
  *
  * @return json
@@ -90,7 +115,8 @@ $app->post('/login', function() use($app) {
 
     return $app->json($l->foo());   
 });
-/**
+
+/**
  * Endpoint para registro
  *
  * @return json

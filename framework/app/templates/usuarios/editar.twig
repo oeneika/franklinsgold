@@ -1,74 +1,87 @@
 <div class="modal inmodal" id="editarUsuario" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                                    <div class="modal-content animated flipInY">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                                            <h4 class="modal-title">Edición de Usuarios</h4>
-                                            <small class="font-bold">Franklins Gold</small>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="editar_usuario_form">
-                                                <div class="row">
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="cc-payment" class="control-label mb-1">Primer nombre</label>
-                                                            <input id="cc-pament" name="primernombre" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="cc-payment" class="control-label mb-1">Segundo nombre</label>
-                                                            <input id="cc-pament" name="segundonombre" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="cc-payment" class="control-label mb-1">Primer apellido</label>
-                                                            <input id="cc-pament" name="primerapellido" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="cc-payment" class="control-label mb-1">Segundo apellido</label>
-                                                            <input id="cc-pament" name="segundoapellido" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="usuario" class="control-label mb-1">Usuario</label>
-                                                            <input id="usuario" name="usuario" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="radio" class="control-label mb-1">Sexo</label>
-                                                            </br>
-                                                            <input type="radio" checked="" value="masculino" id="masculinoRadio" name="masculinoRadio"> Masculino
-                                                            </br>
-                                                            <input type="radio" checked="" value="femenino" id="femeninoRadio" name="femeninoRadio"> Femenino
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="telefono" class="control-label mb-1">Télefono</label>
-                                                            <input id="telefono" name="telefono" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="email" class="control-label mb-1">Correo</label>
-                                                            <input id="email" name="email" type="email" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                                            <button type="button" class="btn btn-primary">Guardar</button>
-                                        </div>
-                                    </div>
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title">Edición de Usuarios</h4>
+                <small class="font-bold">Franklins Gold</small>
             </div>
+            <div class="modal-body">
+                <form id="editar_usuario_form">
+                    <input type="hidden" name="id_user" id="id_id_user" value="" />
+
+                    <div class="row">
+                        <div class="col-md-3 col-xs-12">
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1">Primer nombre <span>*</span></label>
+                                <input id="id_primer_nombre" name="primer_nombre" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1">Segundo nombre </label>
+                                <input id="id_segundo_nombre" name="segundo_nombre" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1">Primer apellido <span>*</span></label>
+                                <input id="id_primer_apellido" name="primer_apellido" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-xs-12">
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1">Segundo apellido <span>*</span></label>
+                                <input id="id_segundo_apellido" name="segundo_apellido" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="radio" class="control-label mb-1">Sexo <span>*</span></label>
+                                </br>
+                                <input id="id_sexom" type="radio" checked="" value="M" name="sexo"> Masculino
+                                </br>
+                                <input id="id_sexof" type="radio" checked="" value="F"  name="sexo"> Femenino
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                                <div class="form-group">
+                                    <label for="radio" class="control-label mb-1">Tipo usuario<span>*</span></label>
+                                    </br>
+                                    <input id="id_tipoa" type="radio" checked="" value="0" name="tipo"> Administrador
+                                    </br>
+                                    <input id="id_tipov" type="radio" checked="" value="1"  name="tipo"> Vendedor
+                                </div>
+                            </div>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="telefono" class="control-label mb-1">Télefono <span>*</span></label>
+                                <input id="id_telefono" name="telefono" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>                
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="pass" class="control-label mb-1">Contraseña <span>*</span></label>
+                                <input name="pass" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="pass2" class="control-label mb-1">Repetir Contraseña <span>*</span></label>
+                                <input name="pass2" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                    </div>   
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="editar_usuario_0CR3ND" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>

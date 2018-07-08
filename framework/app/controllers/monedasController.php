@@ -25,7 +25,23 @@ use Ocrend\Kernel\Router\IRouter;
 class monedasController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router);
-        $this->template->display('monedas/monedas');
+        parent::__construct($router,array(
+            /*'users_logged' => true*/
+        ));
+        
+        $m = new Model\Monedas($router);  
+        $o= new Model\Origen($router);
+
+        switch($this->method) {
+            case 'eliminar':
+                $m->del();
+            break;
+            default:
+            $this->template->display('monedas/monedas',array(
+                'monedas' => $m->getMonedas(),
+                'origenes' => $o->getOrigenes()
+            ));
+            break;
+        }
     }
 }

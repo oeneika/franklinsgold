@@ -9,28 +9,37 @@ function crearUsuario() {
  * Ajax action to api rest
 */
 
-function crearUsuarioForm() {
+function createUsuario() {
     $.ajax({
         type: "POST",
         url: "api/usuarios/crear",
         data: $('#crear_usuario_form').serialize(),
         success: function (json) {
-            toastr.options = {
-                closeButton: true,
-                progressBar: true,
-                showMethod: 'slideDown',
-                timeOut: 4000
-            };
-            toastr.info('Franklins Gold', '¡Bienvenido al sistema!');
-            if (json.success == 1) {
+
+            if(json.success == 1) {
+
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+
+                toastr.info('¡Usuario creado!','Exito!');
+                
                 setTimeout(function () {
                     location.reload();
                 }, 1000);
+                
+            }else {
+                toastr.info(json.message,'Ups!');
+               //error_toastr('Ups!', json.message);
             }
+
         },
         error: function (xhr, status) {
-            toastr[error]("El usuario no se pudo registrar en el sistema.", "¡ERROR!")
-
+            //toastr[error]("El usuario no se pudo registrar en el sistema.", "¡ERROR!");
+            toastr.info('Error','Ha ocurrido un problema!');
             toastr.options = {
                 "closeButton": false,
                 "debug": false,
@@ -59,12 +68,12 @@ function crearUsuarioForm() {
  */
 $('#crearUsuariobtn').click(function (e) {
     e.defaultPrevented;
-    crearUsuarioForm();
+    createUsuario();
 });
 $('crear_usuario_form').keypress(function (e) {
     e.defaultPrevented;
     if (e.which == 13) {
-        crearUsuarioForm();
+        createUsuario();
         return false;
     }
 });
