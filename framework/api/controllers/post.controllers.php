@@ -126,3 +126,13 @@ $app->post('/registro', function() use($app) {
 
     return $app->json($r->foo());   
 });
+/**
+ * Endpoint para origen
+ *
+ * @return json
+*/
+$app->post('/origen', function() use($app) {
+    $o = new Model\Origen; 
+
+    return $app->json($o->foo());   
+});
