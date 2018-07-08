@@ -80,3 +80,23 @@ $app->post('/sucursal/crear', function() use($app) {
 
   return $app->json($s->add());   
 });
+/**
+ * Endpoint para login
+ *
+ * @return json
+*/
+$app->post('/login', function() use($app) {
+    $l = new Model\Login; 
+
+    return $app->json($l->foo());   
+});
+/**
+ * Endpoint para registro
+ *
+ * @return json
+*/
+$app->post('/registro', function() use($app) {
+    $r = new Model\Registro; 
+
+    return $app->json($r->foo());   
+});

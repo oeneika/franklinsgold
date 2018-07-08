@@ -26,9 +26,20 @@ class transaccionesController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);
-        $t = new Model\Transacciones;
-        $this->template->display('transacciones/transacciones',array(
-        	'transacciones' => $t->get()
-        ));
+        
+        switch($this->method) {
+          case 'compra':
+            $this->template->display('transacciones/compra');
+          break;
+          case 'venta':
+            $this->template->display('transacciones/venta');
+          break;
+          case 'intercambio':
+            $this->template->display('transacciones/intercambio');
+          break;
+          default:
+           $this->template->display('transacciones/transacciones');
+          break;
+        }
     }
 }

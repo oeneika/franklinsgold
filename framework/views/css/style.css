@@ -619,8 +619,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   color: #fff;
 }
 .btn-primary {
-  background-color: #1ab394;
-  border-color: #1ab394;
+  background-color: #e2b02b;
+  border-color: #e2b02b;
   color: #FFFFFF;
 }
 .btn-primary:hover,
@@ -632,8 +632,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-primary:active:hover,
 .btn-primary.active:hover,
 .btn-primary.active:focus {
-  background-color: #18a689;
-  border-color: #18a689;
+  background-color: #F7C645;
+  border-color: #F7C645;
   color: #FFFFFF;
 }
 .btn-primary:active,
@@ -3300,7 +3300,7 @@ body.tour-open .animated {
 }
 body {
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #2f4050;
+  background-color: #171717;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
@@ -4437,14 +4437,14 @@ body.mini-navbar.fixed-sidebar .logo-element {
   max-width: 400px;
   z-index: 100;
   margin: 0 auto;
-  padding-top: 40px;
+  padding-top: 10px;
 }
 .lockscreen.middle-box {
   width: 200px;
   padding-top: 110px;
 }
 .loginscreen.middle-box {
-  width: 300px;
+  width: 1000px;
 }
 .loginColumns {
   max-width: 800px;

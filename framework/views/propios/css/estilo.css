@@ -21,10 +21,10 @@ li.active strong, .naranja{
 	background-color: #1D1D1D;
 }
 
-.nav > li > a{
-	color: white;
-}
-
 .nav-header{
 	background: #252525;
+}
+
+.login-text{
+	color: white;
 }

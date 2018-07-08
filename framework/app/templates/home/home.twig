@@ -12,13 +12,10 @@
                             <div class="ibox-content">
                                     <div>
                                         <span class="pull-right text-right">
-                                        <small>Promedio de las ventas en el último mes en: Estados Unidos <strong>Venezuela</strong></small>
-                                            <br/>
-                                            # Ventas: 162,862
+                                        <small>Cotización en tiempo real del precio del oro en el mercado al contado</small>
                                         </span>
-                                        <h1 class="m-b-xs">$ 50,992</h1>
                                         <h3 class="font-bold no-margins">
-                                            Margen de ingreso semestral
+                                            Precio del oro
                                         </h3>
                                     </div>
 
@@ -29,7 +26,36 @@
                                 <div class="m-t-md">
                                     <small class="pull-right">
                                         <i class="fa fa-clock-o"> </i>
-                                        Actualizado el 16.07.2015
+                                        Actualizado el 07/07/2018
+                                    </small>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-content">
+                                    <div>
+                                        <span class="pull-right text-right">
+                                        <small>Cotización en tiempo real del precio de la plata en el mercado al contado</small>
+                                        </span>
+                                        <h3 class="font-bold no-margins">
+                                            Precio de la plata
+                                        </h3>
+                                    </div>
+
+                                <div>
+                                    <canvas id="plataChart" height="70"></canvas>
+                                </div>
+
+                                <div class="m-t-md">
+                                    <small class="pull-right">
+                                        <i class="fa fa-clock-o"> </i>
+                                        Actualizado el 07/07/2018
                                     </small>
                                 </div>
 
@@ -78,6 +104,40 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+
+                    <div class="col-lg-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Usuarios registrados en el sistema</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">1502</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Dolares de monedas vendidas en oro</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">60 420,600</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Dolares de monedas vendidas en plata</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">$ 120 430,800</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 {% include 'overall/footer' %}
@@ -85,7 +145,7 @@
 {% endblock %}
 
 {% block appFooter %}
-<script>
+    <script>
         $(document).ready(function() {
 
             setTimeout(function () {
@@ -143,6 +203,57 @@
 
 
             var ctx = document.getElementById("lineChart").getContext("2d");
+            var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var lineData = {
+                labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"],
+                datasets: [
+                    {
+                        label: "Example dataset",
+                        fillColor: "rgba(115, 115, 1,0.5)",
+                        strokeColor: "rgba(121, 115, 5,1)",
+                        pointColor: "rgba(112, 122, 5,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(221, 175, 5,1)",
+                        data: [65, 59, 80, 81, 56, 55, 40]
+                    },
+                    {
+                        label: "Example dataset",
+                        fillColor: "rgba(253, 134, 18,0.5)",
+                        strokeColor: "rgba(203, 104, 19,0.7)",
+                        pointColor: "rgba(123, 104, 11,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(253, 134, 38,1)",
+                        data: [28, 48, 40, 19, 86, 27, 90]
+                    }
+                ]
+            };
+
+            var lineOptions = {
+                scaleShowGridLines: true,
+                scaleGridLineColor: "rgba(0,0,0,.05)",
+                scaleGridLineWidth: 1,
+                bezierCurve: true,
+                bezierCurveTension: 0.4,
+                pointDot: true,
+                pointDotRadius: 4,
+                pointDotStrokeWidth: 1,
+                pointHitDetectionRadius: 20,
+                datasetStroke: true,
+                datasetStrokeWidth: 2,
+                datasetFill: true,
+                responsive: true,
+            };
+
+
+            var ctx = document.getElementById("plataChart").getContext("2d");
             var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
 
         });

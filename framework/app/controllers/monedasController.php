@@ -26,9 +26,6 @@ class monedasController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);
-        $m = new Model\Monedas;
-        $this->template->display('monedas/monedas', array(
-        	'monedas'=> $m->get()
-        ));
+        $this->template->display('monedas/monedas');
     }
 }
