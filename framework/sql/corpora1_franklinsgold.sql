@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 01-07-2018 a las 14:54:43
--- Versión del servidor: 10.1.34-MariaDB
--- Versión de PHP: 5.6.30
+-- Host: 127.0.0.1
+-- Generation Time: Jul 08, 2018 at 04:22 PM
+-- Server version: 10.1.26-MariaDB
+-- PHP Version: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `corpora1_franklinsgold`
+-- Database: `corpora1_franklinsgold`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `moneda`
+-- Table structure for table `moneda`
 --
 
 CREATE TABLE `moneda` (
@@ -35,14 +35,14 @@ CREATE TABLE `moneda` (
   `espesor` float NOT NULL,
   `composicion` varchar(45) NOT NULL,
   `peso` int(11) NOT NULL,
-  `origen_idorigen` int(11) NOT NULL
+  `id_origen` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `moneda`
+-- Dumping data for table `moneda`
 --
 
-INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `composicion`, `peso`, `origen_idorigen`) VALUES
+INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `composicion`, `peso`, `id_origen`) VALUES
 (1, '3/10/2018', 62.29, 19.12, 'Crossfire', 72, 1),
 (2, '7/4/2017', 76.92, 50.09, 'Explorer', 76, 2),
 (3, '8/9/2017', 57.64, 30.22, '600', 34, 3),
@@ -57,19 +57,19 @@ INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `com
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `origen`
+-- Table structure for table `origen`
 --
 
 CREATE TABLE `origen` (
-  `idorigen` int(11) NOT NULL,
+  `id_origen` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `origen`
+-- Dumping data for table `origen`
 --
 
-INSERT INTO `origen` (`idorigen`, `nombre`) VALUES
+INSERT INTO `origen` (`id_origen`, `nombre`) VALUES
 (1, 'Morelos'),
 (2, 'Tubli'),
 (3, 'Mvomero'),
@@ -84,20 +84,20 @@ INSERT INTO `origen` (`idorigen`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `sucursal`
+-- Table structure for table `sucursal`
 --
 
 CREATE TABLE `sucursal` (
-  `idsucursal` int(11) NOT NULL,
+  `id_sucursal` int(11) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `direccion` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `sucursal`
+-- Dumping data for table `sucursal`
 --
 
-INSERT INTO `sucursal` (`idsucursal`, `nombre`, `direccion`) VALUES
+INSERT INTO `sucursal` (`id_sucursal`, `nombre`, `direccion`) VALUES
 (1, 'Jedlnia-Letnisko', 'Poland'),
 (2, 'San Juan de los Morros', 'Venezuela'),
 (3, 'Kodyma', 'Ukraine'),
@@ -112,21 +112,21 @@ INSERT INTO `sucursal` (`idsucursal`, `nombre`, `direccion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `transaccion`
+-- Table structure for table `transaccion`
 --
 
 CREATE TABLE `transaccion` (
-  `usuario_idusuario` int(11) NOT NULL,
-  `moneda_codigo` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `codigo` int(11) NOT NULL,
   `fecha` date NOT NULL,
-  `sucursal_idsucursal` int(11) NOT NULL
+  `id_sucursal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `transaccion`
+-- Dumping data for table `transaccion`
 --
 
-INSERT INTO `transaccion` (`usuario_idusuario`, `moneda_codigo`, `fecha`, `sucursal_idsucursal`) VALUES
+INSERT INTO `transaccion` (`id_usuario`, `codigo`, `fecha`, `id_sucursal`) VALUES
 (1, 7, '0000-00-00', 2),
 (2, 6, '0000-00-00', 5),
 (5, 2, '0000-00-00', 3),
@@ -141,121 +141,123 @@ INSERT INTO `transaccion` (`usuario_idusuario`, `moneda_codigo`, `fecha`, `sucur
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `usuario` (
-  `idusuario` int(11) NOT NULL,
+CREATE TABLE `users` (
+  `id_user` int(11) NOT NULL,
   `primer_nombre` varchar(45) NOT NULL,
   `segundo_nombre` varchar(45) NOT NULL,
   `primer_apellido` varchar(45) NOT NULL,
   `segundo_apellido` varchar(45) NOT NULL,
+  `tipo` tinyint(2) UNSIGNED NOT NULL COMMENT '0: admin, 1: normal',
   `usuario` varchar(45) NOT NULL,
-  `contraseña` varchar(45) NOT NULL,
+  `pass` varchar(120) NOT NULL,
+  `tmp_pass` varchar(90) NOT NULL,
   `sexo` varchar(45) NOT NULL,
   `telefono` int(11) NOT NULL,
-  `correo` varchar(45) NOT NULL
+  `email` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `usuario` (`idusuario`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `usuario`, `contraseña`, `sexo`, `telefono`, `correo`) VALUES
-(1, 'Adrian', 'De witt', 'Silbersak', 'Ridett', 'dridett0', 'IVkgWfqCma7', 'Male', 239, 'dridett0@indiatimes.com'),
-(2, 'Truda', 'Margy', 'Filtness', 'Towndrow', 'mtowndrow1', 'd9DfYh7jbPT', 'Female', 201, 'mtowndrow1@addthis.com'),
-(3, 'Hinda', 'Caryn', 'Kleinplac', 'Faulks', 'cfaulks2', 'vh3btkAaTtj', 'Female', 634, 'cfaulks2@hp.com'),
-(4, 'Levi', 'Moishe', 'Giggs', 'Maty', 'mmaty3', 'O8hAUSfd7CB', 'Male', 441, 'mmaty3@seattletimes.com'),
-(5, 'Franklyn', 'Thornton', 'Dyzart', 'Proudlock', 'tproudlock4', 'VFHqYkw3n4a', 'Male', 583, 'tproudlock4@chron.com'),
-(6, 'Jethro', 'Dmitri', 'Rapper', 'Eggerton', 'deggerton5', 'zGrk5SJn7', 'Male', 818, 'deggerton5@oracle.com'),
-(7, 'Philippe', 'Christie', 'Yitzhakof', 'Coatman', 'ccoatman6', 'uzGNwVuUV3T', 'Female', 827, 'ccoatman6@amazon.com'),
-(8, 'Batsheva', 'Debor', 'Bordessa', 'Poschel', 'dposchel7', 'jtDi4BhtVN1E', 'Female', 542, 'dposchel7@house.gov'),
-(9, 'Adoree', 'Lanita', 'Constantine', 'Twitching', 'ltwitching8', 'AnbeNi8A2q1q', 'Female', 868, 'ltwitching8@unesco.org'),
-(10, 'Stanley', 'Schuyler', 'Dmych', 'Hodcroft', 'shodcroft9', '5FLmHPSA', 'Male', 593, 'shodcroft9@archive.org');
+INSERT INTO `users` (`id_user`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `tipo`, `usuario`, `pass`, `tmp_pass`, `sexo`, `telefono`, `email`) VALUES
+(1, 'Adrian', 'De witt', 'Silbersak', 'Ridett', 0, 'dridett0', 'IVkgWfqCma7', '', 'Male', 239, 'dridett0@indiatimes.com'),
+(2, 'Truda', 'Margy', 'Filtness', 'Towndrow', 0, 'mtowndrow1', 'd9DfYh7jbPT', '', 'Female', 201, 'mtowndrow1@addthis.com'),
+(3, 'Hinda', 'Caryn', 'Kleinplac', 'Faulks', 0, 'cfaulks2', 'vh3btkAaTtj', '', 'Female', 634, 'cfaulks2@hp.com'),
+(4, 'Levi', 'Moishe', 'Giggs', 'Maty', 0, 'mmaty3', 'O8hAUSfd7CB', '', 'Male', 441, 'mmaty3@seattletimes.com'),
+(5, 'Franklyn', 'Thornton', 'Dyzart', 'Proudlock', 0, 'tproudlock4', 'VFHqYkw3n4a', '', 'Male', 583, 'tproudlock4@chron.com'),
+(6, 'Jethro', 'Dmitri', 'Rapper', 'Eggerton', 0, 'deggerton5', 'zGrk5SJn7', '', 'Male', 818, 'deggerton5@oracle.com'),
+(7, 'Philippe', 'Christie', 'Yitzhakof', 'Coatman', 0, 'ccoatman6', 'uzGNwVuUV3T', '', 'Female', 827, 'ccoatman6@amazon.com'),
+(8, 'Batsheva', 'Debor', 'Bordessa', 'Poschel', 0, 'dposchel7', 'jtDi4BhtVN1E', '', 'Female', 542, 'dposchel7@house.gov'),
+(9, 'Adoree', 'Lanita', 'Constantine', 'Twitching', 0, 'ltwitching8', 'AnbeNi8A2q1q', '', 'Female', 868, 'ltwitching8@unesco.org'),
+(10, 'Stanley', 'Schuyler', 'Dmych', 'Hodcroft', 0, 'shodcroft9', '5FLmHPSA', '', 'Male', 593, 'shodcroft9@archive.org');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `moneda`
+-- Indexes for table `moneda`
 --
 ALTER TABLE `moneda`
-  ADD PRIMARY KEY (`codigo`,`origen_idorigen`),
-  ADD KEY `fk_moneda_origen1_idx` (`origen_idorigen`);
+  ADD PRIMARY KEY (`codigo`,`id_origen`),
+  ADD KEY `fk_moneda_origen1_idx` (`id_origen`);
 
 --
--- Indices de la tabla `origen`
+-- Indexes for table `origen`
 --
 ALTER TABLE `origen`
-  ADD PRIMARY KEY (`idorigen`);
+  ADD PRIMARY KEY (`id_origen`);
 
 --
--- Indices de la tabla `sucursal`
+-- Indexes for table `sucursal`
 --
 ALTER TABLE `sucursal`
-  ADD PRIMARY KEY (`idsucursal`);
+  ADD PRIMARY KEY (`id_sucursal`);
 
 --
--- Indices de la tabla `transaccion`
+-- Indexes for table `transaccion`
 --
 ALTER TABLE `transaccion`
-  ADD PRIMARY KEY (`usuario_idusuario`,`moneda_codigo`,`fecha`,`sucursal_idsucursal`),
-  ADD KEY `fk_usuario_has_moneda_moneda1_idx` (`moneda_codigo`),
-  ADD KEY `fk_usuario_has_moneda_usuario1_idx` (`usuario_idusuario`),
-  ADD KEY `fk_transaccion_sucursal1_idx` (`sucursal_idsucursal`);
+  ADD PRIMARY KEY (`id_usuario`,`codigo`,`fecha`,`id_sucursal`),
+  ADD KEY `fk_usuario_has_moneda_moneda1_idx` (`codigo`),
+  ADD KEY `fk_usuario_has_moneda_usuario1_idx` (`id_usuario`),
+  ADD KEY `fk_transaccion_sucursal1_idx` (`id_sucursal`);
 
 --
--- Indices de la tabla `usuario`
+-- Indexes for table `users`
 --
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`idusuario`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id_user`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `moneda`
+-- AUTO_INCREMENT for table `moneda`
 --
 ALTER TABLE `moneda`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `origen`
+-- AUTO_INCREMENT for table `origen`
 --
 ALTER TABLE `origen`
-  MODIFY `idorigen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_origen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `sucursal`
+-- AUTO_INCREMENT for table `sucursal`
 --
 ALTER TABLE `sucursal`
-  MODIFY `idsucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_sucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT de la tabla `usuario`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `usuario`
-  MODIFY `idusuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `users`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `moneda`
+-- Constraints for table `moneda`
 --
 ALTER TABLE `moneda`
-  ADD CONSTRAINT `fk_moneda_origen1` FOREIGN KEY (`origen_idorigen`) REFERENCES `origen` (`idorigen`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_moneda_origen1` FOREIGN KEY (`id_origen`) REFERENCES `origen` (`id_origen`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `transaccion`
+-- Constraints for table `transaccion`
 --
 ALTER TABLE `transaccion`
-  ADD CONSTRAINT `fk_transaccion_sucursal1` FOREIGN KEY (`sucursal_idsucursal`) REFERENCES `sucursal` (`idsucursal`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_usuario_has_moneda_moneda1` FOREIGN KEY (`moneda_codigo`) REFERENCES `moneda` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_usuario_has_moneda_usuario1` FOREIGN KEY (`usuario_idusuario`) REFERENCES `usuario` (`idusuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_transaccion_sucursal1` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id_sucursal`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_usuario_has_moneda_moneda1` FOREIGN KEY (`codigo`) REFERENCES `moneda` (`codigo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_usuario_has_moneda_usuario1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id_user`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
