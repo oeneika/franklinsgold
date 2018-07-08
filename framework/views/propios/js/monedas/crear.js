@@ -28,7 +28,7 @@ function createMoneda() {
                 }, 1000);
                 
             }else {
-                toastr.info(json.message,'Ups!');
+                toastr.error('La moneda no pudo crearse, por favor complete todos los campos.', '¡ERROR!')
                //error_toastr('Ups!', json.message);
             }
 

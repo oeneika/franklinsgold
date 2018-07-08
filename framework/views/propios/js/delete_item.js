@@ -15,7 +15,7 @@ function delete_item(id_elemento, controlador) {
         cancelButtonText: "No, Cerrar!",     
         closeOnConfirm: false 
     }, function(){   
-        toastr.info("Elimindo!", "El elemento ha sido eliminado.", "success"); 
+        toastr.success('El elemento fue eliminado, exitosamente', 'Eliminación completada')
         setTimeout(function(){
             location.href = controlador + '/eliminar/' + id_elemento.toString();
         },1000);

@@ -29,7 +29,7 @@ function crearsucursalForm() {
             }
         },
         error: function (xhr, status) {
-            toastr[error]("El sucursal no se pudo registrar en el sistema.", "¡ERROR!")
+            toastr.error('La sucursal no pudo crearse, por favor complete todos los campos.', '¡ERROR!')
 
             toastr.options = {
                 "closeButton": false,

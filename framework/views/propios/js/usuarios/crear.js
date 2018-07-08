@@ -32,7 +32,7 @@ function createUsuario() {
                 }, 1000);
                 
             }else {
-                toastr.info(json.message,'Ups!');
+                toastr.error('El usuario no pudo crearse, por favor complete todos los campos.', '¡ERROR!')
                //error_toastr('Ups!', json.message);
             }
 

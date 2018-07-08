@@ -82,7 +82,7 @@ function edit_moneda() {
                 }, 1000);
                 
             }else {
-                toastr.info(json.message,'Ups!');
+                toastr.error('El usuario no pudo editarse.', '¡ERROR!')
                //error_toastr('Ups!', json.message);
             }
         },
