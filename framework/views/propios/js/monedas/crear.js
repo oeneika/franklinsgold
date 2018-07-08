@@ -28,14 +28,14 @@ function createMoneda() {
                 }, 1000);
                 
             }else {
-                toastr.error('La moneda no pudo crearse, por favor complete todos los campos.', '¡ERROR!')
-               //error_toastr('Ups!', json.message);
+                toastr.error(json.message, '¡Ups!');
             }
 
         },
         error: function (xhr, status) {
-            //toastr[error]("El usuario no se pudo registrar en el sistema.", "¡ERROR!");
-            toastr.info('Error','Ha ocurrido un problema!');
+
+            toastr.error("Ha ocurrido un problema", '¡ERROR!');
+            
             toastr.options = {
                 "closeButton": false,
                 "debug": false,

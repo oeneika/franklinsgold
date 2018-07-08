@@ -64,13 +64,11 @@ function edit_usuario() {
                 }, 1000);
                 
             }else {
-                toastr.error('El usuario no pudo editarse.', '¡ERROR!')
-               //error_toastr('Ups!', json.message);
+                toastr.error(json.message, '¡Ups!')
             }
         },
         error: function (xhr, status) {
-            toastr.info('Error','Ha ocurrido un problema!');
-           // error_toastr('Error', 'Ha ocurrido un problema');
+            toastr.error("Ha ocurrido un problema", '¡ERROR!');
         },
         complete: function () {
           //  l.stop();
