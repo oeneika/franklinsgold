@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Ocrend Framewok 3 package.
+ * This file is part of the Ocrend Framewok 2 package.
  *
  * (c) Ocrend Software <info@ocrend.com>
  *
@@ -12,22 +12,21 @@
 namespace app\controllers;
 
 use app\models as Model;
-use Ocrend\Kernel\Helpers as Helper;
+use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
-use Ocrend\Kernel\Router\IRouter;
-
+  
 /**
- * Controlador login/
+ * Controlador logout/
+ *
+ * @author Brayan Narváez <prinick@ocrend.com>
 */
-class loginController extends Controllers implements IControllers {
+  
+class logoutController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router,array(
-            'users_not_logged' => true
-        ));
-
-        $this->template->display('login/login');
-	
+        parent::__construct($router);   
+        (new Model\Users)->logout();
     }
+
 }

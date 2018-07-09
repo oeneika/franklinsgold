@@ -8,7 +8,7 @@ function registro(){
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
         $.ajax({
             type : "POST",
-            url : "api/registro",
+            url : "api/register",
             dataType: 'json',
             data : __data,
             beforeSend: function(){ 
@@ -16,9 +16,9 @@ function registro(){
             },
             success : function(json) {
                 if(json.success == 1) {
-                    alert(json.message);
+                    toastr.success(json.message);
                 } else {
-                    alert(json.message);
+                    toastr.error(json.message);
                 }
             },
             error : function(xhr, status) {

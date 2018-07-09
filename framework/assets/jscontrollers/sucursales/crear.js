@@ -1,14 +1,22 @@
 /**
+ * Abre el modal para un nuevo sucursal
+ */
+function crearsucursal() {
+    $('#crearSucursal').modal('show');
+}
+
+/**
  * Ajax action to api rest
 */
-function login(){
+function crear_sucursal(){
     var $ocrendForm = $(this), __data = {};
-    $('#login_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
+    $('#crear_sucursal_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
 
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
+        console.log(__data);
         $.ajax({
             type : "POST",
-            url : "api/login",
+            url : "api/sucursal/crear",
             dataType: 'json',
             data : __data,
             beforeSend: function(){ 
@@ -18,14 +26,14 @@ function login(){
                 if(json.success == 1) {
                     setTimeout(function(){
                         toastr.success(json.message);
-                        location.href='home/';
+                        location.href='sucursal/sucursal/';
                     },1000);
                 } else {
                     toastr.error(json.message);
                 }
             },
             error : function(xhr, status) {
-                alert('Ha ocurrido un problema interno');
+                toastr.error('Ha ocurrido un problema interno');
             },
             complete: function(){ 
                 $ocrendForm.data('locked', false);
@@ -37,14 +45,14 @@ function login(){
 /**
  * Events
  */
-$('#login').click(function(e) {
+$('#crearsucursalbtn').click(function(e) {
     e.defaultPrevented;
-    login();
+    crear_sucursal();
 });
-$('form#login_form input').keypress(function(e) {
+$('form#crear_sucursal_form input').keypress(function(e) {
     e.defaultPrevented;
     if(e.which == 13) {
-        login();
+        crear_sucursal();
 
         return false;
     }

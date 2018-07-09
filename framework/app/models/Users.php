@@ -18,6 +18,7 @@ use Ocrend\Kernel\Models\IModels;
 use Ocrend\Kernel\Models\ModelsException;
 use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
+use Ocrend\Kernel\Helpers\Functions;
 
 /**
  * Modelo Users
@@ -319,35 +320,44 @@ class Users extends Models implements IModels {
             global $http;
 
             # Obtener los datos $_POST
-            $usuario = $http->request->get('usuario');
-            $primer_nombre = $http->request->get('primer_nombre');
-            $segundo_nombre = $http->request->get('segundo_nombre');
-            $primer_apellido = $http->request->get('primer_apellido');
-            $segundo_apellido = $http->request->get('segundo_apellido');
-            $usuario = $http->request->get('usuario');
-            $pass = $http->request->get('pass');
-            $sexom = $http->request->get('masculinoRadio');
-            $sexof = $http->request->get('femeninoRadio');
-            $telefono = $http->request->get('telefono');
-            $email = $http->request->get('email');
+            $user_data = $http->request->all();
 
             # Verificar que no están vacíos
-            if (Helper\Functions::e($primer_nombre, $segundo_nombre, $primer_apellido,
-            $segundo_apellido,$usuario,$telefono,$email)) {
-                throw new ModelsException('Todos los datos son necesarios');
+            if (Functions::emp($user_data['primer_nombre'])) {
+                throw new ModelsException('El primer nombre no debe estar vacio');
+            }
+            if (Functions::emp($user_data['primer_apellido'])) {
+                throw new ModelsException('El primer apellido no debe estar vacio');
+            }
+
+            if (Functions::emp($user_data['usuario'])) {
+                throw new ModelsException('El usuario no debe estar vacio');
+            }
+
+            if (Functions::emp($user_data['email'])) {
+                throw new ModelsException('El email no debe estar vacio');
+            }
+
+            if (Functions::emp($user_data['pass'])) {
+                throw new ModelsException('El password no debe estar vacio');
             }
 
             # Verificar email 
-            $this->checkEmail($email);
+            $this->checkEmail($user_data['email']);
 
             # Veriricar contraseñas
-            $this->checkPassMatch($pass, $pass_repeat);
+            $this->checkPassMatch($user_data['pass'], $user_data['pass_repeat']);
 
             # Registrar al usuario
             $id_user = $this->db->insert('users', array(
-                'name' => $name,
-                'email' => $email,
-                'pass' => Helper\Strings::hash($pass)
+                'primer_nombre' => $user_data['primer_nombre'],
+                'segundo_nombre' => $user_data['segundo_nombre'],
+                'primer_apellido' => $user_data['primer_apellido'],
+                'segundo_apellido' => $user_data['segundo_apellido'],
+                'usuario' => $user_data['usuario'],
+                'email' => $user_data['email'],
+                'telefono' => $user_data['telefono'],
+                'pass' => Helper\Strings::hash($user_data['pass'])
             ));
 
             # Iniciar sesión
@@ -383,7 +393,7 @@ class Users extends Models implements IModels {
             $email = $this->db->scape($email);
 
             # Obtener información del usuario 
-            $user_data = $this->db->select('id_user,name', 'users', null, "email='$email'", 1);
+            $user_data = $this->db->select('id_user,usuario', 'users', null, "email='$email'", 1);
 
             # Verificar correo en base de datos 
             if (false === $user_data) {
@@ -396,14 +406,14 @@ class Users extends Models implements IModels {
             $link = $config['build']['url'] . 'lostpass?token='.$token.'&user='.$user_data[0]['id_user'];
 
             # Construir mensaje y enviar mensaje
-            $HTML = 'Hola <b>'. $user_data[0]['name'] .'</b>, ha solicitado recuperar su contraseña perdida, si no ha realizado esta acción no necesita hacer nada.
+            $HTML = 'Hola <b>'. $user_data[0]['usuario'] .'</b>, ha solicitado recuperar su contraseña perdida, si no ha realizado esta acción no necesita hacer nada.
 					<br />
 					<br />
 					Para cambiar su contraseña por <b>'. $pass .'</b> haga <a href="'. $link .'" target="_blank">clic aquí</a> o en el botón de recuperar.';
 
             # Enviar el correo electrónico
             $dest = array();
-			$dest[$email] = $user_data[0]['name'];
+			$dest[$email] = $user_data[0]['usuario'];
             $email_send = Helper\Emails::send($dest,array(
                 # Título del mensaje
                 '{{title}}' => 'Recuperar contraseña de ' . $config['build']['name'],

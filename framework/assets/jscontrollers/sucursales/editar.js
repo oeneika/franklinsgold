@@ -1,14 +1,25 @@
 /**
+ * Abre el modal para un nuevo sucursal
+ */
+function editarSucursal(id,nombre,direccion) {
+    $('#id_edit_sucursal').val(id);
+    $('#id_edit_nombre').val(nombre);
+    $('#id_edit_direccion').val(direccion);
+    $('#editarSucursal').modal('show');
+}
+
+/**
  * Ajax action to api rest
 */
-function login(){
+function editar_sucursal(){
     var $ocrendForm = $(this), __data = {};
-    $('#login_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
+    $('#editar_sucursal_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
 
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
+        console.log(__data);
         $.ajax({
             type : "POST",
-            url : "api/login",
+            url : "api/sucursal/editar",
             dataType: 'json',
             data : __data,
             beforeSend: function(){ 
@@ -18,14 +29,14 @@ function login(){
                 if(json.success == 1) {
                     setTimeout(function(){
                         toastr.success(json.message);
-                        location.href='home/';
+                        location.href='sucursal/sucursal/';
                     },1000);
                 } else {
                     toastr.error(json.message);
                 }
             },
             error : function(xhr, status) {
-                alert('Ha ocurrido un problema interno');
+                toastr.error('Ha ocurrido un problema interno');
             },
             complete: function(){ 
                 $ocrendForm.data('locked', false);
@@ -37,14 +48,14 @@ function login(){
 /**
  * Events
  */
-$('#login').click(function(e) {
+$('#editarsucursalbtn').click(function(e) {
     e.defaultPrevented;
-    login();
+    editar_sucursal();
 });
-$('form#login_form input').keypress(function(e) {
+$('form#editar_sucursal_form input').keypress(function(e) {
     e.defaultPrevented;
     if(e.which == 13) {
-        login();
+        editar_sucursal();
 
         return false;
     }

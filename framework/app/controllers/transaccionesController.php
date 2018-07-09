@@ -25,7 +25,9 @@ use Ocrend\Kernel\Router\IRouter;
 class transaccionesController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router);
+        parent::__construct($router,array(
+          'users_logged' => true
+      ));
         
         switch($this->method) {
           case 'compra':

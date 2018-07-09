@@ -25,7 +25,21 @@ use Ocrend\Kernel\Router\IRouter;
 class sucursalController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router);
-        $this->template->display('sucursal/sucursal');
+        parent::__construct($router,array(
+            'users_logged' => true
+        ));
+
+        $s = new Model\Sucursales($router);
+        switch ($this->method) {
+            case 'eliminar':
+                $s->del();
+                break;
+            
+            default:
+                $this->template->display('sucursal/sucursal',array(
+                    'sucursales' => $s->get()
+                ));
+                break;
+        }
     }
 }

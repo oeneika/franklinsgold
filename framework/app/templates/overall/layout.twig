@@ -34,6 +34,7 @@
     {% include 'overall/menu' %}
     
     {% block appBody %}
+
     {% endblock %}
     </div>
 
@@ -43,12 +44,16 @@
 
     <!-- Mainly scripts -->
 
+
     <!-- BOOTSTRAP 4-->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous">
     </script>
 
     <script src="views/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="views/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- SweetAlert-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Flot -->
     <script src="views/js/plugins/flot/jquery.flot.js"></script>
@@ -99,7 +104,17 @@
                             console.log("No existe ");
                     }
                 }
-            </script>
+    </script>
+
+    <script>
+        {% if get.success is defined %} 
+          toastr.success('Éxito','Acción realizada');
+        {% endif %}
+    
+        {% if get.error is defined %} 
+          toastr.warning('Ups!','Acción no realizada');
+        {% endif %}
+    </script>
     
 
     

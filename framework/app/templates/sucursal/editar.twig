@@ -7,18 +7,19 @@
                                             <small class="font-bold">Franklins Gold</small>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="">
+                                            <form role="form" id="editar_sucursal_form">
+                                                <input type="hidden" id="id_edit_sucursal" name="id_sucursal">
                                                 <div class="row">
                                                     <div class="col-md-6 col-xs-12">
                                                         <div class="form-group">
                                                             <label for="cc-payment" class="control-label mb-1">Nombre</label>
-                                                            <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                                                            <input id="id_edit_nombre" name="nombre" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6 col-xs-12">
                                                         <div class="form-group">
                                                             <label for="cc-payment" class="control-label mb-1">Dirección</label>
-                                                            <input id="cc-pament" name="cc-payment" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                                                            <input id="id_edit_direccion" name="direccion" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -26,7 +27,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                                            <button type="button" class="btn btn-primary">Guardar</button>
+                                            <button type="button" id="editarsucursalbtn" class="btn btn-primary">Guardar</button>
                                         </div>
                                     </div>
             </div>

@@ -8,7 +8,7 @@ function login(){
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
         $.ajax({
             type : "POST",
-            url : "api/login",
+            url : "api/lostpass",
             dataType: 'json',
             data : __data,
             beforeSend: function(){ 

@@ -71,32 +71,45 @@ $app->post('/usuarios/editar', function() use($app) {
 });
 
 /**
-  * Acción vía ajax de usuarios en api/sucursal/crear
-  *
-  * @return json
-*/
-$app->post('/sucursal/crear', function() use($app) {
-  $s = new Model\Sucursal; 
-
-  return $app->json($s->add());   
-});
-/**
  * Endpoint para login
  *
  * @return json
 */
 $app->post('/login', function() use($app) {
-    $l = new Model\Login; 
+    $lu = new Model\Users; 
 
-    return $app->json($l->foo());   
+    return $app->json($u->login());   
 });
-/**
+
+/**
  * Endpoint para registro
  *
  * @return json
 */
-$app->post('/registro', function() use($app) {
-    $r = new Model\Registro; 
+$app->post('/register', function() use($app) {
+    $u = new Model\Users; 
 
-    return $app->json($r->foo());   
+    return $app->json($u->register());   
+});
+
+/**
+ * Endpoint crear para sucursales
+ *
+ * @return json
+*/
+$app->post('/sucursal/crear', function() use($app) {
+    $s = new Model\Sucursales; 
+    
+    return $app->json($s->add());   
+});
+
+/**
+ * Endpoint editar para sucursales
+ *
+ * @return json
+*/
+$app->post('/sucursal/editar', function() use($app) {
+    $s = new Model\Sucursales; 
+    
+    return $app->json($s->edit());   
 });

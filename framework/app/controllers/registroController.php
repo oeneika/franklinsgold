@@ -23,7 +23,9 @@ use Ocrend\Kernel\Router\IRouter;
 class registroController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router);
+        parent::__construct($router,array(
+            'users_not_logged' => true
+        ));
         $r = new Model\Registro;
 		$this->template->display('registro/registro');
     }

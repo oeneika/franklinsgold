@@ -18,16 +18,12 @@ use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
 
 /**
- * Controlador monedas/
- *
- * @author Ocrend Software C.A <bnarvaez@ocrend.com>
+ * Controlador lostpass/
 */
-class monedasController extends Controllers implements IControllers {
+class lostpassController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router,array(
-            'users_logged' => true
-        ));
-        $this->template->display('monedas/monedas');
+        parent::__construct($router);
+        $this->template->display('lostpass/lostpass');
     }
 }

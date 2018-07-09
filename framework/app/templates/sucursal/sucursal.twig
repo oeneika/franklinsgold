@@ -46,14 +46,14 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            {% for s in 1..10 %}  
+                                            {% for s in sucursales %}  
                                             <tr>
-                                                <td>1</td>
-                                                <td>Franklins Gold</td>
-                                                <td>Sabana Grande</td>
+                                                <td>{{ s.id_sucursal }}</td>
+                                                <td>{{ s.nombre }}</td>
+                                                <td>{{ s.direccion }}</td>
                                                 <td>
-                                                <a href="" style="font-size:22px;" title="Editar" data-toggle="modal" data-target="#editarSucursal"><i class="fa fa-sliders naranja"></i></a>
-                                                <a href="" style="margin-left: 20px;font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
+                                                <a style="font-size:22px;" title="Editar" data-toggle="modal" onclick="editarSucursal({{ s.id_sucursal }},'{{ s.nombre }}','{{ s.direccion }}')"><i class="fa fa-sliders naranja"></i></a>
+                                                <a style="margin-left: 20px;font-size:22px;" onclick="delete_sucursal({{ s.id_sucursal }})" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
                                                 </td>
                                             </tr>
                                             {% else %}
@@ -83,7 +83,9 @@
 {% endblock %}
 
 {% block appFooter %}
-    <script src="views/propios/js/sucursal/crear.js"></script>
+    <script src="assets/jscontrollers/sucursales/crear.js"></script>
+    <script src="assets/jscontrollers/sucursales/editar.js"></script>
+    <script src="assets/jscontrollers/sucursales/delete.js"></script>
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({
