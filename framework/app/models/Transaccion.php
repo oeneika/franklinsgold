@@ -56,7 +56,7 @@ class Transaccion extends Models implements IModels {
             throw new ModelsException('Debe seleccionar todos los elementos.');
         }
 
-        if( ($this->tipo != 2) and (Helper\Functions::e($this->id_sucursal)) ){
+        if( ($this->tipo != 3) and (Helper\Functions::e($this->id_sucursal)) ){
             throw new ModelsException('Debe seleccionar todos los elementos.');
         }
 

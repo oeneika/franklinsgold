@@ -16,32 +16,32 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1">Usuario<span>*</span></label>
-                                <select name="id_usuario" id="" class="form-control m-b">
+                                <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
+                                <select name="id_usuario" id="id_id_usuario" class="form-control m-b" onchange="disableSelectOption('id_id_usuario','id_id_usuario2')">
                                         <option disabled selected value>Seleccione un vendedor</option>
                                         {% for u in usuarios %}
                                         <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
                                         {% endfor %}
-                                    </select>
-                                <label for="cc-payment" class="control-label mb-1">Usuario<span>*</span></label>
-                                <select name="id_usuario2" id="" class="form-control m-b">
+                                </select>
+                                <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
+                                <select name="id_usuario2" id="id_id_usuario2" class="form-control m-b" onchange="disableSelectOption('id_id_usuario2','id_id_usuario')">
                                         <option disabled selected value>Seleccione un vendedor</option>
                                         {% for u in usuarios %}
                                         <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
                                         {% endfor %}
-                                    </select>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label for="cc-payment" class="control-label mb-1">Moneda<span>*</span></label>
-                            <select name="codigo" id="" class="form-control m-b">
+                            <select name="codigo" id="id_id_moneda" class="form-control m-b" onchange="disableSelectOptionMon('id_id_moneda','id_id_moneda2')">
                                     <option disabled selected value>Seleccione una moneda</option>
                                     {% for m in monedas %}
                                     <option value="{{ m.codigo }}">{{m.codigo}}</option>
                                     {% endfor %}
                             </select>
                             <label for="cc-payment" class="control-label mb-1">Moneda<span>*</span></label>
-                            <select name="codigo2" id="" class="form-control m-b">
+                            <select name="codigo2" id="id_id_moneda2" class="form-control m-b" onchange="disableSelectOptionMon('id_id_moneda2','id_id_moneda')">
                                     <option disabled selected value>Seleccione una moneda</option>
                                     {% for m in monedas %}
                                     <option value="{{ m.codigo }}">{{m.codigo}}</option>

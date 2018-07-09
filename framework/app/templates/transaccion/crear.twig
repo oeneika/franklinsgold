@@ -40,7 +40,9 @@
                             <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
                             <select name="id_sucursal" id="" class="form-control m-b">
                                 <option disabled selected value>Seleccione una sucursal</option>
-                                <option value="1">1</option>
+                                    {% for s in sucursales %}
+                                    <option value="{{ s.id_sucursal }}">{{s.nombre}}</option>
+                                    {% endfor %}
                             </select>
                         </div>
                     </div>

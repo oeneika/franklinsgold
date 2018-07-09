@@ -522,8 +522,7 @@ class Users extends Models implements IModels {
 
 
         # Verificar que no están vacíos
-        if (Helper\Functions::e($this->primer_nombre, $this->primer_apellido,
-        $this->segundo_apellido,$this->telefono)) {
+        if (Helper\Functions::e($this->primer_nombre, $this->primer_apellido,$this->telefono)) {
             throw new ModelsException('Todos los campos marcados con "*" son necesarios.');
         }
 
@@ -536,7 +535,7 @@ class Users extends Models implements IModels {
         }
 
 
-        if($this->sexo!="M" and $this->sexo!="F") {
+        if($this->sexo!="m" and $this->sexo!="f") {
             throw new ModelsException('Sexo no válido.');
         }
 

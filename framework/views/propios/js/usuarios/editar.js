@@ -21,7 +21,7 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
     $('#id_telefono').val(telefono);
     
 
-    if (sexo == 'M') {
+    if (sexo == 'm') {
         $("#id_sexom").prop("checked", true);
     } else {
         $("#id_sexof").prop("checked", true);

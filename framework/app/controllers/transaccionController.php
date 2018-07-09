@@ -33,23 +33,23 @@ class transaccionController extends Controllers implements IControllers {
         $t = new Model\Transaccion($router); 
         $u = new Model\Users($router); 
         $m = new Model\Monedas($router); 
-        //$s = new Model\Sucursales($router);  
+        $s = new Model\Sucursales($router);  
 
         switch($this->method) {
           case 'compra':
             $this->template->display('transaccion/compra',array(
                 'transacciones' => $t->getTransacciones(1),
                 'usuarios' => $u->getUsers(),
-                'monedas' => $m->getMonedas()/*,
-                'sucursales' => $s->*/
+                'monedas' => $m->getMonedas(),
+                'sucursales' => $s->get()
             ));
           break;
           case 'venta':
             $this->template->display('transaccion/venta',array(
                 'transacciones' => $t->getTransacciones(2),
                 'usuarios' => $u->getUsers(),
-                'monedas' => $m->getMonedas()/*,
-                'sucursales' => $s->*/
+                'monedas' => $m->getMonedas(),
+                'sucursales' => $s->get()
             ));
           break;
           case 'intercambio':
@@ -63,8 +63,8 @@ class transaccionController extends Controllers implements IControllers {
            $this->template->display('transaccion/compra',array(
                 'transacciones' => $t->getTransacciones(1),
                 'usuarios' => $t->getUsers(),
-                'monedas' => $t->getMonedas()/*,
-                'sucursales' => $s->*/
+                'monedas' => $t->getMonedas(),
+                'sucursales' => $s->get()
             ));
           break;
         }

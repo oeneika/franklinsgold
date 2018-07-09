@@ -1,3 +1,74 @@
+//Variables usadas para la interaccion entre selects
+var userDisableds1;
+var userDisableds2;
+var monDisableds1;
+var monDisableds2;
+
+/**
+ * Validad las opciones entre los selects de usuarios para que no se seleccione uno mismo en los dos
+ * @param {*} id_select 
+ * @param {*} id_select2 
+ */
+function disableSelectOption(id_select,id_select2){
+
+    if(id_select == 'id_id_usuario'){
+
+         //Reactiva la ultima opcion desactivada
+        $("#"+id_select2+ " option[value=" + userDisableds2 + "]").removeAttr('disabled');
+
+        //Guarda el id de la opcion a desactivar en id_select2
+        userDisableds2 = $('#'+id_select).val();
+
+        //Desactiva la opcion en el id_select2
+        $("#"+id_select2+ " option[value=" + userDisableds2 + "]").attr("disabled","disabled");   
+
+    }else{
+
+        //Reactiva la ultima opcion desactivada
+        $("#"+id_select2+ " option[value=" + userDisableds1 + "]").removeAttr('disabled');
+
+        //Guarda el id de la opcion a desactivar en id_select2
+        userDisableds1 = $('#'+id_select).val();
+
+        //Desactiva la opcion en el id_select2
+        $("#"+id_select2+ " option[value=" + userDisableds1 + "]").attr("disabled","disabled");   
+    }
+}
+
+
+/**
+ * Validad las opciones entre los selects de monedas para que no se seleccione una mismo en los dos
+ * @param {*} id_select 
+ * @param {*} id_select2 
+ */
+function disableSelectOptionMon(id_select,id_select2){
+
+    if(id_select == 'id_id_moneda'){
+
+         //Reactiva la ultima opcion desactivada
+        $("#"+id_select2+ " option[value=" + monDisableds2 + "]").removeAttr('disabled');
+
+        //Guarda el id de la opcion a desactivar en id_select2
+        monDisableds2 = $('#'+id_select).val();
+
+        //Desactiva la opcion en el id_select2
+        $("#"+id_select2+ " option[value=" + monDisableds2 + "]").attr("disabled","disabled");   
+
+    }else{
+
+        //Reactiva la ultima opcion desactivada
+        $("#"+id_select2+ " option[value=" + monDisableds1 + "]").removeAttr('disabled');
+
+        //Guarda el id de la opcion a desactivar en id_select2
+        monDisableds1 = $('#'+id_select).val();
+
+        //Desactiva la opcion en el id_select2
+        $("#"+id_select2+ " option[value=" + monDisableds1 + "]").attr("disabled","disabled");   
+    }
+}
+
+
+
 /**
  * Abre el modal para un nuevo Origen
  */
