@@ -51,7 +51,7 @@ $(document).ready(function() {
             var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
         },
         error : function(xhr, status) {
-            alert('Ha ocurrido un problema interno');
+            toastr.error('Ha ocurrido un problema cargando la grafica de plata');
         },
         complete: function(){ 
         } 
@@ -109,7 +109,7 @@ $(document).ready(function() {
                 var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
             },
             error : function(xhr, status) {
-                alert('Ha ocurrido un problema interno');
+                toastr.error('Ha ocurrido un problema cargando la grafica de oro');
             },
             complete: function(){ 
             } 

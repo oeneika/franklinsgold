@@ -25,7 +25,7 @@ function registro(){
                 }
             },
             error : function(xhr, status) {
-                alert('Ha ocurrido un problema interno');
+                toastr.error('Ha ocurrido un problema interno');
             },
             complete: function(){ 
                 $ocrendForm.data('locked', false);
