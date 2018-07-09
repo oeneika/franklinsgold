@@ -67,7 +67,7 @@ class Sucursales extends Models implements IModels {
     public function add() : array {
         try {
             $this->errors();
-            $this->db->insert('sucursal',array(
+            $id = $this->db->insert('sucursal',array(
                 'nombre'=>$this->data['nombre'],
                 'direccion'=>$this->data['direccion']
             ));
