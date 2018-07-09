@@ -2,6 +2,7 @@
  * Abre el modal para un nuevo Origen
  */
 function crearTransaccion(tipo) {
+    $('#tipo_transaccion').val(tipo);
     $('#crearTransacciones').modal('show');
 }
 

@@ -26,8 +26,11 @@ class Transaccion extends Models implements IModels {
     
     use DBModel;
     private $id_usuario;
-    private $codigo;
+    private $id_usuario2;
+    private $codigo_moneda;
+    private $codigo_moneda2;
     private $id_sucursal;
+    private $tipo;
 
     /**
      * Revisa errores en el formulario
@@ -38,11 +41,17 @@ class Transaccion extends Models implements IModels {
         global $http;
 
         $this->id_usuario = $http->request->get('id_usuario');
-        $this->codigo = $http->request->get('codigo');
+        $this->codigo_moneda = $http->request->get('codigo');     
+        $this->tipo = $http->request->get('tipo');
+
         $this->id_sucursal = $http->request->get('id_sucursal');
-        
+
+        $this->id_usuario2 = $http->request->get('id_usuario');
+        $this->codigo_moneda2 = $http->request->get('codigo');
+
+
         # Verificar que no están vacíos
-        if (Helper\Functions::e($this->nombre,$this->codigo,$this->id_sucursal)) {
+        if (Helper\Functions::e($this->id_usuario,$this->codigo_moneda,$this->tipo)) {
             throw new ModelsException('Debe seleccionar todos los elementos.');
         }
 
@@ -58,12 +67,29 @@ class Transaccion extends Models implements IModels {
             #Revisa errores del formulario
             $this->errors();
 
+        $u = array(
+            'id_usuario' => $this->id_usuario,
+            'codigo_moneda' => $this->codigo_moneda,
+            'tipo' => $this->tipo,
+            'id_sucursal' => $this->id_sucursal,
+            'id_usuario2' => $this->id_usuario2,
+            'codigo_moneda2' => $this->codigo_moneda2,
+            'fecha' => time()
+        );
+
+
+        #Array con datos validos para el update
+        $data = array();
+
+        #Valida que los datos no esten vacios y los inserta en el array "data"
+        foreach ($u as $key=>$val) {
+            if(NULL !== $u[$key] && !Functions::emp($u[$key])){
+                $data[$key] = $u[$key];
+            }
+        }
+
             # Registrar al usuario
-            $id_transaccion =  $this->db->insert('transaccion',array(
-                'id_usuario' => $this->id_usuario,
-                'codigo' => $this->codigo,
-                'id_sucursal' => $this->id_sucursal
-            ));
+            $id_transaccion =  $this->db->insert('transaccion',$data);
 
             return array('success' => 1, 'message' => 'Transacción creada con éxito!');
         } catch(ModelsException $e) {

@@ -22,7 +22,7 @@ use Ocrend\Kernel\Router\IRouter;
  *
  * @author Ocrend Software C.A <bnarvaez@ocrend.com>
 */
-class transaccionesController extends Controllers implements IControllers {
+class transaccionController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
 
