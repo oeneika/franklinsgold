@@ -1,59 +1,56 @@
-<div class="modal inmodal" id="editarMonedas" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                                    <div class="modal-content animated flipInY">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                                            <h4 class="modal-title">Edición de Monedas</h4>
-                                            <small class="font-bold">Franklins Gold</small>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="">
-                                                <div class="row">
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="cc-payment" class="control-label mb-1">Elaboración</label>
-                                                            <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="cc-payment" class="control-label mb-1">Diametro</label>
-                                                            <input id="cc-pament" name="cc-payment" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="cc-payment" class="control-label mb-1">Espesor</label>
-                                                            <input id="cc-pament" name="cc-payment" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="cc-payment" class="control-label mb-1">Composición</label>
-                                                            <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="usuario" class="control-label mb-1">Peso</label>
-                                                            <input id="usuario" name="usuario" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="telefono" class="control-label mb-1">Origen</label>
-                                                            <input id="telefono" name="telefono" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                                            <button type="button" class="btn btn-primary">Guardar</button>
-                                        </div>
-                                    </div>
+<div class="modal inmodal" id="editarMoneda" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title">Edición de Monedas</h4>
+                <small class="font-bold">Franklins Gold</small>
             </div>
+            <div class="modal-body">
+                <form id="editar_moneda_form_0CR3ND">
+                    <input id="id_codigo" name="codigo" type="hidden">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="diametro" class="control-label mb-1">Diametro<span>*</span></label>
+                                <input id="id_diametro" name="diametro" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="espesor" class="control-label mb-1">Espesor<span>*</span></label>
+                                <input id="id_espesor" name="espesor" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                            <div class="form-group">
+                                <label for="composicion" class="control-label mb-1">Composición<span>*</span></label>
+                                <input id="id_composicion" name="composicion" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="peso" class="control-label mb-1">Peso<span>*</span></label>
+                                <input id="id_peso" name="peso" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="origen" class="control-label mb-1">Origen<span>*</span></label>      
+                                <select class="form-control selector_origenes" name="id_origen"  aria-required="true" aria-invalid="false">
+                                    <option selected disabled value></option>                                  
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button id="editar_moneda_0CR3ND" type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>

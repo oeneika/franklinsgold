@@ -1,5 +1,4 @@
-{% extends 'overall/layout' %} 
-{% block appBody %}
+{% extends 'overall/layout' %} {% block appBody %}
 <div id="page-wrapper" class="gray-bg">
     <div class="row border-bottom">
         {% include 'overall/header' %}
@@ -7,13 +6,13 @@
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>
-                <i class="fa fa-money"></i> Compras</h2>
+                <i class="fa fa-money"></i> Intercambios</h2>
             <ol class="breadcrumb">
                 <li>
                     <a href="home/">Home</a>
                 </li>
                 <li class="active">
-                    <strong>Compras</strong>
+                    <strong>Intercambios</strong>
                 </li>
             </ol>
         </div>
@@ -22,11 +21,13 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
-                <a onclick="crearUsuario()" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;">
-                    <i class="fa fa-tags"></i> Crear Compras</a>
+
+                <a onclick="crearTransaccion(3)" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;">
+                    <i class="fa fa-tags"></i> Crear Intercambios</a>
+
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Compras registradas en el sistema</h5>
+                        <h5>Intercambios registradas en el sistema</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>
@@ -41,19 +42,23 @@
                             <table class="table table-striped table-bordered table-hover dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th>Lorem, ipsum dolor.</th>
-                                        <th>Lorem, ipsum dolor.</th>
-                                        <th>Lorem, ipsum dolor.</th>
-                                        <th>Lorem, ipsum dolor.</th>
+                                        <th>Número Transacción</th>
+                                        <th>Usuario</th>
+                                        <th>Moneda</th>
+                                        <th>Usuario</th>
+                                        <th>Moneda</th>
+                                        <th>Fecha</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for t in 1..3 %}
+                                    {% for t in transacciones %}
                                     <tr>
-                                        <td>Lorem, ipsum dolor.</td>
-                                        <td>Lorem, ipsum dolor.</td>
-                                        <td>Lorem, ipsum dolor.</td>
-                                        <td>Lorem, ipsum dolor.</td>
+                                        <td>{{t.id_transaccion}}</td>
+                                        <td>{{t.pn1}} {{t.pa1}} {{t.iu1}}</td>
+                                        <td>{{t.c1}}</td>
+                                        <td>{{t.pn2}} {{t.pa2}} {{t.iu2}}</td>
+                                        <td>{{t.c2}}</td>
+                                        <td>{{ fecha('D, d F, Y h:i a', t.fecha) }}</td>
                                     </tr>
                                     {% else %}
                                     <tr>
@@ -63,10 +68,12 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Lorem, ipsum dolor.</th>
-                                        <th>Lorem, ipsum dolor.</th>
-                                        <th>Lorem, ipsum dolor.</th>
-                                        <th>Lorem, ipsum dolor.</th>
+                                        <th>Número Transacción</th>
+                                        <th>Usuario</th>
+                                        <th>Moneda</th>
+                                        <th>Usuario</th>
+                                        <th>Moneda</th>
+                                        <th>Fecha</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -77,11 +84,11 @@
             </div>
         </div>
     </div>
-
+    {% include 'transaccion/crearint' %} 
     {% include 'overall/footer' %}
 </div>
-{% endblock %} 
-{% block appFooter %}
+{% endblock %} {% block appFooter %}
+<script src="./assets/jscontrollers/transaccion/crear.js"></script> 
 <script>
     $(document).ready(function () {
         $('.dataTables-example').DataTable({
@@ -107,5 +114,4 @@
 
 
     });
-</script> 
-{% endblock %}
+</script> {% endblock %}

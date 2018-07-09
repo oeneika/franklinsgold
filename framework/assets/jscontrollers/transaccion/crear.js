@@ -1,19 +1,29 @@
 /**
- * Abre el modal para un nuevo usuario
+ * Abre el modal para un nuevo Origen
  */
-function crearUsuario() {
-    $('#crearUsuario').modal('show');
+function crearTransaccion(tipo) {
+
+
+    $('#tipo_transaccion').val(tipo);
+
+    if(tipo == 3){
+        $('#crearIntercambio').modal('show');
+    }else{
+        $('#crearTransacciones').modal('show');
+    }
+
+    
 }
 
 /**
  * Ajax action to api rest
 */
 
-function createUsuario() {
+function createTransaccion() {
     $.ajax({
         type: "POST",
-        url: "api/usuarios/crear",
-        data: $('#crear_usuario_form').serialize(),
+        url: "api/transaccion/crear",
+        data: $('#crear_transacciones_form').serialize(),
         success: function (json) {
 
             if(json.success == 1) {
@@ -25,7 +35,7 @@ function createUsuario() {
                     timeOut: 4000
                 };
 
-                toastr.info('¡Usuario creado!','Exito!');
+                toastr.info('¡Transacción creada!','Exito!');
                 
                 setTimeout(function () {
                     location.reload();
@@ -66,14 +76,14 @@ function createUsuario() {
  *  
  * @param {*} e 
  */
-$('#crearUsuariobtn').click(function (e) {
+$('#creartransaccionesbtn').click(function (e) {
     e.defaultPrevented;
-    createUsuario();
+    createTransaccion();
 });
-$('crear_usuario_form').keypress(function (e) {
+$('crear_transacciones_form').keypress(function (e) {
     e.defaultPrevented;
     if (e.which == 13) {
-        createUsuario();
+        createTransaccion();
         return false;
     }
 });

@@ -15,3 +15,14 @@ $app->get('/', function() use($app) {
     return $app->json(array()); 
 });
 
+$app->get('origenes/get', function() use($app) {
+    $o = new Model\Origen; 
+
+    return $app->json($o->getOrigenes());
+});
+
+$app->get('/transaccion/get/{id}', function($id) use($app) {
+    $t = new Model\Transaccion; 
+  
+    return $app->json($t->getByUser($id));   
+  });

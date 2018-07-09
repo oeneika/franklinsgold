@@ -41,6 +41,7 @@
                                         <thead>
                                         <tr>
                                             <th>Id</th>
+                                            <th>Tipo</th>
                                             <th>Primer Nombre</th>
                                             <th>Segundo Nombre</th>
                                             <th>Primer Apellido</th>
@@ -53,21 +54,23 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                            {% for u in 1..3 %}  
+                                            {% for u in usuarios %}  
                                             <tr>
-                                                <td>1</td>
-                                                <td>Alexander</td>
-                                                <td>Jesús</td>
-                                                <td>De Azevedo</td>
-                                                <td>Ilarraza</td>
-                                                <td>oeneika</td>
-                                                <td>Masculino</td>
-                                                <td>02121234567</td>
-                                                <td>oeneikaphotos@gmail.com</td>
+                                                <td>{{ u.id_user }}</td>
+                                                <td>{{ u.tipo == 0 ? "Administrador" : "Vendedor" }}</td>
+                                                <td>{{ u.primer_nombre }}</td>
+                                                <td>{{ u.segundo_nombre == null ? "" : u.segundo_nombre }}</td>
+                                                <td>{{ u.primer_apellido }}</td>
+                                                <td>{{ u.segundo_apellido }}</td>
+                                                <td>{{ u.usuario }}</td>
+                                                <td>{{ u.sexo }}</td>
+                                                <td>{{ u.telefono }}</td>
+                                                <td>{{ u.email }}</td>
                                                 <td>
-                                                <a href="usuarios/editar/{{ u.idusuario }}" style="font-size:22px;" title="Editar" data-toggle="modal" data-target="#editarUsuario"><i class="fa fa-sliders naranja"></i></a>
-                                                <a href="" style="font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
-                                                <a href="usuarios/editar/{{ u.idusuario }}" style="font-size:22px;" title="Editar" data-toggle="modal" data-target="#historialUsuario">
+                                                <a onclick="editar_un_usuario({{u.id_user}},{{u.tipo}},'{{u.primer_nombre}}','{{u.segundo_nombre}}','{{u.primer_apellido}}',
+                                                '{{u.segundo_apellido}}','{{u.sexo}}',{{u.telefono}})" style="font-size:22px;" title="Editar"  ><i class="fa fa-sliders naranja"></i></a>
+                                                <a onclick="delete_item({{u.id_user}},'usuarios')"style="font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
+                                                <a onclick="historialUsuario({{ u.id_user }})" style="font-size:22px;" title="Historial" >
                                                     <i class="fa fa-user naranja"></i>
                                                 </a>
                                                 </td>
@@ -79,6 +82,7 @@
                                         <tfoot>
                                         <tr>
                                             <th>Id</th>
+                                            <th>Tipo</th>
                                             <th>Primer Nombre</th>
                                             <th>Segundo Nombre</th>
                                             <th>Primer Apellido</th>
@@ -87,6 +91,7 @@
                                             <th>Sexo</th>
                                             <th>Télefono</th>
                                             <th>Correo</th>
+                                            <th>Acciones</th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -107,6 +112,7 @@
     <script src="views/propios/js/usuarios/crear.js"></script>
     <script src="views/propios/js/usuarios/editar.js"></script>
     <script src="views/propios/js/usuarios/historial.js"></script>
+    <script src="views/propios/js/delete_item.js"></script>
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({

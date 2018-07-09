@@ -1,0 +1,55 @@
+<div class="modal inmodal" id="crearTransacciones" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+                <h4 class="modal-title">Creación de transacciones</h4>
+                <small class="font-bold">Franklins Gold</small>
+            </div>
+            <div class="modal-body">
+                <form id="crear_transacciones_form">
+                    <input id="tipo_transaccion" name="tipo" type="hidden">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1">Usuario<span>*</span></label>
+                                <select name="id_usuario" id="" class="form-control m-b">
+                                    <option disabled selected value>Seleccione un vendedor</option>
+                                    {% for u in usuarios %}
+                                    <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cc-payment" class="control-label mb-1">Moneda<span>*</span></label>
+                            <select name="codigo" id="" class="form-control m-b">
+                                    <option disabled selected value>Seleccione una moneda</option>
+                                    {% for m in monedas %}
+                                    <option value="{{ m.codigo }}">{{m.codigo}}</option>
+                                    {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
+                            <select name="id_sucursal" id="" class="form-control m-b">
+                                <option disabled selected value>Seleccione una sucursal</option>
+                                <option value="1">1</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="creartransaccionesbtn" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

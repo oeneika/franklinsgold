@@ -25,9 +25,24 @@ use Ocrend\Kernel\Router\IRouter;
 class usuariosController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
+
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        $this->template->display('usuarios/usuarios');
+        
+        $u = new Model\Users($router);  
+
+        switch($this->method) {
+            case 'eliminar':
+                $u->del();
+            break;
+            default:
+            $this->template->display('usuarios/usuarios',array(
+                'usuarios' => $u->getUsers()
+            ));
+            break;
+        }
+
+
     }
 }

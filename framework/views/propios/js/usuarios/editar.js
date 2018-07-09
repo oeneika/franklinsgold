@@ -1,58 +1,77 @@
 /**
- * Animación de carga en el ícono de edición.
- * Abre el modal para la edición de un usuario.
- * Solicita información de dicho usuario y la despliega.
  * 
- * @param {*} id_usuario
- * @param {*} nombre
+ * @param {*} id_user 
+ * @param {*} tipo 
+ * @param {*} primer_nombre 
+ * @param {*} segundo_nombre 
+ * @param {*} primer_apellido 
+ * @param {*} segundo_apellido 
+ * @param {*} usuario 
+ * @param {*} sexo 
+ * @param {*} telefono 
+ * @param {*} email 
  */
-function editar_un_usuario(id_usuario, nombre, apellido, email, direccion, telefono, genero, saldo_favor) {/*nombre ,apellido , email ,direecion ,telefono */
-    edit_btn_load('#edit_btn_table_' + id_usuario, 1);
+function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono) {
 
-    $('#id_edit_usuario').val(id_usuario);
-    $('#id_edit_nombre_usuario_0CR3ND').val(nombre);
-    $('#id_edit_apellido_usuario_0CR3ND').val(apellido);
-    $('#id_edit_saldo_a_favor_usuario_0CR3ND').val(saldo_favor);
-    $('#id_edit_email_usuario_0CR3ND').val(email);
-    $('#id_edit_direccion_usuario_0CR3ND').val(direccion);
-    $('#id_edit_telefono_usuario_0CR3ND').val(telefono);
-    $('#editar_usuario_modal_0CR3ND').modal('show');
+    $('#id_id_user').val(id_user);
+    $('#id_primer_nombre').val(primer_nombre);
+    $('#id_segundo_nombre').val(segundo_nombre);
+    $('#id_primer_apellido').val(primer_apellido);
+    $('#id_segundo_apellido').val(segundo_apellido);
+    $('#id_telefono').val(telefono);
+    
 
-    if (genero == 'M') {
-        $("#id_edit_genero_hombre_usuario_0CR3ND").prop("checked", true);
+    if (sexo == 'M') {
+        $("#id_sexom").prop("checked", true);
     } else {
-        $("#id_edit_genero_mujer_usuario_0CR3ND").prop("checked", true);
+        $("#id_sexof").prop("checked", true);
     }
 
-    edit_btn_load('#edit_btn_table_' + id_usuario, 0);
+    if (tipo == 0) {
+        $("#id_tipoa").prop("checked", true);
+    } else {
+        $("#id_tipov").prop("checked", true);
+    }
+    $('#editarUsuario').modal('show');
+
 }
 
 /**
  * Ajax action to api rest
 */
 function edit_usuario() {
-    var l = Ladda.create(document.querySelector('#editar_usuario_0CR3ND'));
-    l.start();
+    /*var l = Ladda.create(document.querySelector('#editar_usuario_0CR3ND'));
+    l.start();*/
 
     $.ajax({
         type: "POST",
         url: "api/usuarios/editar",
-        data: $('#editar_usuario_form_0CR3ND').serialize(),
+        data: $('#editar_usuario_form').serialize(),
         success: function (json) {
-            if (json.success == 1) {
-                success_toastr('Realizado!', json.message);
+            if(json.success == 1) {
+
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+
+                toastr.info('¡Usuario editado!','Exito!');
+                
                 setTimeout(function () {
                     location.reload();
                 }, 1000);
-            } else {
-                error_toastr('Ups!', json.message);
+                
+            }else {
+                toastr.error(json.message, '¡Ups!')
             }
         },
         error: function (xhr, status) {
-            error_toastr('Error', 'Ha ocurrido un problema');
+            toastr.error("Ha ocurrido un problema", '¡ERROR!');
         },
         complete: function () {
-            l.stop();
+          //  l.stop();
         }
     });
 }

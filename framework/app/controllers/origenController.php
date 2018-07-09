@@ -16,29 +16,25 @@ use Ocrend\Kernel\Helpers as Helper;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
-use Ocrend\Kernel\Helpers\Functions;
+
 /**
- * Controlador monedas/
- *
- * @author Ocrend Software C.A <bnarvaez@ocrend.com>
+ * Controlador origen/
 */
-class monedasController extends Controllers implements IControllers {
+class origenController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
-            'users_logged' => true
+            /*'users_logged' => true*/
         ));
         
-        $m = new Model\Monedas($router);  
-        $o = new Model\Origen($router);   
+        $o = new Model\Origen($router);
 
         switch($this->method) {
             case 'eliminar':
-                $m->del();           
+                $o->del();
             break;
             default:
-            $this->template->display('monedas/monedas',array(
-                'monedas' => $m->getMonedas(),
+            $this->template->display('origen/origen',array(
                 'origenes' => $o->getOrigenes()
             ));
             break;

@@ -45,52 +45,30 @@ $app->post('/lostpass', function() use($app) {
 });
 
 
-
-
 /**
   * Acción vía ajax de usuarios en api/usuarios/crear
   *
   * @return json
 */
 $app->post('/usuarios/crear', function() use($app) {
-  $u = new Model\Usuarios; 
-
-  return $app->json($u->crear());   
-});
-
-
-/**
-  * Acción vía ajax de usuarios en api/usuarios/editar
-  *
-  * @return json
-*/
-$app->post('/usuarios/editar', function() use($app) {
-  $u = new Model\Usuarios; 
-
-  return $app->json($u->editar());   
-});
-
-/**
- * Endpoint para login
- *
- * @return json
-*/
-$app->post('/login', function() use($app) {
-    $lu = new Model\Users; 
-
-    return $app->json($u->login());   
-});
-
-/**
- * Endpoint para registro
- *
- * @return json
-*/
-$app->post('/register', function() use($app) {
     $u = new Model\Users; 
+  
+    return $app->json($u->add());   
+  });
+  
+  
+  /**
+    * Acción vía ajax de usuarios en api/usuarios/editar
+    *
+    * @return json
+  */
+  $app->post('/usuarios/editar', function() use($app) {
+    $u = new Model\Users; 
+  
+    return $app->json($u->edit());   
+  });
 
-    return $app->json($u->register());   
-});
+
 
 /**
  * Endpoint crear para sucursales
@@ -112,4 +90,60 @@ $app->post('/sucursal/editar', function() use($app) {
     $s = new Model\Sucursales; 
     
     return $app->json($s->edit());   
+});
+
+/**
+  * Acción vía ajax de monedas en api/monedas/crear
+  *
+  * @return json
+*/
+$app->post('/monedas/crear', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->add());   
+  });
+  
+  
+  /**
+    * Acción vía ajax de monedas en api/monedas/editar
+    *
+    * @return json
+  */
+  $app->post('/monedas/editar', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->edit());   
+  });
+
+  /**
+ * Endpoint para origen
+ *
+ * @return json
+*/
+$app->post('/origen/crear', function() use($app) {
+    $o = new Model\Origen; 
+
+    return $app->json($o->add());   
+});
+
+/**
+ * Endpoint para origen
+ *
+ * @return json
+*/
+$app->post('/origen/editar', function() use($app) {
+  $o = new Model\Origen; 
+
+  return $app->json($o->edit());   
+});
+
+/**
+ * Endpoint para origen
+ *
+ * @return json
+*/
+$app->post('/transaccion/crear', function() use($app) {
+  $t = new Model\Transaccion; 
+
+  return $app->json($t->add());   
 });
