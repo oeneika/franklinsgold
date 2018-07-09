@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Ocrend Framewok 3 package.
  *
@@ -7,7 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace app\models;
+
 use app\models as Model;
 use Ocrend\Kernel\Helpers as Helper;
 use Ocrend\Kernel\Models\Models;
@@ -15,15 +18,17 @@ use Ocrend\Kernel\Models\IModels;
 use Ocrend\Kernel\Models\ModelsException;
 use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
-use Ocrend\Kernel\Helpers\Functions;
 
 /**
- * Modelo Origen
+ * Modelo Transaccion
  */
-class Origen extends Models implements IModels {
-
+class Transaccion extends Models implements IModels {
+    
     use DBModel;
-    private $nombre;
+    private $id_usuario;
+    private $codigo;
+    private $id_sucursal;
+
     /**
      * Revisa errores en el formulario
      * 
@@ -31,12 +36,16 @@ class Origen extends Models implements IModels {
     */ 
     private function errors(bool $edit = false){
         global $http;
-        $this->nombre = $http->request->get('nombre');
+
+        $this->id_usuario = $http->request->get('id_usuario');
+        $this->codigo = $http->request->get('codigo');
+        $this->id_sucursal = $http->request->get('id_sucursal');
         
         # Verificar que no están vacíos
-        if (Helper\Functions::e($this->nombre)) {
-            throw new ModelsException('Debe introducir un nombre.');
+        if (Helper\Functions::e($this->nombre,$this->codigo,$this->id_sucursal)) {
+            throw new ModelsException('Debe seleccionar todos los elementos.');
         }
+
     }
     /**
      * Agrega usuarios 
@@ -50,25 +59,28 @@ class Origen extends Models implements IModels {
             $this->errors();
 
             # Registrar al usuario
-            $id_origen =  $this->db->insert('origen',array(
-                'nombre' => $this->nombre
+            $id_transaccion =  $this->db->insert('transaccion',array(
+                'id_usuario' => $this->id_usuario,
+                'codigo' => $this->codigo,
+                'id_sucursal' => $this->id_sucursal
             ));
 
-            return array('success' => 1, 'message' => 'Origen creado con éxito!');
+            return array('success' => 1, 'message' => 'Transacción creada con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
+
     /**
      * Edita usuarios 
      * 
      * @return array
     */ 
-    public function edit() : array {
+   /* public function edit() : array {
         try {
             global $http;
 
-            $id = $http->request->get('id_origen');
+            $id = $http->request->get('id_transaccion');
 
             $this->errors(true);
 
@@ -84,21 +96,30 @@ class Origen extends Models implements IModels {
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
-    }
+    }*/
+
     /**
-     * Obtiene a todos los origenes
+     * Obtiene elementos de transaccion seg
      *    
      *
      * @return false|array con información de los usuarios
      */  
-    public function getOrigenes(string $select = '*') {
-        return $this->db->select($select,'origen');
+    public function getTransacciones(int $tipo = 0,string $select = '*') {
+
+        if($tipo == 1){
+            return $this->db->select($select,'transaccion','tipo=0');
+        }else 
+        if($tipo == 2){
+            return $this->db->select($select,'transaccion','tipo=0');
+        }
+
+        return $this->db->select($select,'transaccion');
     }
 
     /**
      * Eliminar usuario
     */
-    final public function del() {
+    /*final public function del() {
 
        Global $config;
 
@@ -106,7 +127,7 @@ class Origen extends Models implements IModels {
 
       # Redireccionar al controlador usuarios con un success=true
       Functions::redir($config['build']['url'] . 'origen/&success=true');
-    }
+    }*/
 
     /**
      * __construct()

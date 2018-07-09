@@ -15,5 +15,8 @@ function delete_item(id_elemento, controlador) {
         closeOnConfirm: false
     }, function () {
         swal("Eliminado!", "Tu archivo fue eliminado, exitosamente", "success");
+        setTimeout(function(){
+            location.href = controlador + '/eliminar/' + id_elemento.toString();
+        },1000);
     });
 }

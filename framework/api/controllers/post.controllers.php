@@ -126,13 +126,36 @@ $app->post('/registro', function() use($app) {
 
     return $app->json($r->foo());   
 });
-/**
+
+/**
  * Endpoint para origen
  *
  * @return json
 */
-$app->post('/origen', function() use($app) {
+$app->post('/origen/crear', function() use($app) {
     $o = new Model\Origen; 
 
-    return $app->json($o->foo());   
+    return $app->json($o->add());   
+});
+
+/**
+ * Endpoint para origen
+ *
+ * @return json
+*/
+$app->post('/origen/editar', function() use($app) {
+  $o = new Model\Origen; 
+
+  return $app->json($o->edit());   
+});
+
+/**
+ * Endpoint para origen
+ *
+ * @return json
+*/
+$app->post('/transaccion/crear', function() use($app) {
+  $t = new Model\Transaccion; 
+
+  return $app->json($t->add());   
 });

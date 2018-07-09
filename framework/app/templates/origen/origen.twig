@@ -48,15 +48,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for u in 1..3 %}
+                                    {% for o in origenes %}
                                     <tr>
-                                        <td>1</td>
-                                        <td>1</td>
+                                        <td>{{o.id_origen}}</td>
+                                        <td>{{o.nombre}}</td>
                                         <td>
-                                            <a onclick="" style="font-size:22px;" title="Editar">
+                                            <a onclick="editar_un_origen({{o.id_origen}},'{{o.nombre}}')" style="font-size:22px;" title="Editar">
                                                 <i class="fa fa-sliders naranja"></i>
                                             </a>
-                                            <a onclick="delete_item()" style="font-size:22px;" title="Eliminar">
+                                            <a onclick="delete_item({{o.id_origen}},'origen')" style="font-size:22px;" title="Eliminar">
                                                 <i class="fa fa-trash naranja"></i>
                                             </a>
                                         </td>
@@ -83,10 +83,11 @@
     </div>
     {% include 'origen/crear' %} 
     {% include 'origen/editar' %}
-    {% include 'overall/footer'
-    %}
+    {% include 'overall/footer' %}
 </div>
 {% endblock %}
 {% block appFooter %}
-    <script src="./assets/jscontrollers/origen/origen.js"></script>
+    <script src="./assets/jscontrollers/origen/crear.js"></script>
+    <script src="./assets/jscontrollers/origen/editar.js"></script>
+    <script src="views/propios/js/delete_item.js"></script>   
 {% endblock %}

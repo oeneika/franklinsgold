@@ -25,20 +25,33 @@ use Ocrend\Kernel\Router\IRouter;
 class transaccionesController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router);
-        
+
+      parent::__construct($router,array(
+        /*'users_logged' => true*/
+      ));
+
+        $t = new Model\Transaccion($router);  
+
         switch($this->method) {
           case 'compra':
-            $this->template->display('transacciones/compra');
+            $this->template->display('transaccion/compra',array(
+                'transacciones' => $t->getTransacciones(1)
+            ));
           break;
           case 'venta':
-            $this->template->display('transacciones/venta');
+            $this->template->display('transaccion/venta',array(
+              'transacciones' => $t->getTransacciones(2)
+            ));
           break;
           case 'intercambio':
-            $this->template->display('transacciones/intercambio');
+            $this->template->display('transaccion/intercambio',array(
+              'transacciones' => $t->getTransacciones(3)
+            ));
           break;
           default:
-           $this->template->display('transacciones/transacciones');
+           $this->template->display('transaccion/compra',array(
+                'transacciones' => $t->getTransacciones(1)
+            ));
           break;
         }
     }

@@ -23,8 +23,21 @@ use Ocrend\Kernel\Router\IRouter;
 class origenController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router);
-        $o = new Model\Origen;
-		$this->template->display('origen/origen');
+        parent::__construct($router,array(
+            /*'users_logged' => true*/
+        ));
+        
+        $o = new Model\Origen($router);
+
+        switch($this->method) {
+            case 'eliminar':
+                $o->del();
+            break;
+            default:
+            $this->template->display('origen/origen',array(
+                'origenes' => $o->getOrigenes()
+            ));
+            break;
+        }
     }
 }
