@@ -27,7 +27,7 @@ class transaccionController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {
 
       parent::__construct($router,array(
-        /*'users_logged' => true*/
+        'users_logged' => true
       ));
 
         $t = new Model\Transaccion($router); 
@@ -35,11 +35,12 @@ class transaccionController extends Controllers implements IControllers {
         $m = new Model\Monedas($router); 
         $s = new Model\Sucursales($router);  
 
+
         switch($this->method) {
           case 'compra':
             $this->template->display('transaccion/compra',array(
                 'transacciones' => $t->getTransacciones(1),
-                'usuarios' => $u->getUsers(),
+                'usuarios' => $u->getUsers("*","tipo=1"),
                 'monedas' => $m->getMonedas(),
                 'sucursales' => $s->get()
             ));
@@ -47,7 +48,7 @@ class transaccionController extends Controllers implements IControllers {
           case 'venta':
             $this->template->display('transaccion/venta',array(
                 'transacciones' => $t->getTransacciones(2),
-                'usuarios' => $u->getUsers(),
+                'usuarios' => $u->getUsers("*","tipo=1"),
                 'monedas' => $m->getMonedas(),
                 'sucursales' => $s->get()
             ));
@@ -55,14 +56,14 @@ class transaccionController extends Controllers implements IControllers {
           case 'intercambio':
             $this->template->display('transaccion/intercambio',array(
                 'transacciones' => $t->getTransacciones(3),
-                'usuarios' => $u->getUsers(),
+                'usuarios' => $u->getUsers("*","tipo=1"),
                 'monedas' => $m->getMonedas()
             ));
           break;
           default:
            $this->template->display('transaccion/compra',array(
                 'transacciones' => $t->getTransacciones(1),
-                'usuarios' => $t->getUsers(),
+                'usuarios' => $t->getUsers("*","tipo=1"),
                 'monedas' => $t->getMonedas(),
                 'sucursales' => $s->get()
             ));
