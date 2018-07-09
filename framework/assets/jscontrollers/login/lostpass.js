@@ -1,9 +1,10 @@
 /**
  * Ajax action to api rest
 */
-function login(){
+function lostpass(){
+    
     var $ocrendForm = $(this), __data = {};
-    $('#login_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
+    $('#lostpass_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
 
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
         $.ajax({
@@ -37,14 +38,14 @@ function login(){
 /**
  * Events
  */
-$('#login').click(function(e) {
+$('#recuperarbtn').click(function(e) {
     e.defaultPrevented;
-    login();
+    lostpass();
 });
-$('form#login_form input').keypress(function(e) {
+$('form#lostpass_form input').keypress(function(e) {
     e.defaultPrevented;
     if(e.which == 13) {
-        login();
+        lostpass();
 
         return false;
     }

@@ -24,7 +24,7 @@ mailer:
   host: corporacionjsk.com
   user: info.franklinsgold@corporacionjsk.com
   pass: 25^SXVAIzpk!
-  port: 465
+  port: 587
   logo: views/propios/img/logo.png
 
 # Configuración de twig

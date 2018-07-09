@@ -486,14 +486,14 @@ class Users extends Models implements IModels {
             $id_user = $this->db->scape($id_user);
             $token = $this->db->scape($token);
             # Ejecutar el cambio
-            $this->db->query("UPDATE users SET pass=tmp_pass, tmp_pass=NULL, token=NULL
+            $response = $this->db->query("UPDATE users SET pass=tmp_pass, tmp_pass=NULL, token=NULL
             WHERE id_user='$id_user' AND token='$token' LIMIT 1;");
             # Éxito
             $success = true;
         }
         
         # Devolover al sitio de inicio
-        Helper\Functions::redir($config['build']['url'] . '?sucess=' . (int) $success);
+        Helper\Functions::redir($config['build']['url'] . 'login?sucess=' . (int) $success);
     }
 
     /**

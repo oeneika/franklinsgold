@@ -24,6 +24,6 @@ class lostpassController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);
-        $this->template->display('lostpass/lostpass');
+        (new Model\Users)->changeTemporalPass();
     }
 }
