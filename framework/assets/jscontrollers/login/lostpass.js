@@ -26,7 +26,7 @@ function lostpass(){
                 }
             },
             error : function(xhr, status) {
-                alert('Ha ocurrido un problema interno');
+                toastr.error('Ha ocurrido un problema intentando enviar el correo, intente más tarde');
             },
             complete: function(){ 
                 $ocrendForm.data('locked', false);

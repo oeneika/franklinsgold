@@ -34,6 +34,13 @@ class Monedas extends Models implements IModels {
     private $id_origen;
 
     /**
+     * Directorio para guardar las imagenes
+     * 
+     * @var string
+     */
+    const PATH = '../views/img/codigos/';
+
+    /**
      * Revisa errores en el formulario
      * 
      * @return exception
@@ -71,6 +78,7 @@ class Monedas extends Models implements IModels {
     */ 
     public function add() : array {
         try {
+            global $http;
 
             #Revisa errores del formulario
             $this->errors();
@@ -84,8 +92,19 @@ class Monedas extends Models implements IModels {
             'id_origen' => $this->id_origen
             );
 
-            # Registrar al usuario
-            $id_user =  $this->db->insert('moneda',$u);
+            # Obtenemos el id de la moneda insertada
+            $id_moneda =  $this->db->insert('moneda',$u);
+
+            # Url del codigo qr
+            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=$id_moneda";
+            # Ruta en la que se guardara la imagen
+            $img = "../views/img/codigos/$id_moneda.png";
+            file_put_contents($img, file_get_contents($url));
+
+            #Se actualiza la db con la ruta de la imagen
+            $this->db->update('moneda',array(
+                'codigo_qr'=> $img
+            ), "codigo = '$id_moneda'");
 
             return array('success' => 1, 'message' => 'Moneda creada con éxito!');
         } catch(ModelsException $e) {

@@ -53,7 +53,7 @@
                                                 <td>{{ s.direccion }}</td>
                                                 <td>
                                                 <a style="font-size:22px;" title="Editar" data-toggle="modal" onclick="editarSucursal({{ s.id_sucursal }},'{{ s.nombre }}','{{ s.direccion }}')"><i class="fa fa-sliders naranja"></i></a>
-                                                <a style="margin-left: 20px;font-size:22px;" onclick="delete_sucursal({{ s.id_sucursal }})" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
+                                                <a style="margin-left: 20px;font-size:22px;" onclick="delete_item({{ s.id_sucursal }},'sucursal')" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
                                                 </td>
                                             </tr>
                                             {% else %}
@@ -85,7 +85,7 @@
 {% block appFooter %}
     <script src="assets/jscontrollers/sucursales/crear.js"></script>
     <script src="assets/jscontrollers/sucursales/editar.js"></script>
-    <script src="assets/jscontrollers/sucursales/delete.js"></script>
+    <script src="views/propios/js/delete_item.js"></script>   
     <script>
         $(document).ready(function(){
             $('.dataTables-example').DataTable({

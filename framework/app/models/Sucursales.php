@@ -45,8 +45,16 @@ class Sucursales extends Models implements IModels {
             throw new ModelsException("El nombre no debe estar vacio");
         }
 
+        if(strlen($this->data['nombre']) > 45){
+            throw new ModelsException("El nombre no debe tener más de 45 carácteres");
+        }
+
         if(Functions::emp($this->data['direccion'])){
             throw new ModelsException("La direccion no debe estar vacia");
+        }
+
+        if(strlen($this->data['direccion']) > 45){
+            throw new ModelsException("La dirección no debe tener más de 45 carácteres");
         }
 
         #Verifica si ya exitse un tienda con ese nombre
