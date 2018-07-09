@@ -300,7 +300,11 @@ class Users extends Models implements IModels {
 
             # Autentificar
             if ($this->authentication($email, $pass)) {
-                return array('success' => 1, 'message' => 'Conectado con éxito.');
+                # trae la info del usuario para su uso en app movil
+                $select = 'usuario, email, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, sexo, tipo, telefono';
+                $query = $this->db->select($select, 'users',null,"email = '$email'");
+
+                return array('success' => 1, 'message' => 'Conectado con éxito.','data'=>$query);
             }
             
             throw new ModelsException('Credenciales incorrectas.');
@@ -355,6 +359,7 @@ class Users extends Models implements IModels {
                 'primer_apellido' => $user_data['primer_apellido'],
                 'segundo_apellido' => $user_data['segundo_apellido'],
                 'usuario' => $user_data['usuario'],
+                'sexo' => $user_data['sexo'],
                 'email' => $user_data['email'],
                 'telefono' => $user_data['telefono'],
                 'pass' => Helper\Strings::hash($user_data['pass'])

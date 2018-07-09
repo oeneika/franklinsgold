@@ -16,7 +16,10 @@ function registro(){
             },
             success : function(json) {
                 if(json.success == 1) {
-                    toastr.success(json.message);
+                    setTimeout(function(){
+                        toastr.success(json.message);
+                        location.href='login/';
+                    },1000);
                 } else {
                     toastr.error(json.message);
                 }
