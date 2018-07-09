@@ -51,10 +51,10 @@
                                     {% for t in transacciones %}
                                     <tr>
                                         <td>{{t.id_transaccion}}</td>
-                                        <td>{{t.nombre_usuario}}</td>
+                                        <td>{{t.primer_nombre}} {{t.primer_apellido}} {{t.id_user}}</td>
                                         <td>{{t.codigo}}</td>
                                         <td>{{t.nombre_sucursal}}</td>
-                                        <td>{{t.fecha}}</td>
+                                        <td>{{ fecha('D, d F, Y h:i a', t.fecha) }}</td>
                                     </tr>
                                     {% else %}
                                     <tr>
@@ -84,7 +84,6 @@
 </div>
 {% endblock %} {% block appFooter %}
     <script src="./assets/jscontrollers/transaccion/crear.js"></script>
-    <script src="views/propios/js/delete_item.js"></script>     
 <script>
     $(document).ready(function () {
         $('.dataTables-example').DataTable({

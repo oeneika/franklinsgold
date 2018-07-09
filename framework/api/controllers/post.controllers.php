@@ -159,3 +159,4 @@ $app->post('/transaccion/crear', function() use($app) {
 
   return $app->json($t->add());   
 });
+

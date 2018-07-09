@@ -1,4 +1,4 @@
-<div class="modal inmodal" id="crearCompraVenta" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="crearTransacciones" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
@@ -11,32 +11,36 @@
             </div>
             <div class="modal-body">
                 <form id="crear_transacciones_form">
-                    <input id="tipo_transaccion" name="tipo" type="text">
+                    <input id="tipo_transaccion" name="tipo" type="hidden">
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1">Usuario</label>
-                                <select name="" id="" class="form-control m-b">
-                                    <option value="">1</option>
-                                    <option value="">1</option>
+                                <label for="cc-payment" class="control-label mb-1">Usuario<span>*</span></label>
+                                <select name="id_usuario" id="" class="form-control m-b">
+                                    <option disabled selected value>Seleccione un vendedor</option>
+                                    {% for u in usuarios %}
+                                    <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="cc-payment" class="control-label mb-1">Moneda</label>
-                            <select name="" id="" class="form-control m-b">
-                                <option value="">1</option>
-                                <option value="">1</option>
+                            <label for="cc-payment" class="control-label mb-1">Moneda<span>*</span></label>
+                            <select name="codigo" id="" class="form-control m-b">
+                                    <option disabled selected value>Seleccione una moneda</option>
+                                    {% for m in monedas %}
+                                    <option value="{{ m.codigo }}">{{m.codigo}}</option>
+                                    {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="cc-payment" class="control-label mb-1">Sucursal</label>
-                            <select name="" id="" class="form-control m-b">
-                                <option value="">1</option>
-                                <option value="">1</option>
+                            <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
+                            <select name="id_sucursal" id="" class="form-control m-b">
+                                <option disabled selected value>Seleccione una sucursal</option>
+                                <option value="1">1</option>
                             </select>
                         </div>
                     </div>

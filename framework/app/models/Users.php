@@ -19,6 +19,7 @@ use Ocrend\Kernel\Models\ModelsException;
 use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Helpers\Functions;
+use Ocrend\Kernel\Helpers\phpqrcore\qrlib;
 
 /**
  * Modelo Users

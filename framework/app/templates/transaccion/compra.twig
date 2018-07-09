@@ -22,8 +22,10 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
+
                 <a onclick="crearTransaccion(1)" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;">
                     <i class="fa fa-tags"></i> Crear Compra</a>
+
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>Compras registradas en el sistema</h5>
@@ -52,10 +54,10 @@
                                     {% for t in transacciones %}
                                     <tr>
                                         <td>{{t.id_transaccion}}</td>
-                                        <td>{{t.nombre_usuario}}</td>
+                                        <td>{{t.primer_nombre}} {{t.primer_apellido}} {{t.id_user}}</td>
                                         <td>{{t.codigo}}</td>
                                         <td>{{t.nombre_sucursal}}</td>
-                                        <td>{{t.fecha}}</td>
+                                        <td>{{ fecha('D, d F, Y h:i a', t.fecha) }}</td>
                                     </tr>
                                     {% else %}
                                     <tr>
@@ -85,8 +87,7 @@
 </div>
 {% endblock %} 
 {% block appFooter %}
-    <script src="./assets/jscontrollers/transaccion/crear.js"></script>
-    <script src="views/propios/js/delete_item.js"></script>  
+    <script src="./assets/jscontrollers/transaccion/crear.js"></script> 
 <script>
     $(document).ready(function () {
         $('.dataTables-example').DataTable({

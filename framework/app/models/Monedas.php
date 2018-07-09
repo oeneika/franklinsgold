@@ -19,6 +19,7 @@ use Ocrend\Kernel\Models\ModelsException;
 use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Helpers\Functions;
+use Ocrend\Kernel\Helpers\phpqrcore\qrlib;
 
 /**
  * Modelo Monedas
@@ -82,7 +83,6 @@ class Monedas extends Models implements IModels {
             'peso' => $this->peso,
             'id_origen' => $this->id_origen
             );
-
 
             # Registrar al usuario
             $id_user =  $this->db->insert('moneda',$u);

@@ -18,6 +18,7 @@ use Ocrend\Kernel\Models\IModels;
 use Ocrend\Kernel\Models\ModelsException;
 use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
+use Ocrend\Kernel\Helpers\Functions;
 
 /**
  * Modelo Transaccion
@@ -46,12 +47,16 @@ class Transaccion extends Models implements IModels {
 
         $this->id_sucursal = $http->request->get('id_sucursal');
 
-        $this->id_usuario2 = $http->request->get('id_usuario');
-        $this->codigo_moneda2 = $http->request->get('codigo');
+        $this->id_usuario2 = $http->request->get('id_usuario2');
+        $this->codigo_moneda2 = $http->request->get('codigo2');
 
 
         # Verificar que no están vacíos
         if (Helper\Functions::e($this->id_usuario,$this->codigo_moneda,$this->tipo)) {
+            throw new ModelsException('Debe seleccionar todos los elementos.');
+        }
+
+        if( ($this->tipo != 2) and (Helper\Functions::e($this->id_sucursal)) ){
             throw new ModelsException('Debe seleccionar todos los elementos.');
         }
 
@@ -88,7 +93,7 @@ class Transaccion extends Models implements IModels {
             }
         }
 
-            # Registrar al usuario
+            # Crea una transaccion
             $id_transaccion =  $this->db->insert('transaccion',$data);
 
             return array('success' => 1, 'message' => 'Transacción creada con éxito!');
@@ -130,17 +135,47 @@ class Transaccion extends Models implements IModels {
      *
      * @return false|array con información de los usuarios
      */  
-    public function getTransacciones(int $tipo = 0,string $select = '*') {
+    public function getTransacciones(int $tipo = 0) {
+
+        $inner = "INNER JOIN users u1 ON u1.id_user=transaccion.id_usuario
+                  INNER JOIN moneda m1 ON m1.codigo=transaccion.codigo_moneda 
+                  LEFT JOIN sucursal s ON s.id_sucursal=transaccion.id_sucursal
+                  ";
 
         if($tipo == 1){
-            return $this->db->select($select,'transaccion','tipo=0');
+            return $this->db->select('transaccion.*,u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
+                                        s.nombre as nombre_sucursal','transaccion',$inner,'transaccion.tipo=1');
         }else 
         if($tipo == 2){
-            return $this->db->select($select,'transaccion','tipo=0');
+            return $this->db->select('transaccion.*,u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
+                                        s.nombre as nombre_sucursal','transaccion',$inner,'transaccion.tipo=2');
+        }else
+        if($tipo == 3){
+            $inner2 = "INNER JOIN users u2 ON u2.id_user=transaccion.id_usuario2 
+                       INNER JOIN moneda m2 ON m2.codigo=transaccion.codigo_moneda2";
+
+            $inner = $inner . $inner2;         
+            return $this->db->select('transaccion.*,
+                                        u1.primer_nombre as pn1,u1.primer_apellido as pa1,u1.id_user as iu1,m1.codigo as c1,
+                                        u2.primer_nombre as pn2,u2.primer_apellido as pa2,u2.id_user as iu2,m2.codigo as c2'
+                                        ,'transaccion',$inner,'transaccion.tipo=3');
         }
 
-        return $this->db->select($select,'transaccion');
+        return $this->db->select('transaccion.*','transaccion',$inner);
     }
+
+    //si el usuario es 2 traer moneda 2
+    public function getByUser(int $id_user){
+        $inner = "INNER JOIN moneda m1 ON m1.codigo=transaccion.codigo_moneda
+                  LEFT  JOIN moneda m2 ON m2.codigo=transaccion.codigo_moneda2
+                  LEFT JOIN sucursal s ON s.id_sucursal=transaccion.id_sucursal";
+
+        return $this->db->select('transaccion.fecha,transaccion.tipo,transaccion.id_usuario,s.nombre,m1.codigo as m1,m2.codigo as m2',
+                                 'transaccion',$inner,"transaccion.id_usuario='$id_user' OR transaccion.id_usuario2='$id_user'");
+
+    }
+
+
 
     /**
      * Eliminar usuario

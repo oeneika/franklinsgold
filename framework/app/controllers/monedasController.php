@@ -16,7 +16,7 @@ use Ocrend\Kernel\Helpers as Helper;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
-
+use Ocrend\Kernel\Helpers\Functions;
 /**
  * Controlador monedas/
  *
@@ -30,11 +30,11 @@ class monedasController extends Controllers implements IControllers {
         ));
         
         $m = new Model\Monedas($router);  
-        $o= new Model\Origen($router);
+        $o = new Model\Origen($router);   
 
         switch($this->method) {
             case 'eliminar':
-                $m->del();
+                $m->del();           
             break;
             default:
             $this->template->display('monedas/monedas',array(

@@ -20,3 +20,9 @@ $app->get('origenes/get', function() use($app) {
 
     return $app->json($o->getOrigenes());
 });
+
+$app->get('/transaccion/get/{id}', function($id) use($app) {
+    $t = new Model\Transaccion; 
+  
+    return $app->json($t->getByUser($id));   
+  });

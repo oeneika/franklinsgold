@@ -70,7 +70,7 @@
                                                 <a onclick="editar_un_usuario({{u.id_user}},{{u.tipo}},'{{u.primer_nombre}}','{{u.segundo_nombre}}','{{u.primer_apellido}}',
                                                 '{{u.segundo_apellido}}','{{u.sexo}}',{{u.telefono}})" style="font-size:22px;" title="Editar"  ><i class="fa fa-sliders naranja"></i></a>
                                                 <a onclick="delete_item({{u.id_user}},'usuarios')"style="font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
-                                                <a href="usuarios/historial/{{ u.id_user }}" style="font-size:22px;" title="Historial" data-toggle="modal" data-target="#historialUsuario">
+                                                <a onclick="historialUsuario({{ u.id_user }})" style="font-size:22px;" title="Historial" >
                                                     <i class="fa fa-user naranja"></i>
                                                 </a>
                                                 </td>
