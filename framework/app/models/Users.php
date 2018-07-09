@@ -359,6 +359,22 @@ class Users extends Models implements IModels {
                 'pass' => Helper\Strings::hash($user_data['pass'])
             ));
 
+                #Concatena una palabra para evitar repeticiones del codigoqr
+                $conc = "usuarios".$id_user;
+
+                # Url del codigo qr
+                $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=$conc";
+
+                # Ruta en la que se guardara la imagen
+                $img = "../views/img/codigos/usuarios/$conc.png";
+                file_put_contents($img, file_get_contents($url));
+
+                #Se actualiza la db con la ruta de la imagen
+                $this->db->update('users',array(
+                    'codigo_qr'=> $img
+                ), "id_user = '$id_user'");
+
+
             # Iniciar sesión
             $this->generateSession(array(
                 'id_user' => $id_user
@@ -591,6 +607,21 @@ class Users extends Models implements IModels {
   
             # Registrar al usuario
             $id_user =  $this->db->insert('users',$data);
+
+            #Concatena una palabra para evitar repeticiones del codigoqr
+            $conc = "usuarios".$id_user;
+
+            # Url del codigo qr
+            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=$conc";
+
+            # Ruta en la que se guardara la imagen
+            $img = "../views/img/codigos/usuarios/$conc.png";
+            file_put_contents($img, file_get_contents($url));
+
+            #Se actualiza la db con la ruta de la imagen
+            $this->db->update('users',array(
+                'codigo_qr'=> $img
+            ), "id_user = '$id_user'");
 
             return array('success' => 1, 'message' => 'Usuario creado con éxito!');
         } catch(ModelsException $e) {

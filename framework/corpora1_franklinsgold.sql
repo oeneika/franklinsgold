@@ -2,10 +2,10 @@
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 10, 2018 at 12:40 AM
--- Server version: 10.1.26-MariaDB
--- PHP Version: 7.1.9
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 10-07-2018 a las 01:27:10
+-- Versión del servidor: 10.1.26-MariaDB
+-- Versión de PHP: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `corpora1_franklinsgold`
+-- Base de datos: `corpora1_franklinsgold`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `moneda`
+-- Estructura de tabla para la tabla `moneda`
 --
 
 CREATE TABLE `moneda` (
@@ -40,16 +40,18 @@ CREATE TABLE `moneda` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `moneda`
+-- Volcado de datos para la tabla `moneda`
 --
 
 INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `composicion`, `peso`, `codigo_qr`, `id_origen`) VALUES
-(31, 1531175928, 4, 3, 'Platino', 3, '../views/img/codigos/31.png', 2);
+(47, 1531178448, 1, 2, '3', 123, '../views/img/codigos/monedas/monedas47.png', 2),
+(48, 1531178473, 7, 7, '78', 7, '../views/img/codigos/monedas/monedas48.png', 2),
+(49, 1531178485, 6, 6, '7', 6, '../views/img/codigos/monedas/monedas49.png', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `origen`
+-- Estructura de tabla para la tabla `origen`
 --
 
 CREATE TABLE `origen` (
@@ -58,7 +60,7 @@ CREATE TABLE `origen` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `origen`
+-- Volcado de datos para la tabla `origen`
 --
 
 INSERT INTO `origen` (`id_origen`, `nombre`) VALUES
@@ -67,7 +69,7 @@ INSERT INTO `origen` (`id_origen`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sucursal`
+-- Estructura de tabla para la tabla `sucursal`
 --
 
 CREATE TABLE `sucursal` (
@@ -77,7 +79,7 @@ CREATE TABLE `sucursal` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `sucursal`
+-- Volcado de datos para la tabla `sucursal`
 --
 
 INSERT INTO `sucursal` (`id_sucursal`, `nombre`, `direccion`) VALUES
@@ -94,7 +96,7 @@ INSERT INTO `sucursal` (`id_sucursal`, `nombre`, `direccion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaccion`
+-- Estructura de tabla para la tabla `transaccion`
 --
 
 CREATE TABLE `transaccion` (
@@ -108,10 +110,17 @@ CREATE TABLE `transaccion` (
   `id_sucursal` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Volcado de datos para la tabla `transaccion`
+--
+
+INSERT INTO `transaccion` (`id_transaccion`, `fecha`, `tipo`, `codigo_moneda`, `codigo_moneda2`, `id_usuario`, `id_usuario2`, `id_sucursal`) VALUES
+(12, 1531178819, 3, 47, 48, 31, 33, NULL);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Estructura de tabla para la tabla `users`
 --
 
 CREATE TABLE `users` (
@@ -127,44 +136,45 @@ CREATE TABLE `users` (
   `token` varchar(90) NOT NULL,
   `sexo` varchar(45) NOT NULL,
   `telefono` int(11) NOT NULL,
-  `email` varchar(70) NOT NULL
+  `email` varchar(70) NOT NULL,
+  `codigo_qr` varchar(90) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
+-- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id_user`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `tipo`, `usuario`, `pass`, `tmp_pass`, `token`, `sexo`, `telefono`, `email`) VALUES
-(23, 'greg', '', 'gomez', '', 0, 'luke', '$2a$10$38ce885dbf17c1615063eeftmJMZBxZHH8attZwY2YPleTI1p3Em.', '', '', 'm', 123, 'luke@hotmail.com'),
-(24, 'yuto', '', 'horigome', '', 1, 'lilcore', '$2a$10$52744e7353baea1e73aceuHCERKEufvAmCbtESUvn71sKdelREZDy', '', '', 'm', 123, 'g.a95@hotmail.com'),
-(25, 'cheo', '', 'matute', '', 1, 'che', '$2a$10$2e11f5ebb15b92ef7a560OWIbACQd6v2uVzVbEo2A9CMQDCU5LP0a', '', '', 'm', 12, 'g@hotmail.com'),
-(26, 'Sergio', '', 'Garcia', '', 0, 'Sergio', '$2a$10$a064e73255e75c6ac4cf3ujwlJOPVl.GQCzT9s3aFqgYeQD/PiPoe', '', '', 'm', 1234567, 'sagg_301@outlook.com');
+INSERT INTO `users` (`id_user`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `tipo`, `usuario`, `pass`, `tmp_pass`, `token`, `sexo`, `telefono`, `email`, `codigo_qr`) VALUES
+(30, 'yuto', '', 'horigome', '', 0, 'yuton', '$2a$10$e614824920f88d9c60a18uaigfTrTc41YcXkhaCjGiCPvAdxlaoaK', '', '', 'm', 123, 'yuton@gmail.com', '../views/img/codigos/usuarios/usuarios30.png'),
+(31, 'vladimir', '', 'putin', '', 0, 'vlad', '$2a$10$956a9ce2741dfdaee84a6uBd3f2/57KgkBYELdB8rA7NLwA8J25n.', '', '', 'm', 123, 'g.a95@hotmail.com', '../views/img/codigos/usuarios/usuarios31.png'),
+(32, 'obama', '', 'vinladen', '', 1, 'obi', '$2a$10$4d17b84342e7a0dba128bu0rPbAGH5A3FtsNFfU58ZeTrOyZPHcGa', '', '', 'm', 123, 'g.a9@hotmail.com', '../views/img/codigos/usuarios/usuarios32.png'),
+(33, 'sakura', '', 'gonzales', '', 1, 'sagui', '$2a$10$315ff454fa91ddb925577uuO2b3tskicPoTOqNotyyYa./TmQ0p2G', '', '', 'f', 123, 'sakura@hotmail.com', '../views/img/codigos/usuarios/usuarios33.png');
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `moneda`
+-- Indices de la tabla `moneda`
 --
 ALTER TABLE `moneda`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `id_origen` (`id_origen`);
 
 --
--- Indexes for table `origen`
+-- Indices de la tabla `origen`
 --
 ALTER TABLE `origen`
   ADD PRIMARY KEY (`id_origen`);
 
 --
--- Indexes for table `sucursal`
+-- Indices de la tabla `sucursal`
 --
 ALTER TABLE `sucursal`
   ADD PRIMARY KEY (`id_sucursal`);
 
 --
--- Indexes for table `transaccion`
+-- Indices de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
   ADD PRIMARY KEY (`id_transaccion`),
@@ -175,57 +185,57 @@ ALTER TABLE `transaccion`
   ADD KEY `id_sucursal` (`id_sucursal`);
 
 --
--- Indexes for table `users`
+-- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `moneda`
+-- AUTO_INCREMENT de la tabla `moneda`
 --
 ALTER TABLE `moneda`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
--- AUTO_INCREMENT for table `origen`
+-- AUTO_INCREMENT de la tabla `origen`
 --
 ALTER TABLE `origen`
   MODIFY `id_origen` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `sucursal`
+-- AUTO_INCREMENT de la tabla `sucursal`
 --
 ALTER TABLE `sucursal`
   MODIFY `id_sucursal` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `transaccion`
+-- AUTO_INCREMENT de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
-  MODIFY `id_transaccion` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_transaccion` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `moneda`
+-- Filtros para la tabla `moneda`
 --
 ALTER TABLE `moneda`
   ADD CONSTRAINT `moneda_ibfk_1` FOREIGN KEY (`id_origen`) REFERENCES `origen` (`id_origen`) ON DELETE SET NULL;
 
 --
--- Constraints for table `transaccion`
+-- Filtros para la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
   ADD CONSTRAINT `transaccion_ibfk_1` FOREIGN KEY (`codigo_moneda`) REFERENCES `moneda` (`codigo`) ON DELETE CASCADE,

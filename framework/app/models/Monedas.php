@@ -34,13 +34,6 @@ class Monedas extends Models implements IModels {
     private $id_origen;
 
     /**
-     * Directorio para guardar las imagenes
-     * 
-     * @var string
-     */
-    const PATH = '../views/img/codigos/';
-
-    /**
      * Revisa errores en el formulario
      * 
      * @return exception
@@ -95,10 +88,14 @@ class Monedas extends Models implements IModels {
             # Obtenemos el id de la moneda insertada
             $id_moneda =  $this->db->insert('moneda',$u);
 
+            #Concatena una palabra para evitar repeticiones del codigoqr
+            $conc = "monedas".$id_moneda;
+
             # Url del codigo qr
-            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=$id_moneda";
+            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=$conc";
+
             # Ruta en la que se guardara la imagen
-            $img = "../views/img/codigos/$id_moneda.png";
+            $img = "../views/img/codigos/monedas/$conc.png";
             file_put_contents($img, file_get_contents($url));
 
             #Se actualiza la db con la ruta de la imagen
