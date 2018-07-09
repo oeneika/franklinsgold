@@ -25,9 +25,9 @@ use Ocrend\Kernel\Router\IRouter;
 class homeController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router,array(
+        parent::__construct($router/*,array(
             'users_logged' => true
-        ));
+        )*/);
         $this->template->display('home/home');
     }
 }
