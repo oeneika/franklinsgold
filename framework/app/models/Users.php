@@ -583,7 +583,7 @@ class Users extends Models implements IModels {
             throw new ModelsException('Todos los campos marcados con "*" son necesarios.');
         }
 
-        if($this->tipo!=0 and $this->tipo!=1) {
+        if($this->tipo!=0 and $this->tipo!=1 and $this->tipo!=2) {
             throw new ModelsException('Tipo de usuario no válido.');
         }
 
