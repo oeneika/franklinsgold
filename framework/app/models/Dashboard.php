@@ -43,9 +43,7 @@ class Dashboard extends Models implements IModels {
         "tipo = 1 AND fecha > ($tiempo - 29030400) AND fecha <= $tiempo");
 
         $usuarios = $this->db->select("COUNT(id_user) as total",'users');
-
-
-        dump($ventas_diarias);
+        
         $ventas_diarias = $ventas_diarias == false?array():$ventas_diarias;
 
         return array(
