@@ -39,16 +39,51 @@ function fill_origenes(id_origen){
 
 
 function editar_una_moneda(codigo,diametro,espesor,composicion,peso,id_origen) {
-
+    $('.selector_compo').empty();
     $('#id_codigo').val(codigo);
     $('#id_diametro').val(diametro);
     $('#id_espesor').val(espesor);
     $('#id_composicion').val(composicion);
     $('#id_peso').val(peso);
 
-    //$('#id_id_origen').val(id_origen);
- 
     fill_origenes(id_origen);
+
+    if(composicion == "oro"){
+
+        $('.selector_compo').append(new Option(
+            "Oro",
+            "oro",
+            false,
+            true
+        ));
+
+        $('.selector_compo').append(new Option(
+            "Plata",
+            "plata",
+            false,
+            false
+        ));
+
+
+    }else{
+
+        $('.selector_compo').append(new Option(
+            "Oro",
+            "oro",
+            false,
+            false
+        ));
+
+        $('.selector_compo').append(new Option(
+            "Plata",
+            "plata",
+            false,
+            true
+        ));
+       
+    }
+
+
 
     $('#editarMoneda').modal('show');
 

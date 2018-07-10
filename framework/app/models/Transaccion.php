@@ -33,6 +33,44 @@ class Transaccion extends Models implements IModels {
     private $id_sucursal;
     private $tipo;
 
+
+    /**
+     * Calcula el precio de la moneda de acuerdo a su composicion
+     * 
+     * @param id_moneda :  id de la moneda a calcular precio
+     */
+    public function calculatePrice(int $id_moneda) : int {
+
+        $monedaData = $this->db->select('composicion,peso','moneda',null,"codigo='$id_moneda'");
+
+        $composicion = $monedaData[0]["composicion"];
+        $peso = $composicion = $monedaData[0]["peso"];
+
+        if($composicion == "oro"){
+            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json';
+        }else{
+            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json';
+        }
+
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $result = curl_exec($ch);     
+        curl_close($ch);
+               
+        $obj = json_decode($result);
+        $dataset = $obj->{'dataset'};
+        $data = $dataset->{'data'};
+        //dump($data[0]);
+        $precio_dolares = $peso * ($data[0][1]/28.3495); 
+
+        return $precio_dolares;
+
+    }
+
+
     /**
      * Revisa errores en el formulario
      * 
@@ -67,18 +105,28 @@ class Transaccion extends Models implements IModels {
      * @return array
     */ 
     public function add() : array {
+
         try {
 
-            #Revisa errores del formulario
-            $this->errors();
+       #Revisa errores del formulario
+        $this->errors();
+
+        $precio_moneda1 = $this->calculatePrice($this->codigo_moneda); 
+        $precio_moneda2 = null; 
+
+        if ( !(Helper\Functions::e($this->codigo_moneda2)) ) {
+            $precio_moneda2 = $this->calculatePrice($this->codigo_moneda2); 
+        }   
 
         $u = array(
             'id_usuario' => $this->id_usuario,
             'codigo_moneda' => $this->codigo_moneda,
+            'precio_moneda1' => $precio_moneda1,
             'tipo' => $this->tipo,
             'id_sucursal' => $this->id_sucursal,
             'id_usuario2' => $this->id_usuario2,
             'codigo_moneda2' => $this->codigo_moneda2,
+            'precio_moneda2' => $precio_moneda2,
             'fecha' => time()
         );
 
@@ -143,11 +191,13 @@ class Transaccion extends Models implements IModels {
                   ";
 
         if($tipo == 1){
-            return $this->db->select('transaccion.*,u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
+            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda1,
+                                        u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
                                         s.nombre as nombre_sucursal','transaccion',$inner,'transaccion.tipo=1');
         }else 
         if($tipo == 2){
-            return $this->db->select('transaccion.*,u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
+            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda1,
+                                        u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
                                         s.nombre as nombre_sucursal','transaccion',$inner,'transaccion.tipo=2');
         }else
         if($tipo == 3){
@@ -155,7 +205,7 @@ class Transaccion extends Models implements IModels {
                        INNER JOIN moneda m2 ON m2.codigo=transaccion.codigo_moneda2";
 
             $inner = $inner . $inner2;         
-            return $this->db->select('transaccion.*,
+            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda1,transaccion.precio_moneda2,
                                         u1.primer_nombre as pn1,u1.primer_apellido as pa1,u1.id_user as iu1,m1.codigo as c1,
                                         u2.primer_nombre as pn2,u2.primer_apellido as pa2,u2.id_user as iu2,m2.codigo as c2'
                                         ,'transaccion',$inner,'transaccion.tipo=3');

@@ -16,7 +16,6 @@ use Ocrend\Kernel\Helpers as Helper;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
-
 /**
  * Controlador transacciones/
  *
@@ -35,6 +34,7 @@ class transaccionController extends Controllers implements IControllers {
         $m = new Model\Monedas($router); 
         $s = new Model\Sucursales($router);  
 
+        //dump($t->calculatePrice(47));
 
         switch($this->method) {
           case 'compra':

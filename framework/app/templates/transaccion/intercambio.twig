@@ -45,8 +45,10 @@
                                         <th>Número Transacción</th>
                                         <th>Usuario</th>
                                         <th>Moneda</th>
+                                        <th>Precio</th>
                                         <th>Usuario</th>
                                         <th>Moneda</th>
+                                        <th>Precio</th>
                                         <th>Fecha</th>
                                     </tr>
                                 </thead>
@@ -56,8 +58,10 @@
                                         <td>{{t.id_transaccion}}</td>
                                         <td>{{t.pn1}} {{t.pa1}} {{t.iu1}}</td>
                                         <td>{{t.c1}}</td>
+                                        <td>${{t.precio_moneda1}}</td>
                                         <td>{{t.pn2}} {{t.pa2}} {{t.iu2}}</td>
                                         <td>{{t.c2}}</td>
+                                        <td>${{t.precio_moneda2}}</td>
                                         <td>{{ fecha('D, d F, Y h:i a', t.fecha) }}</td>
                                     </tr>
                                     {% else %}
@@ -71,8 +75,10 @@
                                         <th>Número Transacción</th>
                                         <th>Usuario</th>
                                         <th>Moneda</th>
+                                        <th>Precio</th>
                                         <th>Usuario</th>
                                         <th>Moneda</th>
+                                        <th>Precio</th>
                                         <th>Fecha</th>
                                     </tr>
                                 </tfoot>
