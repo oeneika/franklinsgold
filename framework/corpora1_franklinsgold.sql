@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-07-2018 a las 01:27:10
+-- Tiempo de generación: 10-07-2018 a las 13:09:43
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -44,9 +44,11 @@ CREATE TABLE `moneda` (
 --
 
 INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `composicion`, `peso`, `codigo_qr`, `id_origen`) VALUES
-(47, 1531178448, 1, 2, '3', 123, '../views/img/codigos/monedas/monedas47.png', 2),
-(48, 1531178473, 7, 7, '78', 7, '../views/img/codigos/monedas/monedas48.png', 2),
-(49, 1531178485, 6, 6, '7', 6, '../views/img/codigos/monedas/monedas49.png', 2);
+(47, 1531178448, 1, 2, 'plata', 123, '../views/img/codigos/monedas/monedas47.png', 2),
+(48, 1531178473, 7, 7, 'oro', 7, '../views/img/codigos/monedas/monedas48.png', 2),
+(49, 1531178485, 6, 6, 'oro', 6, '../views/img/codigos/monedas/monedas49.png', 2),
+(50, 1531189990, 1, 2, 'plata', 3, '../views/img/codigos/monedas/monedas50.png', 2),
+(51, 1531191360, 1, 1, 'plata', 222, '../views/img/codigos/monedas/monedas51.png', 2);
 
 -- --------------------------------------------------------
 
@@ -107,6 +109,8 @@ CREATE TABLE `transaccion` (
   `codigo_moneda2` int(11) UNSIGNED DEFAULT NULL,
   `id_usuario` int(11) UNSIGNED NOT NULL,
   `id_usuario2` int(11) UNSIGNED DEFAULT NULL,
+  `precio_moneda1` int(11) UNSIGNED NOT NULL,
+  `precio_moneda2` int(11) UNSIGNED DEFAULT NULL,
   `id_sucursal` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -114,8 +118,12 @@ CREATE TABLE `transaccion` (
 -- Volcado de datos para la tabla `transaccion`
 --
 
-INSERT INTO `transaccion` (`id_transaccion`, `fecha`, `tipo`, `codigo_moneda`, `codigo_moneda2`, `id_usuario`, `id_usuario2`, `id_sucursal`) VALUES
-(12, 1531178819, 3, 47, 48, 31, 33, NULL);
+INSERT INTO `transaccion` (`id_transaccion`, `fecha`, `tipo`, `codigo_moneda`, `codigo_moneda2`, `id_usuario`, `id_usuario2`, `precio_moneda1`, `precio_moneda2`, `id_sucursal`) VALUES
+(13, 1531194113, 1, 48, NULL, 32, NULL, 4, NULL, 5),
+(14, 1531194169, 1, 49, NULL, 33, NULL, 3, NULL, 8),
+(15, 1531194192, 1, 50, NULL, 32, NULL, 1, NULL, 8),
+(16, 1531194242, 3, 47, 50, 32, 33, 70, 1, NULL),
+(17, 1531194922, 2, 49, NULL, 32, NULL, 3, NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -198,7 +206,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `moneda`
 --
 ALTER TABLE `moneda`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `origen`
@@ -216,7 +224,7 @@ ALTER TABLE `sucursal`
 -- AUTO_INCREMENT de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
-  MODIFY `id_transaccion` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_transaccion` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
