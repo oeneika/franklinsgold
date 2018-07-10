@@ -295,7 +295,7 @@ class Users extends Models implements IModels {
             # Autentificar
             if ($this->authentication($email, $pass)) {
                 # trae la info del usuario para su uso en app movil
-                $select = 'usuario, email, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, sexo, tipo, telefono';
+                $select = 'id_user,usuario, email, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, sexo, tipo, telefono';
                 $query = $this->db->select($select, 'users',null,"email = '$email'");
 
                 return array('success' => 1, 'message' => 'Conectado con éxito.','data'=>$query);

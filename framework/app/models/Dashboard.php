@@ -43,7 +43,13 @@ class Dashboard extends Models implements IModels {
         "tipo = 1 AND fecha > ($tiempo - 29030400) AND fecha <= $tiempo");
 
         $usuarios = $this->db->select("COUNT(id_user) as total",'users');
-        
+
+        $ventas_oro = $this->db->select("SUM(precio_moneda1) as total",'transaccion',null,
+        "tipo = 1 AND composicion = oro");
+
+        $ventas_plata = $this->db->select("SUM(precio_moneda1) as total",'transaccion',null,
+        "tipo = 1 AND composicion = plata");
+
         $ventas_diarias = $ventas_diarias == false?array():$ventas_diarias;
 
         return array(
