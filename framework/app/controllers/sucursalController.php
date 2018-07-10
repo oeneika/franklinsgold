@@ -26,7 +26,8 @@ class sucursalController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
-            'users_logged' => true
+            'users_logged' => true,
+            'users_admin'=>true
         ));
 
         $s = new Model\Sucursales($router);

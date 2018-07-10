@@ -74,8 +74,7 @@
                                 <h5>Ventas Diarias</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">22 285,400</h1>
-                                <small>Nuevo</small>
+                                <h1 class="no-margins">{{ data.diarias.total }}</h1>
                             </div>
                         </div>
                     </div>
@@ -83,11 +82,9 @@
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <span class="label label-info pull-right">Mensual</span>
-                                <h5>Ventas del mes</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">60 420,600</h1>
-                                <small>Nuevo</small>
+                                <h1 class="no-margins">{{ data.mensuales.total }}</h1>
                             </div>
                         </div>
                     </div>
@@ -98,8 +95,7 @@
                                 <h5>Ventas del año</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">$ 120 430,800</h1>
-                                <small>Nuevo</small>
+                                <h1 class="no-margins">{{ data.anuales.total }}</h1>
                             </div>
                         </div>
                     </div>
@@ -113,7 +109,7 @@
                                 <h5>Usuarios registrados en el sistema</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">1502</h1>
+                                <h1 class="no-margins">{{ data.usuarios.total }}</h1>
                             </div>
                         </div>
                     </div>

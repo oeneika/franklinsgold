@@ -75,7 +75,7 @@ function edit_moneda() {
                     timeOut: 4000
                 };
 
-                toastr.info('¡Moneda editada!','Exito!');
+                toastr.success('¡Moneda editada!','Exito!');
                 
                 setTimeout(function () {
                     location.reload();

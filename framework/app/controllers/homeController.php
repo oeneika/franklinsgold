@@ -28,6 +28,9 @@ class homeController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        $this->template->display('home/home');
+        $d = new Model\Dashboard;
+        $this->template->display('home/home',array(
+            'data'=> $d->getData()
+        ));
     }
 }

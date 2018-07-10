@@ -21,7 +21,7 @@ function createMoneda() {
                     timeOut: 4000
                 };
 
-                toastr.info('¡Moneda creada!','Exito!');
+                toastr.success('¡Moneda creada!','Exito!');
                 
                 setTimeout(function () {
                     location.reload();

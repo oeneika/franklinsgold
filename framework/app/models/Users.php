@@ -332,6 +332,12 @@ class Users extends Models implements IModels {
                 throw new ModelsException('El usuario no debe estar vacio');
             }
 
+            $username = $this->db->scape($user_data['usuario']);
+            $query = $this->db->select('usuario','users',null,"usuario = '$username'");
+            if (false !== $query){
+                throw new ModelsException('Ya existe un usuario con ese nombre');
+            }
+
             if (Functions::emp($user_data['email'])) {
                 throw new ModelsException('El email no debe estar vacio');
             }

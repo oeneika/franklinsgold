@@ -25,7 +25,7 @@ function createUsuario() {
                     timeOut: 4000
                 };
 
-                toastr.info('¡Usuario creado!','Exito!');
+                toastr.success('¡Usuario creado!','Exito!');
                 
                 setTimeout(function () {
                     location.reload();

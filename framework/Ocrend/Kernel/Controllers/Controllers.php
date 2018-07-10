@@ -142,7 +142,8 @@ abstract class Controllers {
     private function setControllerConfig($config) {
       $this->controllerConfig = array_merge(array(
         'users_logged' => false,
-        'users_not_logged' => false
+        'users_not_logged' => false,
+        'users_admin'=>false
       ), $config);
     }
     
@@ -157,6 +158,11 @@ abstract class Controllers {
       # Sólamente usuarios logeados
       if ($this->controllerConfig['users_logged'] && !$this->is_logged) {
         Helper\Functions::redir($config['build']['url'] . 'login');
+      }
+
+      # Sólamente usuarios logeados
+      if ($this->controllerConfig['users_admin'] && !$this->user['tipo']==0) {
+        Helper\Functions::redir($config['build']['url'] . 'home');
       }
 
       # Sólamente usuarios no logeados

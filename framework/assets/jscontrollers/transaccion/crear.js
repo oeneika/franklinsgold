@@ -106,7 +106,7 @@ function createTransaccion() {
                     timeOut: 4000
                 };
 
-                toastr.info('¡Transacción creada!','Exito!');
+                toastr.success('¡Transacción creada!','Exito!');
                 
                 setTimeout(function () {
                     location.reload();
