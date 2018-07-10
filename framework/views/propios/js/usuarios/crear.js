@@ -10,6 +10,7 @@ function crearUsuario() {
 */
 
 function createUsuario() {
+    $('#crearUsuariobtn').attr('disabled','disabled');
     $.ajax({
         type: "POST",
         url: "api/usuarios/crear",
@@ -56,7 +57,10 @@ function createUsuario() {
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-        }
+        },
+        complete: function(){ 
+            $('#crearUsuariobtn').removeAttr('disabled');
+        } 
     });
 }
 

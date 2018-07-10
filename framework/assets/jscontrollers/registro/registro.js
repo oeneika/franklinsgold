@@ -6,6 +6,7 @@ function registro(){
     $('#registro_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
 
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
+        $('#registro').attr('disabled','disabled');
         $.ajax({
             type : "POST",
             url : "api/register",
@@ -28,6 +29,7 @@ function registro(){
                 toastr.error('Ha ocurrido un problema interno');
             },
             complete: function(){ 
+                $('#registro').removeAttr('disabled');
                 $ocrendForm.data('locked', false);
             } 
         });

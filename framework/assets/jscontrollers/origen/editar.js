@@ -20,6 +20,7 @@ function edit_origen() {
     /*var l = Ladda.create(document.querySelector('#editar_usuario_0CR3ND'));
     l.start();*/
 
+    $('#editarorigenbtn').attr('disabled','disabled');
     $.ajax({
         type: "POST",
         url: "api/origen/editar",
@@ -48,7 +49,7 @@ function edit_origen() {
             toastr.error("Ha ocurrido un problema", '¡ERROR!');
         },
         complete: function () {
-          //  l.stop();
+            $('#editarorigenbtn').removeAttr('disabled');
         }
     });
 }

@@ -42,7 +42,7 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
 function edit_usuario() {
     /*var l = Ladda.create(document.querySelector('#editar_usuario_0CR3ND'));
     l.start();*/
-
+    $('#editar_usuario_0CR3ND').attr('disabled','disabled');
     $.ajax({
         type: "POST",
         url: "api/usuarios/editar",
@@ -71,7 +71,7 @@ function edit_usuario() {
             toastr.error("Ha ocurrido un problema", '¡ERROR!');
         },
         complete: function () {
-          //  l.stop();
+            $('#editar_usuario_0CR3ND').removeAttr('disabled');
         }
     });
 }

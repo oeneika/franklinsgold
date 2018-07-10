@@ -10,6 +10,7 @@ function crearOrigen() {
 */
 
 function createOrigen() {
+    $('#crearOrigenbtn').attr('disabled','disabled');
     $.ajax({
         type: "POST",
         url: "api/origen/crear",
@@ -56,7 +57,10 @@ function createOrigen() {
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-        }
+        },
+        complete: function(){ 
+            $('#crearOrigenbtn').removeAttr('disabled');
+        } 
     });
 }
 

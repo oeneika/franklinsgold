@@ -317,18 +317,28 @@ class Users extends Models implements IModels {
         try {
             global $http;
 
+
+
             # Obtener los datos $_POST
             $user_data = $http->request->all();
 
+            #Verificar que se este accediendo desde la web
+            $tipo = array_key_exists('tipo',$user_data)?0:2;
+
+            if ($tipo !== 0 && $tipo !== 1 && $tipo !== 2){
+                throw new ModelsException('Tipo de usuario invalido');
+            }
+
             # Verificar que no están vacíos
-            if (Functions::emp($user_data['primer_nombre'])) {
+            if (!array_key_exists('primer_nombre',$user_data) || Functions::emp($user_data['primer_nombre'])) {
                 throw new ModelsException('El primer nombre no debe estar vacio');
             }
-            if (Functions::emp($user_data['primer_apellido'])) {
+
+            if (!array_key_exists('primer_apellido',$user_data) || Functions::emp($user_data['primer_apellido'])) {
                 throw new ModelsException('El primer apellido no debe estar vacio');
             }
 
-            if (Functions::emp($user_data['usuario'])) {
+            if (!array_key_exists('usuario',$user_data) || Functions::emp($user_data['usuario'])) {
                 throw new ModelsException('El usuario no debe estar vacio');
             }
 
@@ -338,12 +348,32 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Ya existe un usuario con ese nombre');
             }
 
-            if (Functions::emp($user_data['email'])) {
+            if (!array_key_exists('email',$user_data) || Functions::emp($user_data['email'])) {
                 throw new ModelsException('El email no debe estar vacio');
             }
 
-            if (Functions::emp($user_data['pass'])) {
+            if (!array_key_exists('pass',$user_data)  || Functions::emp($user_data['pass']) ) {
                 throw new ModelsException('El password no debe estar vacio');
+            }
+
+            if (!array_key_exists('pass_repeat',$user_data) || Functions::emp($user_data['pass_repeat'])) {
+                throw new ModelsException('Por favor repita el password');
+            }
+
+            if(!array_key_exists('segundo_nombre',$user_data)){
+                throw new ModelsException('Campo segundo nombre no definido');
+            }
+
+            if(!array_key_exists('segundo_apellido',$user_data)){
+                throw new ModelsException('Campo segundo apellido no definido');
+            }
+
+            if(!array_key_exists('telefono',$user_data)){
+                throw new ModelsException('Campo telefono no definido');
+            }
+
+            if(!array_key_exists('sexo',$user_data)){
+                throw new ModelsException('Campo sexo no definido');
             }
 
             # Verificar email 
@@ -362,6 +392,7 @@ class Users extends Models implements IModels {
                 'sexo' => $user_data['sexo'],
                 'email' => $user_data['email'],
                 'telefono' => $user_data['telefono'],
+                'tipo' => $tipo,
                 'pass' => Helper\Strings::hash($user_data['pass'])
             ));
 

@@ -83,9 +83,16 @@ class Mysql extends \mysqli implements Driver {
         );
 
         if(false != $result && $result->num_rows) {
-            $matriz = (array) $result->fetch_all(MYSQLI_ASSOC);
-            $result->free();
+            $matriz = array();
+            $i = 0;
 
+            while ($row = $result->fetch_assoc()) {
+                $matriz[$i] = $row;
+                $i++;
+            }
+
+            $result->free();
+            
             return $matriz;
         }
 

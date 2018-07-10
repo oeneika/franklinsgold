@@ -119,6 +119,12 @@
           toastr.warning('Ups!','Acción no realizada');
         {% endif %}
     </script>
+
+    <script>
+        {% if owner_user.tipo == 2 %} 
+          location.href = 'logout/'
+        {% endif %}
+    </script>
     
 
     

@@ -91,6 +91,7 @@ function crearTransaccion(tipo) {
 */
 
 function createTransaccion() {
+    $('#creartransaccionesbtn').attr('disabled','disabled');
     $.ajax({
         type: "POST",
         url: "api/transaccion/crear",
@@ -137,6 +138,9 @@ function createTransaccion() {
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+        },
+        complete: function () {
+          $('#creartransaccionesbtn').removeAttr('disabled');
         }
     });
 }

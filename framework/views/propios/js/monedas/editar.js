@@ -95,7 +95,7 @@ function editar_una_moneda(codigo,diametro,espesor,composicion,peso,id_origen) {
 function edit_moneda() {
     /*var l = Ladda.create(document.querySelector('#editar_moneda_0CR3ND'));
     l.start();*/
-
+    $('#editar_moneda_0CR3ND').attr('disabled','disabled');
     $.ajax({
         type: "POST",
         url: "api/monedas/editar",
@@ -124,7 +124,7 @@ function edit_moneda() {
             toastr.error("Ha ocurrido un problema", '¡ERROR!');
         },
         complete: function () {
-          //  l.stop();
+            $('#editar_moneda_0CR3ND').removeAttr('disabled');
         }
     });
 }

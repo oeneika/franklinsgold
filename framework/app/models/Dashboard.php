@@ -44,19 +44,19 @@ class Dashboard extends Models implements IModels {
 
         $usuarios = $this->db->select("COUNT(id_user) as total",'users');
 
-        $ventas_oro = $this->db->select("SUM(precio_moneda1) as total",'transaccion',null,
-        "tipo = 1 AND composicion = oro");
+        $ventas_oro = $this->db->select("SUM(precio_moneda1) as total",'transaccion','INNER JOIN moneda ON moneda.codigo = transaccion.codigo_moneda',
+        "transaccion.tipo = 1 AND moneda.composicion = 'oro'");
 
-        $ventas_plata = $this->db->select("SUM(precio_moneda1) as total",'transaccion',null,
-        "tipo = 1 AND composicion = plata");
-
-        $ventas_diarias = $ventas_diarias == false?array():$ventas_diarias;
+        $ventas_plata = $this->db->select("SUM(precio_moneda1) as total",'transaccion','INNER JOIN moneda ON moneda.codigo = transaccion.codigo_moneda',
+        "transaccion.tipo = 1 AND moneda.composicion = 'plata'");
 
         return array(
             'diarias' => $ventas_diarias[0],
             'mensuales' => $ventas_mensuales[0],
             'anuales' => $ventas_anuales[0],
-            'usuarios' => $usuarios[0]
+            'usuarios' => $usuarios[0],
+            'ventas_oro' => $ventas_oro[0],
+            'ventas_plata' => $ventas_plata[0]
         );
     }
 

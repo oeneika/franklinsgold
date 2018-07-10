@@ -6,6 +6,7 @@ function crearMoneda() {
 }
 
 function createMoneda() {
+    $('#crearMonedabtn').attr('disabled','disabled');
     $.ajax({
         type: "POST",
         url: "api/monedas/crear",
@@ -52,6 +53,9 @@ function createMoneda() {
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+        },
+        complete: function () {
+            $('#crearMonedabtn').removeAttr('disabled');
         }
     });
 }

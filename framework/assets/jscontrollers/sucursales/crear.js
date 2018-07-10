@@ -13,7 +13,7 @@ function crear_sucursal(){
     $('#crear_sucursal_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
 
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
-        console.log(__data);
+        $('#crearsucursalbtn').attr('disabled','disabled');
         $.ajax({
             type : "POST",
             url : "api/sucursal/crear",
@@ -36,6 +36,7 @@ function crear_sucursal(){
                 toastr.error('Ha ocurrido un problema interno');
             },
             complete: function(){ 
+                $('#crearsucursalbtn').removeAttr('disabled');
                 $ocrendForm.data('locked', false);
             } 
         });
