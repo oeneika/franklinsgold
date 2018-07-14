@@ -27,11 +27,19 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
         $("#id_sexof").prop("checked", true);
     }
 
+     //Administradores
     if (tipo == 0) {
         $("#id_tipoa").prop("checked", true);
-    } else {
+    } else
+    //Vendedores
+    if (tipo == 1) {
         $("#id_tipov").prop("checked", true);
+    } else
+    //Clientes
+    if (tipo == 2){
+        $("#id_tipoc").prop("checked", true);
     }
+    
     $('#editarUsuario').modal('show');
 
 }

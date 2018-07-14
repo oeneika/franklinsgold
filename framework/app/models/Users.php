@@ -583,7 +583,7 @@ class Users extends Models implements IModels {
             throw new ModelsException('Todos los campos marcados con "*" son necesarios.');
         }
 
-        if($this->tipo!=0 and $this->tipo!=1) {
+        if($this->tipo!=0 and $this->tipo!=1 and $this->tipo!=2) {
             throw new ModelsException('Tipo de usuario no válido.');
         }
 
@@ -623,7 +623,6 @@ class Users extends Models implements IModels {
             'segundo_nombre' => $this->segundo_nombre,
             'primer_apellido' => $this->primer_apellido,
             'segundo_apellido' => $this->segundo_apellido,
-            'tipo' => $this->tipo,
             'usuario' => $this->usuario,
             'pass' => Helper\Strings::hash($this->pass),
             'sexo' => $this->sexo,
@@ -641,6 +640,8 @@ class Users extends Models implements IModels {
                  $data[$key] = $u[$key];
                }
              }
+        
+            $data['tipo'] = $this->tipo;
   
             # Registrar al usuario
             $id_user =  $this->db->insert('users',$data);
@@ -681,17 +682,27 @@ class Users extends Models implements IModels {
 
             $this->errors(true);
 
+            /*if($this->tipo == 0 ){
+                $this->tipo = 2;
+            }*/
+
             $u = array(
                 'primer_nombre' => $this->primer_nombre,
                 'segundo_nombre' => $this->segundo_nombre,
                 'primer_apellido' => $this->primer_apellido,
                 'segundo_apellido' => $this->segundo_apellido,
                 'tipo' => $this->tipo,
-                'pass' => Helper\Strings::hash($this->pass),
                 'sexo' => $this->sexo,
                 'telefono' => $this->telefono
             );
-
+            
+            
+             #Si la password no esta vacía le hago el hash y la introduzco al array
+            if( ! (Helper\Functions::e($this->pass)) ){
+                $u['pass'] = Helper\Strings::hash($this->pass);
+                            
+            }
+            
 
             #Array con datos validos para el update
             $data = array();
@@ -703,7 +714,8 @@ class Users extends Models implements IModels {
                 }
             }
 
-
+            $data['tipo'] = $this->tipo;
+            
             #Edita un usuario
             $this->db->update('users',$data,"id_user = '$id'",'1');
 
