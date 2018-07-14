@@ -32,3 +32,9 @@ $app->get('afiliados/getTelefonos/{id}', function($id) use($app) {
 
     return $app->json($a->getTelefonos($id));
 });
+
+$app->get('afiliados/getIntercambios/{id}', function($id) use($app) {
+    $a = new Model\Afiliados; 
+
+    return $app->json($a->getIntercambios($id));
+});

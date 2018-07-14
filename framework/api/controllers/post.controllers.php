@@ -159,6 +159,12 @@ $app->post('/afiliados/crear', function() use($app) {
     return $app->json($a->add());   
 });
 
+$app->post('/afiliados/crearIntercambio', function() use($app) {
+    $a = new Model\Afiliados; 
+
+    return $app->json($a->addIntercambio());   
+});
+
 $app->post('/afiliados/editar', function() use($app) {
     $a = new Model\Afiliados; 
 

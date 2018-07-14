@@ -25,6 +25,8 @@ class afiliadosController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {
         parent::__construct($router);
         $a = new Model\Afiliados($router);
+        $m = new Model\Monedas($router);
+        $u = new Model\Users($router);
         
         switch ($this->method) {
             case 'eliminar':
@@ -33,7 +35,9 @@ class afiliadosController extends Controllers implements IControllers {
             
             default:
                 $this->template->display('afiliados/afiliados', array(
-                    'afiliados' => $a->get()
+                    'afiliados' => $a->get(),
+                    'usuarios' => $u->getUsers(),
+                    'monedas' => $m->getMonedas()
                 ));
                 break;
         }

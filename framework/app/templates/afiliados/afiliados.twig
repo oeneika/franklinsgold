@@ -56,7 +56,8 @@
                                                 <td>{{ a.direccion }}</td>
                                                 <td><a onclick="getTel({{ a.id_comercio_afiliado }})">Télefonos</a></td>
                                                 <td>
-                                                <a style="font-size:22px;" title="Editar" data-toggle="modal" onclick="editarAfiliado({{ a.id_comercio_afiliado }},'{{ a.nombre }}','{{ a.direccion }}','{{ a.sucursal }}')"><i class="fa fa-sliders naranja"></i></a>
+                                                <a style="font-size:22px;" title="Intercambios" data-toggle="modal" onclick="showIntercambios({{ a.id_comercio_afiliado }})"><i class="fa fa-dollar naranja"></i></a>
+                                                <a style="margin-left: 20px;font-size:22px;" title="Editar" data-toggle="modal" onclick="editarAfiliado({{ a.id_comercio_afiliado }},'{{ a.nombre }}','{{ a.direccion }}','{{ a.sucursal }}')"><i class="fa fa-sliders naranja"></i></a>
                                                 <a style="margin-left: 20px;font-size:22px;" onclick="delete_item({{ a.id_comercio_afiliado }},'afiliados')" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
                                                 </td>
                                             </tr>
@@ -82,6 +83,8 @@
     </div>
 </div>
 {% include 'afiliados/crear' %}
+{% include 'afiliados/intercambios' %}
+{% include 'afiliados/crearintercambios' %}
 {% include 'afiliados/editar' %}
 {% include 'afiliados/telefonos' %}
 {% include 'overall/footer' %}

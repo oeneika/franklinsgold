@@ -107,6 +107,55 @@ class Afiliados extends Models implements IModels {
     }
 
     /**
+     * Crear un intercambio
+     * 
+     * @return array
+    */ 
+    public function addIntercambio() : array {
+        try {
+            global $http;
+
+            #Data POST del formulario
+            $data_form = $http->request->all();
+
+            #Se buscan los datos de la moneda en la DB
+            $data_moneda = $this->db->select('composicion,peso','moneda',null,'codigo = '. $data_form['moneda']);
+            
+            #Se pregunta si la composicion es oro o plata
+            $url = $data_moneda[0]['composicion'] == 'oro'? 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json' : 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json';
+    
+            #Se procede a hacer la peticion a la api
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            $result = curl_exec($ch);     
+            curl_close($ch);
+                   
+            $obj = json_decode($result);
+            $dataset = $obj->{'dataset'};
+            $data = $dataset->{'data'};
+
+            #Se calcula el valor de la moneda
+            $precio_dolares = $data_moneda[0]['peso'] * ($data[0][1]/28.3495);
+
+
+            #Se inserta en la DB
+            $id = $this->db->insert('afiliado_moneda', array(
+                'codigo' => $data_form['moneda'],
+                'id_comercio_afiliado' => $data_form['id_comercio_afiliado'],
+                'monto' => $precio_dolares,
+                'fecha' => time(),
+            ));
+
+
+            return array('success' => 1, 'message' => 'Intercambio creado con exito!');
+        } catch(ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
+    /**
      * Edita un comercio
      * 
      * @return array
@@ -141,10 +190,23 @@ class Afiliados extends Models implements IModels {
     }
 
     /**
-     * Trae todos los comercios en la db
+     * Trae todos los telefonos de un comercio en la db
      */
     public function getTelefonos($id){
         return $this->db->select('telefono','telefono',null,"id_comercio_afiliado = $id");
+    }
+
+    /**
+     * Trae intercambios  de la DB
+     */
+    public function getIntercambios($id){
+        $where = "afiliado_moneda.id_comercio_afiliado = $id";
+        $intercambios = $this->db->select('codigo, monto, fecha','afiliado_moneda',null, $where);
+        $total = $this->db->select('SUM(monto) AS total','afiliado_moneda',null, $where);
+        return array(
+            'intercambios' => $intercambios,
+            'total' => $total
+        );
     }
 
     /**
