@@ -39,7 +39,12 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
     if (tipo == 2){
         $("#id_tipoc").prop("checked", true);
     }
+<<<<<<< HEAD
     
+=======
+
+
+>>>>>>> 8700509e4decc46a3ee5ab0e6cf80c803289195f
     $('#editarUsuario').modal('show');
 
 }
