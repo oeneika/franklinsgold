@@ -147,3 +147,20 @@ $app->post('/transaccion/crear', function() use($app) {
 
   return $app->json($t->add());   
 });
+
+/**
+ * Endpoints para afiliados
+ *
+ * @return json
+*/
+$app->post('/afiliados/crear', function() use($app) {
+    $a = new Model\Afiliados; 
+
+    return $app->json($a->add());   
+});
+
+$app->post('/afiliados/editar', function() use($app) {
+    $a = new Model\Afiliados; 
+
+    return $app->json($a->edit());   
+});

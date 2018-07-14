@@ -26,3 +26,9 @@ $app->get('/transaccion/get/{id}', function($id) use($app) {
   
     return $app->json($t->getByUser($id));   
   });
+
+$app->get('afiliados/getTelefonos/{id}', function($id) use($app) {
+    $a = new Model\Afiliados; 
+
+    return $app->json($a->getTelefonos($id));
+});

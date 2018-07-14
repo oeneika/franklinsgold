@@ -1,0 +1,123 @@
+{% extends 'overall/layout' %}
+{% block appBody %}
+<div id="page-wrapper" class="gray-bg">
+<div class="row border-bottom">
+    {% include 'overall/header' %}
+</div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2><i class="fa fa-money"></i> Comercios Afiliados</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="home/">Home</a>
+                        </li>
+                        <li class="active">
+                            <strong>Comercios Afiliados</strong>
+                        </li>
+                    </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+             <div class="col-lg-12">
+                <a onclick="crearafiliado()" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;"><i class="fa fa-user"></i> Crear Comercio</a>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                            <h5>Comercios afiliados registrados en el sistema</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                    </div>
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover dataTables-example" >
+                                        <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>Sucursal</th>
+                                            <th>Dirección</th>
+                                            <th>Télefonos</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for a in afiliados %}  
+                                            <tr>
+                                                <td>{{ a.id_comercio_afiliado }}</td>
+                                                <td>{{ a.nombre }}</td>
+                                                <td>{{ a.sucursal }}</td>
+                                                <td>{{ a.direccion }}</td>
+                                                <td><a onclick="getTel({{ a.id_comercio_afiliado }})">Télefonos</a></td>
+                                                <td>
+                                                <a style="font-size:22px;" title="Editar" data-toggle="modal" onclick="editarAfiliado({{ a.id_comercio_afiliado }},'{{ a.nombre }}','{{ a.direccion }}','{{ a.sucursal }}')"><i class="fa fa-sliders naranja"></i></a>
+                                                <a style="margin-left: 20px;font-size:22px;" onclick="delete_item({{ a.id_comercio_afiliado }},'afiliados')" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
+                                                </td>
+                                            </tr>
+                                            {% else %}
+                                                 <tr><td>No hay resultados</td></tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>Sucursal</th>
+                                            <th>Dirección</th>
+                                            <th>Télefonos</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                            </div>
+                        </div>
+                </div>
+            </div>
+    </div>
+</div>
+{% include 'afiliados/crear' %}
+{% include 'afiliados/editar' %}
+{% include 'afiliados/telefonos' %}
+{% include 'overall/footer' %}
+</div>
+{% endblock %}
+
+{% block appFooter %}
+    <script src="assets/jscontrollers/afiliados/afiliados.js"></script>
+    <script src="assets/jscontrollers/afiliados/crear.js"></script>
+    <script src="assets/jscontrollers/afiliados/editar.js"></script>
+    <script src="views/propios/js/delete_item.js"></script>   
+    <script>
+        $(document).ready(function(){
+            $('.dataTables-example').DataTable({
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    {extend: 'excel', title: 'ExampleFile'},
+                    {extend: 'pdf', title: 'ExampleFile'},
+
+                    {extend: 'print',
+                     customize: function (win){
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
+                    }
+                    }
+                ]
+
+            });
+
+
+        });
+    </script>
+
+
+{% endblock %}
