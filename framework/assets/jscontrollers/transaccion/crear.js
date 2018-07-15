@@ -70,7 +70,7 @@ function disableSelectOptionMon(id_select,id_select2){
 
 
 /**
- * Abre el modal para un nuevo Origen
+ * Abre el modal para una nueva transaccion
  */
 function crearTransaccion(tipo) {
 
@@ -89,7 +89,6 @@ function crearTransaccion(tipo) {
 /**
  * Ajax action to api rest
 */
-
 function createTransaccion() {
     $('#creartransaccionesbtn').attr('disabled','disabled');
     $.ajax({

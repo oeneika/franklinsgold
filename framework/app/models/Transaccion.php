@@ -34,6 +34,88 @@ class Transaccion extends Models implements IModels {
     private $tipo;
 
 
+    private function checkTransaction(){
+
+        #Si el tipo de compra NO es un intercambio
+        if( $this->tipo != 3  ){
+
+            #Valida la existencia de la moneda en la cartera del comprador/vendedor
+            $existencia_cartera = $this->db->select('id_usuario_moneda','user_moneda',null,"id_usuario='$this->id_usuario' and 
+            codigo_moneda='$this->codigo_moneda'");
+
+            #1 compra, 2 venta, 3 intercambio
+            if( $this->tipo == 1  ){
+
+                #Si existe la moneda en la cartera es porque el usuario ya la compró                                                                             
+                if($existencia_cartera != false ) {
+                    throw new ModelsException('El usuario ya ha comprado la moneda.');
+                }
+
+                #Agrega la cartera
+                $this->db->insert('user_moneda',array(
+                    'id_usuario' => $this->id_usuario,
+                    'codigo_moneda' => $this->codigo_moneda
+                ));
+                                                                                            
+            }else
+            if( $this->tipo == 2 ){
+
+                #Si no existe la moneda es porque el usuario no la tiene                                                                        
+                if($existencia_cartera == false ) {
+                    throw new ModelsException('El usuario no posee la moneda.');
+                }
+
+                #Borra la cartera
+                $id_cartera = $existencia_cartera[0]['id_usuario_moneda'];
+
+                $this->db->delete('user_moneda',"id_usuario_moneda=$id_cartera");
+
+            }
+
+                                                                                          
+        }else
+
+        #Si el tipo de compra SI es un intercambio
+        if($this->tipo == 3){
+
+            #
+            $c1 = $this->db->select('id_usuario_moneda','user_moneda',null,"id_usuario='$this->id_usuario' and codigo_moneda='$this->codigo_moneda'");
+            $c12 = $this->db->select('id_usuario_moneda','user_moneda',null,"id_usuario='$this->id_usuario' and codigo_moneda='$this->codigo_moneda2'");
+
+            $c2 = $this->db->select('id_usuario_moneda','user_moneda',null,"id_usuario='$this->id_usuario2' and codigo_moneda='$this->codigo_moneda2'");
+            $c21 = $this->db->select('id_usuario_moneda','user_moneda',null,"id_usuario='$this->id_usuario2' and codigo_moneda='$this->codigo_moneda'");
+
+            if( $c1 == false or $c2 == false){
+                throw new ModelsException('Los usuarios deben poseer la moneda a cambiar.');
+            }else
+            if($c12 != false or $c21 != false){
+                throw new ModelsException('Los usuarios no pueden recibir monedas que ya poseen.');
+            }else{
+
+                $this->db->insert('user_moneda',array(
+                    'id_usuario' => $this->id_usuario,
+                    'codigo_moneda' => $this->codigo_moneda2
+                ));
+
+                $this->db->insert('user_moneda',array(
+                    'id_usuario' => $this->id_usuario2,
+                    'codigo_moneda' => $this->codigo_moneda
+                ));
+
+                $c1 = $c1[0]['id_usuario_moneda'];
+                $c2 = $c2[0]['id_usuario_moneda'];
+
+                $this->db->delete('user_moneda',"id_usuario_moneda='$c1'",'1');
+                $this->db->delete('user_moneda',"id_usuario_moneda='$c2'",'1');
+            }
+
+
+        }
+
+
+    }
+
+
     /**
      * Calcula el precio de la moneda de acuerdo a su composicion
      * 
@@ -45,6 +127,7 @@ class Transaccion extends Models implements IModels {
 
         $composicion = $monedaData[0]["composicion"];
         $peso = $composicion = $monedaData[0]["peso"];
+
 
         if($composicion == "oro"){
             $url = 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json';
@@ -99,8 +182,10 @@ class Transaccion extends Models implements IModels {
         }
 
     }
+
+
     /**
-     * Agrega usuarios 
+     * Agrega una transaccion
      * 
      * @return array
     */ 
@@ -141,14 +226,81 @@ class Transaccion extends Models implements IModels {
             }
         }
 
-            # Crea una transaccion
-            $id_transaccion =  $this->db->insert('transaccion',$data);
+        $this->checkTransaction();
+
+        # Crea una transaccion
+        $id_transaccion =  $this->db->insert('transaccion',$data);
 
             return array('success' => 1, 'message' => 'Transacción creada con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
+
+
+    /**
+     * Agrega una transaccion en base al escaneo de un codigo qr
+     * 
+     * @return array
+    */ 
+    public function addByQr() : array {
+
+        try {
+
+       #Revisa errores del formulario
+        $this->errors();
+
+        #Extrae el id de la moneda principal del codigo qr
+        $this->codigo_moneda = substr($this->codigo_moneda, -1);    
+
+        #
+        $precio_moneda1 = $this->calculatePrice($this->codigo_moneda); 
+        $precio_moneda2 = null; 
+
+        #En el caso de existir un segundo codigo de moneda se realiza un intercambio
+        if ( !(Helper\Functions::e($this->codigo_moneda2)) ) {
+
+            //Extrae el id de la moneda secundaria del codigo qr
+            $this->codigo_moneda2 = substr($this->codigo_moneda2, -1);   
+
+            $precio_moneda2 = $this->calculatePrice($this->codigo_moneda2); 
+        }  
+
+        $u = array(
+            'id_usuario' => $this->id_usuario,
+            'codigo_moneda' => $this->codigo_moneda,
+            'precio_moneda1' => $precio_moneda1,
+            'tipo' => $this->tipo,
+            'id_sucursal' => $this->id_sucursal,
+            'id_usuario2' => $this->id_usuario2,
+            'codigo_moneda2' => $this->codigo_moneda2,
+            'precio_moneda2' => $precio_moneda2,
+            'fecha' => time()
+        );
+
+
+        #Array con datos validos para el update
+        $data = array();
+
+        #Valida que los datos no esten vacios y los inserta en el array "data"
+        foreach ($u as $key=>$val) {
+            if(NULL !== $u[$key] && !Functions::emp($u[$key])){
+                $data[$key] = $u[$key];
+            }
+        }
+
+        
+        $this->checkTransaction();
+
+        # Crea una transacción
+        $id_transaccion =  $this->db->insert('transaccion',$data);
+
+            return array('success' => 1, 'message' => 'Transacción creada con éxito!');
+        } catch(ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
 
     /**
      * Edita usuarios 
