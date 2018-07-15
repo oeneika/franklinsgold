@@ -1,0 +1,32 @@
+body{
+	background-image: url(../img/bgpc.jpg);
+	background-repeat: no-repeat, repeat;
+	background-position: center; 
+}
+
+@media (min-width: 1900px){
+	body{
+	background-image: url(../img/bgpc2.jpg);
+	background-repeat: no-repeat, repeat;
+	background-position: center; 
+	}
+}
+
+.form-control{
+  background-color: #9c9868;
+  border: 0;
+  border-radius: 3px;
+}
+
+	
+.form-control::placeholder{ 
+	color: white!important; 
+}
+
+a{
+	color: white;
+}
+
+a:hover{
+	color: #FFDB5C;
+}
