@@ -17,8 +17,12 @@ function fillTel(id){
                             ${button}
                         </div>
                     </div>`);
+                    $(`#phone${numTelefonos}`).intlTelInput({
+                        utilsScript: "../../views/intl-tel-input-master/src/js/utils.js",
+                        initialCountry: "ve",
+                        autoPlaceholder: "aggresive" 
+                      });
                     numTelefonos++;
-                    $("#phone${numTelefonos}").intlTelInput();
             }
         },
         error : function(xhr, status) {

@@ -106,6 +106,14 @@
 
     <script src="views/intl-tel-input-master/build/js/intlTelInput.js"></script>
 
+    <script>
+        $(".phone").intlTelInput({
+            utilsScript: "views/intl-tel-input-master/build/js/utils.js",
+            initialCountry: "ve",
+            autoPlaceholder: "aggresive" 
+          });
+    </script>
+
             <script>
                 function direccionamiento(lugar) {
                     switch (lugar) {
