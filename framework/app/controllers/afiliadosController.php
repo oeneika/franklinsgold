@@ -37,7 +37,7 @@ class afiliadosController extends Controllers implements IControllers {
                 $this->template->display('afiliados/afiliados', array(
                     'afiliados' => $a->get(),
                     'usuarios' => $u->getUsers(),
-                    'monedas' => $a->getMonedas()
+                    'monedas' => $m->getMonedas()
                 ));
                 break;
         }
