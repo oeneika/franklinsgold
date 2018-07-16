@@ -2,7 +2,7 @@ $(document).ready(function() {
     var lineData;
     $.ajax({
         type : "GET",
-        url : "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json", //Json con el precio de la plata
+        url : "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV", //Json con el precio de la plata
         dataType: 'json',
         success : function(json) {
             var label=[], data=[];
@@ -61,7 +61,7 @@ $(document).ready(function() {
         var lineData
         $.ajax({
             type : "GET",
-            url : "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json",
+            url : "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV",
             dataType: 'json',
             success : function(json) {
                 var label=[], data=[];

@@ -122,7 +122,7 @@ class Afiliados extends Models implements IModels {
             $data_moneda = $this->db->select('composicion,peso','moneda',null,'codigo = '. $data_form['moneda']);
             
             #Se pregunta si la composicion es oro o plata
-            $url = $data_moneda[0]['composicion'] == 'oro'? 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json' : 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json';
+            $url = $data_moneda[0]['composicion'] == 'oro'? 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV' : 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV';
     
             #Se procede a hacer la peticion a la api
             $ch = curl_init();
