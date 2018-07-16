@@ -121,6 +121,12 @@ $app->post('/monedas/crear', function() use($app) {
     return $app->json($m->getPrice("plata"));   
   });
 
+  $app->post('/get/datos_generales', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->datosGenerales());   
+  });
+
 
   /**
  * Endpoints para origen

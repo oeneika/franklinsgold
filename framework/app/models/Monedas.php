@@ -171,7 +171,7 @@ class Monedas extends Models implements IModels {
 
 
     /**
-     * Obtiene el precio del oro o de la plata
+     * Obtiene los ultimos 10 precios del oro o de la plata
      * 
      *  @param composicion :  composicion del material (oro o plata)
      *      
@@ -203,9 +203,47 @@ class Monedas extends Models implements IModels {
 
         return $data;
 
-        //dump($data);
-        /*dump($data[0][0]);
-        dump($data[0][1]);*/
+    }
+
+
+
+    /**
+     * Trae los datos generales relacionados a las monedas
+     */
+    public function datosGenerales(){
+
+        $ultimo_precio_oro = ($this->getPrice("oro"))[0][1];
+        $ultimo_precio_plata = ($this->getPrice("plata"))[0][1];
+
+        $monedas_oro=$this->db->select('diametro,espesor,peso','moneda',null,'composicion=oro');
+        $monedas_plata=$this->db->select('diametro,espesor,peso','moneda',null,'composicion=plata');
+
+        $total_monedas_oro = sizeof($monedas_oro);
+        $total_monedas_plata = sizeof($monedas_plata);
+
+        $total_oro_dolares = 0;
+        for ($i=0; $i < $total_monedas_oro ; $i++) { 
+            
+            $total_oro_dolares = $total_oro_dolares + ( $total_monedas_oro[$i]["peso"] * ($ultimo_precio_oro/28.3495) ); 
+
+        }
+
+        $total_plata_dolares = 0;
+        for ($i=0; $i < $total_monedas_plata ; $i++) { 
+
+            $total_plata_dolares = $total_plata_dolares + ( $total_monedas_plata[$i]["peso"] * ($ultimo_precio_plata/28.3495) );
+            
+        }
+
+        array(
+            'total_monedas_oro' => $total_monedas_oro,
+            'total_monedas_plata' => $total_monedas_plata,
+            'total_oro_discriminado' => $total_oro_dolares,
+            'total_plata_discriminado' => $total_plata_dolare,
+            'balance_general' => 'falta este valor'
+        );
+
+
 
     }
 

@@ -129,7 +129,7 @@ class Transaccion extends Models implements IModels {
         $monedaData = $this->db->select('composicion,peso','moneda',null,"codigo='$id_moneda'");
 
         $composicion = $monedaData[0]["composicion"];
-        $peso = $composicion = $monedaData[0]["peso"];
+        $peso = $monedaData[0]["peso"];
 
 
         if($composicion == "oro"){
