@@ -27,6 +27,7 @@
 
     <link href="views/css/animate.css" rel="stylesheet">
     <link href="views/css/style.css" rel="stylesheet">
+    <link href="views/intl-tel-input-master/build/css/intlTelInput.css" rel="stylesheet">
 
     <link href="views/propios/css/estilo.css" rel="stylesheet">
 
@@ -103,6 +104,8 @@
 
     <script src="views/js/plugins/dataTables/datatables.min.js"></script>
 
+    <script src="views/intl-tel-input-master/build/js/intlTelInput.js"></script>
+
             <script>
                 function direccionamiento(lugar) {
                     switch (lugar) {
@@ -115,25 +118,27 @@
                 }
     </script>
 
-    <script>
-        {% if get.success is defined %} 
-          toastr.success('Éxito','Acción realizada');
-        {% endif %}
-    
-        {% if get.error is defined %} 
-          toastr.warning('Ups!','Acción no realizada');
-        {% endif %}
-    </script>
-    <script>
-        {% if owner_user.tipo == 2 %} 
-          location.href = 'logout/'
-        {% endif %}
-    </script>
+    // <script>
+    //     {% if owner_user.tipo == 2 %} 
+    //       location.href = 'logout/'
+    //     {% endif %}
+    // </script>
     
 
+    // <script>
+    //     {% if get.success is defined %} 
+    //       toastr.success('Éxito','Acción realizada');
+    //     {% endif %}
     
-    {% block appFooter %}
-    {% endblock %}
+    //     {% if get.error is defined %} 
+    //       toastr.warning('Ups!','Acción no realizada');
+    //     {% endif %}
+    // </script>
+
+
+    
+{% block appFooter %}
+{% endblock %}
 
 
 </body>

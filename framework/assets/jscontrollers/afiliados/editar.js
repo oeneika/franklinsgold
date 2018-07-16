@@ -10,7 +10,7 @@ function fillTel(id){
                     `<div class="row" id="tel_${numTelefonos}">
                         <div class="col-md-10 col-xs-10">
                             <div class="form-group">
-                                <input name="telefono[${numTelefonos}]" type="number" value="${json[i].telefono}" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                                <input type="tel" class="form-control" name="telefono[${numTelefonos}]" id="phone${numTelefonos}" value="${json[i].telefono}">
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-2">
@@ -18,6 +18,7 @@ function fillTel(id){
                         </div>
                     </div>`);
                     numTelefonos++;
+                    $("#phone${numTelefonos}").intlTelInput();
             }
         },
         error : function(xhr, status) {
