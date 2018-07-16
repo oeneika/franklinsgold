@@ -34,6 +34,9 @@ class Transaccion extends Models implements IModels {
     private $tipo;
 
 
+    /**
+     * Valida las acciones realizables con las carteras correspondientes a compras, ventas e intercambios
+     */
     private function checkTransaction(){
 
         #Si el tipo de compra NO es un intercambio
@@ -146,7 +149,7 @@ class Transaccion extends Models implements IModels {
         $obj = json_decode($result);
         $dataset = $obj->{'dataset'};
         $data = $dataset->{'data'};
-        //dump($data[0]);
+        //dump($data[0][0]);
         $precio_dolares = $peso * ($data[0][1]/28.3495); 
 
         return $precio_dolares;
@@ -189,18 +192,28 @@ class Transaccion extends Models implements IModels {
      * 
      * @return array
     */ 
-    public function add() : array {
+    public function add(int $qr = 0) : array {
 
         try {
 
        #Revisa errores del formulario
         $this->errors();
 
+
+        #Extrae el id de la moneda principal del codigo qr
+        if($qr == 1){$this->codigo_moneda = str_replace("monedas","", $this->codigo_moneda); }
+         
+
         $precio_moneda1 = $this->calculatePrice($this->codigo_moneda); 
         $precio_moneda2 = null; 
 
         if ( !(Helper\Functions::e($this->codigo_moneda2)) ) {
+
+            //Extrae el id de la moneda secundaria del codigo qr
+            if($qr == 1){$this->codigo_moneda2 = str_replace("monedas","", $this->codigo_moneda2); }
+
             $precio_moneda2 = $this->calculatePrice($this->codigo_moneda2); 
+
         }   
 
         $u = array(
@@ -243,7 +256,7 @@ class Transaccion extends Models implements IModels {
      * 
      * @return array
     */ 
-    public function addByQr() : array {
+    /*public function addByQr() : array {
 
         try {
 
@@ -300,7 +313,7 @@ class Transaccion extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
-
+*/
 
     /**
      * Edita usuarios 

@@ -170,6 +170,40 @@ class Monedas extends Models implements IModels {
     }
 
 
+    public function getPrice(string $composicion="oro"){
+
+
+        if($composicion == "oro"){
+            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json';
+        }else{
+            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json';
+        }
+
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $result = curl_exec($ch);     
+        curl_close($ch);
+       
+        $obj = json_decode($result);
+       // dump($obj); 
+        $dataset = $obj->{'dataset'};
+        $data = $dataset->{'data'};
+
+
+        $data =  array_slice($data, 0, 10);
+
+        return $data;
+
+        //dump($data);
+        /*dump($data[0][0]);
+        dump($data[0][1]);*/
+
+    }
+
+
     /**
      * Eliminar usuario
     */

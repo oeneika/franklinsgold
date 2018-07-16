@@ -92,10 +92,10 @@ $app->post('/sucursal/editar', function() use($app) {
     return $app->json($s->edit());   
 });
 
-/**
-  * Acción vía ajax de monedas en api/monedas/crear
-  *
-  * @return json
+ /**
+ * Endpoints para moneda
+ *
+ * @return json
 */
 $app->post('/monedas/crear', function() use($app) {
     $m = new Model\Monedas; 
@@ -103,20 +103,27 @@ $app->post('/monedas/crear', function() use($app) {
     return $app->json($m->add());   
   });
   
-  
-  /**
-    * Acción vía ajax de monedas en api/monedas/editar
-    *
-    * @return json
-  */
   $app->post('/monedas/editar', function() use($app) {
     $m = new Model\Monedas; 
   
     return $app->json($m->edit());   
   });
 
+  $app->post('/get/oro', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getPrice("oro"));   
+  });
+
+  $app->post('/get/plata', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getPrice("plata"));   
+  });
+
+
   /**
- * Endpoint para origen
+ * Endpoints para origen
  *
  * @return json
 */
@@ -126,11 +133,6 @@ $app->post('/origen/crear', function() use($app) {
     return $app->json($o->add());   
 });
 
-/**
- * Endpoint para origen
- *
- * @return json
-*/
 $app->post('/origen/editar', function() use($app) {
   $o = new Model\Origen; 
 
@@ -138,7 +140,7 @@ $app->post('/origen/editar', function() use($app) {
 });
 
 /**
- * Endpoint para origen
+ * Endpoints para transacciones
  *
  * @return json
 */
@@ -147,6 +149,12 @@ $app->post('/transaccion/crear', function() use($app) {
 
   return $app->json($t->add());   
 });
+
+$app->post('/transaccion/crear/qr', function() use($app) {
+    $t = new Model\Transaccion; 
+  
+    return $app->json($t->add(1));   
+  });
 
 /**
  * Endpoints para afiliados

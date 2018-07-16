@@ -33,6 +33,8 @@ class monedasController extends Controllers implements IControllers {
         $m = new Model\Monedas($router);  
         $o = new Model\Origen($router);   
 
+        //$m->getPrice();
+        
         switch($this->method) {
             case 'eliminar':
                 $m->del();           

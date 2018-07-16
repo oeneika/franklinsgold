@@ -34,7 +34,7 @@ class transaccionController extends Controllers implements IControllers {
         $m = new Model\Monedas($router); 
         $s = new Model\Sucursales($router);  
 
-        //dump($t->calculatePrice(47));
+        //$t->calculatePrice(59);
 
         switch($this->method) {
           case 'compra':
