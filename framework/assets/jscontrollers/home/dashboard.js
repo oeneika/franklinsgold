@@ -2,7 +2,7 @@ $(document).ready(function() {
     var lineData;
     $.ajax({
         type : "GET",
-        url : "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV", //Json con el precio de la plata
+        url : "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV&start_date=2018-06-1", //Json con el precio de la plata
         dataType: 'json',
         success : function(json) {
             var label=[], data=[];
@@ -13,6 +13,8 @@ $(document).ready(function() {
                 label[i]=json.dataset.data[dias-i][0];
                 data[i]=json.dataset.data[dias-i][1].toFixed(2);
             }
+
+            $('#fecha_plata').html('Actualizado el ' + json.dataset.data[0][0]);
             
             lineData = {
                 labels: label,
@@ -61,7 +63,7 @@ $(document).ready(function() {
         var lineData
         $.ajax({
             type : "GET",
-            url : "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV",
+            url : "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV&start_date=2018-06-1",
             dataType: 'json',
             success : function(json) {
                 var label=[], data=[];
@@ -71,6 +73,8 @@ $(document).ready(function() {
                     label[i]=json.dataset.data[dias-i][0];
                     data[i]=json.dataset.data[dias-i][1];
                 }
+
+                $('#fecha_oro').html('Actualizado el ' + json.dataset.data[0][0]);
                 
                 lineData = {
                     labels: label,
