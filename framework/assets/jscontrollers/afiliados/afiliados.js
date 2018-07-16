@@ -11,7 +11,7 @@ function addTel(edit = false){
         `<div class="row" id="tel_${numTelefonos}">
             <div class="col-md-10 col-xs-10">
                 <div class="form-group">
-                    <input type="tel" class="form-control" name="telefono[${numTelefonos}]" id="phone${numTelefonos}">
+                    <input type="tel" class="form-control" name="telefono[${numTelefonos}]" >
                 </div>
             </div>
             <div class="col-md-2 col-xs-2">
@@ -20,11 +20,7 @@ function addTel(edit = false){
         </div>`);
 
         
-    $(`#phone${numTelefonos}`).intlTelInput({
-        utilsScript: "../../views/intl-tel-input-master/src/js/utils.js",
-        initialCountry: "ve",
-        autoPlaceholder: "aggresive" 
-      });
+    
     numTelefonos++;
 }
 

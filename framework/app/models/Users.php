@@ -372,6 +372,10 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Campo telefono no definido');
             }
 
+            if (strlen($user_data['telefono']) < 11){
+                throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
+            }
+
             if(!array_key_exists('sexo',$user_data)){
                 throw new ModelsException('Campo sexo no definido');
             }
@@ -590,6 +594,10 @@ class Users extends Models implements IModels {
 
         if($this->sexo!="m" and $this->sexo!="f") {
             throw new ModelsException('Sexo no válido.');
+        }
+
+        if (strlen($this->telefono) < 11){
+            throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
         }
 
 

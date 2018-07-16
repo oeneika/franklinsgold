@@ -38,3 +38,9 @@ $app->get('afiliados/getIntercambios/{id}', function($id) use($app) {
 
     return $app->json($a->getIntercambios($id));
 });
+
+$app->get('/get/datos_generales', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->datosGenerales());   
+});

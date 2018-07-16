@@ -43,6 +43,10 @@ class Afiliados extends Models implements IModels {
                 throw new ModelsException('uno o mas telefonos estan vacios');
             }
 
+            if (strlen($value) < 11){
+                throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
+            }
+
         }
     }
 
