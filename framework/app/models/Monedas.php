@@ -170,13 +170,19 @@ class Monedas extends Models implements IModels {
     }
 
 
+    /**
+     * Obtiene el precio del oro o de la plata
+     * 
+     *  @param composicion :  composicion del material (oro o plata)
+     *      
+     */
     public function getPrice(string $composicion="oro"){
 
 
         if($composicion == "oro"){
-            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json';
+            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV';
         }else{
-            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json';
+            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV';
         }
 
 
