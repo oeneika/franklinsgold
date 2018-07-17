@@ -16,8 +16,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1">Usuario<span>*</span></label>
-                                <select name="id_usuario" id="" class="form-control m-b">
+                                <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
+                                <select name="id_usuario" id="" class="form-control select2" style="width: 100%">
                                     <option disabled selected value>Seleccione un vendedor</option>
                                     {% for u in usuarios %}
                                     <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>

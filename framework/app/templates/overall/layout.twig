@@ -117,13 +117,6 @@
 
 
 
-    <script>
-        $(".phone").intlTelInput({
-            utilsScript: "views/intl-tel-input-master/build/js/utils.js",
-            initialCountry: "ve",
-            autoPlaceholder: "aggresive" 
-          });
-    </script>
 
     <script>
                 function direccionamiento(lugar) {
@@ -137,23 +130,14 @@
                 }
     </script>
 
-    // <script>
-    //     {% if owner_user.tipo == 2 %} 
-    //       location.href = 'logout/'
-    //     {% endif %}
-    // </script>
-    
 
-    // <script>
-    //     {% if get.success is defined %} 
-    //       toastr.success('Éxito','Acción realizada');
-    //     {% endif %}
-    
-    //     {% if get.error is defined %} 
-    //       toastr.warning('Ups!','Acción no realizada');
-    //     {% endif %}
-    // </script>
-
+    <script>
+        $(".select2").select2({
+            dropdownCssClass:'increasezindex',
+            width: 'style', 
+            dropdownParent: $('.modal')
+        });
+    </script>
 
     
 {% block appFooter %}

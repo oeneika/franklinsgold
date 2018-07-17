@@ -28,3 +28,7 @@ li.active strong, .naranja{
 .login-text{
 	color: white;
 }
+
+.select2-dropdown.increasezindex {
+    z-index:99999;
+}
