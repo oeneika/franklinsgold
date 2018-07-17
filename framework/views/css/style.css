@@ -381,7 +381,7 @@ body.canvas-menu .logo-element {
 }
 body.mini-navbar .nav-header {
   padding: 0;
-  background-color: #1ab394;
+  background-color: #f7a54a;
 }
 body.canvas-menu .nav-header {
   padding: 33px 25px;
@@ -619,8 +619,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   color: #fff;
 }
 .btn-primary {
-  background-color: #e2b02b;
-  border-color: #e2b02b;
+  background-color: #f7a54a;
+  border-color: #f7a54a;
   color: #FFFFFF;
 }
 .btn-primary:hover,

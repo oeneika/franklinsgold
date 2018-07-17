@@ -22,6 +22,9 @@
     <!-- DataTables -->
     <link href="views/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
 
+    <!-- Select2 -->
+    <link href="views/css/plugins/select2/select2.min.css" rel="stylesheet">
+
     <!-- SweetAlert -->
     <link href="views/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
@@ -99,12 +102,20 @@
     <!-- ChartJS-->
     <script src="views/js/plugins/chartJs/Chart.min.js"></script>
 
+
+    <!-- Select2 -->
+    <script src="views/js/plugins/select2/select2.full.min.js"></script>
+
+
     <!-- Toastr -->
     <script src="views/js/plugins/toastr/toastr.min.js"></script>
 
     <script src="views/js/plugins/dataTables/datatables.min.js"></script>
+    <script src="views/propios/js/datatable.js"></script>
 
     <script src="views/intl-tel-input-master/build/js/intlTelInput.js"></script>
+
+
 
     <script>
         $(".phone").intlTelInput({
@@ -114,7 +125,7 @@
           });
     </script>
 
-            <script>
+    <script>
                 function direccionamiento(lugar) {
                     switch (lugar) {
                         case "home":
