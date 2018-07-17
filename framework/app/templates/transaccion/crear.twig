@@ -6,7 +6,7 @@
                     <span aria-hidden="true">&times;</span>
                     <span class="sr-only">Cerrar</span>
                 </button>
-                <h4 class="modal-title">Creación de transacciones</h4>
+                <h4 class="modal-title">Creaci贸n de transacciones</h4>
                 <small class="font-bold">Franklins Gold</small>
             </div>
             <div class="modal-body">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="cc-payment" class="control-label mb-1">Moneda<span>*</span></label>
-                            <select name="codigo" id="" class="form-control m-b select2">
+                            <select name="codigo" id="" class="form-control m-b select2" style="width: 100%">
                                     <option disabled selected value>Seleccione una moneda</option>
                                     {% for m in monedas %}
                                     <option value="{{ m.codigo }}">{{m.codigo}}</option>
@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
-                            <select name="id_sucursal" id="" class="form-control m-b">
+                            <select name="id_sucursal" id="" class="form-control m-b select2" style="width: 100%">
                                 <option disabled selected value>Seleccione una sucursal</option>
                                     {% for s in sucursales %}
                                     <option value="{{ s.id_sucursal }}">{{s.nombre}}</option>

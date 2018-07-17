@@ -206,7 +206,7 @@ class Afiliados extends Models implements IModels {
     public function getIntercambios($id){
         $where = "afiliado_moneda.id_comercio_afiliado = $id";
         $intercambios = $this->db->select('codigo, monto, fecha','afiliado_moneda',null, $where);
-        $total = $this->db->select('SUM(monto) AS total','afiliado_moneda',null, $where);
+        $total = $this->db->select('IFNULL(SUM(monto),0) AS total','afiliado_moneda',null, $where);
         return array(
             'intercambios' => $intercambios,
             'total' => $total

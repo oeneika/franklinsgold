@@ -61,6 +61,7 @@ function showIntercambios(id){
         type : "GET",
         url : "api/afiliados/getIntercambios/"+id,
         success : function(json) {
+            console.log(json);
             for (let i = 0; i < json['intercambios'].length; i++) {
                 $('#body_intercambios').append(
                 `<tr>
