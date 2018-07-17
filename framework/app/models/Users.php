@@ -816,6 +816,7 @@ class Users extends Models implements IModels {
         $total_monedas_oro = false !== $monedas_oro ? sizeof($monedas_oro):0;
         $total_monedas_plata = false !== $monedas_plata ? sizeof($monedas_plata):0;
 
+        #Se calculo el total en dolares de las monedas
         $total_oro_dolares = 0;
         for ($i=0; $i < $total_monedas_oro ; $i++) { 
             
@@ -837,9 +838,6 @@ class Users extends Models implements IModels {
             'total_plata_discriminado' => $total_plata_dolares,
             'balance_general' => $total_oro_dolares + $total_plata_dolares
         );
-
-
-
     }
 
 
