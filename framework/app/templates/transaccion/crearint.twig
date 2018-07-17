@@ -12,19 +12,18 @@
             <div class="modal-body">
                 <form id="crear_transacciones_form">
                     <input id="tipo_transaccion" name="tipo" type="hidden">
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
-                                <select name="id_usuario" id="id_id_usuario" class="form-control m-b" onchange="disableSelectOption('id_id_usuario','id_id_usuario2')">
+                                <select name="id_usuario" id="id_id_usuario" class="form-control select2" style="width: 100%" onchange="disableSelectOption('id_id_usuario','id_id_usuario2')">
                                         <option disabled selected value>Seleccione un vendedor</option>
                                         {% for u in usuarios %}
                                         <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
                                         {% endfor %}
                                 </select>
                                 <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
-                                <select name="id_usuario2" id="id_id_usuario2" class="form-control m-b" onchange="disableSelectOption('id_id_usuario2','id_id_usuario')">
+                                <select name="id_usuario2" id="id_id_usuario2" class="form-control select2" style="width: 100%" onchange="disableSelectOption('id_id_usuario2','id_id_usuario')">
                                         <option disabled selected value>Seleccione un vendedor</option>
                                         {% for u in usuarios %}
                                         <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
