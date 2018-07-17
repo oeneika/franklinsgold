@@ -800,7 +800,11 @@ class Users extends Models implements IModels {
     public function datosGenerales(){
         global $http;
 
-        $id_user = $http->query->get('id_usuario');
+        $email = $http->query->get('email');
+
+
+        $id_user = ($this->db->select('id_user','users',null,"email='$email'"))[0]['id_user'];
+
 
         #Instancio el modelo monedas para buscar el ultimo precio del oro y la plata
         $m = new Model\Monedas;
