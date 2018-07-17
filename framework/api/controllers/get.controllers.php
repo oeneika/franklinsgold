@@ -44,3 +44,9 @@ $app->get('/get/datos_generales', function() use($app) {
   
     return $app->json($m->datosGenerales());   
 });
+
+$app->get('/get/datos_generales_usuario', function() use($app) {
+    $u = new Model\Users; 
+  
+    return $app->json($u->datosGenerales());   
+});
