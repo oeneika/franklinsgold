@@ -30,5 +30,6 @@ li.active strong, .naranja{
 }
 
 .select2-dropdown.increasezindex {
-    z-index:99999;
+	z-index:99999;
+	width: 100%;
 }

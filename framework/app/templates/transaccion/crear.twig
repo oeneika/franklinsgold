@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="cc-payment" class="control-label mb-1">Moneda<span>*</span></label>
-                            <select name="codigo" id="" class="form-control m-b">
+                            <select name="codigo" id="" class="form-control m-b select2">
                                     <option disabled selected value>Seleccione una moneda</option>
                                     {% for m in monedas %}
                                     <option value="{{ m.codigo }}">{{m.codigo}}</option>

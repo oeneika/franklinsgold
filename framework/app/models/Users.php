@@ -794,6 +794,51 @@ class Users extends Models implements IModels {
         return $this->db->select($select,'users',null,$where);
     }
 
+    /**
+     * Trae los datos generales relacionados a las monedas
+     */
+    public function datosGenerales(){
+        global $http;
+
+        $id_user = $http->query->get('id_usuario');
+
+        #Instancio el modelo monedas para buscar el ultimo precio del oro y la plata
+        $m = new Model\Monedas;
+        $ultimo_precio_oro = ($m->getPrice("oro"))[0][1];
+        $ultimo_precio_plata = ($m->getPrice("plata"))[0][1];
+
+        #Queries para buscar las monedas de los usuarios
+        $inner = "INNER JOIN user_moneda ON user_moneda.codigo_moneda = moneda.codigo AND user_moneda.id_usuario = $id_user";
+        $monedas_oro=$this->db->select('diametro,espesor,peso','moneda',$inner,"composicion='oro'");
+        $monedas_plata=$this->db->select('diametro,espesor,peso','moneda',$inner,"composicion='plata'");
+        
+        #Contar el total de monedas, si no encontro nada volver la variable 0
+        $total_monedas_oro = false !== $monedas_oro ? sizeof($monedas_oro):0;
+        $total_monedas_plata = false !== $monedas_plata ? sizeof($monedas_plata):0;
+
+        #Se calculo el total en dolares de las monedas
+        $total_oro_dolares = 0;
+        for ($i=0; $i < $total_monedas_oro ; $i++) { 
+            
+            $total_oro_dolares =$total_oro_dolares + ( $monedas_oro[$i]["peso"] * ($ultimo_precio_oro/28.3495) ); 
+
+        }
+
+        $total_plata_dolares = 0;
+        for ($i=0; $i < $total_monedas_plata ; $i++) { 
+
+            $total_plata_dolares =$total_plata_dolares + ( $monedas_plata[$i]["peso"] * ($ultimo_precio_plata/28.3495) );
+            
+        }
+
+        return array(
+            'total_monedas_oro' => $total_monedas_oro,
+            'total_monedas_plata' => $total_monedas_plata,
+            'total_oro_discriminado' => $total_oro_dolares,
+            'total_plata_discriminado' => $total_plata_dolares,
+            'balance_general' => $total_oro_dolares + $total_plata_dolares
+        );
+    }
 
 
     /**
