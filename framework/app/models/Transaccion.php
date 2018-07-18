@@ -161,31 +161,31 @@ class Transaccion extends Models implements IModels {
      */
     public function calculatePrice(int $id_moneda) : int {
 
-        $monedaData = $this->db->select('composicion,peso','moneda',null,"codigo='$id_moneda'");
+        $data_moneda = $this->db->select('composicion,peso','moneda',null,'codigo = '. $id_moneda);
 
-        $composicion = $monedaData[0]["composicion"];
-        $peso = $monedaData[0]["peso"];
+        $composicion = $data_moneda[0]['composicion'] == 'oro' ? 'gold' : 'silver';
+        
+        #Url de iragold
+        $url = 'https://goldiraguide.org/wp-admin/admin-ajax.php';
 
+        #Opciones de la api
+        $opt = array(
+            CURLOPT_POST =>true,
+            CURLOPT_RETURNTRANSFER =>true,
+            CURLOPT_POSTFIELDS =>['action' => 'getMetalPrice', 'api_key' => 'anonymous'],
+            CURLOPT_URL => $url
+        );
 
-        if($composicion == "oro"){
-            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV';
-        }else{
-            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV';
-        }
-
-
+        #Se hace la llamada
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt_array($ch,$opt);
         $result = curl_exec($ch);     
         curl_close($ch);
-               
-        $obj = json_decode($result);
-        $dataset = $obj->{'dataset'};
-        $data = $dataset->{'data'};
-        //dump($data[0][0]);
-        $precio_dolares = $peso * ($data[0][1]/28.3495); 
+
+        $result = json_decode($result, true);
+        $data = $result['buttonFrame'][$composicion]['1m']['data'];
+        #Se calcula el valor de la moneda
+        $precio_dolares = $data_moneda[0]['peso'] * ($data[29]/28.3495);
 
         return $precio_dolares;
 

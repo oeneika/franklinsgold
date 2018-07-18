@@ -57,7 +57,7 @@
                                         <td>{{t.id_transaccion}}</td>
                                         <td>{{t.primer_nombre}} {{t.primer_apellido}} {{t.id_user}}</td>
                                         <td>{{t.codigo}}</td>
-                                        <td>${{t.precio_moneda1}}</td>
+                                        <td>${{ t.precio_moneda1|number_format(2,'.',',') }}</td>
                                         <td>{{t.nombre_sucursal}}</td>
                                         <td>{{ fecha('D, d F, Y h:i a', t.fecha) }}</td>
                                     </tr>
