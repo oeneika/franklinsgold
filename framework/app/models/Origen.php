@@ -24,6 +24,7 @@ class Origen extends Models implements IModels {
 
     use DBModel;
     private $nombre;
+    private $abreviatura;
     /**
      * Revisa errores en el formulario
      * 
@@ -32,10 +33,23 @@ class Origen extends Models implements IModels {
     private function errors(bool $edit = false){
         global $http;
         $this->nombre = $http->request->get('nombre');
+        $this->abreviatura = $http->request->get('abreviatura');
         
         # Verificar que no están vacíos
-        if (Helper\Functions::e($this->nombre)) {
+        if (Helper\Functions::emp($this->nombre)) {
             throw new ModelsException('Debe introducir un nombre.');
+        }
+
+        if (Helper\Functions::emp($this->abreviatura)) {
+            throw new ModelsException('Debe introducir un abreviatura.');
+        }
+
+        if (strlen($this->abreviatura) !== 3){
+            throw new ModelsException('La abreviatura debe tener exactamente 3 caractéres.');
+        }
+
+        if ($this->db->select('abreviatura','origen',null,"abreviatura = '$this->abreviatura'")){
+            throw new ModelsException('La abreviatura ya existe.');
         }
     }
     /**
@@ -51,7 +65,8 @@ class Origen extends Models implements IModels {
 
             # Registrar al usuario
             $id_origen =  $this->db->insert('origen',array(
-                'nombre' => $this->nombre
+                'nombre' => $this->nombre,
+                'abreviatura' => $this->abreviatura
             ));
 
             return array('success' => 1, 'message' => 'Origen creado con éxito!');
@@ -73,7 +88,8 @@ class Origen extends Models implements IModels {
             $this->errors(true);
 
             $data = array(
-                'nombre' => $this->nombre
+                'nombre' => $this->nombre,
+                'abreviatura' => $this->abreviatura
             );
 
             #Edita un origen

@@ -3,10 +3,11 @@
  * @param {*} id_origen 
  * @param {*} nombre 
  */
-function editar_un_origen(id_origen,nombre) {
+function editar_un_origen(id_origen,nombre,abreviatura) {
 
     $('#id_id_origen').val(id_origen);
     $('#id_nombre').val(nombre);
+    $('#id_abreviatura').val(abreviatura);
 
 
     $('#editarorigen').modal('show');

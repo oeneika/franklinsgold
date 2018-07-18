@@ -68,6 +68,10 @@ class Monedas extends Models implements IModels {
 
     }
 
+    /**<!--Start of the precious metals widget code from www.goldiraguide.org -->
+<script  id="scriptrid" type="text/javascript" charset="UTF-8" src="https://goldiraguide.org/wp-content/plugins/demo/js/metalprice.js?apikey=rUkrHryCRwLTMPID7d04bbbe5494ae9d2f5a76aa1c00fa2f"></script>
+<!--End of the precious metals widget code from www.goldiraguide.org --> */
+
     /**
      * Agrega usuarios 
      * 
@@ -75,13 +79,15 @@ class Monedas extends Models implements IModels {
     */ 
     public function add() : array {
         try {
-            global $http;
+            global $http, $config;
 
             #Revisa errores del formulario
             $this->errors();
+
+            $fecha = time();
         
             $u = array(
-            'fecha_elaboracion' => time(),
+            'fecha_elaboracion' => $fecha,
             'diametro' => $this->diametro,
             'espesor' => $this->espesor,
             'composicion' => $this->composicion,
@@ -89,22 +95,32 @@ class Monedas extends Models implements IModels {
             'id_origen' => $this->id_origen
             );
 
+            $this->diametro = str_pad($this->diametro,3,'0',STR_PAD_LEFT);
+            $this->espesor = str_pad($this->espesor,3,'0',STR_PAD_LEFT);
+            $this->composicion = str_pad($this->composicion,3,'0',STR_PAD_LEFT);
+            $this->peso = str_pad($this->peso,3,'0',STR_PAD_LEFT);
+
             # Obtenemos el id de la moneda insertada
             $id_moneda =  $this->db->insert('moneda',$u);
 
+            $fecha = date('dmY',$fecha);
+
+            $origen = $this->db->select('abreviatura','origen',null,"id_origen = $this->id_origen")[0];
+
             #Concatena una palabra para evitar repeticiones del codigoqr
-            $conc = "monedas".$id_moneda;
+            $conc = $origen['abreviatura'] . " $this->diametro $this->espesor $this->composicion $this->peso $fecha";
 
             # Url del codigo qr
-            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=$conc";
+            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=".urlencode($conc);
 
             # Ruta en la que se guardara la imagen
-            $img = "../views/img/codigos/monedas/$conc.png";
+            $img = "../views/img/codigos/monedas/$id_moneda.png";
             file_put_contents($img, file_get_contents($url));
 
             #Se actualiza la db con la ruta de la imagen
             $this->db->update('moneda',array(
-                'codigo_qr'=> $img
+                'codigo_qr'=> $config['build']['url'] . "/views/img/codigos/monedas/$id_moneda.png",
+                'qr_alfanumerico'=> $conc
             ), "codigo = '$id_moneda'");
 
             return array('success' => 1, 'message' => 'Moneda creada con éxito!');
@@ -126,6 +142,9 @@ class Monedas extends Models implements IModels {
 
             $id = $http->request->get('codigo');
 
+            $fecha = $this->db->select('fecha_elaboracion','moneda',null,"codigo = $id");
+            $fecha = $fecha[0]['fecha_elaboracion'];
+
             $this->errors(true);
 
             $u = array(
@@ -135,6 +154,28 @@ class Monedas extends Models implements IModels {
                 'peso' => $this->peso,
                 'id_origen' => $this->id_origen
             );
+
+            $this->diametro = str_pad($this->diametro,3,'0',STR_PAD_LEFT);
+            $this->espesor = str_pad($this->espesor,3,'0',STR_PAD_LEFT);
+            $this->composicion = str_pad($this->composicion,3,'0',STR_PAD_LEFT);
+            $this->peso = str_pad($this->peso,3,'0',STR_PAD_LEFT);
+
+            $fecha = date('dmY',$fecha);
+
+            $origen = $this->db->select('abreviatura','origen',null,"id_origen = $this->id_origen")[0];
+
+            #Concatena una palabra para evitar repeticiones del codigoqr
+            $conc = $origen['abreviatura'] . " $this->diametro $this->espesor $this->composicion $this->peso $fecha";
+
+            #Se le agrega el codigo al array
+            $u['qr_alfanumerico'] = $conc;
+
+            # Url del codigo qr
+            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=".urlencode($conc);
+
+            # Ruta en la que se guardara la imagen
+            $img = "../views/img/codigos/monedas/$id.png";
+            file_put_contents($img, file_get_contents($url));
 
 
             #Array con datos validos para el update

@@ -42,7 +42,8 @@
                             <table class="table table-striped table-bordered table-hover tablita">
                                 <thead>
                                     <tr>
-                                        <th>Id_origen</th>
+                                        <th>Id</th>
+                                        <th>Abreviatura</th>
                                         <th>Nombre</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -51,9 +52,10 @@
                                     {% for o in origenes %}
                                     <tr>
                                         <td>{{o.id_origen}}</td>
+                                        <td>{{o.abreviatura}}</td>
                                         <td>{{o.nombre}}</td>
                                         <td>
-                                            <a onclick="editar_un_origen({{o.id_origen}},'{{o.nombre}}')" style="font-size:22px;" title="Editar">
+                                            <a onclick="editar_un_origen({{o.id_origen}},'{{o.nombre}}','{{o.abreviatura}}')" style="font-size:22px;" title="Editar">
                                                 <i class="fa fa-sliders naranja"></i>
                                             </a>
                                             <a onclick="delete_item({{o.id_origen}},'origen')" style="font-size:22px;" title="Eliminar">
