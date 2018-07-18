@@ -1,23 +1,22 @@
-$(document).ready(function() {
-    var lineData;
+$(document).ready(function(){
     $.ajax({
-        type : "GET",
-        url : "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV&start_date=2018-06-1", //Json con el precio de la plata
+        type : "POST",
+        url : "https://goldiraguide.org/wp-admin/admin-ajax.php", //Json con el precio del oro
+        data: {action: "getMetalPrice", api_key: "anonymous"},
         dataType: 'json',
         success : function(json) {
-            var label=[], data=[];
-            var dias = 10;
-            
-            //Se obtienen los datos necesarios de los ultimos dias definidos
-            for(var i=0; i<= dias; i++){
-                label[i]=json.dataset.data[dias-i][0];
-                data[i]=json.dataset.data[dias-i][1].toFixed(2);
-            }
+            //console.log(json);
+            console.log(json);
 
-            $('#fecha_plata').html('Actualizado el ' + json.dataset.data[0][0]);
-            
-            lineData = {
-                labels: label,
+            //Buscamos la ulitma fecha de actualizacion y la traducimos
+            var ultima_fecha = json['last_updated'];
+            ultima_fecha = ultima_fecha.replace('Prices last updated on','Actualizado el');
+            $('#fecha_oro').html(ultima_fecha);
+            $('#fecha_plata').html(ultima_fecha);
+
+            //Datos del oro
+            var lineDataOro = {
+                labels: json['buttonFrame']['gold']['1m']['labels'],
                 datasets: [
                     {
                         label: "Plata",
@@ -27,7 +26,24 @@ $(document).ready(function() {
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(221, 175, 5,1)",
-                        data: data
+                        data: json['buttonFrame']['gold']['1m']['data']
+                    }
+                ]
+            };
+
+            //Datos de la plata
+            var lineDataPlata = {
+                labels: json['buttonFrame']['silver']['1m']['labels'],
+                datasets: [
+                    {
+                        label: "Plata",
+                        fillColor: "rgba(221, 175, 5,0.5)",
+                        strokeColor: "rgba(221, 175, 5,1)",
+                        pointColor: "rgba(221, 175, 5,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(221, 175, 5,1)",
+                        data: json['buttonFrame']['silver']['1m']['data']
                     }
                 ]
             };
@@ -49,76 +65,18 @@ $(document).ready(function() {
             };
 
 
-            var ctx = document.getElementById("plataChart").getContext("2d");
-            var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+            //Se obtiene el contexto del DOm
+            var ctxOro = document.getElementById("lineChart").getContext("2d");
+            var ctxPlata = document.getElementById("plataChart").getContext("2d");
+
+            //Se instancian las graficas
+            var oroChart = new Chart(ctxOro).Line(lineDataOro, lineOptions);
+            var plataChart = new Chart(ctxPlata).Line(lineDataPlata, lineOptions);
         },
         error : function(xhr, status) {
-            toastr.error('Ha ocurrido un problema cargando la grafica de plata');
+            toastr.error('Ha ocurrido un problema cargando la grafica de oro');
         },
         complete: function(){ 
         } 
     });
-
-    $(document).ready(function() {
-        var lineData
-        $.ajax({
-            type : "GET",
-            url : "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV&start_date=2018-06-1",
-            dataType: 'json',
-            success : function(json) {
-                var label=[], data=[];
-                var dias = 10;
-                
-                for(var i=0; i<= dias; i++){
-                    label[i]=json.dataset.data[dias-i][0];
-                    data[i]=json.dataset.data[dias-i][1];
-                }
-
-                $('#fecha_oro').html('Actualizado el ' + json.dataset.data[0][0]);
-                
-                lineData = {
-                    labels: label,
-                    datasets: [
-                        {
-                            label: "Oro",
-                            fillColor: "rgba(221, 175, 5,0.5)",
-                            strokeColor: "rgba(221, 175, 5,1)",
-                            pointColor: "rgba(221, 175, 5,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(221, 175, 5,1)",
-                            data: data
-                        }
-                    ]
-                };
-
-                var lineOptions = {
-                    scaleShowGridLines: true,
-                    scaleGridLineColor: "rgba(0,0,0,.05)",
-                    scaleGridLineWidth: 1,
-                    bezierCurve: true,
-                    bezierCurveTension: 0.4,
-                    pointDot: true,
-                    pointDotRadius: 4,
-                    pointDotStrokeWidth: 1,
-                    pointHitDetectionRadius: 20,
-                    datasetStroke: true,
-                    datasetStrokeWidth: 2,
-                    datasetFill: true,
-                    responsive: true,
-                };
-    
-    
-                var ctx = document.getElementById("lineChart").getContext("2d");
-                var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
-            },
-            error : function(xhr, status) {
-                toastr.error('Ha ocurrido un problema cargando la grafica de oro');
-            },
-            complete: function(){ 
-            } 
-        });
-
-    });
-
 });

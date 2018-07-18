@@ -124,24 +124,28 @@ class Afiliados extends Models implements IModels {
 
             #Se buscan los datos de la moneda en la DB
             $data_moneda = $this->db->select('composicion,peso','moneda',null,'codigo = '. $data_form['moneda']);
+
+            $composicion = $data_moneda[0]['composicion'] == 'oro' ? 'gold' : 'silver';
             
-            #Se pregunta si la composicion es oro o plata
-            $url = $data_moneda[0]['composicion'] == 'oro'? 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV' : 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV';
+            #Url de iragold
+            $url = 'https://goldiraguide.org/wp-admin/admin-ajax.php';
     
             #Se procede a hacer la peticion a la api
+            $opt = array(
+                CURLOPT_POST =>true,
+                CURLOPT_RETURNTRANSFER =>true,
+                CURLOPT_POSTFIELDS =>['action' => 'getMetalPrice', 'api_key' => 'anonymous'],
+                CURLOPT_URL => $url
+            );
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt_array($ch,$opt);
             $result = curl_exec($ch);     
             curl_close($ch);
-                   
-            $obj = json_decode($result);
-            $dataset = $obj->{'dataset'};
-            $data = $dataset->{'data'};
+            $result = json_decode($result, true);
+            $data = $result['buttonFrame'][$composicion]['1m']['data'];
 
             #Se calcula el valor de la moneda
-            $precio_dolares = $data_moneda[0]['peso'] * ($data[0][1]/28.3495);
+            $precio_dolares = $data_moneda[0]['peso'] * ($data[29]/28.3495);
 
 
             #Se inserta en la DB
