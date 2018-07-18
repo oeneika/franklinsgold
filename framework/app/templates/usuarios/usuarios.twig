@@ -74,7 +74,7 @@
 
                                                     <a onclick="delete_item({{u.id_user}},'usuarios')"style="font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
 
-                                                    {% if 2 == u.tipo %}  
+                                                    {% if 0 != u.tipo %}  
                                                         <a onclick="historialUsuario({{ u.id_user }})" style="font-size:22px;" title="Historial" >
                                                             <i class="fa fa-user naranja"></i>
                                                         </a>
