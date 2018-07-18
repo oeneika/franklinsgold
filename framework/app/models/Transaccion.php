@@ -19,6 +19,7 @@ use Ocrend\Kernel\Models\ModelsException;
 use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Helpers\Functions;
+use Ocrend\Kernel\Helpers\Emails;
 
 /**
  * Modelo Transaccion
@@ -35,6 +36,40 @@ class Transaccion extends Models implements IModels {
 
 
     /**
+     * Envía un email de compra o venta exitosa al usuario que realizó la operación
+     * 
+     * @param HTML :  Mensaje escrito en html a mostrar en el correo
+     * @param email :  email del usuario que realiza la transacción
+     * @param nombre :  nombre del usuario que realiza la transacción
+     * @param apellido :  apellido del usuario que realiza la transacción
+     * 
+     */
+    private function sendSuccesMail(string $HTML, string $email, string $nombre = "", string $apellido = "") {
+        global $config;
+
+        $dest = array();
+        $dest[$email] = $nombre .' '. $apellido;
+
+        Emails::send($dest,array(
+            # Título del mensaje
+            '{{title}}' =>  $config['build']['name'] . ' - Transacción exitosa!',
+            # Url de logo
+            '{{url_logo}}' => $config['build']['url'],
+            # Logo
+            '{{logo}}' => $config['mailer']['logo'],
+            # Contenido del mensaje
+            '{{content}} ' => $HTML,
+            # Url del botón
+            '{{btn-href}}' => $config['build']['url'],
+            # Texto del boton
+            '{{btn-name}}' => 'Ir a ' . $config['build']['name'],
+            # Copyright
+            '{{copyright}}' => '&copy; '.date('Y') .' <a href="'.$config['build']['url'].'">'.$config['build']['name'].'</a> - Todos los derechos reservados.'
+        ),0);
+    }
+
+
+    /**
      * Valida las acciones realizables con las carteras correspondientes a compras, ventas e intercambios
      */
     private function checkTransaction(){
@@ -46,7 +81,7 @@ class Transaccion extends Models implements IModels {
             $existencia_cartera = $this->db->select('id_usuario_moneda','user_moneda',null,"id_usuario='$this->id_usuario' and 
             codigo_moneda='$this->codigo_moneda'");
 
-            #1 compra, 2 venta, 3 intercambio
+            #1 compra, 2 venta
             if( $this->tipo == 1  ){
 
                 #Si existe la moneda en la cartera es porque el usuario ya la compró                                                                             
@@ -239,108 +274,44 @@ class Transaccion extends Models implements IModels {
             }
         }
 
+        #Valida datos de las monedas con respecto a los usuarios
         $this->checkTransaction();
 
         # Crea una transaccion
         $id_transaccion =  $this->db->insert('transaccion',$data);
 
+        #En caso de ser una transacción via código qr se envía un email de confirmación al usuario
+        if($qr == 1){
+
+            #Valída el tipo de transacción
+            $tipo_transaccion = $this->tipo == 1 ? 'compra' : 'venta';
+
+            #Solicíta y guarda datos a usar del usuario
+            $datos_usuario = $this->db->select('primer_nombre, primer_apellido, email','users',null,"id_user='$this->id_usuario'");
+            $nombre =  $datos_usuario[0]["primer_nombre"];
+            $apellido =  $datos_usuario[0]["primer_apellido"];
+            $email = $datos_usuario[0]["email"];
+
+            #Envía el email
+            $this->sendSuccesMail('Enhorabuena! ' . $nombre . ' ' . $apellido . ', ha realizado la ' . $tipo_transaccion . ' de la moneda ' . $this->codigo_moneda .
+                '<br />
+                <br />', $email,$nombre,$apellido);
+
+        }
+
+
             return array('success' => 1, 'message' => 'Transacción creada con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
 
-
     /**
-     * Agrega una transaccion en base al escaneo de un codigo qr
-     * 
-     * @return array
-    */ 
-    /*public function addByQr() : array {
+     * Realiza un intercambio por medio de la aplicacion escaneando los codigos qr
+     */
+    public function intercambioByQr() {
 
-        try {
-
-       #Revisa errores del formulario
-        $this->errors();
-
-        #Extrae el id de la moneda principal del codigo qr
-        $this->codigo_moneda = substr($this->codigo_moneda, -1);    
-
-        #
-        $precio_moneda1 = $this->calculatePrice($this->codigo_moneda); 
-        $precio_moneda2 = null; 
-
-        #En el caso de existir un segundo codigo de moneda se realiza un intercambio
-        if ( !(Helper\Functions::e($this->codigo_moneda2)) ) {
-
-            //Extrae el id de la moneda secundaria del codigo qr
-            $this->codigo_moneda2 = substr($this->codigo_moneda2, -1);   
-
-            $precio_moneda2 = $this->calculatePrice($this->codigo_moneda2); 
-        }  
-
-        $u = array(
-            'id_usuario' => $this->id_usuario,
-            'codigo_moneda' => $this->codigo_moneda,
-            'precio_moneda1' => $precio_moneda1,
-            'tipo' => $this->tipo,
-            'id_sucursal' => $this->id_sucursal,
-            'id_usuario2' => $this->id_usuario2,
-            'codigo_moneda2' => $this->codigo_moneda2,
-            'precio_moneda2' => $precio_moneda2,
-            'fecha' => time()
-        );
-
-
-        #Array con datos validos para el update
-        $data = array();
-
-        #Valida que los datos no esten vacios y los inserta en el array "data"
-        foreach ($u as $key=>$val) {
-            if(NULL !== $u[$key] && !Functions::emp($u[$key])){
-                $data[$key] = $u[$key];
-            }
-        }
-
-        
-        $this->checkTransaction();
-
-        # Crea una transacción
-        $id_transaccion =  $this->db->insert('transaccion',$data);
-
-            return array('success' => 1, 'message' => 'Transacción creada con éxito!');
-        } catch(ModelsException $e) {
-            return array('success' => 0, 'message' => $e->getMessage());
-        }
     }
-*/
-
-    /**
-     * Edita usuarios 
-     * 
-     * @return array
-    */ 
-   /* public function edit() : array {
-        try {
-            global $http;
-
-            $id = $http->request->get('id_transaccion');
-
-            $this->errors(true);
-
-            $data = array(
-                'nombre' => $this->nombre
-            );
-
-            #Edita un origen
-            $this->db->update('origen',$data,"id_origen = '$id'",'1');
-
-            return array('success' => 1, 'message' => 'Origen editado con éxito!');
-
-        } catch(ModelsException $e) {
-            return array('success' => 0, 'message' => $e->getMessage());
-        }
-    }*/
 
     /**
      * Obtiene elementos de transaccion seg
