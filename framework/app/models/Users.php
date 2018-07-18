@@ -808,8 +808,8 @@ class Users extends Models implements IModels {
 
         #Instancio el modelo monedas para buscar el ultimo precio del oro y la plata
         $m = new Model\Monedas;
-        $ultimo_precio_oro = ($m->getPrice("oro"))[0][1];
-        $ultimo_precio_plata = ($m->getPrice("plata"))[0][1];
+        $ultimo_precio_oro = ($m->getPrice("oro"))[0][0];
+        $ultimo_precio_plata = ($m->getPrice("plata"))[0][0];
 
         #Queries para buscar las monedas de los usuarios
         $inner = "INNER JOIN user_moneda ON user_moneda.codigo_moneda = moneda.codigo AND user_moneda.id_usuario = $id_user";

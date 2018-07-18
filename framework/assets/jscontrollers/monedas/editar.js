@@ -113,7 +113,7 @@ function edit_moneda() {
                 toastr.success('¡Moneda editada!','Exito!');
                 
                 setTimeout(function () {
-                    location.reload();
+                    location.reload(true);
                 }, 1000);
                 
             }else {

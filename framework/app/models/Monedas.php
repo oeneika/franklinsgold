@@ -97,7 +97,7 @@ class Monedas extends Models implements IModels {
 
             $this->diametro = str_pad($this->diametro,3,'0',STR_PAD_LEFT);
             $this->espesor = str_pad($this->espesor,3,'0',STR_PAD_LEFT);
-            $this->composicion = str_pad($this->composicion,3,'0',STR_PAD_LEFT);
+            $this->composicion = $this->composicion == 'oro' ? 'ORO':'PLA';
             $this->peso = str_pad($this->peso,3,'0',STR_PAD_LEFT);
 
             # Obtenemos el id de la moneda insertada
@@ -157,7 +157,7 @@ class Monedas extends Models implements IModels {
 
             $this->diametro = str_pad($this->diametro,3,'0',STR_PAD_LEFT);
             $this->espesor = str_pad($this->espesor,3,'0',STR_PAD_LEFT);
-            $this->composicion = str_pad($this->composicion,3,'0',STR_PAD_LEFT);
+            $this->composicion = $this->composicion == 'oro' ? 'ORO':'PLA';
             $this->peso = str_pad($this->peso,3,'0',STR_PAD_LEFT);
 
             $fecha = date('dmY',$fecha);
@@ -219,30 +219,24 @@ class Monedas extends Models implements IModels {
      */
     public function getPrice(string $composicion="oro"){
 
-
-        if($composicion == "oro"){
-            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?api_key=CPE8TFT3Z18GjsP3C9pV';
-        }else{
-            $url = 'https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?api_key=CPE8TFT3Z18GjsP3C9pV';
-        }
-
-
+        $composicion= $composicion == 'oro' ? 'gold' : 'silver';
+        $url = 'https://goldiraguide.org/wp-admin/admin-ajax.php';
+    
+        #Se procede a hacer la peticion a la api
+        $opt = array(
+            CURLOPT_POST =>true,
+            CURLOPT_RETURNTRANSFER =>true,
+            CURLOPT_POSTFIELDS =>['action' => 'getMetalPrice', 'api_key' => 'anonymous'],
+            CURLOPT_URL => $url
+        );
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt_array($ch,$opt);
         $result = curl_exec($ch);     
         curl_close($ch);
-       
-        $obj = json_decode($result);
-       // dump($obj); 
-        $dataset = $obj->{'dataset'};
-        $data = $dataset->{'data'};
+        $result = json_decode($result, true);
+        $data = $result['buttonFrame'][$composicion]['1m']['data'];
 
-
-        $data =  array_slice($data, 0, 10);
-
-        return $data;
+        return [array_reverse($data)];
 
     }
 
@@ -253,8 +247,8 @@ class Monedas extends Models implements IModels {
      */
     public function datosGenerales(){
 
-        $ultimo_precio_oro = ($this->getPrice("oro"))[0][1];
-        $ultimo_precio_plata = ($this->getPrice("plata"))[0][1];
+        $ultimo_precio_oro = ($this->getPrice("oro"))[0][0];
+        $ultimo_precio_plata = ($this->getPrice("plata"))[0][0];
 
         $monedas_oro=$this->db->select('diametro,espesor,peso','moneda',null,"composicion='oro'");
         $monedas_plata=$this->db->select('diametro,espesor,peso','moneda',null,"composicion='plata'");
