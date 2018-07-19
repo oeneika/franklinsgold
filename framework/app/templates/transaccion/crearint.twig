@@ -15,16 +15,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
+                                <label for="cc-payment" class="control-label mb-1" >Usuario Emisor<span>*</span></label>
                                 <select name="id_usuario" id="id_id_usuario" class="form-control select2" style="width: 100%" onchange="disableSelectOption('id_id_usuario','id_id_usuario2')">
-                                        <option disabled selected value>Seleccione un vendedor</option>
+                                        <option disabled selected value>Seleccione un cliente</option>
                                         {% for u in usuarios %}
                                         <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
                                         {% endfor %}
                                 </select>
-                                <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
+                                <label for="cc-payment" class="control-label mb-1" >Usuario Receptor<span>*</span></label>
                                 <select name="id_usuario2" id="id_id_usuario2" class="form-control select2" style="width: 100%" onchange="disableSelectOption('id_id_usuario2','id_id_usuario')">
-                                        <option disabled selected value>Seleccione un vendedor</option>
+                                        <option disabled selected value>Seleccione un cliente</option>
                                         {% for u in usuarios %}
                                         <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
                                         {% endfor %}

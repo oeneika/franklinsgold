@@ -52,7 +52,7 @@ class Transaccion extends Models implements IModels {
 
         Emails::send($dest,array(
             # Título del mensaje
-            '{{title}}' =>  $config['build']['name'] . ' - Transacción exitosa!',
+            '{{title}}' =>  $config['build']['name'],
             # Url de logo
             '{{url_logo}}' => $config['build']['url'],
             # Logo
@@ -225,6 +225,9 @@ class Transaccion extends Models implements IModels {
     /**
      * Agrega una transaccion
      * 
+     * @param qr :  si qr es distinto de cero entonces se esta realizando una transaccion por medio de escaneo de codigos qr
+     * 
+     * 
      * @return array
     */ 
     public function add(int $qr = 0) : array {
@@ -234,23 +237,50 @@ class Transaccion extends Models implements IModels {
        #Revisa errores del formulario
         $this->errors();
 
+        $qr_moneda_emision = $this->codigo_moneda;
+
+        #Trae el id del usuario emisor de la transaccion
+        if($qr == 1 or $qr == 2){
+            $this->id_usuario = $this->db->select('id_user','users',null,"email='$this->id_usuario'")[0]["id_user"];
+            
+        }
+
+        #Trae el id del usuario que inicio la transacción tipo intercambio (el id del receptor)
+        if($qr == 2){
+            $this->id_usuario2 = $this->db->select('id_usuario','transaccion_en_espera',null,"codigo_qr_moneda='$this->codigo_moneda'")[0]["id_usuario"];
+        }
 
         #Extrae el id de la moneda principal del codigo qr
-        if($qr == 1){$this->codigo_moneda = str_replace("monedas","", $this->codigo_moneda); }
+        if($qr == 1 or $qr == 2){
+            $this->codigo_moneda =  $this->db->select("codigo","moneda",null,"qr_alfanumerico='$this->codigo_moneda'")[0]["codigo"];
+            if($this->codigo_moneda == false ){ throw new ModelsException('Código de moneda inválido.');}
+         }
          
-
         $precio_moneda1 = $this->calculatePrice($this->codigo_moneda); 
         $precio_moneda2 = null; 
 
+
+        #Si es un intercambio
         if ( !(Helper\Functions::e($this->codigo_moneda2)) ) {
 
-            //Extrae el id de la moneda secundaria del codigo qr
-            if($qr == 1){$this->codigo_moneda2 = str_replace("monedas","", $this->codigo_moneda2); }
+            #Extrae el id de la moneda secundaria del codigo qr
+            if($qr == 2){
+                $this->codigo_moneda2 = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$this->codigo_moneda2'")[0]["codigo"];
+                if($this->codigo_moneda2 == false ){ throw new ModelsException('Código de moneda inválido.');}
+
+                #Valida la existencia de una transaccion en espera con la moneda escaneada
+                $c = $this->db->select("codigo_qr_moneda","transaccion_en_espera",null,"codigo_qr_moneda='$this->codigo_moneda2'");
+                if ($c != false) {
+                    throw new ModelsException('Ya se está realizando una transacción con la moneda.');
+                }
+
+             }
 
             $precio_moneda2 = $this->calculatePrice($this->codigo_moneda2); 
 
         }   
 
+        #Almacena los datos para realizar la transaccion
         $u = array(
             'id_usuario' => $this->id_usuario,
             'codigo_moneda' => $this->codigo_moneda,
@@ -280,6 +310,14 @@ class Transaccion extends Models implements IModels {
         # Crea una transaccion
         $id_transaccion =  $this->db->insert('transaccion',$data);
 
+        #En caso de ser un intercambio vía qr se envia un correo a los dos usuarios y se elimina la transaccion es espera
+        if($qr == 2){
+            $this->db->delete('transaccion_en_espera',"codigo_qr_moneda='$qr_moneda_emision'");
+
+            #Mandar correo a los dos usuarios
+        }
+
+
         #En caso de ser una transacción via código qr se envía un email de confirmación al usuario
         if($qr == 1){
 
@@ -299,6 +337,7 @@ class Transaccion extends Models implements IModels {
 
         }
 
+        
 
             return array('success' => 1, 'message' => 'Transacción creada con éxito!');
         } catch(ModelsException $e) {
@@ -307,16 +346,67 @@ class Transaccion extends Models implements IModels {
     }
 
     /**
-     * Realiza un intercambio por medio de la aplicacion escaneando los codigos qr
+     * Realiza el inicio de un intercambio por medio de la aplicacion escaneando los codigos qr
      */
-    public function intercambioByQr() {
+    public function receptorQr() {
+        global $http;
+        try {
 
+        $email = $http->request->get('email');        
+        $codigo_moneda = $http->request->get('codigo'); 
+        
+        if (Helper\Functions::e($email,$codigo_moneda)) {
+            throw new ModelsException('Los datos no son suficientes para realizar el intercambio.');
+        }
+
+        #Valida la existencia de una transaccion en espera con la moneda escaneada
+        $c = $this->db->select("codigo_qr_moneda","transaccion_en_espera",null,"codigo_qr_moneda='$codigo_moneda'");
+        if ($c != false) {
+            throw new ModelsException('Ya se está realizando una transacción con la moneda.');
+        }
+
+        #Trae los datos del usuario que escaneo la moneda
+        $usuario_receptor = $this->db->select("id_user,primer_nombre,primer_apellido","users",null,"email='$email'");
+        $id_moneda = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$codigo_moneda'")[0]["codigo"];
+
+
+        #Valida que el usuario no tenga la moneda que quiere recibir en el intercambio
+        $inner = "INNER JOIN users u ON u.id_user = user_moneda.id_usuario";
+        $usuario_emisor = $this->db->select("u.id_user,u.primer_nombre,u.primer_apellido,u.email","user_moneda",$inner,"user_moneda.codigo_moneda='$id_moneda'");
+
+        if($usuario_emisor[0]["id_user"] == $usuario_receptor[0]["id_user"]){
+            throw new ModelsException('No puedes recibir por intercambio una moneda que ya posees.');
+        }
+
+        #Guarda en la db el id del usuario que escaneo la moneda y el id de la moneda
+        $data = array(
+            'id_usuario' => $usuario_receptor[0]["id_user"],
+            'codigo_qr_moneda' => $codigo_moneda
+        );
+
+        #Crea la transacción en espera
+        $id_transaccion_en_espera =  $this->db->insert('transaccion_en_espera',$data);
+
+
+        #Envía el email
+        $this->sendSuccesMail(
+        "Hola ".$usuario_emisor[0]["primer_nombre"]. ' ' .$usuario_emisor[0]["primer_apellido"].
+        " para realizar el intercambio con ".$usuario_receptor[0]["primer_nombre"]. ' ' .$usuario_receptor[0]["primer_apellido"].
+        " debe introducir el siguiente código y luego escanear su moneda".
+        " Codigo :".$codigo_moneda. 
+        "<br />
+         <br />", (string)$usuario_emisor[0]["email"], (string)$usuario_emisor[0]["primer_nombre"], (string)$usuario_emisor[0]["primer_apellido"]);
+
+         return array('success' => 1, 'message' => 'Correo enviado al dueño de la moneda!');
+        } catch(ModelsException $e) {
+         return array('success' => 0, 'message' => $e->getMessage());
+        }
     }
 
     /**
-     * Obtiene elementos de transaccion seg
+     * Obtiene elementos de transaccion según el tipo
      *    
-     *
+     * @param tipo : int, tipo de transacción
      * @return false|array con información de los usuarios
      */  
     public function getTransacciones(int $tipo = 0) {
@@ -350,7 +440,7 @@ class Transaccion extends Models implements IModels {
         return $this->db->select('transaccion.*','transaccion',$inner);
     }
 
-    //si el usuario es 2 traer moneda 2
+    #Sii el usuario es del tipo 2 traer moneda 2
     public function getByUser(int $id_user){
         $inner = "INNER JOIN moneda m1 ON m1.codigo=transaccion.codigo_moneda
                   LEFT  JOIN moneda m2 ON m2.codigo=transaccion.codigo_moneda2
@@ -361,20 +451,6 @@ class Transaccion extends Models implements IModels {
 
     }
 
-
-
-    /**
-     * Eliminar usuario
-    */
-    /*final public function del() {
-
-       Global $config;
-
-      $res = $this->db->delete('origen',"id_origen='$this->id'",'1');
-
-      # Redireccionar al controlador usuarios con un success=true
-      Functions::redir($config['build']['url'] . 'origen/&success=true');
-    }*/
 
     /**
      * __construct()
