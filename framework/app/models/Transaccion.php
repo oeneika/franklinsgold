@@ -32,6 +32,7 @@ class Transaccion extends Models implements IModels {
     private $codigo_moneda;
     private $codigo_moneda2;
     private $id_sucursal;
+    private $id_comercio;
     private $tipo;
 
 
@@ -72,7 +73,7 @@ class Transaccion extends Models implements IModels {
     /**
      * Valida las acciones realizables con las carteras correspondientes a compras, ventas e intercambios
      */
-    private function checkTransaction(){
+    private function checkTransaction($monto = 0){
 
         #Si el tipo de compra NO es un intercambio
         if( $this->tipo != 3  ){
@@ -86,7 +87,21 @@ class Transaccion extends Models implements IModels {
 
                 #Si existe la moneda en la cartera es porque el usuario ya la compró                                                                             
                 if($existencia_cartera != false ) {
-                    throw new ModelsException('El usuario ya ha comprado la moneda.');
+                    throw new ModelsException('El usuario ya posee la moneda.');
+                }
+
+                if(!(Helper\Functions::emp($this->id_comercio))){
+
+                    # Se verifica si el comercio posee la moneda
+                    $data_comercio = $this->db->select('codigo','afiliado_moneda',null,"codigo = $this->codigo_moneda");
+
+                    if (false === $data_comercio){
+                        throw new ModelsException('El comercio no posee esta moneda.');
+                    }
+
+                    # Si la posee, entonces se borra de afiliado_moneda
+                    $this->db->delete('afiliado_moneda',"codigo = $this->codigo_moneda AND id_comercio_afiliado = $this->id_comercio");
+
                 }
 
                 #Agrega la cartera
@@ -101,6 +116,23 @@ class Transaccion extends Models implements IModels {
                 #Si no existe la moneda es porque el usuario no la tiene                                                                        
                 if($existencia_cartera == false ) {
                     throw new ModelsException('El usuario no posee la moneda.');
+                }
+
+                if(!(Helper\Functions::emp($this->id_comercio))){
+
+                    # Se verifica si el comercio posee la moneda
+                    $data_comercio = $this->db->select('codigo','afiliado_moneda',null,"codigo = $this->codigo_moneda");
+                    if (false !== $data_comercio){
+                        throw new ModelsException('El comercio ya posee esta moneda.');
+                    }
+
+                    # Si no posee la moneda, entonces se inserta en afiliado_moneda
+                    $this->db->insert('afiliado_moneda',array(
+                        'id_comercio_afiliado'=>$this->id_comercio,
+                        'codigo'=>$this->codigo_moneda,
+                        'monto'=>$monto,
+                        'fecha'=> time()
+                    ));                  
                 }
 
                 #Borra la cartera
@@ -205,6 +237,7 @@ class Transaccion extends Models implements IModels {
         $this->tipo = $http->request->get('tipo');
 
         $this->id_sucursal = $http->request->get('id_sucursal');
+        $this->id_comercio = $http->request->get('id_comercio');
 
         $this->id_usuario2 = $http->request->get('id_usuario2');
         $this->codigo_moneda2 = $http->request->get('codigo2');
@@ -215,8 +248,13 @@ class Transaccion extends Models implements IModels {
             throw new ModelsException('Debe seleccionar todos los elementos.');
         }
 
-        if( ($this->tipo != 3) and (Helper\Functions::e($this->id_sucursal)) ){
+        if( ($this->tipo != 3) && (Helper\Functions::emp($this->id_sucursal)) && (Helper\Functions::emp($this->id_comercio)) ){
             throw new ModelsException('Debe seleccionar todos los elementos.');
+        }
+
+        #Se verifica que solo se elija una sucursal o un comercio
+        if(!(Helper\Functions::emp($this->id_sucursal)) && !(Helper\Functions::emp($this->id_comercio))){
+            throw new ModelsException('Solo puede seleccionar una sucursal o un comercio.');
         }
 
     }
@@ -286,12 +324,15 @@ class Transaccion extends Models implements IModels {
             'codigo_moneda' => $this->codigo_moneda,
             'precio_moneda1' => $precio_moneda1,
             'tipo' => $this->tipo,
-            'id_sucursal' => $this->id_sucursal,
             'id_usuario2' => $this->id_usuario2,
             'codigo_moneda2' => $this->codigo_moneda2,
             'precio_moneda2' => $precio_moneda2,
             'fecha' => time()
         );
+
+        # Se agrega el id de la sucursal o del comercio
+        $key = (Helper\Functions::emp($this->id_sucursal))?'id_comercio_afiliado':'id_sucursal';
+        $u[$key] = (Helper\Functions::emp($this->id_sucursal))?$this->id_comercio:$this->id_sucursal;
 
 
         #Array con datos validos para el update
@@ -305,7 +346,7 @@ class Transaccion extends Models implements IModels {
         }
 
         #Valida datos de las monedas con respecto a los usuarios
-        $this->checkTransaction();
+        $this->checkTransaction($precio_moneda1);
 
         # Crea una transaccion
         $id_transaccion =  $this->db->insert('transaccion',$data);
@@ -343,6 +384,96 @@ class Transaccion extends Models implements IModels {
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
+    }
+
+    /**
+     * Verificar errores en el intercambio con comercios
+     * 
+     * @param $data: Array con los datos del intercambio
+     */
+    private function errorsComercios($data){
+
+        #Valida si los campos estan vacios
+        if (!array_key_exists('id_usuario',$data) || Functions::emp($data['id_usuario'])) {
+            throw new ModelsException('Debe seleccionar un usuario');
+        }
+
+        if (!array_key_exists('codigo',$data) || Functions::emp($data['codigo'])) {
+            throw new ModelsException('Debe seleccionar una moneda');
+        }
+
+        if (!array_key_exists('id_comercio',$data) || Functions::emp($data['id_comercio'])) {
+            throw new ModelsException('Debe seleccionar un comercio');
+        }
+
+        #Valida la existencia de la moneda en la cartera del comprador/vendedor
+        $existencia_cartera = $this->db->select('id_usuario_moneda','user_moneda',null,"id_usuario=".$data['id_usuario']." and 
+        codigo_moneda=".$data['codigo']);
+
+        #Si no existe la moneda es porque el usuario no la tiene                                                                        
+        if($existencia_cartera == false ) {
+            throw new ModelsException('El usuario no posee la moneda.');
+        }
+
+        # Se verifica si el comercio posee la moneda
+        $data_comercio = $this->db->select('codigo','afiliado_moneda',null,"codigo = ".$data['codigo']);
+        if (false !== $data_comercio){
+            throw new ModelsException('El comercio ya posee esta moneda.');
+        }
+    }
+
+    /**
+     * Funcion de intercambio con comercios afiliados
+     * 
+     */
+    public function intercambiosAfiliados(){
+        try{
+            global $http;
+            $data = $http->request->all();
+
+            if(array_key_exists('codigo_qr',$data)){
+                $moneda = $this->db->select('codigo','moneda',null,"qr_alfanumerico = '".$data['codigo_qr']."'");
+                $data['codigo'] = $moneda[0]['codigo'];
+            }
+
+            $this->errorsComercios($data);
+
+            $monto = $this->calculatePrice($data['codigo']);
+            $fecha = time();
+
+            # Se inserta en la transaccion
+            $this->db->insert('transaccion',array(
+                'fecha'=>$fecha,
+                'tipo'=>4,
+                'codigo_moneda'=>$data['codigo'],
+                'id_comercio_afiliado'=>$data['id_comercio'],
+                'id_usuario'=>$data['id_usuario'],
+                'precio_moneda1'=> $monto
+            ));
+
+            # Si no posee la moneda, entonces se inserta en afiliado_moneda
+            $this->db->insert('afiliado_moneda',array(
+                'id_comercio_afiliado'=>$data['id_comercio'],
+                'codigo'=>$data['codigo'],
+                'monto'=>$monto,
+                'fecha'=>$fecha
+            )); 
+
+            $this->db->delete('user_moneda','id_usuario='.$data['id_usuario'].' AND codigo_moneda='.$data['codigo']);
+            return array('success' => 1, 'message' => 'Transaccion creada con exito');
+        }
+        catch (ModelsException $e){
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    } 
+
+    /**
+     * Trae los intercambios con comercios
+     */
+    public function getIntercambiosAfiliados(){
+        $where = 'comercio_afiliado.id_comercio_afiliado = transaccion.id_comercio_afiliado AND users.id_user = transaccion.id_usuario AND transaccion.tipo = 4';
+        $result = $this->db->select('DISTINCT users.primer_nombre, users.primer_apellido, users.id_user, comercio_afiliado.nombre, comercio_afiliado.id_comercio_afiliado','transaccion, users, comercio_afiliado',null,$where);
+        return $result;
     }
 
     /**

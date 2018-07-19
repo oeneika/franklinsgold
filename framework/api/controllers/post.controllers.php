@@ -179,6 +179,11 @@ $app->post('/transaccion/concretar/qr', function() use($app) {
     return $app->json($t->add(2));   
 });
 
+$app->post('/transaccion/intercambioAfiliado', function() use($app) {
+    $t = new Model\Transaccion; 
+  
+    return $app->json($t->intercambiosAfiliados());   
+});
 
 /**
  * Endpoints para afiliados

@@ -33,6 +33,7 @@ class transaccionController extends Controllers implements IControllers {
         $u = new Model\Users($router); 
         $m = new Model\Monedas($router); 
         $s = new Model\Sucursales($router);  
+        $a = new Model\Afiliados($router);  
 
         //$t->calculatePrice(59);
 
@@ -42,7 +43,8 @@ class transaccionController extends Controllers implements IControllers {
                 'transacciones' => $t->getTransacciones(1),
                 'usuarios' => $u->getUsers("*","tipo!=0"),
                 'monedas' => $m->getMonedas(),
-                'sucursales' => $s->get()
+                'sucursales' => $s->get(),
+                'afiliados' => $a->get()
             ));
           break;
           case 'venta':
@@ -50,7 +52,8 @@ class transaccionController extends Controllers implements IControllers {
                 'transacciones' => $t->getTransacciones(2),
                 'usuarios' => $u->getUsers("*","tipo=2"),
                 'monedas' => $m->getMonedas(),
-                'sucursales' => $s->get()
+                'sucursales' => $s->get(),
+                'afiliados' => $a->get()
             ));
           break;
           case 'intercambio':
@@ -60,12 +63,21 @@ class transaccionController extends Controllers implements IControllers {
                 'monedas' => $m->getMonedas()
             ));
           break;
+          case 'intercambioafiliado':
+            $this->template->display('transaccion/intercambioafiliado',array(
+              'transacciones' => $t->getIntercambiosAfiliados(),
+              'usuarios' => $u->getUsers("*","tipo=2"),
+              'monedas' => $m->getMonedas(),
+              'afiliados' => $a->get()
+          ));
+          break;
           default:
            $this->template->display('transaccion/compra',array(
                 'transacciones' => $t->getTransacciones(1),
                 'usuarios' => $t->getUsers("*","tipo=2"),
                 'monedas' => $t->getMonedas(),
-                'sucursales' => $s->get()
+                'sucursales' => $s->get(),
+                'afiliados' => $a->get()
             ));
           break;
         }

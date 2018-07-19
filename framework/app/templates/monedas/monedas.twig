@@ -60,7 +60,12 @@
                                                 <td>{{m.composicion}}</td>
                                                 <td>{{m.peso}}</td>
                                                 <td>{{m.nombre}}</td>
-                                                <td><a href="{{ m.codigo_qr }}" target=_blank rel="noopener noreferrer"><img src="{{ m.codigo_qr }}" alt="..." class="img-thumbnail"></a></td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                                <a href="{{ m.codigo_qr }}" target=_blank rel="noopener noreferrer"><img src="{{ m.codigo_qr }}" alt="..." class="img-thumbnail"></a></td>
+                                                        </div>
+                                                    </div>
                                                 <td>
                                                 <a onclick="editar_una_moneda({{m.codigo}},{{m.diametro}},{{m.espesor}},'{{m.composicion}}',{{m.peso}},{{m.id_origen}})" style="font-size:22px;" title="Editar"  ><i class="fa fa-sliders naranja"></i></a>
                                                 <a onclick="delete_item({{m.codigo}},'monedas')"style="font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
