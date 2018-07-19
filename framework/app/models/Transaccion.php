@@ -433,6 +433,9 @@ class Transaccion extends Models implements IModels {
 
             if(array_key_exists('codigo_qr',$data)){
                 $moneda = $this->db->select('codigo','moneda',null,"qr_alfanumerico = '".$data['codigo_qr']."'");
+                if (false === $moneda){
+                    throw new ModelsException("Codigo QR invalido");
+                }
                 $data['codigo'] = $moneda[0]['codigo'];
             }
 
@@ -560,17 +563,18 @@ class Transaccion extends Models implements IModels {
         $inner = "INNER JOIN users u1 ON u1.id_user=transaccion.id_usuario
                   INNER JOIN moneda m1 ON m1.codigo=transaccion.codigo_moneda 
                   LEFT JOIN sucursal s ON s.id_sucursal=transaccion.id_sucursal
+                  LEFT JOIN comercio_afiliado c ON c.id_comercio_afiliado=transaccion.id_comercio_afiliado
                   ";
 
         if($tipo == 1){
             return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda1,
                                         u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
-                                        s.nombre as nombre_sucursal','transaccion',$inner,'transaccion.tipo=1');
+                                        s.nombre as nombre_sucursal, c.nombre as nombre_comercio','transaccion',$inner,'transaccion.tipo=1');
         }else 
         if($tipo == 2){
             return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda1,
                                         u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
-                                        s.nombre as nombre_sucursal','transaccion',$inner,'transaccion.tipo=2');
+                                        s.nombre as nombre_sucursal, c.nombre as nombre_comercio','transaccion',$inner,'transaccion.tipo=2');
         }else
         if($tipo == 3){
             $inner2 = "INNER JOIN users u2 ON u2.id_user=transaccion.id_usuario2 

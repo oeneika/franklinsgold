@@ -46,6 +46,7 @@
                                         <th>Moneda</th>
                                         <th>Precio</th>
                                         <th>Sucursal</th>
+                                        <th>Comercio Afiliado</th>
                                         <th>Fecha</th>
                                     </tr>
                                 </thead>
@@ -57,6 +58,7 @@
                                         <td>{{t.codigo}}</td>
                                         <td>${{ t.precio_moneda1|number_format(2,'.',',') }}</td>
                                         <td>{{t.nombre_sucursal}}</td>
+                                        <td>{{t.nombre_comercio}}</td>
                                         <td>{{ fecha('D, d F, Y h:i a', t.fecha) }}</td>
                                     </tr>
                                     {% else %}
@@ -72,6 +74,7 @@
                                         <th>Moneda</th>
                                         <th>Precio</th>
                                         <th>Sucursal</th>
+                                        <th>Comercio Afiliado</th>
                                         <th>Fecha</th>
                                     </tr>
                                 </tfoot>
