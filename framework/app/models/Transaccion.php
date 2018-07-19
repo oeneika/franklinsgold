@@ -477,6 +477,21 @@ class Transaccion extends Models implements IModels {
     }
 
     /**
+     * Trae los intercambios con comercios de un user especifico
+     */
+    public function getIntercambiosUsers($id_user,$id_comercio){
+        $where = "id_comercio_afiliado = $id_comercio AND id_usuario = $id_user AND tipo = 4";
+
+        $intercambios = $this->db->select('codigo_moneda AS codigo, precio_moneda1 AS monto, fecha','transaccion',null,$where);
+
+        $total = $this->db->select('IFNULL(SUM(precio_moneda1),0) AS total','transaccion',null,$where);
+        return array(
+            'intercambios' => $intercambios,
+            'total' => $total
+        );
+    }
+
+    /**
      * Realiza el inicio de un intercambio por medio de la aplicacion escaneando los codigos qr
      */
     public function receptorQr() {

@@ -46,44 +46,6 @@ function crear_afiliado(){
 } 
 
 /**
- * Ajax action to api rest
-*/
-function crear_intercambio(){
-    var $ocrendForm = $(this), __data = {};
-    $('#crear_intercambio_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
-
-    if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
-        $('#crearintercambiobtn').attr('disabled','disabled');
-        $.ajax({
-            type : "POST",
-            url : "api/afiliados/crearIntercambio",
-            dataType: 'json',
-            data : __data,
-            beforeSend: function(){ 
-                $ocrendForm.data('locked', true) 
-            },
-            success : function(json) {
-                if(json.success == 1) {
-                    setTimeout(function(){
-                        toastr.success(json.message);
-                        location.href='afiliados/afiliados/';
-                    },1000);
-                } else {
-                    toastr.error(json.message);
-                }
-            },
-            error : function(xhr, status) {
-                toastr.error('Ha ocurrido un problema interno');
-            },
-            complete: function(){ 
-                $('#crearintercambiobtn').removeAttr('disabled');
-                $ocrendForm.data('locked', false);
-            } 
-        });
-    }
-} 
-
-/**
  * Events
  */
 $('#crearafiliadobtn').click(function(e) {

@@ -39,6 +39,12 @@ $app->get('afiliados/getIntercambios/{id}', function($id) use($app) {
     return $app->json($a->getIntercambios($id));
 });
 
+$app->get('afiliados/getIntercambiosUser/{id}/{id_comercio}', function($id,$id_comercio) use($app) {
+    $t = new Model\Transaccion; 
+
+    return $app->json($t->getIntercambiosUsers($id,$id_comercio));
+});
+
 $app->get('/get/datos_generales', function() use($app) {
     $m = new Model\Monedas; 
   

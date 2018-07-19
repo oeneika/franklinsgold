@@ -50,9 +50,9 @@
                                 <tbody>
                                     {% for t in transacciones %}
                                     <tr>
-                                        <td>{{ t.primer_nombre }}{{ t.primer_apellido }}</td>
+                                        <td>{{ t.primer_nombre }} {{ t.primer_apellido }}</td>
                                         <td>{{ t.nombre }}</td>
-                                        <td><a style="font-size:22px;" title="Intercambios" data-toggle="modal" onclick="showIntercambios({{ t.id_comercio_afiliado }}, {{ t.id_user }})"><i class="fa fa-dollar naranja"></i></a></td>
+                                        <td><a style="font-size:22px;" title="Intercambios" data-toggle="modal" onclick="showIntercambios({{ t.id_user }},{{ t.id_comercio_afiliado }})"><i class="fa fa-dollar naranja"></i></a></td>
                                     </tr>
                                     {% else %}
                                     <tr>
@@ -76,6 +76,7 @@
         </div>
     </div>
     {% include 'transaccion/crearintercambioafiliado' %} 
+    {% include 'afiliados/intercambios' %} 
     {% include 'overall/footer' %}
 </div>
 {% endblock %} 

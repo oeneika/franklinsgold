@@ -44,7 +44,7 @@
                                     <div class="col-md-6">
                                         <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
                                         <select name="id_sucursal" id="" class="form-control m-b select2" style="width: 100%">
-                                            <option disabled selected value>Seleccione una sucursal</option>
+                                            <option selected value>Seleccione una sucursal</option>
                                                 {% for s in sucursales %}
                                                     <option value="{{ s.id_sucursal }}">{{s.nombre}}</option>
                                                 {% endfor %}
@@ -53,7 +53,7 @@
                                     <div class="col-md-6">
                                         <label for="cc-payment" class="control-label mb-1">Comercio Afiliado<span>*</span></label>
                                         <select name="id_comercio" id="" class="form-control m-b select2" style="width: 100%">
-                                            <option disabled selected value>Seleccione un comercio</option>
+                                            <option selected value>Seleccione un comercio</option>
                                                 {% for a in afiliados %}
                                                     <option value="{{ a.id_comercio_afiliado }}">{{a.nombre}}</option>
                                                 {% endfor %}

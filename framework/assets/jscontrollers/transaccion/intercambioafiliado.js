@@ -1,6 +1,33 @@
 function crearTransaccion() {
     $('#crearintercambioAfiliado').modal('show');
 }
+
+function showIntercambios(id_user,id_comercio){
+    $('#body_intercambios').empty();
+    $('#crearnuevointercambiobtn').attr('onclick',`crearintercambio(${id_user})`);
+    $.ajax({
+        type : "GET",
+        url : `api/afiliados/getIntercambiosUser/${id_user}/${id_comercio}`,
+        success : function(json) {
+            console.log(json);
+            for (let i = 0; i < json['intercambios'].length; i++) {
+                $('#body_intercambios').append(
+                `<tr>
+                    <td>${json['intercambios'][i].codigo}</td>
+                    <td>${date('F j, Y',json['intercambios'][i].fecha)}</td>
+                    <td>$${number_format(json['intercambios'][i].monto,2,'.',',')}</td>
+                </tr>`)  
+            }
+            $("#total_intercambio").html(`$${number_format(json['total'][0].total,2,'.',',')}`);
+        },
+        error : function(xhr, status) {
+            toastr.error('Ha ocurrido un problema interno');
+        },
+        complete: function(){ 
+            $("#intercambioAfiliados").modal('show');
+        } 
+    });
+}
     
 
 /**
