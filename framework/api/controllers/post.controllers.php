@@ -151,19 +151,10 @@ $app->post('/transaccion/crear', function() use($app) {
   return $app->json($t->add());   
 });
 
-/**
- * Endpoint para transacciones por medio de codigos qr tipo venta/compra
- *
- * @return json
-*/
-$app->post('/transaccion/crear/qr', function() use($app) {
-    $t = new Model\Transaccion; 
-  
-    return $app->json($t->add(1));   
-  });
+
 
 /**
- * Endpoints para crear una transaccion tipo intercambio
+ * Endpoint para iniciar una transaccion 
  *
  * @return json
 */
@@ -173,11 +164,31 @@ $app->post('/transaccion/iniciar/qr', function() use($app) {
     return $app->json($t->receptorQr());   
 });
 
-$app->post('/transaccion/concretar/qr', function() use($app) {
+/**
+ * Endpoint para concretar una transaccion tipo venta/compra
+ *
+ * @return json
+*/
+$app->post('/transaccion/concretar/comven/qr', function() use($app) {
     $t = new Model\Transaccion; 
   
-    return $app->json($t->add(2));   
+    return $app->json($t->tokenConfirmation(1));   
+  });
+
+/**
+ * Endpoint para concretar una transaccion tipo intercambio
+ *
+ * @return json
+*/
+$app->post('/transaccion/concretar/inter/qr', function() use($app) {
+    $t = new Model\Transaccion; 
+  
+    return $app->json($t->tokenConfirmation(2));   
 });
+
+
+
+
 
 $app->post('/transaccion/intercambioAfiliado', function() use($app) {
     $t = new Model\Transaccion; 

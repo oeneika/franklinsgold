@@ -253,7 +253,7 @@ class Transaccion extends Models implements IModels {
         }
 
         #Se verifica que solo se elija una sucursal o un comercio
-        if(!(Helper\Functions::emp($this->id_sucursal)) && !(Helper\Functions::emp($this->id_comercio))){
+        if(($this->tipo != 3) && !(Helper\Functions::emp($this->id_sucursal)) && !(Helper\Functions::emp($this->id_comercio))){
             throw new ModelsException('Solo puede seleccionar una sucursal o un comercio.');
         }
 
@@ -268,43 +268,39 @@ class Transaccion extends Models implements IModels {
      * 
      * @return array
     */ 
-    public function add(int $qr = 0) : array {
+    public function add(int $qr = 0, array $transaccion_en_espera = array()) : array {
 
         try {
 
        #Revisa errores del formulario
         $this->errors();
 
-        $qr_moneda_emision = $this->codigo_moneda;
 
-        #Trae el id del usuario emisor de la transaccion
-        if($qr == 1 or $qr == 2){
+        #En caso de ser una transaccion modo qr trae el id del usuario y el id de la moneda
+        #Si es un intercambio traerá el id del usuario que no inicio la transaccion (el id del emisor)
+        if($qr != 0){          
             $this->id_usuario = $this->db->select('id_user','users',null,"email='$this->id_usuario'")[0]["id_user"];
-            
-        }
 
-        #Trae el id del usuario que inicio la transacción tipo intercambio (el id del receptor)
-        if($qr == 2){
-            $this->id_usuario2 = $this->db->select('id_usuario','transaccion_en_espera',null,"codigo_qr_moneda='$this->codigo_moneda'")[0]["id_usuario"];
-        }
-
-        #Extrae el id de la moneda principal del codigo qr
-        if($qr == 1 or $qr == 2){
+            $qr_moneda_emision = $this->codigo_moneda;
+            $this->codigo_moneda = $transaccion_en_espera[0]["codigo_qr_moneda"];          
             $this->codigo_moneda =  $this->db->select("codigo","moneda",null,"qr_alfanumerico='$this->codigo_moneda'")[0]["codigo"];
-            if($this->codigo_moneda == false ){ throw new ModelsException('Código de moneda inválido.');}
-         }
-         
+        }
+
+        
+        #Precios de las monedas
         $precio_moneda1 = $this->calculatePrice($this->codigo_moneda); 
         $precio_moneda2 = null; 
 
 
         #Si es un intercambio
-        if ( !(Helper\Functions::e($this->codigo_moneda2)) ) {
+        if ( $this->tipo == 3 ) {
 
-            #Extrae el id de la moneda secundaria del codigo qr
+            #En caso de ser un intercambio vía qr extrae el id de la moneda secundaria del codigo qr
+            #En caso de ser un intercambio trae el id del usuario que lo inició (el id del receptor)
             if($qr == 2){
-                $this->codigo_moneda2 = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$this->codigo_moneda2'")[0]["codigo"];
-                if($this->codigo_moneda2 == false ){ throw new ModelsException('Código de moneda inválido.');}
+
+                $this->id_usuario2 = $transaccion_en_espera[0]["id_usuario"];
+                $this->codigo_moneda2 = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$qr_moneda_emision'")[0]["codigo"];
 
                 #Valida la existencia de una transaccion en espera con la moneda escaneada
                 $c = $this->db->select("codigo_qr_moneda","transaccion_en_espera",null,"codigo_qr_moneda='$this->codigo_moneda2'");
@@ -345,40 +341,18 @@ class Transaccion extends Models implements IModels {
             }
         }
 
-        #Valida datos de las monedas con respecto a los usuarios
+        #Valida datos de las monedas con respecto a los usuarios ó comercios
         $this->checkTransaction($precio_moneda1);
 
         # Crea una transaccion
         $id_transaccion =  $this->db->insert('transaccion',$data);
 
-        #En caso de ser un intercambio vía qr se envia un correo a los dos usuarios y se elimina la transaccion es espera
-        if($qr == 2){
-            $this->db->delete('transaccion_en_espera',"codigo_qr_moneda='$qr_moneda_emision'");
-
-            #Mandar correo a los dos usuarios
+        #En caso de ser un intercambio tipo qr elimina la transaccion en espera
+        if($qr != 0){
+            $token = $transaccion_en_espera[0]["token_confirmacion"];
+            $this->db->delete('transaccion_en_espera',"token_confirmacion='$token'");
         }
 
-
-        #En caso de ser una transacción via código qr se envía un email de confirmación al usuario
-        if($qr == 1){
-
-            #Valída el tipo de transacción
-            $tipo_transaccion = $this->tipo == 1 ? 'compra' : 'venta';
-
-            #Solicíta y guarda datos a usar del usuario
-            $datos_usuario = $this->db->select('primer_nombre, primer_apellido, email','users',null,"id_user='$this->id_usuario'");
-            $nombre =  $datos_usuario[0]["primer_nombre"];
-            $apellido =  $datos_usuario[0]["primer_apellido"];
-            $email = $datos_usuario[0]["email"];
-
-            #Envía el email
-            $this->sendSuccesMail('Enhorabuena! ' . $nombre . ' ' . $apellido . ', ha realizado la ' . $tipo_transaccion . ' de la moneda ' . $this->codigo_moneda .
-                '<br />
-                <br />', $email,$nombre,$apellido);
-
-        }
-
-        
 
             return array('success' => 1, 'message' => 'Transacción creada con éxito!');
         } catch(ModelsException $e) {
@@ -503,8 +477,9 @@ class Transaccion extends Models implements IModels {
 
         $email = $http->request->get('email');        
         $codigo_moneda = $http->request->get('codigo'); 
-        
-        if (Helper\Functions::e($email,$codigo_moneda)) {
+        $tipo_transaccion = $http->request->get('tipo');
+
+        if (Helper\Functions::e($email,$codigo_moneda,$tipo_transaccion)) {
             throw new ModelsException('Los datos no son suficientes para realizar el intercambio.');
         }
 
@@ -516,40 +491,113 @@ class Transaccion extends Models implements IModels {
 
         #Trae los datos del usuario que escaneo la moneda
         $usuario_receptor = $this->db->select("id_user,primer_nombre,primer_apellido","users",null,"email='$email'");
+        #Trae los datos de la moneda escaneada
         $id_moneda = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$codigo_moneda'")[0]["codigo"];
 
-
-        #Valida que el usuario no tenga la moneda que quiere recibir en el intercambio
+       
+        #Trae los datos del usuario dueño de la moneda
         $inner = "INNER JOIN users u ON u.id_user = user_moneda.id_usuario";
         $usuario_emisor = $this->db->select("u.id_user,u.primer_nombre,u.primer_apellido,u.email","user_moneda",$inner,"user_moneda.codigo_moneda='$id_moneda'");
 
-        if($usuario_emisor[0]["id_user"] == $usuario_receptor[0]["id_user"]){
-            throw new ModelsException('No puedes recibir por intercambio una moneda que ya posees.');
+
+        #Valida que si la transaccion es una compra o un intercambio el dueño de la moneda escaneada NO sea el que escaneo la moneda
+        if($tipo_transaccion == 1 or $tipo_transaccion == 3){
+
+            if($usuario_emisor[0]["id_user"] == $usuario_receptor[0]["id_user"]){
+                throw new ModelsException('No puedes recibir una moneda que ya posees.');
+            }           
+            
+        }else 
+        #Valido que si la transaccion es una venta el usuario que escaneo la moneda sea el dueño
+        if($tipo_transaccion == 2){
+
+            if($usuario_emisor[0]["id_user"] != $usuario_receptor[0]["id_user"]){
+                throw new ModelsException('No puedes vender una moneda que no tienes.');
+            }
+            
         }
 
-        #Guarda en la db el id del usuario que escaneo la moneda y el id de la moneda
-        $data = array(
-            'id_usuario' => $usuario_receptor[0]["id_user"],
-            'codigo_qr_moneda' => $codigo_moneda
-        );
+        #Genera token para confirmar la transaccion
+        $token = md5(time());
 
-        #Crea la transacción en espera
-        $id_transaccion_en_espera =  $this->db->insert('transaccion_en_espera',$data);
+        #En caso de ser una transacción tipo compra/venta se envia un correo para confirmacion
+        if($tipo_transaccion == 1 or $tipo_transaccion == 2){
 
+            #Valída el tipo de transacción
+            $nombre_tipo_transaccion = $tipo_transaccion == 1 ? 'compra' : $this->tipo == 2 ? : 'venta';
 
-        #Envía el email
-        $this->sendSuccesMail(
-        "Hola ".$usuario_emisor[0]["primer_nombre"]. ' ' .$usuario_emisor[0]["primer_apellido"].
-        " para realizar el intercambio con ".$usuario_receptor[0]["primer_nombre"]. ' ' .$usuario_receptor[0]["primer_apellido"].
-        " debe introducir el siguiente código y luego escanear su moneda".
-        " Codigo :".$codigo_moneda. 
-        "<br />
-         <br />", (string)$usuario_emisor[0]["email"], (string)$usuario_emisor[0]["primer_nombre"], (string)$usuario_emisor[0]["primer_apellido"]);
+            #Guarda en la db el id del usuario que escaneo la moneda y el id de la moneda
+            $data = array(
+                'id_usuario' => $usuario_receptor[0]["id_user"],
+                'codigo_qr_moneda' => $codigo_moneda,
+                'token_confirmacion' =>  $token
+            );
 
-         return array('success' => 1, 'message' => 'Correo enviado al dueño de la moneda!');
+            #Crea la transacción en espera
+            $id_transaccion_en_espera =  $this->db->insert('transaccion_en_espera',$data);
+
+            #Envía el email para confirmar la transaccion
+            $this->sendSuccesMail('Enhorabuena! ' . $usuario_receptor[0]["primer_nombre"] . ' ' . $usuario_receptor[0]["primer_apellido"] . ', para concretar la ' . $nombre_tipo_transaccion .
+             ' de la moneda debe usar el siguiente código de confirmación : ' . $token .
+             '<br /> 
+             <br />', $email,$usuario_receptor[0]["primer_nombre"],$usuario_receptor[0]["primer_apellido"]);
+
+             return array('success' => 1, 'message' => 'Se le ha enviado un correo para concretar la transacción.');
+        }else
+            #En caso de ser una transaccion tipo intercambio se crea una transaccion en espera y se envia un correo para confirmacion
+            if($tipo_transaccion == 3){
+
+                #Guarda en la db el id del usuario que escaneo la moneda y el id de la moneda
+                $data = array(
+                    'id_usuario' => $usuario_receptor[0]["id_user"],
+                    'codigo_qr_moneda' => $codigo_moneda,
+                    'token_confirmacion' =>  $token
+                );
+
+                #Crea la transacción en espera
+                $id_transaccion_en_espera =  $this->db->insert('transaccion_en_espera',$data);
+
+                #Envía el email para confirmar la transaccion
+                $this->sendSuccesMail(
+                "Hola ".$usuario_emisor[0]["primer_nombre"]. ' ' .$usuario_emisor[0]["primer_apellido"].
+                " para realizar el intercambio con ".$usuario_receptor[0]["primer_nombre"]. ' ' .$usuario_receptor[0]["primer_apellido"].
+                " debe introducir el siguiente código y luego escanear su moneda".
+                " Codigo :".$token. 
+                "<br />
+                <br />", (string)$usuario_emisor[0]["email"], (string)$usuario_emisor[0]["primer_nombre"], (string)$usuario_emisor[0]["primer_apellido"]);
+
+                return array('success' => 1, 'message' => 'Correo enviado al dueño de la moneda!');
+            }
+    
+            return array('success' => 0, 'message' => 'Tipo de transacción inválida.');
+         
         } catch(ModelsException $e) {
          return array('success' => 0, 'message' => $e->getMessage());
         }
+    }
+
+    /**
+     * Valida que el token recibido por correo sea valido
+     * @param $tipo_transaccion:  en este caso valida 1 cómo compra/venta y 2 cómo intercambio
+     */
+    public function tokenConfirmation(int $tipo_transaccion){
+        global $http;
+        try{
+
+            $codigo_confirmacion = $http->request->get('codigo_confirmacion'); 
+
+            $a = $this->db->select("token_confirmacion,codigo_qr_moneda,id_usuario","transaccion_en_espera",null,"token_confirmacion='$codigo_confirmacion'");
+
+            if( $a == false ){
+                return array('success' => 0, 'message' => 'No existe transacción correspondiente al token introducido.');
+            }
+
+        return $this->add($tipo_transaccion,$a);   
+            
+        } catch(ModelsException $e) {
+        return array('success' => 0, 'message' => $e->getMessage());
+        }
+
     }
 
     /**
