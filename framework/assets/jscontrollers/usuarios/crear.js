@@ -85,7 +85,6 @@ $('form#crear_usuario_form').keypress(function (e) {
 
 $('input[type=radio][name=tipo]').on('change',function (e){
     if ($('input[type=radio][name=tipo]:checked').val() == 1){
-        console.log('hola');
         $('.selects_body').show();
     }
     else{

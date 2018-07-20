@@ -562,7 +562,7 @@ class Users extends Models implements IModels {
      * 
      * @return exception
     */ 
-    private function errors(bool $edit = false){
+    private function errors(bool $edit = false, int $id = -1){
 
         global $http;
 
@@ -605,11 +605,13 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Debe seleccionar una sucursal o comercio.');
             }
 
-            if( !Helper\Functions::emp($this->db->select('id_user','comercio_afiliado',null,"id_comercio_afiliado = $this->id_comercio")[0]['id_user']) ){
+            $id_user = $this->db->select('id_user','comercio_afiliado',null,"id_comercio_afiliado = $this->id_comercio")[0]['id_user'];
+            if( !Helper\Functions::emp($id_user) && $id_user != $id ){
                 throw new ModelsException('Ya existe una cuenta asociada a este comercio.');
             }
 
-            if(!Helper\Functions::emp($this->db->select('id_user','sucursal',null,"id_sucursal = $this->id_sucursal")[0]['id_user']) ){
+            $id_user = $this->db->select('id_user','sucursal',null,"id_sucursal = $this->id_sucursal")[0]['id_user'];
+            if(!Helper\Functions::emp($id_user) && $id_user != $id ){
                 throw new ModelsException('Ya existe una cuenta asociada a esta sucursal.');
             }
         }
@@ -721,7 +723,7 @@ class Users extends Models implements IModels {
 
             $id = $http->request->get('id_user');
 
-            $this->errors(true);
+            $this->errors(true,$id);
 
             /*if($this->tipo == 0 ){
                 $this->tipo = 2;
@@ -759,6 +761,18 @@ class Users extends Models implements IModels {
             
             #Edita un usuario
             $this->db->update('users',$data,"id_user = '$id'",'1');
+
+             #Se relaciona con sucursal o comercio si es un vendedor
+             if ($this->tipo == 1){
+                $this->db->real_query("UPDATE sucursal SET id_user = NULL WHERE id_user = $id");
+                $this->db->real_query("UPDATE comercio_afiliado SET id_user = NULL WHERE id_user = $id");
+                if (!Helper\Functions::emp($this->id_sucursal)){
+                    $this->db->update('sucursal', array('id_user'=>$id), "id_sucursal = $this->id_sucursal");
+                }
+                else{
+                    $this->db->update('comercio_afiliado', array('id_user'=>$id), "id_comercio_afiliado = $this->id_comercio");
+                }
+            }
 
             return array('success' => 1, 'message' => 'Usuario editado con éxito!');
         } catch(ModelsException $e) {
@@ -824,7 +838,9 @@ class Users extends Models implements IModels {
      * @return false|array con información de los usuarios
      */  
     public function getUsers(string $select = '*',string $where = "1=1") {
-        return $this->db->select($select,'users',null,$where);
+        $inner = "LEFT JOIN sucursal ON sucursal.id_user = users.id_user
+                  LEFT JOIN comercio_afiliado ON comercio_afiliado.id_user = users.id_user";
+        return $this->db->select("users.$select, comercio_afiliado.id_comercio_afiliado, sucursal.id_sucursal",'users',$inner,$where);
     }
 
     /**

@@ -64,6 +64,33 @@
                             </div>
                         </div>                
                     </div>
+                    <div class="panel panel-warning selects_body" style="display: none;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Seleccione una sucursal o un comercio</h3>
+                        </div>
+                        <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
+                                        <select id="id_sucursal" name="id_sucursal" id="" class="form-control m-b" style="width: 100%">
+                                            <option selected value>Seleccione una sucursal</option>
+                                                {% for s in sucursales %}
+                                                    <option value="{{ s.id_sucursal }}">{{s.nombre}}</option>
+                                                {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cc-payment" class="control-label mb-1">Comercio Afiliado<span>*</span></label>
+                                        <select id="id_comercio" name="id_comercio" id="" class="form-control m-b" style="width: 100%">
+                                            <option selected value>Seleccione un comercio</option>
+                                                {% for a in afiliados %}
+                                                    <option value="{{ a.id_comercio_afiliado }}">{{a.nombre}}</option>
+                                                {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">

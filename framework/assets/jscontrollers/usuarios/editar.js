@@ -11,7 +11,7 @@
  * @param {*} telefono 
  * @param {*} email 
  */
-function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono) {
+function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono, id_sucursal, id_comercio) {
 
     $('#id_id_user').val(id_user);
     $('#id_primer_nombre').val(primer_nombre);
@@ -19,6 +19,8 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
     $('#id_primer_apellido').val(primer_apellido);
     $('#id_segundo_apellido').val(segundo_apellido);
     $('#id_telefono').val(telefono);
+    $('#id_sucursal').val(null).change();
+    $('#id_comercio').val(null).change();
     
 
     if (sexo == 'm') {
@@ -30,14 +32,19 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
      //Administradores
     if (tipo == 0) {
         $("#id_tipoa").prop("checked", true);
+        $('.selects_body').hide();
     } else
     //Vendedores
     if (tipo == 1) {
         $("#id_tipov").prop("checked", true);
+        $('.selects_body').show();
+        $('#id_sucursal').val(id_sucursal).change();
+        $('#id_comercio').val(id_comercio).change();
     } else
     //Clientes
     if (tipo == 2){
         $("#id_tipoc").prop("checked", true);
+        $('.selects_body').hide();
     }
     
     $('#editarUsuario').modal('show');

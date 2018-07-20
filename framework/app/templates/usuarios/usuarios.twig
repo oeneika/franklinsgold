@@ -70,7 +70,7 @@
                                                 
                                                 {% if owner_user.id_user != u.id_user %}  
                                                     <a onclick="editar_un_usuario({{u.id_user}},{{u.tipo}},'{{u.primer_nombre}}','{{u.segundo_nombre}}','{{u.primer_apellido}}',
-                                                    '{{u.segundo_apellido}}','{{u.sexo}}',{{u.telefono}})" style="font-size:22px;" title="Editar"  ><i class="fa fa-sliders naranja"></i></a>
+                                                    '{{u.segundo_apellido}}','{{u.sexo}}',{{u.telefono}},{{ u.id_sucursal is not null ?:'-1'  }},{{ u.id_comercio_afiliado is not null ?:'-1' }})" style="font-size:22px;" title="Editar"  ><i class="fa fa-sliders naranja"></i></a>
 
                                                     <a onclick="delete_item({{u.id_user}},'usuarios')"style="font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
 

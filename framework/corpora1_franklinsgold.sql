@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2018 at 07:02 AM
+-- Generation Time: Jul 20, 2018 at 06:31 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -41,7 +41,7 @@ CREATE TABLE `comercio_afiliado` (
 --
 
 INSERT INTO `comercio_afiliado` (`id_comercio_afiliado`, `nombre`, `direccion`, `sucursal`, `id_user`) VALUES
-(1, 'Nuevo Comercio', 'Florida', 'Miami', 22);
+(1, 'Nuevo Comercio', 'Florida', 'Miami', 21);
 
 -- --------------------------------------------------------
 
@@ -105,7 +105,7 @@ CREATE TABLE `sucursal` (
 --
 
 INSERT INTO `sucursal` (`id_sucursal`, `nombre`, `direccion`, `id_user`) VALUES
-(1, 'Nueva Sucursal', 'A la esquina', 21);
+(1, 'Nueva Sucursal', 'A la esquina', 22);
 
 -- --------------------------------------------------------
 
@@ -176,7 +176,7 @@ CREATE TABLE `users` (
   `tmp_pass` varchar(90) NOT NULL,
   `token` varchar(90) NOT NULL,
   `sexo` varchar(45) NOT NULL,
-  `telefono` int(11) NOT NULL,
+  `telefono` bigint(20) UNSIGNED NOT NULL,
   `email` varchar(70) NOT NULL,
   `codigo_qr` varchar(90) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -187,8 +187,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `tipo`, `usuario`, `pass`, `tmp_pass`, `token`, `sexo`, `telefono`, `email`, `codigo_qr`) VALUES
 (15, 'admin', '', 'admin', '', 0, 'admin', '$2a$10$f5e7c087a530bbf4e118duBLka3xc715bOuv0WMOawlo5vAaN0TIm', '', '', 'm', 123, 'admin@hotmail.com', '../views/img/codigos/usuarios/usuarios15.png'),
-(21, '1', '1', '1', '1', 1, '1', '$2a$10$3920de3c9b12a18972de0e.17NGiSb3p31iOttNdMPIQGo68hInDq', '', '', 'f', 2147483647, '1@1.com', '../views/img/codigos/usuarios/usuarios21.png'),
-(22, '1', '1', '1', '1', 1, '2', '$2a$10$75e11d632f10f82877866ODsOjjLMQGIDcFe6CrLquaW7x2woBPgK', '', '', 'f', 2147483647, '2@1.com', '../views/img/codigos/usuarios/usuarios22.png');
+(21, '1', '1', '1', '1', 1, '1', '$2a$10$3920de3c9b12a18972de0e.17NGiSb3p31iOttNdMPIQGo68hInDq', '', '', 'f', 21474836471, '1@1.com', '../views/img/codigos/usuarios/usuarios21.png'),
+(22, '1', '1', '1', '1', 1, '2', '$2a$10$75e11d632f10f82877866ODsOjjLMQGIDcFe6CrLquaW7x2woBPgK', '', '', 'f', 21474836471, '2@1.com', '../views/img/codigos/usuarios/usuarios22.png'),
+(23, 'Sergio', '', 'Garcia', '', 2, 'Sergio', '$2a$10$0cad18e0e4e32ce2d19c6e24pdAshVog8V4cgT0Bml68SqmOaavi6', '', '', 'm', 12345678901, 'deadgreen_spk@hotmail.com', '../views/img/codigos/usuarios/usuarios23.png');
 
 -- --------------------------------------------------------
 
@@ -325,7 +326,7 @@ ALTER TABLE `transaccion_en_espera`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `user_moneda`
