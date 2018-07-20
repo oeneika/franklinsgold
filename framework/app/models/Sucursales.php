@@ -123,7 +123,7 @@ class Sucursales extends Models implements IModels {
      * @return array
      */
     public function get(){
-        return $this->db->select('id_sucursal, nombre, direccion','sucursal');
+        return $this->db->select('*','sucursal');
     }
 
 

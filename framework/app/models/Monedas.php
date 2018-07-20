@@ -32,6 +32,8 @@ class Monedas extends Models implements IModels {
     private $composicion;
     private $peso;
     private $id_origen;
+    private $id_sucursal;
+    private $id_comercio;
 
     /**
      * Revisa errores en el formulario
@@ -47,6 +49,8 @@ class Monedas extends Models implements IModels {
         $this->composicion = $http->request->get('composicion');       
         $this->peso = $http->request->get('peso');
         $this->id_origen = $http->request->get('id_origen');
+        $this->id_sucursal = $http->request->get('id_sucursal');
+        $this->id_comercio = $http->request->get('id_comercio');
         
 
         # Verificar que no están vacíos
@@ -65,12 +69,16 @@ class Monedas extends Models implements IModels {
             throw new ModelsException('La composición es incorrecta.');
         }
 
+        if(!Helper\Functions::emp($this->id_comercio) && !Helper\Functions::emp($this->id_sucursal)){
+            throw new ModelsException('El usuario solo puede pertenecer a una sucursal o a un comercio.');
+        }
+
+        if(Helper\Functions::emp($this->id_comercio) && Helper\Functions::emp($this->id_sucursal)){
+            throw new ModelsException('Debe seleccionar una sucursal o comercio.');
+        }
+
 
     }
-
-    /**<!--Start of the precious metals widget code from www.goldiraguide.org -->
-<script  id="scriptrid" type="text/javascript" charset="UTF-8" src="https://goldiraguide.org/wp-content/plugins/demo/js/metalprice.js?apikey=rUkrHryCRwLTMPID7d04bbbe5494ae9d2f5a76aa1c00fa2f"></script>
-<!--End of the precious metals widget code from www.goldiraguide.org --> */
 
     /**
      * Agrega usuarios 
@@ -95,6 +103,7 @@ class Monedas extends Models implements IModels {
             'id_origen' => $this->id_origen
             );
 
+
             $this->diametro = str_pad($this->diametro,3,'0',STR_PAD_LEFT);
             $this->espesor = str_pad($this->espesor,3,'0',STR_PAD_LEFT);
             $this->composicion = $this->composicion == 'oro' ? 'ORO':'PLA';
@@ -102,6 +111,21 @@ class Monedas extends Models implements IModels {
 
             # Obtenemos el id de la moneda insertada
             $id_moneda =  $this->db->insert('moneda',$u);
+
+            if (!Helper\Functions::emp($this->id_sucursal)){
+                $id_user = $this->db->select('id_user','sucursal',null,"id_sucursal = $this->id_sucursal")[0]['id_user'];
+                $this->db->insert('user_moneda', array(
+                    'id_usuario'=>$id_user,
+                    'codigo_moneda'=> $id_moneda
+                ));
+            }
+            else{
+                $id_user = $this->select('id_user','comercio_afiliado',null,"id_comercio_afiliado = $this->id_comercio")[0]['id_user'];
+                $this->db->insert('user_moneda', array(
+                    'id_usuario'=>$id_user,
+                    'codigo_moneda'=> $id_moneda
+                ));
+            }
 
             $fecha = date('dmY',$fecha);
 

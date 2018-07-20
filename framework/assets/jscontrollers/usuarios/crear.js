@@ -1,3 +1,4 @@
+
 /**
  * Abre el modal para un nuevo usuario
  */
@@ -29,7 +30,7 @@ function createUsuario() {
                 toastr.success('¡Usuario creado!','Exito!');
                 
                 setTimeout(function () {
-                    location.reload();
+                    location.reload(true);
                 }, 1000);
                 
             }else {
@@ -74,10 +75,20 @@ $('#crearUsuariobtn').click(function (e) {
     e.defaultPrevented;
     createUsuario();
 });
-$('crear_usuario_form').keypress(function (e) {
+$('form#crear_usuario_form').keypress(function (e) {
     e.defaultPrevented;
     if (e.which == 13) {
         createUsuario();
         return false;
     }
 });
+
+$('input[type=radio][name=tipo]').on('change',function (e){
+    if ($('input[type=radio][name=tipo]:checked').val() == 1){
+        console.log('hola');
+        $('.selects_body').show();
+    }
+    else{
+        $('.selects_body').hide();
+    }
+})

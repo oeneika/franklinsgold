@@ -62,6 +62,8 @@ class Users extends Models implements IModels {
     private $sexo;
     private $telefono;
     private $email;
+    private $id_sucursal;
+    private $id_comercio;
 
 
     /**
@@ -577,6 +579,9 @@ class Users extends Models implements IModels {
         $this->telefono = $http->request->get('telefono');
         $this->email = $http->request->get('email');
 
+        $this->id_comercio = $http->request->get('id_comercio');
+        $this->id_sucursal = $http->request->get('id_sucursal');
+
 
         # Verificar que no están vacíos
         if (Helper\Functions::e($this->primer_nombre, $this->primer_apellido,$this->telefono)) {
@@ -589,6 +594,24 @@ class Users extends Models implements IModels {
 
         if($this->tipo!=0 and $this->tipo!=1 and $this->tipo!=2) {
             throw new ModelsException('Tipo de usuario no válido.');
+        }
+
+        if($this->tipo == 1){
+            if(!Helper\Functions::emp($this->id_comercio) && !Helper\Functions::emp($this->id_sucursal)){
+                throw new ModelsException('El usuario solo puede pertenecer a una sucursal o a un comercio.');
+            }
+
+            if(Helper\Functions::emp($this->id_comercio) && Helper\Functions::emp($this->id_sucursal)){
+                throw new ModelsException('Debe seleccionar una sucursal o comercio.');
+            }
+
+            if( !Helper\Functions::emp($this->db->select('id_user','comercio_afiliado',null,"id_comercio_afiliado = $this->id_comercio")[0]['id_user']) ){
+                throw new ModelsException('Ya existe una cuenta asociada a este comercio.');
+            }
+
+            if(!Helper\Functions::emp($this->db->select('id_user','sucursal',null,"id_sucursal = $this->id_sucursal")[0]['id_user']) ){
+                throw new ModelsException('Ya existe una cuenta asociada a esta sucursal.');
+            }
         }
 
 
@@ -648,11 +671,21 @@ class Users extends Models implements IModels {
                  $data[$key] = $u[$key];
                }
              }
-        
+
             $data['tipo'] = $this->tipo;
   
             # Registrar al usuario
             $id_user =  $this->db->insert('users',$data);
+
+            #Se relaciona con sucursal o comercio si es un vendedor
+            if ($this->tipo == 1){
+                if (!Helper\Functions::emp($this->id_sucursal)){
+                    $this->db->update('sucursal', array('id_user'=>$id_user), "id_sucursal = $this->id_sucursal");
+                }
+                else{
+                    $this->db->update('comercio_afiliado', array('id_user'=>$id_user), "id_comercio_afiliado = $this->id_comercio");
+                }
+            }
 
             #Concatena una palabra para evitar repeticiones del codigoqr
             $conc = "usuarios".$id_user;

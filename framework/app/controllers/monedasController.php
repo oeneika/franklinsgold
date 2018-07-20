@@ -31,7 +31,9 @@ class monedasController extends Controllers implements IControllers {
         ));
         
         $m = new Model\Monedas($router);  
-        $o = new Model\Origen($router);   
+        $o = new Model\Origen($router);             
+        $s = new Model\Sucursales($router);  
+        $a = new Model\Afiliados($router); 
 
         //$m->getPrice();
         
@@ -42,7 +44,9 @@ class monedasController extends Controllers implements IControllers {
             default:
             $this->template->display('monedas/monedas',array(
                 'monedas' => $m->getMonedas(),
-                'origenes' => $o->getOrigenes()
+                'origenes' => $o->getOrigenes(),
+                'afiliados' => $a->get(),
+                'sucursales' => $s->get()
             ));
             break;
         }

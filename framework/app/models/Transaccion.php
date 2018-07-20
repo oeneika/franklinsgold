@@ -74,6 +74,8 @@ class Transaccion extends Models implements IModels {
      * Valida las acciones realizables con las carteras correspondientes a compras, ventas e intercambios
      */
     private function checkTransaction($monto = 0){
+        $where_comercio = "codigo = $this->codigo_moneda AND comercio_afiliado.id_comercio_afiliado = $this->id_comercio";
+        $inner_comercio = 'INNER JOIN comercio_afiliado ON user_moneda.id_usuario = comercio_afiliado.id_user';
 
         #Si el tipo de compra NO es un intercambio
         if( $this->tipo != 3  ){
@@ -93,14 +95,16 @@ class Transaccion extends Models implements IModels {
                 if(!(Helper\Functions::emp($this->id_comercio))){
 
                     # Se verifica si el comercio posee la moneda
-                    $data_comercio = $this->db->select('codigo','afiliado_moneda',null,"codigo = $this->codigo_moneda");
+                    $data_comercio = $this->db->select('id_usuario','user_moneda, comercio_afiliado',$inner_comercio,$where_comercio);
 
                     if (false === $data_comercio){
                         throw new ModelsException('El comercio no posee esta moneda.');
                     }
 
+                    $id_usuario = $data_comercio[0]['id_usuario'];
+
                     # Si la posee, entonces se borra de afiliado_moneda
-                    $this->db->delete('afiliado_moneda',"codigo = $this->codigo_moneda AND id_comercio_afiliado = $this->id_comercio");
+                    $this->db->delete('user_moneda',"codigo_moneda = $this->codigo_moneda AND id_usuario = $id_usuario");
 
                 }
 
@@ -121,17 +125,15 @@ class Transaccion extends Models implements IModels {
                 if(!(Helper\Functions::emp($this->id_comercio))){
 
                     # Se verifica si el comercio posee la moneda
-                    $data_comercio = $this->db->select('codigo','afiliado_moneda',null,"codigo = $this->codigo_moneda");
+                    $data_comercio = $this->db->select('id_usuario','afiliado_moneda',$inner_comercio,$where_comercio);
                     if (false !== $data_comercio){
                         throw new ModelsException('El comercio ya posee esta moneda.');
                     }
 
                     # Si no posee la moneda, entonces se inserta en afiliado_moneda
-                    $this->db->insert('afiliado_moneda',array(
-                        'id_comercio_afiliado'=>$this->id_comercio,
-                        'codigo'=>$this->codigo_moneda,
-                        'monto'=>$monto,
-                        'fecha'=> time()
+                    $this->db->insert('user_moneda',array(
+                        'id_usuario'=>$data_comercio[0]['id_usuario'],
+                        'codigo_moneda'=>$this->codigo_moneda
                     ));                  
                 }
 

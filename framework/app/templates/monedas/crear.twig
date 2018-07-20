@@ -51,6 +51,34 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <div class="panel panel-warning selects_body">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Seleccione una sucursal o un comercio como dueño</h3>
+                        </div>
+                        <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
+                                        <select name="id_sucursal" id="" class="form-control m-b" style="width: 100%">
+                                            <option selected value>Seleccione una sucursal</option>
+                                                {% for s in sucursales if s.id_user is not null %}
+                                                    <option value="{{ s.id_sucursal }}">{{s.nombre}}</option>
+                                                {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="cc-payment" class="control-label mb-1">Comercio Afiliado<span>*</span></label>
+                                        <select name="id_comercio" id="" class="form-control m-b" style="width: 100%">
+                                            <option selected value>Seleccione un comercio</option>
+                                                {% for a in afiliados if a.id_user is not null %}
+                                                    <option value="{{ a.id_comercio_afiliado }}">{{a.nombre}}</option>
+                                                {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

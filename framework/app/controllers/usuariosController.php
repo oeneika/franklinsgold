@@ -32,6 +32,8 @@ class usuariosController extends Controllers implements IControllers {
         ));
         
         $u = new Model\Users($router);  
+        $s = new Model\Sucursales($router);  
+        $a = new Model\Afiliados($router);  
 
         switch($this->method) {
             case 'eliminar':
@@ -39,7 +41,9 @@ class usuariosController extends Controllers implements IControllers {
             break;
             default:
             $this->template->display('usuarios/usuarios',array(
-                'usuarios' => $u->getUsers()
+                'usuarios' => $u->getUsers(),
+                'afiliados' => $a->get(),
+                'sucursales' => $s->get()
             ));
             break;
         }
