@@ -164,29 +164,11 @@ $app->post('/transaccion/iniciar/qr', function() use($app) {
     return $app->json($t->receptorQr());   
 });
 
-/**
- * Endpoint para concretar una transaccion tipo venta/compra
- *
- * @return json
-*/
-$app->post('/transaccion/concretar/comven/qr', function() use($app) {
+$app->post('/transaccion/qr/concretar', function() use($app) {
     $t = new Model\Transaccion; 
   
-    return $app->json($t->tokenConfirmation(1));   
-  });
-
-/**
- * Endpoint para concretar una transaccion tipo intercambio
- *
- * @return json
-*/
-$app->post('/transaccion/concretar/inter/qr', function() use($app) {
-    $t = new Model\Transaccion; 
-  
-    return $app->json($t->tokenConfirmation(2));   
+    return $app->json($t->tokenConfirmation());   
 });
-
-
 
 
 

@@ -120,7 +120,7 @@ class Monedas extends Models implements IModels {
                 ));
             }
             else{
-                $id_user = $this->select('id_user','comercio_afiliado',null,"id_comercio_afiliado = $this->id_comercio")[0]['id_user'];
+                $id_user = $this->db->select('id_user','comercio_afiliado',null,"id_comercio_afiliado = $this->id_comercio")[0]['id_user'];
                 $this->db->insert('user_moneda', array(
                     'id_usuario'=>$id_user,
                     'codigo_moneda'=> $id_moneda

@@ -35,8 +35,8 @@ class transaccionController extends Controllers implements IControllers {
         $s = new Model\Sucursales($router);  
         $a = new Model\Afiliados($router);  
 
-        //$t->calculatePrice(59);
-
+        //$owner_user = $this->template->getGlobals()["owner_user"];
+        
         switch($this->method) {
           case 'compra':
             $this->template->display('transaccion/compra',array(
