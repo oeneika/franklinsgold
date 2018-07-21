@@ -20,7 +20,11 @@
                                 <select name="id_usuario" id="" class="form-control select2" style="width: 100%">
                                     <option disabled selected value>Seleccione un usuario</option>
                                     {% for u in usuarios %}
-                                    <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
+                                        {% if u.id_user == owner_user.id_user %}
+                                            <option selected value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>                                            
+                                        {% elseif owner_user.tipo == 1 %}
+                                            <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>                                            
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
@@ -30,7 +34,7 @@
                             <select name="codigo" id="" class="form-control m-b select2" style="width: 100%">
                                     <option disabled selected value>Seleccione una moneda</option>
                                     {% for m in monedas %}
-                                    <option value="{{ m.codigo }}">{{m.codigo}}</option>
+                                        <option value="{{ m.codigo }}">{{m.codigo}}</option>
                                     {% endfor %}
                             </select>
                         </div>

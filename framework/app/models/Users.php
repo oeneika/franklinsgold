@@ -689,6 +689,7 @@ class Users extends Models implements IModels {
                 }
             }
 
+            /*
             #Concatena una palabra para evitar repeticiones del codigoqr
             $conc = "usuarios".$id_user;
 
@@ -702,7 +703,8 @@ class Users extends Models implements IModels {
             #Se actualiza la db con la ruta de la imagen
             $this->db->update('users',array(
                 'codigo_qr'=> $img
-            ), "id_user = '$id_user'");
+            ), "id_user = '$id_user'");*/
+            
 
             return array('success' => 1, 'message' => 'Usuario creado con éxito!');
         } catch(ModelsException $e) {
@@ -762,10 +764,12 @@ class Users extends Models implements IModels {
             #Edita un usuario
             $this->db->update('users',$data,"id_user = '$id'",'1');
 
+            # Se eliminan las relaciones con sucursal y comercios
+            $this->db->real_query("UPDATE sucursal SET id_user = NULL WHERE id_user = $id");
+            $this->db->real_query("UPDATE comercio_afiliado SET id_user = NULL WHERE id_user = $id");
+
              #Se relaciona con sucursal o comercio si es un vendedor
-             if ($this->tipo == 1){
-                $this->db->real_query("UPDATE sucursal SET id_user = NULL WHERE id_user = $id");
-                $this->db->real_query("UPDATE comercio_afiliado SET id_user = NULL WHERE id_user = $id");
+            if ($this->tipo == 1){
                 if (!Helper\Functions::emp($this->id_sucursal)){
                     $this->db->update('sucursal', array('id_user'=>$id), "id_sucursal = $this->id_sucursal");
                 }

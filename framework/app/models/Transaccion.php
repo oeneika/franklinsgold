@@ -251,95 +251,95 @@ class Transaccion extends Models implements IModels {
 
         try {
 
-       #Revisa errores del formulario
-        $this->errors();
-
-
-        #En caso de ser una transaccion modo qr trae el id del usuario y el id de la moneda
-        #Si es un intercambio traerá el id del usuario que no inicio la transaccion (el id del emisor)
-        if($qr != 0){ 
-            #Correo del usuario que escaneo la moneda
-            $this->id_usuario = $this->db->select('id_user','users',null,"email='$this->id_usuario'")[0]["id_user"];
-
-            #Guarda el codigo qr de la moneda que se escaneo
-            $qr_moneda_emision = $this->codigo_moneda;
-
-            #En caso de ser una transaccion coloca la moneda principal como la moneda que el primer usuario escaneo
-            $this->codigo_moneda = $transaccion_en_espera[0]["codigo_qr_moneda"];  
-
-            #Trae el id de dicha moneda
-            $this->codigo_moneda =  $this->db->select("codigo","moneda",null,"qr_alfanumerico='$this->codigo_moneda'")[0]["codigo"];
-        }
-
-        
-        #Precios de las monedas
-        $precio_moneda1 = $this->calculatePrice($this->codigo_moneda); 
-        $precio_moneda2 = null; 
-
-
-        #Si es un intercambio
-        if ( $this->tipo == 3 ) {
-
-            #En caso de ser un intercambio vía qr extrae el id de la moneda secundaria del codigo qr
-            #En caso de ser un intercambio trae el id del usuario que lo inició (el id del receptor)
-            if($qr == 2){
-
-                #Guarda el id del usuario que inicio el intercambio como usuario secundario
-                $this->id_usuario2 = $transaccion_en_espera[0]["id_usuario"];
-
-                #Coloca el id de de la moneda recien escaneada como moneda secundaria
-                $this->codigo_moneda2 = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$qr_moneda_emision'")[0]["codigo"];
-
-                #Valida la existencia de una transaccion en espera con la moneda escaneada
-                $c = $this->db->select("codigo_qr_moneda","transaccion_en_espera",null,"codigo_qr_moneda='$this->codigo_moneda2'");
-                if ($c != false) {
-                    throw new ModelsException('Ya se está realizando una transacción con la moneda.');
-                }
-
-             }
-
-            $precio_moneda2 = $this->calculatePrice($this->codigo_moneda2); 
-
-        }   
-
-        #Almacena los datos para realizar la transaccion
-        $u = array(
-            'id_usuario' => $this->id_usuario,
-            'codigo_moneda' => $this->codigo_moneda,
-            'precio_moneda1' => $precio_moneda1,
-            'tipo' => $this->tipo,
-            'id_usuario2' => $this->id_usuario2,
-            'codigo_moneda2' => $this->codigo_moneda2,
-            'precio_moneda2' => $precio_moneda2,
-            'fecha' => time()
-        );
-
-        # Se agrega el id de la sucursal o del comercio
-        $key = (Helper\Functions::emp($this->id_sucursal))?'id_comercio_afiliado':'id_sucursal';
-        $u[$key] = (Helper\Functions::emp($this->id_sucursal))?$this->id_comercio:$this->id_sucursal;
-
-
-        #Array con datos validos para el update
-        $data = array();
-
-        #Valida que los datos no esten vacios y los inserta en el array "data"
-        foreach ($u as $key=>$val) {
-            if(NULL !== $u[$key] && !Functions::emp($u[$key])){
-                $data[$key] = $u[$key];
+            #Revisa errores del formulario
+            $this->errors();
+            
+            
+            #En caso de ser una transaccion modo qr trae el id del usuario y el id de la moneda
+            #Si es un intercambio traerá el id del usuario que no inicio la transaccion (el id del emisor)
+            if($qr != 0){ 
+                #Correo del usuario que escaneo la moneda
+                $this->id_usuario = $this->db->select('id_user','users',null,"email='$this->id_usuario'")[0]["id_user"];
+            
+                #Guarda el codigo qr de la moneda que se escaneo
+                $qr_moneda_emision = $this->codigo_moneda;
+            
+                #En caso de ser una transaccion coloca la moneda principal como la moneda que el primer usuario escaneo
+                $this->codigo_moneda = $transaccion_en_espera[0]["codigo_qr_moneda"];  
+            
+                #Trae el id de dicha moneda
+                $this->codigo_moneda =  $this->db->select("codigo","moneda",null,"qr_alfanumerico='$this->codigo_moneda'")[0]["codigo"];
             }
-        }
-
-        #Valida datos de las monedas con respecto a los usuarios ó comercios
-        $this->checkTransaction($precio_moneda1);
-
-        # Crea una transaccion
-        $id_transaccion =  $this->db->insert('transaccion',$data);
-
-        #En caso de ser un intercambio tipo qr elimina la transaccion en espera
-        if($qr != 0){
-            $token = $transaccion_en_espera[0]["token_confirmacion"];
-            $this->db->delete('transaccion_en_espera',"token_confirmacion='$token'");
-        }
+        
+            
+            #Precios de las monedas
+            $precio_moneda1 = $this->calculatePrice($this->codigo_moneda); 
+            $precio_moneda2 = null; 
+        
+        
+            #Si es un intercambio
+            if ( $this->tipo == 3 ) {
+            
+                #En caso de ser un intercambio vía qr extrae el id de la moneda secundaria del codigo qr
+                #En caso de ser un intercambio trae el id del usuario que lo inició (el id del receptor)
+                if($qr == 2){
+                
+                    #Guarda el id del usuario que inicio el intercambio como usuario secundario
+                    $this->id_usuario2 = $transaccion_en_espera[0]["id_usuario"];
+                
+                    #Coloca el id de de la moneda recien escaneada como moneda secundaria
+                    $this->codigo_moneda2 = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$qr_moneda_emision'")[0]["codigo"];
+                
+                    #Valida la existencia de una transaccion en espera con la moneda escaneada
+                    $c = $this->db->select("codigo_qr_moneda","transaccion_en_espera",null,"codigo_qr_moneda='$this->codigo_moneda2'");
+                    if ($c != false) {
+                        throw new ModelsException('Ya se está realizando una transacción con la moneda.');
+                    }
+                
+                 }
+             
+                $precio_moneda2 = $this->calculatePrice($this->codigo_moneda2); 
+             
+            }   
+        
+            #Almacena los datos para realizar la transaccion
+            $u = array(
+                'id_usuario' => $this->id_usuario,
+                'codigo_moneda' => $this->codigo_moneda,
+                'precio_moneda1' => $precio_moneda1,
+                'tipo' => $this->tipo,
+                'id_usuario2' => $this->id_usuario2,
+                'codigo_moneda2' => $this->codigo_moneda2,
+                'precio_moneda2' => $precio_moneda2,
+                'fecha' => time()
+            );
+        
+            # Se agrega el id de la sucursal o del comercio
+            $key = (Helper\Functions::emp($this->id_sucursal))?'id_comercio_afiliado':'id_sucursal';
+            $u[$key] = (Helper\Functions::emp($this->id_sucursal))?$this->id_comercio:$this->id_sucursal;
+        
+        
+            #Array con datos validos para el update
+            $data = array();
+        
+            #Valida que los datos no esten vacios y los inserta en el array "data"
+            foreach ($u as $key=>$val) {
+                if(NULL !== $u[$key] && !Functions::emp($u[$key])){
+                    $data[$key] = $u[$key];
+                }
+            }
+        
+            #Valida datos de las monedas con respecto a los usuarios ó comercios
+            $this->checkTransaction($precio_moneda1);
+        
+            # Crea una transaccion
+            $id_transaccion =  $this->db->insert('transaccion',$data);
+        
+            #En caso de ser un intercambio tipo qr elimina la transaccion en espera
+            if($qr != 0){
+                $token = $transaccion_en_espera[0]["token_confirmacion"];
+                $this->db->delete('transaccion_en_espera',"token_confirmacion='$token'");
+            }
 
 
             return array('success' => 1, 'message' => 'Transacción creada con éxito!');
@@ -417,12 +417,12 @@ class Transaccion extends Models implements IModels {
             ));
 
             # Si no posee la moneda, entonces se inserta en afiliado_moneda
-            $this->db->insert('afiliado_moneda',array(
+            /*$this->db->insert('afiliado_moneda',array(
                 'id_comercio_afiliado'=>$data['id_comercio'],
                 'codigo'=>$data['codigo'],
                 'monto'=>$monto,
                 'fecha'=>$fecha
-            )); 
+            )); */
 
             $this->db->delete('user_moneda','id_usuario='.$data['id_usuario'].' AND codigo_moneda='.$data['codigo']);
             return array('success' => 1, 'message' => 'Transaccion creada con exito');
@@ -436,7 +436,7 @@ class Transaccion extends Models implements IModels {
      * Trae los intercambios con comercios
      */
     public function getIntercambiosAfiliados(){
-        $where = 'comercio_afiliado.id_comercio_afiliado = transaccion.id_comercio_afiliado AND users.id_user = transaccion.id_usuario AND transaccion.tipo = 4';
+        $where = 'comercio_afiliado.id_comercio_afiliado = transaccion.id_comercio_afiliado AND users.id_user = transaccion.id_usuario';
         $result = $this->db->select('DISTINCT users.primer_nombre, users.primer_apellido, users.id_user, comercio_afiliado.nombre, comercio_afiliado.id_comercio_afiliado','transaccion, users, comercio_afiliado',null,$where);
         return $result;
     }
@@ -445,7 +445,7 @@ class Transaccion extends Models implements IModels {
      * Trae los intercambios con comercios de un user especifico
      */
     public function getIntercambiosUsers($id_user,$id_comercio){
-        $where = "id_comercio_afiliado = $id_comercio AND id_usuario = $id_user AND tipo = 4";
+        $where = "id_comercio_afiliado = $id_comercio AND id_usuario = $id_user";
 
         $intercambios = $this->db->select('codigo_moneda AS codigo, precio_moneda1 AS monto, fecha','transaccion',null,$where);
 

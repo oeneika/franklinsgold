@@ -81,7 +81,7 @@
                                         <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
                                         <select name="id_sucursal" id="" class="form-control m-b" style="width: 100%">
                                             <option selected value>Seleccione una sucursal</option>
-                                                {% for s in sucursales %}
+                                                {% for s in sucursales if s.id_user is null %}
                                                     <option value="{{ s.id_sucursal }}">{{s.nombre}}</option>
                                                 {% endfor %}
                                         </select>
