@@ -91,5 +91,6 @@
 </div>
 {% endblock %}
 {% block appFooter %}
+    <script>var usuarios = {{ usuarios|json_encode()|raw }}</script>
     <script src="./assets/jscontrollers/transaccion/crear.js"></script>
 {% endblock %}

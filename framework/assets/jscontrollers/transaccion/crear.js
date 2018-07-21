@@ -161,3 +161,23 @@ $('crear_transacciones_form').keypress(function (e) {
         return false;
     }
 });
+
+$('#selector_comercio').on('change',function(e){
+    e.defaultPrevented;
+    usuarios.forEach(element => {
+        if(element.id_comercio_afiliado == $(this).val() && $('#selector_usuario').val() == element.id_user){
+            toastr.error('El usuario que eligio pertenece a este comercio', '¡Ups!');
+            $(this).val(null).change();
+        }
+    });
+});
+
+$('#selector_sucursal').on('change',function(e){
+    e.defaultPrevented;
+    usuarios.forEach(element => {
+        if(element.id_sucursal == $(this).val() && $('#selector_usuario').val() == element.id_user){
+            toastr.error('El usuario que eligio pertenece a esta sucursal', '¡Ups!');
+            $(this).val(null).change();
+        }
+    });
+});

@@ -19,7 +19,11 @@
                                 <select name="id_usuario" id="id_id_usuario" class="form-control select2" style="width: 100%" onchange="disableSelectOption('id_id_usuario','id_id_usuario2')">
                                         <option disabled selected value>Seleccione un cliente</option>
                                         {% for u in usuarios %}
-                                        <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>
+                                            {% if u.id_user == owner_user.id_user %}
+                                                <option selected value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>                                            
+                                            {% elseif owner_user.tipo != 1 %}
+                                                <option value="{{ u.id_user }}">{{ u.primer_nombre }} {{ u.primer_apellido }}</option>                                            
+                                            {% endif %}
                                         {% endfor %}
                                 </select>
                                 <label for="cc-payment" class="control-label mb-1" >Usuario Receptor<span>*</span></label>
