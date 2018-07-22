@@ -315,8 +315,8 @@ class Transaccion extends Models implements IModels {
             );
         
             # Se agrega el id de la sucursal o del comercio
-            $key = (Helper\Functions::emp($this->id_sucursal))?'id_comercio_afiliado':'id_sucursal';
-            $u[$key] = (Helper\Functions::emp($this->id_sucursal))?$this->id_comercio:$this->id_sucursal;
+            /*$key = (Helper\Functions::emp($this->id_sucursal))?'id_comercio_afiliado':'id_sucursal';
+            $u[$key] = (Helper\Functions::emp($this->id_sucursal))?$this->id_comercio:$this->id_sucursal;*/
         
         
             #Array con datos validos para el update

@@ -34,10 +34,10 @@ function historialUsuario(id) {
                     <td>${mitipo}</td>
                     <td>${json[i].id_usuario == id ? json[i].m1 : json[i].m2}</td>
                     <td>${date('F j, Y',json[i].fecha)}</td>
-                    <td>${json[i].nombre == null ? "" : json[i].nombre}</td>
+                    
                 </tr>`                
                 );           
-          }//fecha('D, d F, Y h:i a', json[i].fecha)   date('F j, Y',json[i].fecha)  
+          }//<td>${json[i].nombre == null ? "" : json[i].nombre}</td> 
 
         },
         error : function(xhr, status) {

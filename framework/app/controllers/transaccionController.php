@@ -59,7 +59,7 @@ class transaccionController extends Controllers implements IControllers {
           case 'intercambio':
             $this->template->display('transaccion/intercambio',array(
                 'transacciones' => $t->getTransacciones(3),
-                'usuarios' => $u->getUsers("*","tipo=2"),
+                'usuarios' => $u->getUsers("*","tipo=2 or tipo=1"),
                 'monedas' => $m->getMonedas()
             ));
           break;

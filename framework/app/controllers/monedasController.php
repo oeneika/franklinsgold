@@ -35,7 +35,6 @@ class monedasController extends Controllers implements IControllers {
         $s = new Model\Sucursales($router);  
         $a = new Model\Afiliados($router); 
 
-        //$m->getPrice();
         
         switch($this->method) {
             case 'eliminar':
