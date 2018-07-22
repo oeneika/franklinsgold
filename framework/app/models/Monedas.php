@@ -69,14 +69,9 @@ class Monedas extends Models implements IModels {
             throw new ModelsException('La composición es incorrecta.');
         }
 
-        if(!Helper\Functions::emp($this->id_comercio) && !Helper\Functions::emp($this->id_sucursal)){
-            throw new ModelsException('El usuario solo puede pertenecer a una sucursal o a un comercio.');
+        if(Helper\Functions::emp($this->id_sucursal)){
+            throw new ModelsException('Debe seleccionar una sucursal.');
         }
-
-        if(Helper\Functions::emp($this->id_comercio) && Helper\Functions::emp($this->id_sucursal)){
-            throw new ModelsException('Debe seleccionar una sucursal o comercio.');
-        }
-
 
     }
 
@@ -112,20 +107,11 @@ class Monedas extends Models implements IModels {
             # Obtenemos el id de la moneda insertada
             $id_moneda =  $this->db->insert('moneda',$u);
 
-            if (!Helper\Functions::emp($this->id_sucursal)){
-                $id_user = $this->db->select('id_user','sucursal',null,"id_sucursal = $this->id_sucursal")[0]['id_user'];
-                $this->db->insert('user_moneda', array(
-                    'id_usuario'=>$id_user,
-                    'codigo_moneda'=> $id_moneda
-                ));
-            }
-            else{
-                $id_user = $this->db->select('id_user','comercio_afiliado',null,"id_comercio_afiliado = $this->id_comercio")[0]['id_user'];
-                $this->db->insert('user_moneda', array(
-                    'id_usuario'=>$id_user,
-                    'codigo_moneda'=> $id_moneda
-                ));
-            }
+            $id_user = $this->db->select('id_user','sucursal',null,"id_sucursal = $this->id_sucursal")[0]['id_user'];
+            $this->db->insert('user_moneda', array(
+                'id_usuario'=>$id_user,
+                'codigo_moneda'=> $id_moneda
+            ));
 
             $fecha = date('dmY',$fecha);
 
