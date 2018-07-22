@@ -10,9 +10,23 @@
                 <small class="font-bold">Franklins Gold</small>
             </div>
             <div class="modal-body">
-                <form id="crear_transacciones_form">
+                <form id="crear_transacciones_form" onsubmit='return validar()'>
                     <input id="tipo_transaccion" name="tipo" type="hidden">
                     <div class="row">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5 style="color:#f7a54a;">• ¡Importante! •</h5>
+                                <div class="ibox-tools">
+                                    <a class="close-link">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+                                <p style="text-align:justify;">Verifique antes de crear un intercambio que el usuario receptor y emisor no sean iguales, sinó no podrá realizar el intercambio.</p>
+                            </div>
+                        </div>
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1" >Usuario Emisor<span>*</span></label>
@@ -51,6 +65,7 @@
                                     {% endfor %}
                             </select>
                         </div>
+
                     </div>
                 </form>
             </div>

@@ -11,6 +11,13 @@ var monDisableds2;
  */
 function disableSelectOption(id_select,id_select2){
 
+        $("#id_select").select2({
+            dropdownCssClass:'increasezindex',
+            width: 'style', 
+            disabled:'true',
+            dropdownParent: $('.modal')
+        });
+
     if(id_select === "id_id_usuario"){
 
          //Reactiva la ultima opcion desactivada

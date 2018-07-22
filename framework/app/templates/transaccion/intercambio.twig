@@ -96,4 +96,20 @@
 {% endblock %} 
 {% block appFooter %}
 <script src="./assets/jscontrollers/transaccion/crear.js"></script> 
+<script>
+    function validar(){
+
+    var todo_correcto = true;
+
+    if(document.getElementById('id_id_usuario').value == document.getElementById('id_id_usuario2').value){
+    todo_correcto = false;
+    }
+
+    if(!todo_correcto){
+    alert('Algunos campos no están correctos, vuelva a revisarlos');
+    }
+
+    return todo_correcto;
+    }
+</script>
 {% endblock %}
