@@ -1,0 +1,33 @@
+<div class="modal inmodal" id="confirmarTransacciones" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+                <h4 class="modal-title">Confirmar transaccion</h4>
+                <small class="font-bold">Franklins Gold</small>
+            </div>
+            <div class="modal-body">
+                <form id="confirmar_transacciones_form">
+                    <input type="hidden" id="id_usuario_con" name="id_usuario" value="{{ owner_user.email }}">
+                    <input type="hidden" name="tipo" value="1">
+                    <input type="hidden" id="id_codigo_con" name="codigo" value="importa?">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1" >Código de confirmacion<span>*</span></label>
+                                <input type="text" class="form-control" name="codigo_confirmacion" id="codigo_confirmacion">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="confirmartransaccionesbtn" class="btn btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -553,6 +553,7 @@ class Transaccion extends Models implements IModels {
             $codigo_confirmacion = $http->request->get('codigo_confirmacion'); 
             $tipo_transaccion = $http->request->get('tipo'); 
 
+
             #Valida el tipo de transaccion
             if($tipo_transaccion!= 1 and $tipo_transaccion!= 3 ){
                 throw new ModelsException('Tipo de transacción inválida.');
@@ -627,6 +628,11 @@ class Transaccion extends Models implements IModels {
         return $this->db->select('transaccion.fecha,transaccion.tipo,transaccion.id_usuario,s.nombre,m1.codigo as m1,m2.codigo as m2',
                                  'transaccion',$inner,"transaccion.id_usuario='$id_user' OR transaccion.id_usuario2='$id_user'");
 
+    }
+
+    public function getTransaccionEnEspera($codigo_confirmacion){
+        $result = $this->db->select('transaccion_en_espera.codigo_qr_moneda, users.email','transaccion_en_espera, users',null,"token_confirmacion = '$codigo_confirmacion' AND transaccion_en_espera.id_usuario = users.id_user");
+        return $result;
     }
 
 

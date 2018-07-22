@@ -56,3 +56,9 @@ $app->get('/get/datos_generales_usuario', function() use($app) {
   
     return $app->json($u->datosGenerales());   
 });
+
+$app->get('/get/transaccion_en_espera/{id}', function($id) use($app) {
+    $t = new Model\Transaccion; 
+  
+    return $app->json($t->getTransaccionEnEspera($id));   
+});

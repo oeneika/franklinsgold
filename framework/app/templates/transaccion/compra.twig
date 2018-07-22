@@ -22,9 +22,11 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="col-lg-12">
-
                 <a onclick="crearTransaccion(1)" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;">
                     <i class="fa fa-tags"></i> Crear Compra</a>
+
+                <a onclick="confirmarTransaccion()" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;">
+                    <i class="fa fa-check"></i> Confirmar Transaccion</a>
 
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
@@ -89,11 +91,13 @@
         </div>
     </div>
     {% include 'transaccion/crear' %} 
+    {% include 'transaccion/confirmar' %} 
     {% include 'overall/footer' %}
 </div>
 {% endblock %} 
 {% block appFooter %}
     <script>var usuarios = {{ usuarios|json_encode()|raw }}</script>
     <script src="./assets/jscontrollers/transaccion/crear.js"></script> 
+    <script src="./assets/jscontrollers/transaccion/confirmar.js"></script> 
     
 {% endblock %}
