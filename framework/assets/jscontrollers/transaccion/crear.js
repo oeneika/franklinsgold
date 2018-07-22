@@ -11,7 +11,7 @@ var monDisableds2;
  */
 function disableSelectOption(id_select,id_select2){
 
-    if(id_select == 'id_id_usuario'){
+    if(id_select === "id_id_usuario"){
 
          //Reactiva la ultima opcion desactivada
         $("#"+id_select2+ " option[value=" + userDisableds2 + "]").removeAttr('disabled');
