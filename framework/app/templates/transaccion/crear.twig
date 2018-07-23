@@ -17,7 +17,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
-                                <select name="id_usuario" id="selector_usuario" class="form-control select2" style="width: 100%">
+                                <select name="id_usuario" id="selector_usuario" class="form-control" style="width: 100%">
                                     <option disabled selected value>Seleccione un usuario</option>
                                     {% for u in usuarios %}
                                         {% if u.id_user == owner_user.id_user %}
@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="cc-payment" class="control-label mb-1">Moneda<span>*</span></label>
-                            <select name="codigo" id="" class="form-control m-b select2" style="width: 100%">
+                            <select name="codigo" id="" class="form-control m-b" style="width: 100%">
                                     <option disabled selected value>Seleccione una moneda</option>
                                     {% for m in monedas %}
                                         <option value="{{ m.codigo }}">{{m.codigo}}</option>
