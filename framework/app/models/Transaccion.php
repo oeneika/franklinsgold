@@ -207,11 +207,14 @@ class Transaccion extends Models implements IModels {
      * 
      * @return exception
     */ 
-    private function errors(bool $edit = false){
+    private function errors(int $qr = 0){
         global $http;
 
-        $this->id_usuario = $http->request->get('id_usuario');
-        $this->codigo_moneda = $http->request->get('codigo');     
+        if($qr == 0){
+            $this->id_usuario = $http->request->get('id_usuario');
+            $this->codigo_moneda = $http->request->get('codigo');  
+        }
+
         $this->tipo = $http->request->get('tipo');
 
         /*$this->id_sucursal = $http->request->get('id_sucursal');
@@ -259,7 +262,7 @@ class Transaccion extends Models implements IModels {
             }
 
             #Revisa errores del formulario
-            $this->errors();
+            $this->errors($qr);
             
             
             #En caso de ser una transaccion modo qr trae el id del usuario y el id de la moneda
@@ -508,8 +511,8 @@ class Transaccion extends Models implements IModels {
         }           
             
         #Genera token para confirmar la transaccion
-        //$token = md5(time());
-        $token = substr(uniqueid(rand(97,122)), 0, 8);
+        $token = md5(time());
+        //$token = substr(uniqueid(rand(97,122)), 0, 8);
 
         #Guarda el id del usuario que escaneo la moneda, el codigo de la moneda escaneada y el token de confirmacion
         $data = array(
