@@ -210,7 +210,7 @@ class Transaccion extends Models implements IModels {
     private function errors(int $qr = 0){
         global $http;
 
-        if($qr == 0){
+        if($qr != 1){
             $this->id_usuario = $http->request->get('id_usuario');
             $this->codigo_moneda = $http->request->get('codigo');  
         }
