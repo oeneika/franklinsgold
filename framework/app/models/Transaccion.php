@@ -511,8 +511,8 @@ class Transaccion extends Models implements IModels {
         }           
             
         #Genera token para confirmar la transaccion
-        $token = md5(time());
-        //$token = substr(uniqueid(rand(97,122)), 0, 8);
+        //$token = md5(time());
+        $token = substr(uniqid(chr(rand(97,122))), 0, 8);
 
         #Guarda el id del usuario que escaneo la moneda, el codigo de la moneda escaneada y el token de confirmacion
         $data = array(
