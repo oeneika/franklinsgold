@@ -251,6 +251,13 @@ class Transaccion extends Models implements IModels {
 
         try {
 
+            #Si es una compra tipo qr confirmada desde la app solo recibe el hash
+            #Por ende trae los datos de la transaccion en espera para rechazar los errores
+            if($qr == 1){
+                $this->codigo_moneda = $transaccion_en_espera[0]["codigo_qr_moneda"];
+                $this->id_usuario = $transaccion_en_espera[0]["id_usuario"];
+            }
+
             #Revisa errores del formulario
             $this->errors();
             
@@ -258,8 +265,11 @@ class Transaccion extends Models implements IModels {
             #En caso de ser una transaccion modo qr trae el id del usuario y el id de la moneda
             #Si es un intercambio traerá el id del usuario que no inicio la transaccion (el id del emisor)
             if($qr != 0){ 
-                #Correo del usuario que escaneo la moneda
-                $this->id_usuario = $this->db->select('id_user','users',null,"email='$this->id_usuario'")[0]["id_user"];
+
+                #En caso de ser un intercambio trae el id con el correo del usuario que escaneo la moneda
+                if($qr ==  2){              
+                    $this->id_usuario = $this->db->select('id_user','users',null,"email='$this->id_usuario'")[0]["id_user"];
+                }
             
                 #Guarda el codigo qr de la moneda que se escaneo
                 $qr_moneda_emision = $this->codigo_moneda;
@@ -498,7 +508,8 @@ class Transaccion extends Models implements IModels {
         }           
             
         #Genera token para confirmar la transaccion
-        $token = md5(time());
+        //$token = md5(time());
+        $token = substr(uniqueid(rand(97,122)), 0, 8);
 
         #Guarda el id del usuario que escaneo la moneda, el codigo de la moneda escaneada y el token de confirmacion
         $data = array(
