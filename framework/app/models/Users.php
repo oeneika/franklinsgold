@@ -382,6 +382,15 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Campo sexo no definido');
             }
 
+            #Verificar que solo existan letras en los nombres y apellidos
+            if(!Helper\Strings::only_letters($user_data['primer_nombre']) || !Helper\Strings::only_letters($user_data['segundo_nombre'])){
+                throw new ModelsException('Los nombres solo pueden contener letras');
+            }
+
+            if(!Helper\Strings::only_letters($user_data['primer_apellido']) || !Helper\Strings::only_letters($user_data['segundo_apellido'])){
+                throw new ModelsException('Los apellidos solo pueden contener letras');
+            }
+
             # Verificar email 
             $this->checkEmail($user_data['email']);
 

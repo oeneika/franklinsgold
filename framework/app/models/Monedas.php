@@ -69,7 +69,7 @@ class Monedas extends Models implements IModels {
             throw new ModelsException('La composición es incorrecta.');
         }
 
-        if(Helper\Functions::emp($this->id_sucursal)){
+        if(Helper\Functions::emp($this->id_sucursal) && !$edit){
             throw new ModelsException('Debe seleccionar una sucursal.');
         }
 
@@ -99,11 +99,6 @@ class Monedas extends Models implements IModels {
             );
 
 
-            $this->diametro = str_pad($this->diametro,3,'0',STR_PAD_LEFT);
-            $this->espesor = str_pad($this->espesor,3,'0',STR_PAD_LEFT);
-            $this->composicion = $this->composicion == 'oro' ? 'ORO':'PLA';
-            $this->peso = str_pad($this->peso,3,'0',STR_PAD_LEFT);
-
             # Obtenemos el id de la moneda insertada
             $id_moneda =  $this->db->insert('moneda',$u);
 
@@ -115,10 +110,16 @@ class Monedas extends Models implements IModels {
 
             $fecha = date('dmY',$fecha);
 
+            # Datos del codigo QR
             $origen = $this->db->select('abreviatura','origen',null,"id_origen = $this->id_origen")[0];
+            $this->diametro = str_pad($this->diametro,3,'0',STR_PAD_LEFT);
+            $this->espesor = str_pad($this->espesor,3,'0',STR_PAD_LEFT);
+            $this->composicion = $this->composicion == 'oro' ? 'ORO':'PLA';
+            $this->peso = str_pad($this->peso,3,'0',STR_PAD_LEFT);
+            $id_moneda_padded = str_pad($id_moneda,6,'0',STR_PAD_LEFT);
 
             #Concatena una palabra para evitar repeticiones del codigoqr
-            $conc = $origen['abreviatura'] . " $this->diametro $this->espesor $this->composicion $this->peso $fecha";
+            $conc = $origen['abreviatura'] . " $id_moneda_padded $this->diametro $this->espesor $this->composicion $this->peso $fecha";
 
             # Url del codigo qr
             $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=".urlencode($conc);
@@ -169,13 +170,14 @@ class Monedas extends Models implements IModels {
             $this->espesor = str_pad($this->espesor,3,'0',STR_PAD_LEFT);
             $this->composicion = $this->composicion == 'oro' ? 'ORO':'PLA';
             $this->peso = str_pad($this->peso,3,'0',STR_PAD_LEFT);
+            $id_moneda_padded = str_pad($id,6,'0',STR_PAD_LEFT);
 
             $fecha = date('dmY',$fecha);
 
             $origen = $this->db->select('abreviatura','origen',null,"id_origen = $this->id_origen")[0];
 
             #Concatena una palabra para evitar repeticiones del codigoqr
-            $conc = $origen['abreviatura'] . " $this->diametro $this->espesor $this->composicion $this->peso $fecha";
+            $conc = $origen['abreviatura'] . " $id_moneda_padded $this->diametro $this->espesor $this->composicion $this->peso $fecha";
 
             #Se le agrega el codigo al array
             $u['qr_alfanumerico'] = $conc;
