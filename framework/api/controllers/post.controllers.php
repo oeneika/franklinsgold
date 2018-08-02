@@ -179,3 +179,13 @@ $app->post('/afiliados/editar', function() use($app) {
 
     return $app->json($a->edit());   
 });
+/**
+ * Endpoint para comprayventa
+ *
+ * @return json
+*/
+$app->post('/comprayventa', function() use($app) {
+    $c = new Model\Comprayventa; 
+
+    return $app->json($c->foo());   
+});
