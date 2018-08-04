@@ -30,7 +30,11 @@
                             <a href="origen/"><i class="fa fa-home"></i><span class="nav-label">Origen</span>
                             </a>
                         </li>
+                        <li class="">
+                            <a href="ordenadmin/"><i class="fa fa-shopping-cart"></i><span class="nav-label">Ordenes</span></a>
+                        </li>
                     {% endif %}
+                    {% if owner_user.tipo == 0 or owner_user.tipo == 1 %}
                     <li class="">
                         <a><i class="fa fa-line-chart"></i> <span class="nav-label">Transacciones</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
@@ -44,10 +48,13 @@
                                 <a href="transaccion/intercambio/">Intercambio</a>
                             </li>
                         </ul>
-                    </li>
+                    </li>                   
+                    {% endif %}
+                    {% if owner_user.tipo == 0 or owner_user.tipo == 2 %}
                     <li class="">
-                        <a href="comprayventa/dashboard/"><i class="fa fa-home"></i><span class="nav-label">Compra y Venta</span></a>
+                        <a href="ordencliente/"><i class="fa fa-money"></i><span class="nav-label">Compra, Venta, Intercambio</span></a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

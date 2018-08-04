@@ -317,16 +317,14 @@ class Users extends Models implements IModels {
         try {
             global $http;
 
-
-
             # Obtener los datos $_POST
             $user_data = $http->request->all();
 
-            #Verificar que se este accediendo desde la web
-            $tipo = array_key_exists('tipo',$user_data)?0:2;
+            #Todo usuario que se registre será un cliente
+            $tipo = 2;
 
             if ($tipo !== 0 && $tipo !== 1 && $tipo !== 2){
-                throw new ModelsException('Tipo de usuario invalido');
+                throw new ModelsException('Tipo de usuario inválido');
             }
 
             # Verificar que no están vacíos

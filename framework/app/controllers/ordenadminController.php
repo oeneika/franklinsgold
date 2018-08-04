@@ -18,24 +18,31 @@ use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
 
 /**
- * Controlador comprayventa/
+ * Controlador usado por los admis para gestionar ordenes/
 */
-class comprayventaController extends Controllers implements IControllers {
+class ordenadminController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
-            'users_logged' => true,
-            'users_admin'=>true
+            'users_admin' => true
         ));
 
-          switch($this->method) {
-          case 'compra':
-            $this->template->display('transaccion/compra');
-          break;
-          default:
-           $this->template->display('comprayventa/dashboard');
-          break;
+        $o = new Model\Orden($router);  
+
+        switch($this->method) {
+            case 'eliminar':
+                $o->del();           
+            break;
+            case 'concretar':
+                $o->specifyOrden();           
+            break;
+            default:
+            $this->template->display('ordenes/ordenes',array(
+                'ordenes' => $o->get()
+            ));
+            break;
         }
+ 
         
     }
 }

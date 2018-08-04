@@ -9,45 +9,47 @@
 
             <div class="modal-body">
 
-                <form id="crear_usuario_form">
+                <form id="crearOrdenCompra_form">
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1" >Oro o Plata</label>
-                                <select name="id_usuario" id="" class="form-control select2" style="width: 100%">
+                                <select name="tipo_gramo" id="" class="form-control" style="width: 100%">
                                     <option disabled selected value>Seleccione un tipo</option>
-                                    <option>Opción 1</option>
+                                    <option value="oro">Oro</option>
+                                    <option value="plata">Plata</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1" >Usuario</label>
-                                <select name="id_usuario" id="" class="form-control select2" style="width: 100%">
-                                    <option disabled selected value>Seleccione un Usuario</option>
-                                    <option>Opción 1</option>
-                                </select>
-                            </div>
+                            
                         </div>
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1">Gramos a comprar</label>
-                                <input  name="segundo_nombre" type="number" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                            </div>
-                            <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1" >Sucursal</label>
-                                <select name="id_usuario" id="" class="form-control select2" style="width: 100%">
-                                    <option disabled selected value>Seleccione un sucursal</option>
-                                    <option>Opción 1</option>
-                                </select>
-                            </div>
+                                <input name="cantidad" type="number" class="form-control" aria-required="true" aria-invalid="false" >
+                            </div>                           
+                        </div>
+                        <div class="col-md-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="cc-payment" class="control-label mb-1" >Sucursal</label>
+                            <select name="id_sucursal" id="" class="form-control" style="width: 100%">
+                                <option disabled selected value>Seleccione un sucursal</option>
+                                {% for s in sucursales %}
+                                    <option value="{{s.id_sucursal}}">{{s.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         </div>
                     </div>  
+
+                    <input name="id_usuario" value="{{owner_user.id_user}}" type="hidden">
+                    <input name="tipo_orden" value="1" type="hidden"> 
                 </form>
 
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                <button type="button" id="crearUsuariobtn" class="btn btn-primary">Crear</button>
+                <button type="button" id="crearOrdenCompra" class="btn btn-primary">Crear</button>
             </div>
         </div>
     </div>

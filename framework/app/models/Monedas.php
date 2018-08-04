@@ -159,13 +159,16 @@ class Monedas extends Models implements IModels {
 
 
     /**
-     * Obtiene a todas las monedas
-     *    
+     * Obtiene elementos de monedas
+     *   
+     * @param select :  elementos a traer en la consulta
+     * @param sucursal  : inner join con id sucursal
      *
      * @return false|array con información de los usuarios
      */  
-    public function getMonedas(string $select = '*') {
-        $inner = "INNER JOIN origen ON origen.id_origen=moneda.id_origen";
+    public function getMonedas(string $select = '*',string $sucursal=" ") {
+        $inner = "INNER JOIN origen ON origen.id_origen=moneda.id_origen ";
+        $inner = $inner . $sucursal;
         return $this->db->select('moneda.*,origen.nombre','moneda',$inner);
     }
 

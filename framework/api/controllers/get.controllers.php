@@ -50,3 +50,12 @@ $app->get('/get/datos_generales_usuario', function() use($app) {
   
     return $app->json($u->datosGenerales());   
 });
+
+$app->get('/get/monedas/BySucursal/{id}', function($id) use($app) {
+    $m = new Model\Monedas; 
+  
+    $inner = "INNER JOIN sucursal s ON s.id_sucursal='$id'
+              INNER JOIN user_moneda um ON um.id_usuario=s.id_user and um.codigo_moneda=moneda.codigo";
+
+    return $app->json($m->getMonedas('*',$inner));   
+});

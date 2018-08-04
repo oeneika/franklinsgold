@@ -143,7 +143,10 @@ abstract class Controllers {
       $this->controllerConfig = array_merge(array(
         'users_logged' => false,
         'users_not_logged' => false,
-        'users_admin'=>false
+        'users_admin'=> false,
+        'users_vendedor'=> false,
+        'users_clienteadmin'=> false,
+        'users_vendedoradmin'=> false
       ), $config);
     }
     
@@ -160,8 +163,28 @@ abstract class Controllers {
         Helper\Functions::redir($config['build']['url'] . 'login');
       }
 
-      # Sólamente usuarios logeados
+      # Si es un cliente solo podrá ver una única vista
+      if (($this->controllerConfig['users_admin'] or $this->controllerConfig['users_vendedor'] or $this->controllerConfig['users_logged']) && $this->user['tipo']==2) {
+        Helper\Functions::redir($config['build']['url'] . 'ordencliente');
+      }
+
+      # Sólamente usuarios tipo admin
       if ($this->controllerConfig['users_admin'] && !$this->user['tipo']==0) {
+        Helper\Functions::redir($config['build']['url'] . 'home');
+      }
+
+      # Sólamente usuarios tipo vendedor
+      if ($this->controllerConfig['users_vendedor'] && !$this->user['tipo']==1) {
+        Helper\Functions::redir($config['build']['url'] . 'home');
+      }
+
+      # Sólamente usuarios tipo cliente y admin
+      if ($this->controllerConfig['users_clienteadmin'] && $this->user['tipo']==1) {
+        Helper\Functions::redir($config['build']['url'] . 'home');
+      }
+
+      # Sólamente usuarios tipo vendedor y admin
+      if ($this->controllerConfig['users_vendedoradmin'] && $this->user['tipo']==2) {
         Helper\Functions::redir($config['build']['url'] . 'home');
       }
 

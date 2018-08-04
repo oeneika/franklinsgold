@@ -68,17 +68,17 @@
                                 <h5>Total de gramos comprados en oro</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">1</h1>
+                                <h1 class="no-margins">{{total_oro_comprado}}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Total de gramos comprados en oro</h5>
+                                <h5>Total de gramos comprados en plata</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">2</h1>
+                                <h1 class="no-margins">{{total_plata_comprado}}</h1>
                             </div>
                         </div>
                     </div>
@@ -96,27 +96,23 @@
                                     <table class="table table-striped table-bordered table-hover tablita" >
                                         <thead>
                                         <tr>
-                                            <th>Lorem ipsum</th>
-                                            <th>Lorem ipsum</th>
-                                            <th>Lorem ipsum</th>
+                                            <th>Id</th>
+                                            <th>Usuario</th>
+                                            <th>Sucursal</th>
+                                            <th>Cantidad</th>
+                                            <th>Tipo Orden</th>
                                         </tr>
                                         </thead>
                                         <tbody>  
+                                            {% for a in ultimas_cinco_ordenes_oro %} 
                                             <tr>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
+                                                <td>{{ a.id_orden }}</td>
+                                                <td>{{ a.primer_nombre }} {{ a.primer_apellido }}</td>
+                                                <td>{{ a.nombre_sucursal }}</td>
+                                                <td>{{ a.cantidad }}</td>
+                                                <td>{{ a.tipo_orden == 1 ? 'Compra' :  a.tipo_orden == 2  ? "Venta" : "Intercambio" }}</td>
                                             </tr>
-                                            <tr>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                            </tr>
+                                            {% endfor %}  
                                         </tbody>
                                     </table>
                             	</div>
@@ -133,27 +129,23 @@
                                     <table class="table table-striped table-bordered table-hover tablita" >
                                         <thead>
                                         <tr>
-                                            <th>Lorem ipsum</th>
-                                            <th>Lorem ipsum</th>
-                                            <th>Lorem ipsum</th>
+                                            <th>Id</th>
+                                            <th>Usuario</th>
+                                            <th>Sucursal</th>
+                                            <th>Cantidad</th>
+                                            <th>Tipo Orden</th>
                                         </tr>
                                         </thead>
                                         <tbody>  
+                                           {% for a in ultimas_cinco_ordenes_plata %} 
                                             <tr>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
+                                                <td>{{ a.id_orden }}</td>
+                                                <td>{{ a.primer_nombre }} {{ a.primer_apellido }}</td>
+                                                <td>{{ a.nombre_sucursal }}</td>
+                                                <td>{{ a.cantidad }}</td>
+                                                <td>{{ a.tipo_orden == 1 ? 'Compra' :  a.tipo_orden == 2  ? "Venta" : "Intercambio" }}</td>
                                             </tr>
-                                            <tr>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                                <td>Lorem ipsum</td>
-                                            </tr>
+                                            {% endfor %}                           
                                         </tbody>
                                     </table>
                             	</div>
@@ -163,13 +155,14 @@
                 </div>
             </div>
 
-{% include 'comprayventa/compra' %}
-{% include 'comprayventa/venta' %}
-{% include 'comprayventa/intercambio' %}
+{% include 'ordenes/compra' %}
+{% include 'ordenes/venta' %}
+{% include 'ordenes/intercambio' %}
 {% include 'overall/footer' %}
 </div>
 {% endblock %}
 
 {% block appFooter %}
-    <script src="./assets/jscontrollers/comprayventa/comprayventa.js"></script>
+    <script src="./assets/jscontrollers/ordenes/crear.js"></script>
+    <script src="./assets/jscontrollers/home/dashboard.js"></script>
 {% endblock %}
