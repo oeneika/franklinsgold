@@ -16,6 +16,7 @@ use Ocrend\Kernel\Helpers as Helper;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
+use Ocrend\Kernel\Helpers\Functions;
 
 /**
  * Controlador home/
@@ -28,6 +29,8 @@ class homeController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
+
+        
         $d = new Model\Dashboard;
         $this->template->display('home/home',array(
             'data'=> $d->getData()

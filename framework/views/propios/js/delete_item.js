@@ -6,7 +6,7 @@
  */
 function delete_item(id_elemento, controlador) {
     swal({
-        title: "¿Estás seguro de eliminar este elemento?",
+        title: "¿Está seguro que desea eliminar el elemento?",
         text: "Una vez eliminado no podrás recuperarlo",
         type: "warning",
         showCancelButton: true,
@@ -14,7 +14,7 @@ function delete_item(id_elemento, controlador) {
         confirmButtonText: "¡Si, quiero eliminar!",
         closeOnConfirm: false
     }, function () {
-        swal("Eliminado!", "Tu archivo fue eliminado, exitosamente", "success");
+        swal("Eliminado!", "Tu archivo fue eliminado exitosamente", "success");
         setTimeout(function(){
             location.href = controlador + '/eliminar/' + id_elemento.toString();
         },1000);

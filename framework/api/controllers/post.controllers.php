@@ -195,3 +195,14 @@ $app->post('/afiliados/editar', function() use($app) {
 
     return $app->json($a->edit());   
 });
+
+/**
+ * Endpoint para comprayventa
+ *
+ * @return json
+*/
+$app->post('/orden/crear', function() use($app) {
+    $o = new Model\Orden; 
+
+    return $app->json($o->createOrden());   
+});
