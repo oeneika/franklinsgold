@@ -57,12 +57,12 @@ $app->get('/get/datos_generales_usuario', function() use($app) {
     return $app->json($u->datosGenerales());   
 });
 
-<<<<<<< HEAD
 $app->get('/get/transaccion_en_espera/{id}', function($id) use($app) {
     $t = new Model\Transaccion; 
   
     return $app->json($t->getTransaccionEnEspera($id));   
-=======
+});
+
 $app->get('/get/monedas/BySucursal/{id}', function($id) use($app) {
     $m = new Model\Monedas; 
   
@@ -70,5 +70,4 @@ $app->get('/get/monedas/BySucursal/{id}', function($id) use($app) {
               INNER JOIN user_moneda um ON um.id_usuario=s.id_user and um.codigo_moneda=moneda.codigo";
 
     return $app->json($m->getMonedas('*',$inner));   
->>>>>>> comprayventa
 });
