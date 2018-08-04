@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-07-2018 a las 01:17:18
+-- Tiempo de generación: 04-08-2018 a las 19:48:55
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -25,17 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `afiliado_moneda`
---
-
-CREATE TABLE `afiliado_moneda` (
-  `id_comercio_afiliado` bigint(11) UNSIGNED NOT NULL,
-  `codigo` int(11) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `comercio_afiliado`
 --
 
@@ -43,15 +32,16 @@ CREATE TABLE `comercio_afiliado` (
   `id_comercio_afiliado` bigint(11) UNSIGNED NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `direccion` varchar(100) NOT NULL,
-  `sucursal` varchar(45) NOT NULL
+  `sucursal` varchar(45) NOT NULL,
+  `id_user` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `comercio_afiliado`
 --
 
-INSERT INTO `comercio_afiliado` (`id_comercio_afiliado`, `nombre`, `direccion`, `sucursal`) VALUES
-(10, 'New Sucurrsal ', '123123', 'Whatever');
+INSERT INTO `comercio_afiliado` (`id_comercio_afiliado`, `nombre`, `direccion`, `sucursal`, `id_user`) VALUES
+(1, 'Nuevo Comercio', 'Florida', 'Miami', 21);
 
 -- --------------------------------------------------------
 
@@ -67,6 +57,7 @@ CREATE TABLE `moneda` (
   `composicion` varchar(32) DEFAULT NULL,
   `peso` float UNSIGNED NOT NULL,
   `codigo_qr` varchar(90) NOT NULL,
+  `qr_alfanumerico` varchar(30) NOT NULL,
   `id_origen` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -74,13 +65,35 @@ CREATE TABLE `moneda` (
 -- Volcado de datos para la tabla `moneda`
 --
 
-INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `composicion`, `peso`, `codigo_qr`, `id_origen`) VALUES
-(53, 1531238525, 9, 8, 'oro', 9, '../views/img/codigos/monedas/monedas53.png', 7),
-(54, 1531276906, 1, 3, 'oro', 3, '../views/img/codigos/monedas/monedas54.png', 3),
-(56, 1531695528, 1, 1, 'oro', 1, '../views/img/codigos/monedas/monedas56.png', 5),
-(57, 1531695536, 1, 1, 'oro', 1, '../views/img/codigos/monedas/monedas57.png', 8),
-(58, 1531695604, 1, 1, 'plata', 1, '../views/img/codigos/monedas/monedas58.png', 3),
-(59, 1531695618, 3, 4, 'plata', 4, '../views/img/codigos/monedas/monedas59.png', 3);
+INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `composicion`, `peso`, `codigo_qr`, `qr_alfanumerico`, `id_origen`) VALUES
+(12, 1532404026, 4, 4, 'plata', 5, 'http://localhost/franklinsgold/framework//views/img/codigos/monedas/12.png', 'VEN 004 004 PLA 005 23072018', 1),
+(13, 1532404776, 1, 1, 'oro', 1, 'http://localhost/franklinsgold/framework//views/img/codigos/monedas/13.png', 'VEN 001 001 ORO 001 23072018', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `orden`
+--
+
+CREATE TABLE `orden` (
+  `id_orden` int(11) UNSIGNED NOT NULL,
+  `id_usuario` int(11) UNSIGNED NOT NULL,
+  `id_sucursal` int(11) UNSIGNED NOT NULL,
+  `tipo_gramo` varchar(5) NOT NULL,
+  `cantidad` int(11) UNSIGNED NOT NULL,
+  `tipo_orden` int(11) UNSIGNED NOT NULL,
+  `estado` int(11) UNSIGNED NOT NULL,
+  `fecha` int(11) UNSIGNED NOT NULL,
+  `codigo_moneda` int(11) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `orden`
+--
+
+INSERT INTO `orden` (`id_orden`, `id_usuario`, `id_sucursal`, `tipo_gramo`, `cantidad`, `tipo_orden`, `estado`, `fecha`, `codigo_moneda`) VALUES
+(4, 15, 3, 'plata', 5, 1, 2, 1533325086, NULL),
+(5, 15, 3, 'plata', 5, 3, 2, 1533325331, 12);
 
 -- --------------------------------------------------------
 
@@ -90,19 +103,16 @@ INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `com
 
 CREATE TABLE `origen` (
   `id_origen` int(11) UNSIGNED NOT NULL,
-  `nombre` varchar(32) NOT NULL
+  `nombre` varchar(32) NOT NULL,
+  `abreviatura` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `origen`
 --
 
-INSERT INTO `origen` (`id_origen`, `nombre`) VALUES
-(3, 'Venezuela'),
-(5, 'Canadá'),
-(7, 'Colombia'),
-(8, 'Reino Unido'),
-(10, 'Perú');
+INSERT INTO `origen` (`id_origen`, `nombre`, `abreviatura`) VALUES
+(1, 'Venezuela', 'VEN');
 
 -- --------------------------------------------------------
 
@@ -113,16 +123,18 @@ INSERT INTO `origen` (`id_origen`, `nombre`) VALUES
 CREATE TABLE `sucursal` (
   `id_sucursal` int(11) UNSIGNED NOT NULL,
   `nombre` varchar(45) NOT NULL,
-  `direccion` varchar(45) NOT NULL
+  `direccion` varchar(45) NOT NULL,
+  `id_user` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `sucursal`
 --
 
-INSERT INTO `sucursal` (`id_sucursal`, `nombre`, `direccion`) VALUES
-(2, 'San Juan de los Morros', 'Venezuela'),
-(4, 'Sucursal Los Chaguaramos', 'Los Chaguaramos Av las Ciencias');
+INSERT INTO `sucursal` (`id_sucursal`, `nombre`, `direccion`, `id_user`) VALUES
+(1, 'Nueva Sucursal', 'A la esquina', 22),
+(3, 'Mi sucrusal', 'petare', 25),
+(4, 'Mi otra sucursal', 'la dolorita', NULL);
 
 -- --------------------------------------------------------
 
@@ -140,8 +152,7 @@ CREATE TABLE `telefono` (
 --
 
 INSERT INTO `telefono` (`id_comercio_afiliado`, `telefono`) VALUES
-(10, 12312312),
-(10, 3123123);
+(1, 4294967295);
 
 -- --------------------------------------------------------
 
@@ -159,19 +170,30 @@ CREATE TABLE `transaccion` (
   `id_usuario2` int(11) UNSIGNED DEFAULT NULL,
   `precio_moneda1` int(11) UNSIGNED NOT NULL,
   `precio_moneda2` int(11) UNSIGNED DEFAULT NULL,
-  `id_sucursal` int(11) UNSIGNED DEFAULT NULL
+  `id_sucursal` int(11) UNSIGNED DEFAULT NULL,
+  `id_comercio_afiliado` bigint(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `transaccion`
 --
 
-INSERT INTO `transaccion` (`id_transaccion`, `fecha`, `tipo`, `codigo_moneda`, `codigo_moneda2`, `id_usuario`, `id_usuario2`, `precio_moneda1`, `precio_moneda2`, `id_sucursal`) VALUES
-(10, 1531695650, 1, 53, NULL, 9, NULL, 5, NULL, 2),
-(11, 1531695698, 2, 53, NULL, 9, NULL, 5, NULL, 4),
-(12, 1531695724, 1, 53, NULL, 9, NULL, 5, NULL, 4),
-(13, 1531695739, 1, 54, NULL, 14, NULL, 1, NULL, 2),
-(14, 1531696512, 3, 53, 54, 9, 14, 5, 1, NULL);
+INSERT INTO `transaccion` (`id_transaccion`, `fecha`, `tipo`, `codigo_moneda`, `codigo_moneda2`, `id_usuario`, `id_usuario2`, `precio_moneda1`, `precio_moneda2`, `id_sucursal`, `id_comercio_afiliado`) VALUES
+(7, 1532404625, 1, 12, NULL, 24, NULL, 2, NULL, NULL, NULL),
+(8, 1532405136, 3, 12, 13, 24, 25, 2, 43, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `transaccion_en_espera`
+--
+
+CREATE TABLE `transaccion_en_espera` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `id_usuario` int(11) UNSIGNED NOT NULL,
+  `codigo_qr_moneda` varchar(30) NOT NULL,
+  `token_confirmacion` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -185,13 +207,13 @@ CREATE TABLE `users` (
   `segundo_nombre` varchar(45) NOT NULL,
   `primer_apellido` varchar(45) NOT NULL,
   `segundo_apellido` varchar(45) NOT NULL,
-  `tipo` tinyint(2) UNSIGNED NOT NULL COMMENT '0: admin, 1: normal',
+  `tipo` tinyint(2) UNSIGNED NOT NULL COMMENT '0: admin, 1: vendedor, 2: cliente',
   `usuario` varchar(45) NOT NULL,
   `pass` varchar(120) NOT NULL,
   `tmp_pass` varchar(90) NOT NULL,
   `token` varchar(90) NOT NULL,
   `sexo` varchar(45) NOT NULL,
-  `telefono` int(11) NOT NULL,
+  `telefono` bigint(20) UNSIGNED NOT NULL,
   `email` varchar(70) NOT NULL,
   `codigo_qr` varchar(90) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -201,12 +223,33 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `tipo`, `usuario`, `pass`, `tmp_pass`, `token`, `sexo`, `telefono`, `email`, `codigo_qr`) VALUES
-(7, 'Fraklin', '', 'Gold', '', 1, 'franklin', '$2a$10$fed9dff63481ec29c83eeOcNOtlM0shSOLnCVQArUj3X08syd0hNO', '', '', 'm', 414123123, 'franklingold@gmail.com', '../views/img/codigos/usuarios/usuarios7.png'),
-(9, 'Ellen', '', 'Ripley', '', 2, 'ellenripley', '$2a$10$f5e74d32850c3961548e0eroa65KJyfBRHxq/wQzA87fuLguvYFbS', '$2a$10$7209e9319a149aa22a3e3umw83P4YSNP1wPUaLbKo4lKJmYlqtY6S', 'da08994d625050f8d492a72b10339633', 'f', 1234567, 'deadgreen_spk@hotmail.com', '../views/img/codigos/usuarios/usuarios9.png'),
-(14, 'User', '', 'De Api', '', 2, 'userdeapi', '$2a$10$67374e33e71c07fe1c8abeJ1wI4AufhNboMbsCjYJNY5UawnnvV/e', '', '', 'm', 123456, 'user@api.com', '../views/img/codigos/usuarios/usuarios14.png'),
 (15, 'admin', '', 'admin', '', 0, 'admin', '$2a$10$f5e7c087a530bbf4e118duBLka3xc715bOuv0WMOawlo5vAaN0TIm', '', '', 'm', 123, 'admin@hotmail.com', '../views/img/codigos/usuarios/usuarios15.png'),
-(16, 'PruebaPrimerNombre', 'PruebaSegundoNombre', 'PruebaPrimerApellido', 'PruebaSegundoApellido', 2, 'PruebaApp', '$2a$10$d06bc1b79887aa681d4b8un9iQcHeOfSio/2SEFxZPC48LVHCRhx6', '', '', 'm', 212, 'pruebaap@pruebaapp.com', '../views/img/codigos/usuarios/usuarios16.png'),
-(18, 'aja', 'aja', 'aja', 'aja', 2, 'aja', '$2a$10$8ea8a1b0aa1dcd64bbaa4uvvfa57EvO2w6oWy.sPc514oXNalLQga', '$2a$10$828ae6034e6f74353c390uCwB82JvUvZ94OupmgbYHrONbtKhJeBO', '28c3ef6619586745c2dddd63386f4772', 'm', 123456789, 'aja@hotmail.com', '../views/img/codigos/usuarios/usuarios18.png');
+(21, 'Nuevo', '1', 'Comercio', '1', 1, '1', '$2a$10$3920de3c9b12a18972de0e.17NGiSb3p31iOttNdMPIQGo68hInDq', '', '', 'f', 21474836471, '1@1.com', '../views/img/codigos/usuarios/usuarios21.png'),
+(22, 'Nueva', '1', 'Sucursal', '1', 1, '2', '$2a$10$75e11d632f10f82877866ODsOjjLMQGIDcFe6CrLquaW7x2woBPgK', '', '', 'f', 21474836471, 'gomzjale@gmail.com', '../views/img/codigos/usuarios/usuarios22.png'),
+(23, 'Sergio', '', 'Garcia', '', 2, 'Sergio', '$2a$10$0cad18e0e4e32ce2d19c6e24pdAshVog8V4cgT0Bml68SqmOaavi6', '', '', 'm', 12345678901, 'deadgreen_spk@hotmail.com', '../views/img/codigos/usuarios/usuarios23.png'),
+(24, 'greg', '', 'gomez', '', 2, 'greg', '$2a$10$76ddff869df01a446f8dcu.eyGND5pka5m4QujesIdF5zczsUXtWq', '', '', 'm', 4168352573, 'g.a95@hotmail.com', '../views/img/codigos/usuarios/usuarios24.png'),
+(25, 'Mi', '', 'Sucursal', '', 1, 'misucu', '$2a$10$f735a8d0a3d4e9ce35d28u/uaKD.sc9w0TAJWmhjK.pFOYT7/8.La', '', '', 'm', 2122380193, 'misucu@hotmail.com', ''),
+(29, 'amate', '', 'rasu', '', 2, 'amaterasu', '$2a$10$b0f6182c9f5e42a04ba8eObkF5ia/KTlJ6PhM9lLBXYHCFHQC7pgG', '', '', 'm', 12345678910, 'amaterasu@gmail.com', '../views/img/codigos/usuarios/usuarios29.png');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_gramo`
+--
+
+CREATE TABLE `user_gramo` (
+  `id_usuario_gramo` int(11) UNSIGNED NOT NULL,
+  `id_usuario` int(11) UNSIGNED NOT NULL,
+  `tipo_gramo` varchar(5) NOT NULL,
+  `cantidad` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `user_gramo`
+--
+
+INSERT INTO `user_gramo` (`id_usuario_gramo`, `id_usuario`, `tipo_gramo`, `cantidad`) VALUES
+(1, 15, 'plata', 0);
 
 -- --------------------------------------------------------
 
@@ -225,32 +268,36 @@ CREATE TABLE `user_moneda` (
 --
 
 INSERT INTO `user_moneda` (`id_usuario_moneda`, `id_usuario`, `codigo_moneda`) VALUES
-(14, 9, 54),
-(15, 14, 53);
+(20, 24, 13),
+(22, 15, 12);
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `afiliado_moneda`
---
-ALTER TABLE `afiliado_moneda`
-  ADD KEY `id_comercio_afiliado` (`id_comercio_afiliado`),
-  ADD KEY `codigo` (`codigo`);
-
---
 -- Indices de la tabla `comercio_afiliado`
 --
 ALTER TABLE `comercio_afiliado`
-  ADD PRIMARY KEY (`id_comercio_afiliado`);
+  ADD PRIMARY KEY (`id_comercio_afiliado`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Indices de la tabla `moneda`
 --
 ALTER TABLE `moneda`
   ADD PRIMARY KEY (`codigo`),
-  ADD KEY `id_origen` (`id_origen`);
+  ADD KEY `id_origen` (`id_origen`),
+  ADD KEY `qr_alfanumerico` (`qr_alfanumerico`);
+
+--
+-- Indices de la tabla `orden`
+--
+ALTER TABLE `orden`
+  ADD PRIMARY KEY (`id_orden`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_sucursal` (`id_sucursal`),
+  ADD KEY `codigo_moneda` (`codigo_moneda`);
 
 --
 -- Indices de la tabla `origen`
@@ -262,7 +309,8 @@ ALTER TABLE `origen`
 -- Indices de la tabla `sucursal`
 --
 ALTER TABLE `sucursal`
-  ADD PRIMARY KEY (`id_sucursal`);
+  ADD PRIMARY KEY (`id_sucursal`),
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Indices de la tabla `telefono`
@@ -279,13 +327,29 @@ ALTER TABLE `transaccion`
   ADD KEY `codigo_moneda2` (`codigo_moneda2`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_usuario2` (`id_usuario2`),
-  ADD KEY `id_sucursal` (`id_sucursal`);
+  ADD KEY `id_sucursal` (`id_sucursal`),
+  ADD KEY `id_comercio_afiliado` (`id_comercio_afiliado`);
+
+--
+-- Indices de la tabla `transaccion_en_espera`
+--
+ALTER TABLE `transaccion_en_espera`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `codigo_qr_moneda` (`codigo_qr_moneda`);
 
 --
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`);
+
+--
+-- Indices de la tabla `user_gramo`
+--
+ALTER TABLE `user_gramo`
+  ADD PRIMARY KEY (`id_usuario_gramo`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `user_moneda`
@@ -303,60 +367,91 @@ ALTER TABLE `user_moneda`
 -- AUTO_INCREMENT de la tabla `comercio_afiliado`
 --
 ALTER TABLE `comercio_afiliado`
-  MODIFY `id_comercio_afiliado` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_comercio_afiliado` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `moneda`
 --
 ALTER TABLE `moneda`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de la tabla `orden`
+--
+ALTER TABLE `orden`
+  MODIFY `id_orden` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `origen`
 --
 ALTER TABLE `origen`
-  MODIFY `id_origen` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_origen` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `sucursal`
 --
 ALTER TABLE `sucursal`
-  MODIFY `id_sucursal` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_sucursal` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
-  MODIFY `id_transaccion` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_transaccion` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `transaccion_en_espera`
+--
+ALTER TABLE `transaccion_en_espera`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT de la tabla `user_gramo`
+--
+ALTER TABLE `user_gramo`
+  MODIFY `id_usuario_gramo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `user_moneda`
 --
 ALTER TABLE `user_moneda`
-  MODIFY `id_usuario_moneda` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_usuario_moneda` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `afiliado_moneda`
+-- Filtros para la tabla `comercio_afiliado`
 --
-ALTER TABLE `afiliado_moneda`
-  ADD CONSTRAINT `afiliado_moneda_ibfk_2` FOREIGN KEY (`codigo`) REFERENCES `moneda` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `afiliado_moneda_ibfk_3` FOREIGN KEY (`id_comercio_afiliado`) REFERENCES `comercio_afiliado` (`id_comercio_afiliado`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `comercio_afiliado`
+  ADD CONSTRAINT `comercio_afiliado_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `moneda`
 --
 ALTER TABLE `moneda`
   ADD CONSTRAINT `moneda_ibfk_1` FOREIGN KEY (`id_origen`) REFERENCES `origen` (`id_origen`) ON DELETE SET NULL;
+
+--
+-- Filtros para la tabla `orden`
+--
+ALTER TABLE `orden`
+  ADD CONSTRAINT `orden_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
+  ADD CONSTRAINT `orden_ibfk_2` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id_sucursal`) ON DELETE CASCADE,
+  ADD CONSTRAINT `orden_ibfk_3` FOREIGN KEY (`codigo_moneda`) REFERENCES `moneda` (`codigo`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `sucursal`
+--
+ALTER TABLE `sucursal`
+  ADD CONSTRAINT `sucursal_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `telefono`
@@ -372,7 +467,21 @@ ALTER TABLE `transaccion`
   ADD CONSTRAINT `transaccion_ibfk_2` FOREIGN KEY (`codigo_moneda2`) REFERENCES `moneda` (`codigo`) ON DELETE CASCADE,
   ADD CONSTRAINT `transaccion_ibfk_3` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
   ADD CONSTRAINT `transaccion_ibfk_4` FOREIGN KEY (`id_usuario2`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
-  ADD CONSTRAINT `transaccion_ibfk_5` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id_sucursal`) ON DELETE SET NULL;
+  ADD CONSTRAINT `transaccion_ibfk_5` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id_sucursal`) ON DELETE SET NULL,
+  ADD CONSTRAINT `transaccion_ibfk_6` FOREIGN KEY (`id_comercio_afiliado`) REFERENCES `comercio_afiliado` (`id_comercio_afiliado`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `transaccion_en_espera`
+--
+ALTER TABLE `transaccion_en_espera`
+  ADD CONSTRAINT `transaccion_en_espera_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
+  ADD CONSTRAINT `transaccion_en_espera_ibfk_2` FOREIGN KEY (`codigo_qr_moneda`) REFERENCES `moneda` (`qr_alfanumerico`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `user_gramo`
+--
+ALTER TABLE `user_gramo`
+  ADD CONSTRAINT `user_gramo_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `user_moneda`
