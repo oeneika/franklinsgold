@@ -164,7 +164,7 @@ abstract class Controllers {
       }
 
       # Si es un cliente solo podrá ver una única vista
-      if (($this->controllerConfig['users_admin'] or $this->controllerConfig['users_vendedor'] or $this->controllerConfig['users_logged']) && $this->user['tipo']==2) {
+      if ($this->controllerConfig['users_logged'] && !$this->controllerConfig['users_clienteadmin'] && $this->user['tipo']==2) {
         Helper\Functions::redir($config['build']['url'] . 'ordencliente');
       }
 

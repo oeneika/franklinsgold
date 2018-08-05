@@ -263,15 +263,17 @@ class Orden extends Models implements IModels {
     }
 
     /**
-     * Trae el total de gramos vendidos por composición
+     * Trae el total de gramos en cartera
      * 
-     * @param composicion : int, 1:oro, 2:plata
+     * @param string composicion : "oro" o "plata"
+     * 
+     * @param string where :  condiciones de la consulta
      * 
      * @return array
      */
-    public function getTotalGramos($composicion){
+    public function getTotalGramos($composicion,$where="1=1"){
 
-        return $this->db->select("SUM(cantidad) as total","orden",null,"tipo_orden=1 and estado=2 and tipo_gramo='$composicion'",null,"GROUP BY tipo_gramo")[0]["total"];
+        return $this->db->select("cantidad","user_gramo",null,"tipo_gramo='$composicion' and $where")[0]["cantidad"];
 
     }
 

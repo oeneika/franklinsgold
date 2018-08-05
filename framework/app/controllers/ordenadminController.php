@@ -22,9 +22,10 @@ use Ocrend\Kernel\Router\IRouter;
 */
 class ordenadminController extends Controllers implements IControllers {
 
-    public function __construct(IRouter $router) {
+    public function __construct(IRouter $router) {        
         parent::__construct($router,array(
-            'users_admin' => true
+            'users_logged' => true,
+            'users_admin'=>true
         ));
 
         $o = new Model\Orden($router);  

@@ -59,7 +59,7 @@
                             </div>
                         <div class="col-md-4 col-xs-12">
                             <div class="form-group">
-                                <label for="telefono" class="control-label mb-1">Télefono <span>*</span></label>
+                                <label for="telefono" class="control-label mb-1">Teléfono <span>*</span></label>
                                 <input id="id_telefono" name="telefono" type="tel" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
                             </div>
                         </div>                
@@ -72,7 +72,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="cc-payment" class="control-label mb-1">Sucursal<span>*</span></label>
-                                        <select id="id_sucursal" name="id_sucursal" id="" class="form-control m-b" style="width: 100%">
+                                        <select id="id_sucursal" name="id_sucursal" class="form-control m-b" style="width: 100%">
                                             <option selected value>Seleccione una sucursal</option>
                                                 {% for s in sucursales %}
                                                     <option value="{{ s.id_sucursal }}">{{s.nombre}}</option>
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="cc-payment" class="control-label mb-1">Comercio Afiliado<span>*</span></label>
-                                        <select id="id_comercio" name="id_comercio" id="" class="form-control m-b" style="width: 100%">
+                                        <select id="id_comercio" name="id_comercio" class="form-control m-b" style="width: 100%">
                                             <option selected value>Seleccione un comercio</option>
                                                 {% for a in afiliados %}
                                                     <option value="{{ a.id_comercio_afiliado }}">{{a.nombre}}</option>

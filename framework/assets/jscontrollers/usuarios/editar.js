@@ -11,7 +11,7 @@
  * @param {*} telefono 
  * @param {*} email 
  */
-function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono, id_sucursal, id_comercio) {
+function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono,id_sucursal,id_comercio) {
 
     $('#id_id_user').val(id_user);
     $('#id_primer_nombre').val(primer_nombre);

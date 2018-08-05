@@ -23,7 +23,11 @@ use Ocrend\Kernel\Router\IRouter;
 class afiliadosController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router);
+        parent::__construct($router,array(
+            'users_logged' => true,
+            'users_admin'=>true
+        ));
+
         $a = new Model\Afiliados($router);
         $m = new Model\Monedas($router);
         $u = new Model\Users($router);

@@ -24,8 +24,8 @@ use Ocrend\Kernel\Router\IRouter;
 class transaccionController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-
       parent::__construct($router,array(
+        'users_logged' => true,
         'users_vendedoradmin' => true
       ));
 

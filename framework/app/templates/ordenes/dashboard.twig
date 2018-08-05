@@ -62,34 +62,53 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>Total de gramos comprados en oro</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">{{total_oro_comprado}}</h1>
+                                <h1 class="no-margins">{{total_oro_comprado == null ? 0 : total_oro_comprado}}</h1>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Total de oro en dólares</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">{{total_oro_comprado * (ultimo_precio_oro / 28.3495) }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>Total de gramos comprados en plata</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">{{total_plata_comprado}}</h1>
+                                <h1 class="no-margins">{{total_plata_comprado == null ? 0 : total_plata_comprado}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Total de plata en dólares</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <h1 class="no-margins">{{total_plata_comprado * (ultimo_precio_plata / 28.3495)}}</h1>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="row">
-
                     <div class="col-lg-6">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Ultimas transacciones realizadas de oro</h5>
+                                <h5>Últimas transacciones realizadas de oro</h5>
                             </div>
                             <div class="ibox-content">
                                  <div class="table-responsive">
@@ -122,7 +141,7 @@
                     <div class="col-lg-6">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Ultimas transacciones realizadas de plata</h5>
+                                <h5>Últimas transacciones realizadas de plata</h5>
                             </div>
                             <div class="ibox-content">
                                  <div class="table-responsive">

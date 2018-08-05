@@ -349,7 +349,15 @@ class Users extends Models implements IModels {
             }
 
             if (!array_key_exists('email',$user_data) || Functions::emp($user_data['email'])) {
-                throw new ModelsException('El email no debe estar vacio');
+                throw new ModelsException('El email no debe estar vacío');
+            }
+
+            if (!ctype_digit($user_data['telefono'])){
+                throw new ModelsException("Teléfono inválido, debe ser numérico.");              
+            }
+
+            if ( strlen($user_data['telefono']) < 11 ){
+                throw new ModelsException("Teléfono inválido, debe tener al menos 11 dígitos");              
             }
 
             if (!array_key_exists('pass',$user_data)  || Functions::emp($user_data['pass']) ) {
@@ -360,33 +368,38 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Por favor repita el password');
             }
 
-            if(!array_key_exists('segundo_nombre',$user_data)){
-                throw new ModelsException('Campo segundo nombre no definido');
-            }
-
-            if(!array_key_exists('segundo_apellido',$user_data)){
-                throw new ModelsException('Campo segundo apellido no definido');
-            }
-
             if(!array_key_exists('telefono',$user_data)){
-                throw new ModelsException('Campo telefono no definido');
+                throw new ModelsException('Campo teléfono no definido');
             }
-
-            if (strlen($user_data['telefono']) < 11){
-                throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
-            }
+          
 
             if(!array_key_exists('sexo',$user_data)){
                 throw new ModelsException('Campo sexo no definido');
             }
 
             #Verificar que solo existan letras en los nombres y apellidos
-            if(!Helper\Strings::only_letters($user_data['primer_nombre']) || !Helper\Strings::only_letters($user_data['segundo_nombre'])){
-                throw new ModelsException('Los nombres solo pueden contener letras');
+            if(!Helper\Strings::only_letters($user_data['primer_nombre'])){
+                throw new ModelsException('El primer nombre solo puede contener letras.');
             }
 
-            if(!Helper\Strings::only_letters($user_data['primer_apellido']) || !Helper\Strings::only_letters($user_data['segundo_apellido'])){
-                throw new ModelsException('Los apellidos solo pueden contener letras');
+            if( array_key_exists('segundo_nombre',$user_data) && !Functions::emp($user_data['segundo_nombre'])  ){
+
+                if(!Helper\Strings::only_letters($user_data['segundo_nombre'])){
+                    throw new ModelsException('El segundo nombre solo puede contener letras.');
+                }
+
+            }
+
+            if(!Helper\Strings::only_letters($user_data['primer_apellido'])){
+                throw new ModelsException('El primer apellido solo puede contener letras');
+            }
+
+            if( array_key_exists('segundo_apellido',$user_data) && !Functions::emp($user_data['segundo_apellido'])  ){
+
+                if(!Helper\Strings::only_letters($user_data['segundo_apellido'])){
+                    throw new ModelsException('El segundo apellido solo puede contener letras.');
+                }
+
             }
 
             # Verificar email 
@@ -626,6 +639,10 @@ class Users extends Models implements IModels {
 
         if($this->sexo!="m" and $this->sexo!="f") {
             throw new ModelsException('Sexo no válido.');
+        }
+
+        if (!ctype_digit($this->telefono)){
+            throw new ModelsException("Teléfono inválido, debe ser numérico.");              
         }
 
         if (strlen($this->telefono) < 11){
