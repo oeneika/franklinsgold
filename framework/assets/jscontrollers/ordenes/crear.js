@@ -1,21 +1,43 @@
 /**
- * Abre el modal para realizar una compra
+ * Variables que contienen los precios actuales del oro y de la plata
  */
-function intercambioModal() {
-    $('#intercambioModal').modal('show');
-}
+var ultimo_precio_oro;
+var ultimo_precio_plata;
+
 /**
- * Abre el modal para realizar una compra
+ * 
+ * @param {string} modal : nombre del modal
+ * @param {int} ultimo_precio_oro : precio actual del oro
+ * @param {int} ultimo_precio_plata : precio actual de la plata
  */
-function compraModal() {
-    $('#compraModal').modal('show');
+function showModal(modal,ultimo_precio_oro,ultimo_precio_plata) {
+    this.ultimo_precio_oro = ultimo_precio_oro;
+    this.ultimo_precio_plata = ultimo_precio_plata;
+    $('#'+modal).modal('show');
 }
+
 /**
- * Abre el modal para realizar una venta
+ * Resetea el monto de la transaccion en un input
+ * @param {int} id_cantidad : id del input a sacar la cantidad
+ * @param {int} id_monto : id del input a colocar el monto
+ * @param {int} id_tipo : id del input que me indica el tipo de gramo
  */
-function ventaModal() {
-    $('#ventaModal').modal('show');
+function resetMonto(id_cantidad,id_monto,id_tipo){
+
+    var cantidad = $('#'+id_cantidad).val();
+
+    if($('#'+id_tipo).val() === 'oro'){
+        var monto = cantidad * (this.ultimo_precio_oro/28.3495);
+    }else
+    if($('#'+id_tipo).val() === 'plata'){
+        var monto = cantidad * (this.ultimo_precio_plata/28.3495);
+    }
+      
+    $('#'+id_monto).val(number_format(Math.ceil10(monto, -2), 2, ',', '.'));
+   
 }
+
+
 /**
  * Crea la orden
 */
