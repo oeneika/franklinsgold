@@ -58,7 +58,7 @@
                                     {% for t in transacciones %}
                                     <tr>
                                         <td>{{t.id_transaccion}}</td>
-                                        <td>{{t.primer_nombre}} {{t.primer_apellido}} {{t.id_user}}</td>
+                                        <td>{{t.primer_nombre}} {{t.primer_apellido}} </td>
                                         <td>{{t.codigo}}</td>
                                         <td>${{ t.precio_moneda1|number_format(2,'.',',') }}</td>
                                         {#<td>{{t.nombre_sucursal}}</td>

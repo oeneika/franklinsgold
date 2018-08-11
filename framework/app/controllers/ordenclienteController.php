@@ -31,12 +31,12 @@ class ordenclienteController extends Controllers implements IControllers {
         $s = new Model\Sucursales($router);
         $o = new Model\Orden($router);
         $m = new Model\Monedas($router);
-
+        
         $id_owner = $this->user["id_user"];
         $this->template->display('ordenes/dashboard',array(
             'sucursales' => $s->get(),
-            'ultimas_cinco_ordenes_oro' => $o->get("orden.estado=2 and orden.tipo_gramo='oro' and u.id_user='$id_owner'",5),
-            'ultimas_cinco_ordenes_plata' => $o->get("orden.estado=2 and orden.tipo_gramo='plata' and u.id_user='$id_owner'",5),
+            'ultimas_cinco_ordenes_oro' => $o->get("orden.estado=2 and orden.tipo_gramo='oro' and u.id_user='$id_owner'",5,"ORDER BY orden.id_orden DESC"),
+            'ultimas_cinco_ordenes_plata' => $o->get("orden.estado=2 and orden.tipo_gramo='plata' and u.id_user='$id_owner'",5,"ORDER BY orden.id_orden DESC"),
             'total_oro_comprado' => $o->getTotalGramos("oro","id_usuario='$id_owner'"),
             'total_plata_comprado' => $o->getTotalGramos("plata","id_usuario='$id_owner'"),
             'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],

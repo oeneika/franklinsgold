@@ -163,7 +163,7 @@
                                                 <td>{{ a.cantidad }}</td>
                                                 <td>{{ ((a.cantidad * (ultimo_precio_plata / 28.3495))|round(2, 'ceil'))|number_format(2, ',', '.') }}</td>
                                                 <td style="{{a.tipo_orden == 1 ? 'color: green;' :  a.tipo_orden == 2  ? 'color: red;' : 'color: blue;'}}">{{ a.tipo_orden == 1 ? 'Compra' :  a.tipo_orden == 2  ? "Venta" : "Intercambio" }}</td>
-                                            </tr>color: blue
+                                            </tr>
                                             {% endfor %}                           
                                         </tbody>
                                     </table>

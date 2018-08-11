@@ -227,7 +227,7 @@ class Monedas extends Models implements IModels {
 
 
     /**
-     * Obtiene los ultimos 10 precios del oro o de la plata
+     * Obtiene los ultimos precios del oro y de la plata
      * 
      *  @param composicion :  composicion del material (oro o plata)
      *      
@@ -247,15 +247,78 @@ class Monedas extends Models implements IModels {
         $ch = curl_init();
         curl_setopt_array($ch,$opt);
         $result = curl_exec($ch);     
-        curl_close($ch);
+        curl_close($ch);    
         $result = json_decode($result, true);
         $data = $result['buttonFrame'][$composicion]['1m']['data'];
-
+      
         return [array_reverse($data)];
 
     }
 
 
+    /**
+     * Obtiene las ultimas fechas de act del oro y de la plata
+     * 
+     *  @param composicion :  composicion del material (oro o plata)
+     *      
+     */
+    public function getDate(string $composicion="oro"){
+
+        $composicion= $composicion == 'oro' ? 'gold' : 'silver';
+        $url = 'https://goldiraguide.org/wp-admin/admin-ajax.php';
+    
+        #Se procede a hacer la peticion a la api
+        $opt = array(
+            CURLOPT_POST =>true,
+            CURLOPT_RETURNTRANSFER =>true,
+            CURLOPT_POSTFIELDS =>['action' => 'getMetalPrice', 'api_key' => 'anonymous'],
+            CURLOPT_URL => $url
+        );
+        $ch = curl_init();
+        curl_setopt_array($ch,$opt);
+        $result = curl_exec($ch);     
+        curl_close($ch);    
+        $result = json_decode($result, true);
+        $data = $result['buttonFrame'][$composicion]['1m']['labels'];
+
+        return [array_reverse($data)];
+
+    }
+
+    /**
+     * Devuelve un array con datos actualizados del oro/plata
+     */
+    public function getfulldata(){
+
+        $url = 'https://goldiraguide.org/wp-admin/admin-ajax.php';
+    
+        #Se procede a hacer la peticion a la api
+        $opt = array(
+            CURLOPT_POST =>true,
+            CURLOPT_RETURNTRANSFER =>true,
+            CURLOPT_POSTFIELDS =>['action' => 'getMetalPrice', 'api_key' => 'anonymous'],
+            CURLOPT_URL => $url
+        );
+        $ch = curl_init();
+        curl_setopt_array($ch,$opt);
+        $result = curl_exec($ch);     
+        curl_close($ch);    
+        $result = json_decode($result, true);
+
+        $preciosOro = array_reverse($result['buttonFrame']['gold']['1m']['data']);
+        $fechasOro = array_reverse($result['buttonFrame']['gold']['1m']['labels']);
+
+        $preciosPlata = array_reverse($result['buttonFrame']['silver']['1m']['data']);
+        $fechasPlata = array_reverse($result['buttonFrame']['silver']['1m']['labels']);
+
+        return array(
+             'oro' => array ('fechas' => $fechasOro,
+                             'precios' => $preciosOro),
+             'plata' => array ('fechas' => $fechasPlata,
+                               'precios' => $preciosPlata)
+         );
+ 
+     }
 
     /**
      * Trae los datos generales relacionados a las monedas

@@ -121,7 +121,24 @@ $app->post('/monedas/crear', function() use($app) {
     return $app->json($m->getPrice("plata"));   
   });
 
+  $app->post('/getdate/oro', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getDate("oro"));   
+  });
 
+  $app->post('/getdate/plata', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getDate("plata"));   
+  });
+
+
+  $app->post('/getfulldata', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getFullData());   
+  });
 
   /**
  * Endpoints para origen
