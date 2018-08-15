@@ -9,7 +9,7 @@ li.active strong, .naranja{
 }
 
 .wrapper-content{
-	padding: 10px 10px 20px;
+	padding: 10px 10px 60px;
 }
 
 .navbar-top-links li a{
@@ -32,4 +32,26 @@ li.active strong, .naranja{
 .select2-dropdown.increasezindex {
 	z-index:99999;
 	width: 100%;
+}
+
+@media (max-width: 768px ){
+	.btn-rounded{
+	width: 100%;
+	}
+}
+
+.float-left{
+	float: left;
+}
+
+.form-control-file{
+	width: 100%;
+}
+
+.compra-verde{
+	color: #DC2929;
+}
+
+.venta-rojo{
+ color: #3CD219;
 }
