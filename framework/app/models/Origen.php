@@ -32,12 +32,16 @@ class Origen extends Models implements IModels {
     */ 
     private function errors(bool $edit = false){
         global $http;
-        $this->nombre = $http->request->get('nombre');
-        $this->abreviatura = $http->request->get('abreviatura');
+        $this->nombre = $this->db->scape($http->request->get('nombre'));
+        $this->abreviatura = $this->db->scape($http->request->get('abreviatura'));
         
         # Verificar que no están vacíos
-        if (Helper\Functions::emp($this->nombre)) {
+       /* if (Helper\Functions::emp($this->nombre)) {
             throw new ModelsException('Debe introducir un nombre.');
+        }*/
+
+        if (  false != $this->db->select('nombre','origen',null,"nombre = '$this->nombre'")  ){
+            throw new ModelsException('El país ya existe.');
         }
 
         if (Helper\Functions::emp($this->abreviatura)) {
@@ -48,7 +52,7 @@ class Origen extends Models implements IModels {
             throw new ModelsException('La abreviatura debe tener exactamente 3 caractéres.');
         }
 
-        if ($this->db->select('abreviatura','origen',null,"abreviatura = '$this->abreviatura'")){
+        if (  false != $this->db->select('abreviatura','origen',null,"abreviatura = '$this->abreviatura'")  ){
             throw new ModelsException('La abreviatura ya existe.');
         }
     }

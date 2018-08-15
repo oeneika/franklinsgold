@@ -170,7 +170,7 @@ class Transaccion extends Models implements IModels {
      * @param id_moneda :  id de la moneda a calcular precio
      */
     public function calculatePrice(int $id_moneda) : int {
-
+        $id_moneda = $this->db->scape($id_moneda);
         $data_moneda = $this->db->select('composicion,peso','moneda',null,'codigo = '. $id_moneda);
 
         $composicion = $data_moneda[0]['composicion'] == 'oro' ? 'gold' : 'silver';
@@ -211,8 +211,8 @@ class Transaccion extends Models implements IModels {
         global $http;
 
         if($qr != 1){
-            $this->id_usuario = $http->request->get('id_usuario');
-            $this->codigo_moneda = $http->request->get('codigo');  
+            $this->id_usuario = $this->db->scape($http->request->get('id_usuario'));
+            $this->codigo_moneda = $this->db->scape($http->request->get('codigo'));  
         }
 
         $this->tipo = $http->request->get('tipo');
@@ -220,8 +220,8 @@ class Transaccion extends Models implements IModels {
         /*$this->id_sucursal = $http->request->get('id_sucursal');
         $this->id_comercio = $http->request->get('id_comercio');*/
 
-        $this->id_usuario2 = $http->request->get('id_usuario2');
-        $this->codigo_moneda2 = $http->request->get('codigo2');
+        $this->id_usuario2 = $this->db->scape($http->request->get('id_usuario2'));
+        $this->codigo_moneda2 = $this->db->scape($http->request->get('codigo2'));
 
 
         # Verificar que no están vacíos
@@ -301,14 +301,18 @@ class Transaccion extends Models implements IModels {
                     $this->id_usuario2 = $transaccion_en_espera[0]["id_usuario"];
                 
                     #Coloca el id de de la moneda recien escaneada como moneda secundaria
-                    $this->codigo_moneda2 = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$qr_moneda_emision'")[0]["codigo"];
+                    $mon2 = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$qr_moneda_emision'");
+                    if ($mon2 === false) {
+                        throw new ModelsException('La moneda no existe.');
+                    }
+                    $this->codigo_moneda2 = $mon2[0]["codigo"];
                 
                     #Valida la existencia de una transaccion en espera con la moneda escaneada
-                    $c = $this->db->select("codigo_qr_moneda","transaccion_en_espera",null,"codigo_qr_moneda='$this->codigo_moneda2'");
+                    $c = $this->db->select("codigo_qr_moneda","transaccion_en_espera",null,"codigo_qr_moneda='$qr_moneda_emision'");
                     if ($c != false) {
                         throw new ModelsException('Ya se está realizando una transacción con la moneda.');
-                    }
-                
+                    } 
+
                  }
              
                 $precio_moneda2 = $this->calculatePrice($this->codigo_moneda2); 
@@ -381,7 +385,9 @@ class Transaccion extends Models implements IModels {
             throw new ModelsException('Debe seleccionar un comercio');
         }
 
+        
         #Valida la existencia de la moneda en la cartera del comprador/vendedor
+        $data['id_usuario'] = $this->db->scape($data['id_usuario']);
         $existencia_cartera = $this->db->select('id_usuario_moneda','user_moneda',null,"id_usuario=".$data['id_usuario']." and 
         codigo_moneda=".$data['codigo']);
 
@@ -391,6 +397,7 @@ class Transaccion extends Models implements IModels {
         }
 
         # Se verifica si el comercio posee la moneda
+        $data['codigo'] = $this->db->scape($data['codigo']);
         $data_comercio = $this->db->select('codigo','afiliado_moneda',null,"codigo = ".$data['codigo']);
         if (false !== $data_comercio){
             throw new ModelsException('El comercio ya posee esta moneda.');
@@ -407,6 +414,7 @@ class Transaccion extends Models implements IModels {
             $data = $http->request->all();
 
             if(array_key_exists('codigo_qr',$data)){
+                $data['codigo_qr'] = $this->db->scape($data['codigo_qr']);
                 $moneda = $this->db->select('codigo','moneda',null,"qr_alfanumerico = '".$data['codigo_qr']."'");
                 if (false === $moneda){
                     throw new ModelsException("Codigo QR invalido");
@@ -476,8 +484,8 @@ class Transaccion extends Models implements IModels {
         global $http;
         try {
 
-        $email = $http->request->get('email');        
-        $codigo_moneda = $http->request->get('codigo'); 
+        $email = $this->db->scape($http->request->get('email'));        
+        $codigo_moneda = $this->db->scape($http->request->get('codigo')); 
         $tipo_transaccion = $http->request->get('tipo');
 
         if (Helper\Functions::e($email,$codigo_moneda,$tipo_transaccion)) {
@@ -497,8 +505,12 @@ class Transaccion extends Models implements IModels {
         #Trae los datos del usuario que escaneo la moneda
         $usuario_receptor = $this->db->select("id_user,primer_nombre,primer_apellido","users",null,"email='$email'");
         #Trae los datos de la moneda escaneada
-        $id_moneda = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$codigo_moneda'")[0]["codigo"];
-
+        $moneda = $this->db->select("codigo","moneda",null,"qr_alfanumerico='$codigo_moneda'");
+        if ($moneda === false) {
+            throw new ModelsException('La moneda no existe.');
+        }
+        $id_moneda = $moneda[0]["codigo"];
+        
        
         #Trae los datos del usuario dueño de la moneda
         $inner = "INNER JOIN users u ON u.id_user = user_moneda.id_usuario";
@@ -564,10 +576,10 @@ class Transaccion extends Models implements IModels {
         global $http;
         try{
             #Trae los datos enviados
-            $codigo_confirmacion = $http->request->get('codigo_confirmacion'); 
+            $codigo_confirmacion = $this->db->scape($http->request->get('codigo_confirmacion')); 
             $tipo_transaccion = $http->request->get('tipo'); 
 
-
+           
             #Valida el tipo de transaccion
             if($tipo_transaccion!= 1 and $tipo_transaccion!= 3 ){
                 throw new ModelsException('Tipo de transacción inválida.');
@@ -649,6 +661,21 @@ class Transaccion extends Models implements IModels {
         return $result;
     }
 
+    #Trae todas las transacciones en espera
+    public function getTransaccionesEnEspera(){
+        $inner = "INNER JOIN users u ON u.id_user = tep.id_usuario";
+        return $this->db->select('tep.id, tep.codigo_qr_moneda as qr,u.primer_nombre as nombre,u.primer_apellido as apellido','transaccion_en_espera tep',$inner);    
+    }
+
+    #Elimina transacciones en espera
+    public function  delTenespera(){
+      Global $config;
+
+      $this->db->delete('transaccion_en_espera',"id='$this->id'",'1');
+
+      # Redireccionar al controlador transaccion con un success=true
+      Functions::redir($config['build']['url'] . 'transaccion/transaccion_en_espera/&success=true');
+    }
 
     /**
      * __construct()

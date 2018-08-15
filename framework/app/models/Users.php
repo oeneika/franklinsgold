@@ -599,8 +599,8 @@ class Users extends Models implements IModels {
         $this->telefono = $http->request->get('telefono');
         $this->email = $http->request->get('email');
 
-        $this->id_comercio = $http->request->get('id_comercio');
-        $this->id_sucursal = $http->request->get('id_sucursal');
+        $this->id_comercio = $this->db->scape($http->request->get('id_comercio'));
+        $this->id_sucursal = $this->db->scape($http->request->get('id_sucursal'));
 
 
         # Verificar que no están vacíos

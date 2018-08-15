@@ -71,14 +71,19 @@ class transaccionController extends Controllers implements IControllers {
               'afiliados' => $a->get()
           ));
           break;
+          case 'transaccion_en_espera':
+          $this->template->display('transaccion/transaccion_en_espera',array(
+            'transacciones_en_espera' => $t->getTransaccionesEnEspera()
+          ));
+          break;
           default:
-           $this->template->display('transaccion/compra',array(
-                'transacciones' => $t->getTransacciones(1),
-                'usuarios' => $t->getUsers("*","tipo=2"),
-                'monedas' => $t->getMonedas(),
-                'sucursales' => $s->get(),
-                'afiliados' => $a->get()
-            ));
+          $this->template->display('transaccion/compra',array(
+            'transacciones' => $t->getTransacciones(1),
+            'usuarios' => $u->getUsers("*","tipo!=0"),
+            'monedas' => $m->getMonedas(),
+            'sucursales' => $s->get(),
+            'afiliados' => $a->get()
+          ));
           break;
         }
     }
