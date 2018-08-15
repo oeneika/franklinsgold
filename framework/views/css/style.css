@@ -4371,17 +4371,23 @@ body.mini-navbar.fixed-sidebar .logo-element {
 }
 /* ERROR & LOGIN & LOCKSCREEN*/
 .middle-box {
-  max-width: 400px;
+  max-width: 600px;
   z-index: 100;
   margin: 0 auto;
-  padding-top: 10px;
+  padding: 10px;
+}
+
+@media (max-width: 768px){
+  .middle-box{
+    max-width: 350px;
+  }
 }
 .lockscreen.middle-box {
   width: 200px;
   padding-top: 110px;
 }
 .loginscreen.middle-box {
-  width: 1000px;
+  width: 100%;
 }
 .loginColumns {
   max-width: 800px;

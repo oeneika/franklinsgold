@@ -19,7 +19,7 @@ $(document).ready(function(){
                 labels: json['buttonFrame']['gold']['1m']['labels'],
                 datasets: [
                     {
-                        label: "Plata",
+                        label: "Oro",
                         fillColor: "rgba(221, 175, 5,0.5)",
                         strokeColor: "rgba(221, 175, 5,1)",
                         pointColor: "rgba(221, 175, 5,1)",
