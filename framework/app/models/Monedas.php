@@ -61,7 +61,7 @@ class Monedas extends Models implements IModels {
             throw new ModelsException('Todos los campos marcados con "*" son necesarios.');
         }
 
-        if($this->diametro<0 or $this->espesor<0 or $this->peso<0 ){
+        if($this->diametro<0.1 or $this->espesor<0.1 or $this->peso<0.1 ){
             throw new ModelsException('Debe introducir características válidas.');
         }
 

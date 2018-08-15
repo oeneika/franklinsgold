@@ -612,6 +612,45 @@ class Users extends Models implements IModels {
             throw new ModelsException('Todos los campos marcados con "*" son necesarios.');
         }
 
+        if ( !ctype_alpha($this->primer_nombre) or !ctype_alpha($this->primer_apellido) ) {
+            throw new ModelsException('Los nombres y apellidos no pueden poseer números, símbolos o espacios.');
+        }
+
+        if ( !Helper\Functions::emp($this->segundo_nombre) && !ctype_alpha($this->segundo_nombre)) {
+            throw new ModelsException('Los nombres y apellidos no pueden poseer números, símbolos o espacios.');
+        }
+
+        if ( !Helper\Functions::emp($this->segundo_apellido) && !ctype_alpha($this->segundo_apellido)) {
+            throw new ModelsException('Los nombres y apellidos no pueden poseer números, símbolos o espacios.');
+        }
+
+        if ( !ctype_alnum($this->usuario) and !$edit) {
+            throw new ModelsException('El usuario no puede poseer símbolos ni espacios .');
+        }
+
+        if (!ctype_digit($this->telefono)){
+            throw new ModelsException("Teléfono inválido, debe ser numérico.");              
+        }
+
+        if (strlen($this->telefono) < 11){
+            throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
+        }
+
+        # Veriricar contraseñas y email
+        if (!$edit) {           
+            $this->checkPassMatch($this->pass, $this->pass2);
+            $this->checkEmail($this->email);
+
+           #Revisa la exitencia del nombre de usuario que se está introduciendo
+           if($this->checkUsuario($this->usuario) != null){
+               throw new ModelsException('El nombre de usuario ya esta en uso.'); 
+           }
+       }
+
+        if($this->sexo!="m" and $this->sexo!="f") {
+            throw new ModelsException('Sexo no válido.');
+        }
+
         if($this->tipo!=0 and $this->tipo!=1 and $this->tipo!=2) {
             throw new ModelsException('Tipo de usuario no válido.');
         }
@@ -635,31 +674,7 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Ya existe una cuenta asociada a esta sucursal.');
             }
         }
-
-
-        if($this->sexo!="m" and $this->sexo!="f") {
-            throw new ModelsException('Sexo no válido.');
-        }
-
-        if (!ctype_digit($this->telefono)){
-            throw new ModelsException("Teléfono inválido, debe ser numérico.");              
-        }
-
-        if (strlen($this->telefono) < 11){
-            throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
-        }
-
-
-        # Veriricar contraseñas y email
-        if (!$edit) {           
-             $this->checkPassMatch($this->pass, $this->pass2);
-             $this->checkEmail($this->email);
-
-            #Revisa la exitencia del nombre de usuario que se está introduciendo
-            if($this->checkUsuario($this->usuario) != null){
-                throw new ModelsException('El nombre de usuario ya esta en uso.'); 
-            }
-        }
+      
 
     }
 

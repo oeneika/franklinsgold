@@ -10,7 +10,6 @@
 */
 
 use app\models as Model;
-
 /**
     * Inicio de sesión
     *
@@ -90,6 +89,17 @@ $app->post('/sucursal/editar', function() use($app) {
     $s = new Model\Sucursales; 
     
     return $app->json($s->edit());   
+});
+
+/**
+ * Endpoint crear para sucursales
+ *
+ * @return json
+*/
+$app->post('/sucursal/get', function() use($app) {
+    $s = new Model\Sucursales; 
+    
+    return $app->json($s->get());   
 });
 
  /**
@@ -222,4 +232,26 @@ $app->post('/orden/crear', function() use($app) {
     $o = new Model\Orden; 
 
     return $app->json($o->createOrden());   
+});
+
+/**
+ * Servicio que devuelve gramos de oro comprado
+ *
+ * @return json
+*/
+$app->post('/orden/getGramos', function() use($app) {
+    $o = new Model\Orden; 
+
+    return $app->json($o->getGramosOroPlata());      
+});
+
+/**
+ * Servicio que devuelve gramos de oro comprado
+ *
+ * @return json
+*/
+$app->post('/orden/getUltTransacciones', function() use($app) {
+    $o = new Model\Orden; 
+
+    return $app->json($o->getUltTransacciones());      
 });

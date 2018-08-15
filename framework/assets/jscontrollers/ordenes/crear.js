@@ -17,7 +17,7 @@ function showModal(modal,ultimo_precio_oro,ultimo_precio_plata) {
 }
 
 /**
- * Resetea el monto de la transaccion en un input
+ * Resetea el monto de la transacción en un input
  * @param {int} id_cantidad : id del input a sacar la cantidad
  * @param {int} id_monto : id del input a colocar el monto
  * @param {int} id_tipo : id del input que me indica el tipo de gramo
@@ -33,8 +33,31 @@ function resetMonto(id_cantidad,id_monto,id_tipo){
         var monto = cantidad * (this.ultimo_precio_plata/28.3495);
     }
       
-    $('#'+id_monto).val(number_format(Math.ceil10(monto, -2), 2, ',', '.'));
-   
+    //$('#'+id_monto).val(number_format(Math.ceil10(monto, -2), 2, ',', '.'));
+    $('#'+id_monto).val(Math.ceil10(monto, -2));
+}
+
+/**
+ * Resetea la cantidad  de la transacción en un input
+ * @param {int} id_cantidad : id del input a colocar la cantidad
+ * @param {int} id_monto : id del input a sacar el monto
+ * @param {int} id_tipo : id del input que me indica el tipo de gramo
+ */
+function resetCantidad(id_cantidad,id_monto,id_tipo){
+
+    var monto = $('#'+id_monto).val();
+
+    if($('#'+id_tipo).val() === 'oro'){
+        //var monto = cantidad * (this.ultimo_precio_oro/28.3495);
+        var cantidad = monto / (this.ultimo_precio_oro/28.3495);
+    }else
+    if($('#'+id_tipo).val() === 'plata'){
+        //var monto = cantidad * (this.ultimo_precio_plata/28.3495);
+        var cantidad = monto / (this.ultimo_precio_plata/28.3495);
+    }
+      
+    //$('#'+id_cantidad).val(number_format(Math.ceil10(monto, -2), 2, ',', '.'));
+    $('#'+id_cantidad).val(Math.ceil10(cantidad, -2));
 }
 
 

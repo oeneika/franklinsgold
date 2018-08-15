@@ -49,11 +49,24 @@ class Orden extends Models implements IModels {
         $this->id_sucursal = $http->request->get('id_sucursal');
         $this->tipo_orden = $http->request->get('tipo_orden');
 
+        #Usada en caso de ser una compra/venta vía movil
+        $email = $http->request->get('email');
+        if ( !Helper\Functions::emp($email)) {
+            $email = $this->db->scape($email);
+
+            $this->id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
+            
+        }
+
         $this->id_moneda = $http->request->get('id_moneda');
 
         # Verificar que no están vacíos
         if (Helper\Functions::e($this->id_usuario,$this->tipo_gramo,$this->cantidad,$this->id_sucursal,$this->tipo_orden)) {
             throw new ModelsException('Debe seleccionar todos los elementos.');
+        }
+
+        if($this->cantidad<0.1){
+            throw new ModelsException('Debe introducir características válidas.');
         }
 
         if( $this->tipo_gramo != "oro" and $this->tipo_gramo != "plata" ){
@@ -262,6 +275,8 @@ class Orden extends Models implements IModels {
 
     }
 
+    
+
     /**
      * Trae el total de gramos en cartera
      * 
@@ -275,6 +290,38 @@ class Orden extends Models implements IModels {
 
         return $this->db->select("cantidad","user_gramo",null,"tipo_gramo='$composicion' and $where")[0]["cantidad"];
 
+    }
+
+
+    /**
+     * Servicio que devuelve las ultimas cinco ordenes concretadas
+     */
+    public function getUltTransacciones(){
+        Global $http;
+    
+        $tipo_gramo = $this->db->scape($http->request->get('tipo_gramo'));
+        $tipo = $this->db->scape($http->request->get('tipo'));
+        $email = $this->db->scape($http->request->get('email'));
+ 
+        $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
+                  
+        return $this->get("orden.estado=2 and orden.tipo_gramo='$tipo_gramo' and orden.tipo_orden='$tipo' and u.id_user='$id_usuario'",
+        5,"ORDER BY orden.id_orden DESC");
+    }
+
+    /**
+     * Servicio que devuelve la cantidad de gramos de oro/plata en posesión de un usuario
+     */
+    public function getGramosOroPlata(){
+        Global $http;
+
+        $tipo_gramo = $this->db->scape($http->request->get('tipo_gramo'));
+        $email = $this->db->scape($http->request->get('email'));
+
+        $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
+  
+        return $this->getTotalGramos($tipo_gramo,"id_usuario='$id_usuario'");  
+        
     }
 
 

@@ -47,7 +47,7 @@ class transaccionController extends Controllers implements IControllers {
                 'afiliados' => $a->get()
             ));
           break;
-          case 'venta':
+          /*case 'venta':
             $this->template->display('transaccion/venta',array(
                 'transacciones' => $t->getTransacciones(2),
                 'usuarios' => $u->getUsers("*","tipo!=0"),
@@ -70,7 +70,7 @@ class transaccionController extends Controllers implements IControllers {
               'monedas' => $m->getMonedas(),
               'afiliados' => $a->get()
           ));
-          break;
+          break;*/
           case 'transaccion_en_espera':
           $this->template->display('transaccion/transaccion_en_espera',array(
             'transacciones_en_espera' => $t->getTransaccionesEnEspera()
