@@ -64,6 +64,7 @@ class Users extends Models implements IModels {
     private $email;
     private $id_sucursal;
     private $id_comercio;
+    private $numero_cuenta;
 
 
     /**
@@ -371,7 +372,20 @@ class Users extends Models implements IModels {
             if(!array_key_exists('telefono',$user_data)){
                 throw new ModelsException('Campo teléfono no definido');
             }
-          
+
+            if(!array_key_exists('numero_cuenta',$user_data)){
+                throw new ModelsException('Debe introducir un número de cuenta');
+            }
+            
+            if ( strlen($user_data['numero_cuenta']) != 20  ){
+                throw new ModelsException("Número de cuenta inválido.");              
+            }
+
+            $nro_cuenta = $this->db->scape($user_data['numero_cuenta']);
+            $consulta = $this->db->select("numero_cuenta","users",null,"numero_cuenta='$nro_cuenta'");
+            if ( false != $consulta ){
+                throw new ModelsException("El número de cuenta ya esta asocioado a otro usuario.");              
+            }
 
             if(!array_key_exists('sexo',$user_data)){
                 throw new ModelsException('Campo sexo no definido');
@@ -418,6 +432,7 @@ class Users extends Models implements IModels {
                 'sexo' => $user_data['sexo'],
                 'email' => $user_data['email'],
                 'telefono' => $user_data['telefono'],
+                'numero_cuenta' => $user_data['numero_cuenta'],
                 'tipo' => $tipo,
                 'pass' => Helper\Strings::hash($user_data['pass'])
             ));
@@ -598,6 +613,7 @@ class Users extends Models implements IModels {
         $this->sexo = $http->request->get('sexo');
         $this->telefono = $http->request->get('telefono');
         $this->email = $http->request->get('email');
+        $this->numero_cuenta = $http->request->get('numero_cuenta');
 
         $this->id_comercio = $this->db->scape($http->request->get('id_comercio'));
         $this->id_sucursal = $this->db->scape($http->request->get('id_sucursal'));
@@ -636,7 +652,21 @@ class Users extends Models implements IModels {
             throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
         }
 
-        # Veriricar contraseñas y email
+        if( Helper\Functions::emp($this->numero_cuenta) ){
+            throw new ModelsException('Debe introducir un número de cuenta');
+        }
+        
+        if ( strlen($this->numero_cuenta) != 20  ){
+            throw new ModelsException("Número de cuenta inválido.");              
+        }
+
+        $nro_cuenta = $this->db->scape($this->numero_cuenta);
+        $consulta = $this->db->select("email","users",null,"numero_cuenta='$nro_cuenta'");
+        if ( false != $consulta and ($consulta[0]["email"] != $this->email) ){
+            throw new ModelsException("El número de cuenta ya esta asocioado a otro usuario.");              
+        }
+
+        # Veriricar contraseñas, email y nombre de usuario
         if (!$edit) {           
             $this->checkPassMatch($this->pass, $this->pass2);
             $this->checkEmail($this->email);
@@ -698,6 +728,7 @@ class Users extends Models implements IModels {
             'usuario' => $this->usuario,
             'pass' => Helper\Strings::hash($this->pass),
             'sexo' => $this->sexo,
+            'numero_cuenta' => $this->numero_cuenta,
             'telefono' => $this->telefono,
             'email' => $this->email
             );
@@ -777,7 +808,8 @@ class Users extends Models implements IModels {
                 'segundo_apellido' => $this->segundo_apellido,
                 'tipo' => $this->tipo,
                 'sexo' => $this->sexo,
-                'telefono' => $this->telefono
+                'telefono' => $this->telefono,
+                'numero_cuenta' => $this->numero_cuenta,
             );
             
             

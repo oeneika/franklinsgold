@@ -26,12 +26,8 @@ use Ocrend\Kernel\Helpers\Functions;
 class dashBoardpublicoController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router,array(
-            'users_logged' => true
-        ));
+        parent::__construct($router);
 
-        
-        $d = new Model\Dashboard;
-        $this->template->display('dashboardpublico/home');
+        $this->template->display('dashboardpublico/dashboardpublico');
     }
 }

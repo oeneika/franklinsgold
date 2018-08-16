@@ -27,6 +27,8 @@ class registroController extends Controllers implements IControllers {
             'users_not_logged' => true
         ));
         $r = new Model\Registro;
-		$this->template->display('registro/registro');
+		$this->template->display('registro/registro',array(
+            'terminos' => $r->getTerminos()
+        ));
     }
 }

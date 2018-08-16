@@ -271,7 +271,7 @@ class Orden extends Models implements IModels {
         $inner = "INNER JOIN users u ON u.id_user = orden.id_usuario
                   INNER JOIN sucursal s On s.id_sucursal = orden.id_sucursal";
 
-        return $this->db->select("orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido","orden",$inner,$where,$limit,$extra);
+        return $this->db->select("orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta","orden",$inner,$where,$limit,$extra);
 
     }
 

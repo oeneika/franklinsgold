@@ -255,3 +255,14 @@ $app->post('/orden/getUltTransacciones', function() use($app) {
 
     return $app->json($o->getUltTransacciones());      
 });
+
+/**
+ * Servicio que devuelve gramos de oro comprado
+ *
+ * @return json
+*/
+$app->post('/terminosycondiciones/get', function() use($app) {
+    $r = new Model\Registro; 
+
+    return $app->json($r->getTerminos());      
+});

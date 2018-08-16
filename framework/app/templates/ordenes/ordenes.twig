@@ -40,6 +40,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Usuario</th>
+                                            <th>Número de cuenta</th>
                                             <th>Sucursal</th>
                                             <th>Composición</th>
                                             <th>Cantidad</th>
@@ -55,6 +56,7 @@
                                             <tr>
                                                 <td>{{ o.id_orden }}</td>
                                                 <td>{{ o.primer_nombre }} {{ o.primer_apellido }}</td>
+                                                <td>{{ o.numero_cuenta }}</td>
                                                 <td>{{ o.nombre_sucursal }}</td>
                                                 <td>{{ o.tipo_gramo == 1 ? 'Oro' : "Plata" }}</td>
                                                 <td>{{ o.cantidad }}</td>
@@ -77,6 +79,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Usuario</th>
+                                            <th>Número de cuenta</th>
                                             <th>Sucursal</th>
                                             <th>Composición</th>
                                             <th>Cantidad</th>
