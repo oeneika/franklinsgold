@@ -11,11 +11,11 @@
 
                 <form id="crearOrdenCompra_form">
                     <div class="row">
-                        <div class="col-md-3 col-xs-12">
+                        <div class="col-md-4 col-xs-12">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1" >Oro o Plata</label>
                                 <select name="tipo_gramo" id="id_tipo_compra" onchange="resetMonto('id_cantidad_compra','id_monto_compra','id_tipo_compra')" class="form-control" style="width: 100%">
-                                    <option disabled selected value>Seleccione un tipo</option>
+                                    <option disabled selected value>Tipo</option>
                                     <option value="oro">Oro</option>
                                     <option value="plata">Plata</option>
                                 </select>
@@ -25,13 +25,13 @@
                         <div class="col-md-4 col-xs-12">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1">Gramos</label>
-                                <input name="cantidad" id="id_cantidad_compra" type="number" onchange="resetMonto('id_cantidad_compra','id_monto_compra','id_tipo_compra')" class="form-control" aria-required="true" aria-invalid="false" >
+                                <input name="cantidad" id="id_cantidad_compra" type="number" onchange="resetMonto('id_cantidad_compra','id_monto_compra','id_tipo_compra')" class="form-control" aria-required="true" aria-invalid="false" placeholder="0">
                             </div>                           
                         </div>
-                        <div class="col-md-5 col-xs-12">
+                        <div class="col-md-4 col-xs-12">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1">Monto $</label>
-                                <input id="id_monto_compra" type="number" onchange="resetCantidad('id_cantidad_compra','id_monto_compra','id_tipo_compra')" class="form-control" aria-required="true" aria-invalid="false" >
+                                <input id="id_monto_compra" type="number" onchange="resetCantidad('id_cantidad_compra','id_monto_compra','id_tipo_compra')" class="form-control" aria-required="true" aria-invalid="false" placeholder="0.00">
                             </div>                           
                         </div>
                         <div class="col-md-12 col-xs-12">
