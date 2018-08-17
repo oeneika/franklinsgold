@@ -134,10 +134,13 @@ class Orden extends Models implements IModels {
             #Valida los posibles errores
             $this->errors();
 
+            $m = new Model\Monedas();
+
             $orden = array(
                 'id_usuario' => $this->id_usuario,
                 'tipo_gramo' => $this->tipo_gramo,
                 'cantidad' => $this->cantidad,
+                'precio' => ($m->getPrice($this->tipo_gramo))[0][0],
                 'id_sucursal' => $this->id_sucursal,
                 'tipo_orden' => $this->tipo_orden,
                 'fecha' => time(),
@@ -275,6 +278,19 @@ class Orden extends Models implements IModels {
 
     }
 
+    /**
+     * Trae las cantidades compradas o vendidas de oro o plata en cierta cantidad de tiempo
+     * 
+     * @return array
+     */
+    public function getVolumenes($days ='-31 days',$composition = "oro",$type = 1){
+
+        $past = strtotime($days);
+        $present = strtotime('now');
+
+        return $this->db->select("SUM(cantidad) as volumen","orden",null,"tipo_orden='$type' and estado=2 and tipo_gramo='$composition' and fecha>='$past' and fecha<='$present'");
+
+    }
     
 
     /**

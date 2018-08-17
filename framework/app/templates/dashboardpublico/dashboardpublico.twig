@@ -1,9 +1,6 @@
 {% extends 'overall/layout' %}
 {% block appBody %}
 <div id="page-wrapper" class="gray-bg">
-<div class="row border-bottom">
-    {% include 'overall/header' %}
-</div>
 
             <div class="wrapper wrapper-content">
             	<div class="row">
@@ -48,7 +45,7 @@
                                     </div>
 
                                 <div>
-                                    <canvas id="plataChart" height="40" width="100%"></canvas>
+                                    <canvas id="plataChart" height="45" width="100%"></canvas>
                                 </div>
 
                                 <div class="m-t-md">
@@ -80,17 +77,21 @@
                                             <table class="table table-striped table-bordered table-hover" >
                                                 <thead>
                                                 <tr>
-                                                    <th>Tipo</th>
+                                                    <th>Sucursal</th>
                                                     <th>Fecha y Hora</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio</th>
                                                     <th>Monto Transacción</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody> 
-                                                {% for item in 1..3 %} 
+                                                {% for co in compras_oro %} 
                                                     <tr>
-                                                        <td class="compra-verde">Compra</td>
-                                                        <td>13/08/2018 - 03:23:52</td>
-                                                        <td>$ 358</td>
+                                                        <td>{{ co.nombre_sucursal }}</td>
+                                                        <td>{{ fecha('D, d F, Y h:i a', co.fecha) }}</td>
+                                                        <td>{{ co.cantidad }}</td>
+                                                        <td>{{ co.precio|number_format(2, ',', '.') }}</td>
+                                                        <td>${{ ((co.cantidad * (ultimo_precio_oro / 28.3495))|round(2, 'ceil'))|number_format(2, ',', '.') }}</td>
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -107,17 +108,21 @@
                                             <table class="table table-striped table-bordered table-hover" >
                                                 <thead>
                                                 <tr>
-                                                    <th>Tipo</th>
+                                                    <th>Sucursal</th>
                                                     <th>Fecha y Hora</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio</th>
                                                     <th>Monto Transacción</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody> 
-                                                {% for item in 1..3 %} 
+                                                {% for vo in ventas_oro %} 
                                                     <tr>
-                                                        <td class="venta-rojo">Venta</td>
-                                                        <td>13/08/2018 - 03:23:52</td>
-                                                        <td>$ 358</td>
+                                                        <td>{{ vo.nombre_sucursal }}</td>
+                                                        <td>{{ fecha('D, d F, Y h:i a', vo.fecha) }}</td>
+                                                        <td>{{ vo.cantidad }}</td>
+                                                        <td>{{ vo.precio|number_format(2, ',', '.') }}</td>
+                                                        <td>${{ ((vo.cantidad * (ultimo_precio_oro / 28.3495))|round(2, 'ceil'))|number_format(2, ',', '.') }}</td>
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -148,17 +153,21 @@
                                             <table class="table table-striped table-bordered table-hover" >
                                                 <thead>
                                                 <tr>
-                                                    <th>Tipo</th>
+                                                    <th>Sucursal</th>
                                                     <th>Fecha y Hora</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio</th>
                                                     <th>Monto Transacción</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody> 
-                                                {% for item in 1..3 %} 
+                                                {% for cp in compras_plata %} 
                                                     <tr>
-                                                        <td class="compra-verde">Compra</td>
-                                                        <td>13/08/2018 - 03:23:52</td>
-                                                        <td>$ 358</td>
+                                                        <td>{{ cp.nombre_sucursal }}</td>
+                                                        <td>{{ fecha('D, d F, Y h:i a', cp.fecha) }}</td>
+                                                        <td>{{ cp.cantidad }}</td>
+                                                        <td>{{ cp.precio|number_format(2, ',', '.') }}</td>
+                                                        <td>${{ ((cp.cantidad * (ultimo_precio_plata / 28.3495))|round(2, 'ceil'))|number_format(2, ',', '.') }}</td>
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -175,17 +184,21 @@
                                             <table class="table table-striped table-bordered table-hover" >
                                                 <thead>
                                                 <tr>
-                                                    <th>Tipo</th>
+                                                    <th>Sucursal</th>
                                                     <th>Fecha y Hora</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio</th>
                                                     <th>Monto Transacción</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody> 
-                                                {% for item in 1..3 %} 
+                                                {% for vp in ventas_plata %} 
                                                     <tr>
-                                                        <td class="venta-rojo">Venta</td>
-                                                        <td>13/08/2018 - 03:23:52</td>
-                                                        <td>$ 358</td>
+                                                        <td>{{ vp.nombre_sucursal }}</td>
+                                                        <td>{{ fecha('D, d F, Y h:i a', vp.fecha) }}</td>
+                                                        <td>{{ vp.cantidad }}</td>
+                                                        <td>{{ vp.precio|number_format(2, ',', '.') }}</td>
+                                                        <td>${{ ((vp.cantidad * (ultimo_precio_plata / 28.3495))|round(2, 'ceil'))|number_format(2, ',', '.') }}</td>
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -203,44 +216,90 @@
                     <div class="col-md-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Transacciones diarias de oro</h5>
+                                <h5>Gramos de oro comprados el último día</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">123</h1>
+                                <h1 class="no-margins">{{ compras_oro_1dia }}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Transacciones mensuales de oro</h5>
+                                <h5>Gramos de oro vendidos el último día</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">123</h1>
+                                <h1 class="no-margins">{{ ventas_oro_1dia }}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Transacciones diarias de plata</h5>
+                                <h5>Gramos de oro comprados el último mes</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">123</h1>
+                                <h1 class="no-margins">{{ compras_oro_1mes }}</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Transacciones mensuales de plata</h5>
+                                <h5>Gramos de oro vendidos el último mes</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">123</h1>
+                                <h1 class="no-margins">{{ ventas_oro_1mes }}</h1>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
+
+                <div class="row">
+                        <div class="col-md-3">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Gramos de plata comprados el último día</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins">{{ compras_plata_1dia }}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Gramos de plata vendidos el último día</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins">{{ ventas_plata_1dia }}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Gramos de plata comprados el último mes</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins">{{ compras_plata_1mes }}</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Gramos de plata vendidos el último mes</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins">{{ ventas_plata_1mes }}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
             </div>
 
 {% include 'overall/footer' %}

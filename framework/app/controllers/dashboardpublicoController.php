@@ -28,6 +28,28 @@ class dashBoardpublicoController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {
         parent::__construct($router);
 
-        $this->template->display('dashboardpublico/dashboardpublico');
+        $o = new Model\Orden($router);
+        $m = new Model\Monedas($router);
+     
+        $this->template->display('dashboardpublico/dashboardpublico',array(
+            'compras_oro' => $o->get("orden.tipo_orden=1 and orden.estado=2 and orden.tipo_gramo='oro'",null,"ORDER BY orden.id_orden DESC"),
+            'compras_plata' => $o->get("orden.tipo_orden=1 and orden.estado=2 and orden.tipo_gramo='plata'",null,"ORDER BY orden.id_orden DESC"),
+            'ventas_oro' => $o->get("orden.tipo_orden=2 and orden.estado=2 and orden.tipo_gramo='oro'",null,"ORDER BY orden.id_orden DESC"),
+            'ventas_plata' => $o->get("orden.tipo_orden=2 and orden.estado=2 and orden.tipo_gramo='plata'",null,"ORDER BY orden.id_orden DESC"),
+            'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
+            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0],
+
+            'compras_oro_1dia' => ($o->getVolumenes("-1 days","oro",1))[0]["volumen"],
+            'compras_oro_1mes' => ($o->getVolumenes("-31 days","oro",1))[0]["volumen"],
+            'ventas_oro_1dia' => ($o->getVolumenes("-1 days","oro",2))[0]["volumen"],
+            'ventas_oro_1mes' => ($o->getVolumenes("-31 days","oro",2))[0]["volumen"],
+
+            'compras_plata_1dia' => ($o->getVolumenes("-1 days","plata",1))[0]["volumen"],
+            'compras_plata_1mes' => ($o->getVolumenes("-31 days","plata",1))[0]["volumen"],
+            'ventas_plata_1dia' => ($o->getVolumenes("-1 days","plata",2))[0]["volumen"],
+            'ventas_plata_1mes' => ($o->getVolumenes("-31 days","plata",2))[0]["volumen"]
+        ));
+
+        
     }
 }
