@@ -23,7 +23,7 @@ function createOrigen() {
                     closeButton: true,
                     progressBar: true,
                     showMethod: 'slideDown',
-                    timeOut: 4000
+                    timeOut: 1000
                 };
 
                 toastr.info('¡Origen creado!','Exito!');

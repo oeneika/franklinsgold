@@ -119,37 +119,6 @@ $app->post('/monedas/crear', function() use($app) {
     return $app->json($m->edit());   
   });
 
-  $app->post('/get/oro', function() use($app) {
-    $m = new Model\Monedas; 
-  
-    return $app->json($m->getPrice("oro"));   
-  });
-
-  $app->post('/get/plata', function() use($app) {
-    $m = new Model\Monedas; 
-  
-    return $app->json($m->getPrice("plata"));   
-  });
-
-  $app->post('/getdate/oro', function() use($app) {
-    $m = new Model\Monedas; 
-  
-    return $app->json($m->getDate("oro"));   
-  });
-
-  $app->post('/getdate/plata', function() use($app) {
-    $m = new Model\Monedas; 
-  
-    return $app->json($m->getDate("plata"));   
-  });
-
-
-  $app->post('/getfulldata', function() use($app) {
-    $m = new Model\Monedas; 
-  
-    return $app->json($m->getFullData());   
-  });
-
   /**
  * Endpoints para origen
  *
@@ -234,8 +203,8 @@ $app->post('/orden/crear', function() use($app) {
     return $app->json($o->createOrden());   
 });
 
-/**
- * Servicio que devuelve gramos de oro comprado
+ /**
+ * Servicio que devuelve gramos de oro/plata comprados
  *
  * @return json
 */
@@ -245,9 +214,10 @@ $app->post('/orden/getGramos', function() use($app) {
     return $app->json($o->getGramosOroPlata());      
 });
 
-/**
- * Servicio que devuelve gramos de oro comprado
+ /**
+ * Servicio que devuelve las ultimas cinco ordenes concretadas
  *
+ * Recibe el tipo de orden, el tipo de gramo y el email del cliente
  * @return json
 */
 $app->post('/orden/getUltTransacciones', function() use($app) {
@@ -257,12 +227,35 @@ $app->post('/orden/getUltTransacciones', function() use($app) {
 });
 
 /**
- * Servicio que devuelve gramos de oro comprado
+ * Servicio que devuelve todas las transacciones de un usuario
+ *
+ * Recibe el email del cliente
+ * @return json
+*/
+$app->post('/orden/getOrdenesByUser', function() use($app) {
+    $o = new Model\Orden; 
+
+    return $app->json($o->getOrdenesByUser());      
+});
+
+/**
+ * Endpoints para divisas
  *
  * @return json
 */
-$app->post('/terminosycondiciones/get', function() use($app) {
-    $r = new Model\Registro; 
+$app->post('/divisa/crear', function() use($app) {
+    $d = new Model\Divisa; 
 
-    return $app->json($r->getTerminos());      
+    return $app->json($d->add());   
 });
+
+
+$app->post('/divisa/editar', function() use($app) {
+    $d = new Model\Divisa; 
+
+    return $app->json($d->edit());   
+});
+
+
+
+

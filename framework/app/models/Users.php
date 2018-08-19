@@ -322,7 +322,7 @@ class Users extends Models implements IModels {
 
             # Obtener los datos $_POST
             $user_data = $http->request->all();
-
+            
             #Todo usuario que se registre será un cliente
             $tipo = 2;
 
@@ -338,6 +338,10 @@ class Users extends Models implements IModels {
             if (!array_key_exists('primer_apellido',$user_data) || Functions::emp($user_data['primer_apellido'])) {
                 throw new ModelsException('El primer apellido no debe estar vacio');
             }
+
+            /*if (!array_key_exists('foto_documento_identidad',$user_data)) {
+                throw new ModelsException('Debe subir una foto de un documento de identidad.');
+            }*/
 
             if (!array_key_exists('usuario',$user_data) || Functions::emp($user_data['usuario'])) {
                 throw new ModelsException('El usuario no debe estar vacio');

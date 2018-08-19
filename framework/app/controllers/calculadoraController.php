@@ -23,8 +23,18 @@ use Ocrend\Kernel\Router\IRouter;
 class calculadoraController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
-        parent::__construct($router);
-        $c = new Model\Calculadora;
-		$this->template->display('calculadora/calculadora');
+        parent::__construct($router,array(
+            'users_logged' => true,
+            'users_clienteadmin' => true
+        ));
+        
+        $d = new Model\Divisa();
+        $m = new Model\Monedas();
+        
+		$this->template->display('calculadora/calculadora',array(
+            'divisas' => $d->getDivisas(),
+            'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
+            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0]
+        ));
     }
 }

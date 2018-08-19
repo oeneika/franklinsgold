@@ -46,7 +46,7 @@ class Orden extends Models implements IModels {
         $this->id_usuario = $http->request->get('id_usuario');
         $this->tipo_gramo = $http->request->get('tipo_gramo');     
         $this->cantidad = $http->request->get('cantidad');
-        $this->id_sucursal = $http->request->get('id_sucursal');
+        //$this->id_sucursal = $http->request->get('id_sucursal');
         $this->tipo_orden = $http->request->get('tipo_orden');
 
         #Usada en caso de ser una compra/venta vía movil
@@ -61,7 +61,7 @@ class Orden extends Models implements IModels {
         $this->id_moneda = $http->request->get('id_moneda');
 
         # Verificar que no están vacíos
-        if (Helper\Functions::e($this->id_usuario,$this->tipo_gramo,$this->cantidad,$this->id_sucursal,$this->tipo_orden)) {
+        if (Helper\Functions::e($this->id_usuario,$this->tipo_gramo,$this->cantidad/*,$this->id_sucursal*/,$this->tipo_orden)) {
             throw new ModelsException('Debe seleccionar todos los elementos.');
         }
 
@@ -141,7 +141,7 @@ class Orden extends Models implements IModels {
                 'tipo_gramo' => $this->tipo_gramo,
                 'cantidad' => $this->cantidad,
                 'precio' => ($m->getPrice($this->tipo_gramo))[0][0],
-                'id_sucursal' => $this->id_sucursal,
+                'id_sucursal' => 1 /*$this->id_sucursal*/, //Forzando una sucursal de momento
                 'tipo_orden' => $this->tipo_orden,
                 'fecha' => time(),
                 'estado' => 1
@@ -269,14 +269,15 @@ class Orden extends Models implements IModels {
      * 
      * @return array
      */
-    public function get(string $where="1=1",$limit=null,$extra=''){
+    public function get(string $select = "*",string $where="1=1",$limit=null,$extra=''){
 
         $inner = "INNER JOIN users u ON u.id_user = orden.id_usuario
                   INNER JOIN sucursal s On s.id_sucursal = orden.id_sucursal";
 
-        return $this->db->select("orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta","orden",$inner,$where,$limit,$extra);
+        return $this->db->select($select,"orden",$inner,$where,$limit,$extra);
 
     }
+
 
     /**
      * Trae las cantidades compradas o vendidas de oro o plata en cierta cantidad de tiempo
@@ -320,9 +321,27 @@ class Orden extends Models implements IModels {
         $email = $this->db->scape($http->request->get('email'));
  
         $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
-                  
-        return $this->get("orden.estado=2 and orden.tipo_gramo='$tipo_gramo' and orden.tipo_orden='$tipo' and u.id_user='$id_usuario'",
-        5,"ORDER BY orden.id_orden DESC");
+              
+        $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
+        $where = "orden.estado=2 and orden.tipo_gramo='$tipo_gramo' and orden.tipo_orden='$tipo' and u.id_user='$id_usuario'";
+    
+        return $this->get($select,$where,5,"ORDER BY orden.id_orden DESC");
+    }
+
+    /**
+     * Servicio que devuelve las ultimas cinco ordenes concretadaspor usuario
+     */
+    public function getOrdenesByUser(){
+        Global $http;
+    
+        $email = $this->db->scape($http->request->get('email'));
+ 
+        $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
+              
+        $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
+        $where = "orden.estado=2 and u.id_user='$id_usuario'";
+    
+        return $this->get($select,$where,5,"ORDER BY orden.id_orden DESC");
     }
 
     /**

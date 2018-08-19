@@ -16,22 +16,29 @@ use Ocrend\Kernel\Helpers as Helper;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
-use Ocrend\Kernel\Helpers\Functions;
 
 /**
- * Controlador home/
- *
- * @author Ocrend Software C.A <bnarvaez@ocrend.com>
+ * Controlador divisa/
 */
-class convErsorController extends Controllers implements IControllers {
+class divisaController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
-            'users_logged' => true
+            'users_logged' => true,
+            'users_admin'=>true
         ));
-
         
-        $d = new Model\Dashboard;
-        $this->template->display('conversor/conversor');
+        $d = new Model\Divisa();
+
+        switch($this->method) {
+            case 'eliminar':
+                $d->del();
+            break;
+            default:
+            $this->template->display('divisa/divisa',array(
+                'divisas' => $d->getDivisas()
+            ));
+            break;
+        }
     }
 }

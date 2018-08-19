@@ -41,9 +41,11 @@
                                             <th>Id</th>
                                             <th>Usuario</th>
                                             <th>Número de cuenta</th>
-                                            <th>Sucursal</th>
+                                            <!--<th>Sucursal</th>-->
                                             <th>Composición</th>
                                             <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Monto(USD)</th>
                                             <th>Tipo Orden</th>
                                             <th>Estado</th>
                                             <th>Fecha Creación</th>
@@ -57,9 +59,11 @@
                                                 <td>{{ o.id_orden }}</td>
                                                 <td>{{ o.primer_nombre }} {{ o.primer_apellido }}</td>
                                                 <td>{{ o.numero_cuenta }}</td>
-                                                <td>{{ o.nombre_sucursal }}</td>
-                                                <td>{{ o.tipo_gramo == 1 ? 'Oro' : "Plata" }}</td>
+                                                {#<td>{{ o.nombre_sucursal }}</td>#}
+                                                <td>{{ o.tipo_gramo }}</td>
                                                 <td>{{ o.cantidad }}</td>
+                                                <td>{{ o.precio|number_format(2, ',', '.') }}</td>
+                                                <td>{{ (o.cantidad * (o.precio / 28.3495))|number_format(2, ',', '.') }}</td>
                                                 <td>{{ o.tipo_orden == 1 ? 'Compra' :  o.tipo_orden == 2  ? "Venta" : "Intercambio" }}</td>
                                                 <td>{{ o.estado == 1 ? 'Espera' : "Concretada" }}</td>
                                                 <td>{{ fecha('D, d F, Y h:i a', o.fecha) }}</td>
@@ -80,9 +84,11 @@
                                             <th>Id</th>
                                             <th>Usuario</th>
                                             <th>Número de cuenta</th>
-                                            <th>Sucursal</th>
+                                            <!--<th>Sucursal</th>-->
                                             <th>Composición</th>
                                             <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Monto(USD)</th>
                                             <th>Tipo Orden</th>
                                             <th>Estado</th>
                                             <th>Fecha Creación</th>

@@ -6,12 +6,15 @@
 	</div>
 	<div class="row wrapper border-bottom white-bg page-heading">
 	    <div class="col-lg-10">
-	        <h2><i class="fa fa-money"></i> Conversor de divisas</h2>
-	                    <ol class="breadcrumb">
-	                        <li class="active">
-	                            <strong>Conversor</strong>
-	                        </li>
-	                    </ol>
+	        <h2><i class="fa fa-gears"></i> Conversor de dívisas</h2>
+				<ol class="breadcrumb">
+					<li>
+						<a href="home/">Home</a>
+					</li>
+					<li class="active">
+						<strong>Conversor</strong>
+					</li>
+				</ol>
 	    </div>
 	</div>
 
@@ -20,45 +23,54 @@
 			<div class="col-md-12">
 				<div class="ibox float-e-margins">
                     <div class="ibox-content">
-						<form action="">
-							<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-		                                <label for="cc-payment" class="control-label mb-1" >Desde esta moneda</label>
-		                                <select name="" id="" onchange="" class="form-control" style="width: 100%">
-		                                    <option disabled selected value>Seleccione un tipo de moneda</option>
-		                                    <option value="dolares">Dolares</option>
-		                                    <option value="btc">Bitcoin</option>
-		                                    <option value="pesos">Pesos</option>
-		                                    <option value="bs">Bolivares Soberanos</option>
-		                                </select>
-	                            	</div>
-	                            	<div class="form-group">
-	                            		<label for="">Cantidad</label>
-		                                <input type="number" class="form-control" placeholder="0">
-	                            	</div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-		                                <label for="cc-payment" class="control-label mb-1" >Hacia esta moneda</label>
-		                                <select name="" id="" onchange="" class="form-control" style="width: 100%">
-		                                    <option disabled selected value>Seleccione un tipo de moneda</option>
-		                                    <option value="dolares">Dolares</option>
-		                                    <option value="btc">Bitcoin</option>
-		                                    <option value="pesos">Pesos</option>
-		                                    <option value="bs">Bolivares Soberanos</option>
-		                                </select>
-	                            	</div>
-	                            	<div class="form-group">
-	                            		<label for="">Monto Total</label>
-		                                <input type="number" class="form-control" placeholder="0.00">
-	                            	</div>
-								</div>
-								 <p class="text-muted text-center"><small>Este convertidor de divisas, puede ser utilizado para conocer el valor de las monedas. Esta conversión debe ser considerada sólo como referencia.</small></p>
-							</div>
+						<div class="row">
 							
+							<div class="col-md-6 col-xs-12">
+								<div class="form-group">
+									<label for="divisa_inicial" class="control-label mb-1" >De la dívisa</label>
+									<select name="divisa_inicial" id="id_divisa_inicial" onchange="changePrice('id_divisa_inicial','id_precio_divisa_inicial')" class="form-control" style="width: 100%">
+										<option disabled selected value>Seleccione una dívisa</option>
+										<option value="{{ultimo_precio_oro}}">Oro(Onza)</option>
+										<option value="{{ultimo_precio_plata}}">Plata(Onza)</option>
+										{% for d in divisas %}
+											<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
 
-						</form>
+							<div class="col-md-6 col-xs-12">							
+								<div class="form-group">
+									<label for="precio_divisa_inicial">Precio(Dólares por unidad)</label>
+									<input name="precio_divisa_inicial" id="id_precio_divisa_inicial" type="number" class="form-control">
+								</div>
+							</div>
+
+
+							<div class="col-md-6 col-xs-12">
+								<div class="form-group">
+									<label for="divisa_final" class="control-label mb-1" >A la dívisa</label>
+									<select name="divisa_final" id="id_divisa_final" onchange="changePrice('id_divisa_final','id_precio_divisa_final')" class="form-control" style="width: 100%">
+											<option disabled selected value>Seleccione una dívisa</option>
+											<option value="{{ultimo_precio_oro}}">Oro(Onza)</option>
+											<option value="{{ultimo_precio_plata}}">Plata(Onza)</option>
+											{% for d in divisas %}
+												<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}</option>
+											{% endfor %}
+									</select>
+								</div>
+							</div>
+
+							<div class="col-md-6 col-xs-12">							
+									<div class="form-group">
+										<label for="precio_divisa_final">Precio(Dólares por unidad)</label>
+										<input name="precio_divisa_final" id="id_precio_divisa_final" type="number" class="form-control">
+									</div>
+								</div>
+
+
+
+						</div>
                     </div>
                 </div>
 			</div>
@@ -68,4 +80,5 @@
 {% endblock %}
 
 {% block appFooter %}
+<script src="./assets/jscontrollers/calculadora/calculadora.js"></script>
 {% endblock %}

@@ -33,14 +33,18 @@ class ordenclienteController extends Controllers implements IControllers {
         $m = new Model\Monedas($router);
         
         $id_owner = $this->user["id_user"];
+        $select = "orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido";
+        $where_oro = "orden.estado=2 and orden.tipo_gramo='oro' and u.id_user='$id_owner'";
+        $where_plata = "orden.estado=2 and orden.tipo_gramo='plata' and u.id_user='$id_owner'";
+
         $this->template->display('ordenes/dashboard',array(
             'sucursales' => $s->get(),
-            'ultimas_cinco_ordenes_oro' => $o->get("orden.estado=2 and orden.tipo_gramo='oro' and u.id_user='$id_owner'",5,"ORDER BY orden.id_orden DESC"),
-            'ultimas_cinco_ordenes_plata' => $o->get("orden.estado=2 and orden.tipo_gramo='plata' and u.id_user='$id_owner'",5,"ORDER BY orden.id_orden DESC"),
+            'ultimas_cinco_ordenes_oro' => $o->get($select,$where_oro,5,"ORDER BY orden.id_orden DESC"),
+            'ultimas_cinco_ordenes_plata' => $o->get($select,$where_plata,5,"ORDER BY orden.id_orden DESC"),
             'total_oro_comprado' => $o->getTotalGramos("oro","id_usuario='$id_owner'"),
             'total_plata_comprado' => $o->getTotalGramos("plata","id_usuario='$id_owner'"),
             'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
-            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0],
+            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0]
         ));
  
         

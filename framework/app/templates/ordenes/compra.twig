@@ -34,7 +34,7 @@
                                 <input id="id_monto_compra" type="number" onchange="resetCantidad('id_cantidad_compra','id_monto_compra','id_tipo_compra')" class="form-control" aria-required="true" aria-invalid="false" placeholder="0.00">
                             </div>                           
                         </div>
-                        <div class="col-md-12 col-xs-12">
+                        {#<div class="col-md-12 col-xs-12">
                         <div class="form-group">
                             <label for="cc-payment" class="control-label mb-1" >Sucursal</label>
                             <select name="id_sucursal" id="" class="form-control" style="width: 100%">
@@ -44,7 +44,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        </div>
+                        </div>#}
                     </div>  
 
                     <input name="id_usuario" value="{{owner_user.id_user}}" type="hidden">

@@ -71,3 +71,61 @@ $app->get('/get/monedas/BySucursal/{id}', function($id) use($app) {
 
     return $app->json($m->getMonedas('*',$inner));   
 });
+
+
+$app->get('/get/oro', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getPrice("oro"));   
+  });
+
+  $app->get('/get/plata', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getPrice("plata"));   
+  });
+
+  $app->get('/getdate/oro', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getDate("oro"));   
+  });
+
+  $app->get('/getdate/plata', function() use($app) {
+    $m = new Model\Monedas; 
+  
+    return $app->json($m->getDate("plata"));   
+  });
+
+/**
+ * Servicio que devuelve datos de los precios de oro y plata
+ */
+$app->get('/getfulldata', function() use($app) {
+    $m = new Model\Monedas; 
+
+    return $app->json($m->getFullData());   
+});
+
+/**
+ * Servicio que devuelve las ultimas cinco ordenes concretadas
+ *
+ * @return json
+*/
+$app->get('/orden/historial', function() use($app) {
+    $o = new Model\Orden; 
+
+    $select = "orden.tipo_orden,orden.cantidad,orden.tipo_gramo,orden.precio";
+    $where = "orden.estado=2";
+    return $app->json($o->get($select,$where,5));      
+});
+
+/**
+ * Servicio que devuelve gramos de oro comprado
+ *
+ * @return json
+*/
+$app->get('/terminosycondiciones/get', function() use($app) {
+    $r = new Model\Registro; 
+
+    return $app->json($r->getTerminos());      
+});

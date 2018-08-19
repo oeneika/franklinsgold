@@ -38,8 +38,9 @@ class ordenadminController extends Controllers implements IControllers {
                 $o->specifyOrden();           
             break;
             default:
+            $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
             $this->template->display('ordenes/ordenes',array(
-                'ordenes' => $o->get()
+                'ordenes' => $o->get($select)
             ));
             break;
         }
