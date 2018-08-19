@@ -12,28 +12,28 @@
             	<div class="row">
             		<div class="col-md-6">
             			 <div class="form-group">
-		                    <input type="text" name='primer_nombre' class="form-control" placeholder="Primer Nombre (*)">
+		                    <input type="text" name='primer_nombre' id='id_primer_nombre' class="form-control" placeholder="Primer Nombre (*)">
 		                </div>
 		                <div class="form-group">
-		                    <input type="text" name='segundo_nombre' class="form-control" placeholder="Segundo Nombre">
+		                    <input type="text" name='segundo_nombre' id='id_segundo_nombre' class="form-control" placeholder="Segundo Nombre">
 		                </div>
             		</div>
             		<div class="col-md-6">
 		                <div class="form-group">
-		                    <input type="text" name='primer_apellido' class="form-control" placeholder="Primer Apellido (*)">
+		                    <input type="text" name='primer_apellido' id='id_primer_apellido' class="form-control" placeholder="Primer Apellido (*)">
 		                </div>
 		                <div class="form-group">
-		                    <input type="text" name='segundo_apellido' class="form-control" placeholder="Segundo Apellido">
+		                    <input type="text" name='segundo_apellido' id='id_segundo_apellido' class="form-control" placeholder="Segundo Apellido">
 		                </div>
                         
             		</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        <label class="float-left"><input type="radio" checked="" value="m" name="sexo" type="radio">Masculino</label>
+                        <label class="float-left"><input type="radio" checked="" value="m" name="sexo" id='id_sexo' type="radio">Masculino</label>
                     </div>
                     <div class="col-xs-6">
-                        <label class="float-left"><input type="radio" value="f" name="sexo" type="radio">Femenino</label>
+                        <label class="float-left"><input type="radio" value="f" name="sexo" id='id_sexo' type="radio">Femenino</label>
                     </div>
                 </div>
 
@@ -54,35 +54,35 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name='usuario' class="form-control" placeholder="Usuario (*)">
+                            <input type="text" name='usuario' id="id_usuario" class="form-control" placeholder="Usuario (*)">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name='email' class="form-control" placeholder="Correo electrónico (*)">
+                            <input type="text" name='email' id="id_email" class="form-control" placeholder="Correo electrónico (*)">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" name='telefono' class="form-control" placeholder="Teléfono (*)">
+                    <input type="text" name='telefono' id="id_telefono" class="form-control" placeholder="Teléfono (*)">
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="password" name='pass' class="form-control" placeholder="Contraseña (*)">
+                            <input type="password" name='pass' id="id_pass" class="form-control" placeholder="Contraseña (*)">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="password" name='pass_repeat' class="form-control" placeholder="Repetir Contraseña (*)">
+                            <input type="password" name='pass_repeat' id="id_pass_repeat" class="form-control" placeholder="Repetir Contraseña (*)">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <input type="number" name='numero_cuenta' class="form-control" placeholder="Número de cuenta (*)">
+                    <input type="number" name='numero_cuenta' id="id_numero_cuenta" class="form-control" placeholder="Número de cuenta (*)">
                 </div>
 
                 <input type="hidden" id="terminos_ocultos" value="'{{terminos}}'">

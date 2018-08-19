@@ -322,7 +322,11 @@ class Users extends Models implements IModels {
 
             # Obtener los datos $_POST
             $user_data = $http->request->all();
-            
+
+            # Obtener los datos $_FILES los cuales contienen las imagenes cargadas
+            $fotos = $_FILES;
+            //var_dump($fotos);
+           
             #Todo usuario que se registre será un cliente
             $tipo = 2;
 
@@ -339,9 +343,31 @@ class Users extends Models implements IModels {
                 throw new ModelsException('El primer apellido no debe estar vacio');
             }
 
-            /*if (!array_key_exists('foto_documento_identidad',$user_data)) {
+            if (!array_key_exists('foto_documento_identidad',$fotos)) {
                 throw new ModelsException('Debe subir una foto de un documento de identidad.');
-            }*/
+            }
+
+            if ($fotos["foto_documento_identidad"]["error"] != 0) {
+                throw new ModelsException('Hubo un error cargando el documento de identidad, intente de nuevo.');
+            }
+
+            if ( !strpos($fotos["foto_documento_identidad"]["type"], "jpeg") and !strpos($fotos["foto_documento_identidad"]["type"], "jpg") and
+                !strpos($fotos["foto_documento_identidad"]["type"], "png") ){
+                    throw new ModelsException('El documento de identidad debe ser una imagen.');
+            }
+
+            if (array_key_exists('foto_pasaporte',$fotos)) {
+
+                if ($fotos["foto_pasaporte"]["error"] != 0) {
+                    throw new ModelsException('Hubo un error cargando el pasaporte, intente de nuevo.');
+                }
+
+                if ( !strpos($fotos["foto_pasaporte"]["type"], "jpeg") and !strpos($fotos["foto_pasaporte"]["type"], "jpg") and
+                !strpos($fotos["foto_pasaporte"]["type"], "png") ){
+                    throw new ModelsException('El pasaporte debe ser una imagen.');
+                }
+
+            }
 
             if (!array_key_exists('usuario',$user_data) || Functions::emp($user_data['usuario'])) {
                 throw new ModelsException('El usuario no debe estar vacio');
@@ -355,6 +381,10 @@ class Users extends Models implements IModels {
 
             if (!array_key_exists('email',$user_data) || Functions::emp($user_data['email'])) {
                 throw new ModelsException('El email no debe estar vacío');
+            }
+
+            if(!array_key_exists('telefono',$user_data)){
+                throw new ModelsException('Campo teléfono no definido');
             }
 
             if (!ctype_digit($user_data['telefono'])){
@@ -372,11 +402,7 @@ class Users extends Models implements IModels {
             if (!array_key_exists('pass_repeat',$user_data) || Functions::emp($user_data['pass_repeat'])) {
                 throw new ModelsException('Por favor repita el password');
             }
-
-            if(!array_key_exists('telefono',$user_data)){
-                throw new ModelsException('Campo teléfono no definido');
-            }
-
+        
             if(!array_key_exists('numero_cuenta',$user_data)){
                 throw new ModelsException('Debe introducir un número de cuenta');
             }
@@ -441,20 +467,45 @@ class Users extends Models implements IModels {
                 'pass' => Helper\Strings::hash($user_data['pass'])
             ));
 
-                #Concatena una palabra para evitar repeticiones del codigoqr
-                $conc = "usuarios".$id_user;
+            /*#Concatena una palabra para evitar repeticiones del codigoqr
+            $conc = "usuarios".$id_user;
 
-                # Url del codigo qr
-                $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=$conc";
+            # Url del codigo qr
+            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=$conc";
 
-                # Ruta en la que se guardara la imagen
-                $img = "../views/img/codigos/usuarios/$conc.png";
-                file_put_contents($img, file_get_contents($url));
+            # Ruta en la que se guardara la imagen
+            $img = "../views/img/codigos/usuarios/$conc.png";
+            file_put_contents($img, file_get_contents($url));*/
 
-                #Se actualiza la db con la ruta de la imagen
-                $this->db->update('users',array(
-                    'codigo_qr'=> $img
-                ), "id_user = '$id_user'");
+
+            #Se guarda la foto del documento de identidad
+            $dir_documento = "../views/img/documentos/usuarios/documentoidentidad".$id_user.".png";
+            $tmp_name = $fotos["foto_documento_identidad"]["tmp_name"];
+            // basename() puede evitar ataques de denegación de sistema de ficheros;
+            // podría ser apropiada más validación/saneamiento del nombre del fichero
+            $name = basename($fotos["foto_documento_identidad"]["name"]);
+            move_uploaded_file($tmp_name, "$dir_documento");
+
+                
+            #Si se cargó la foto del pasaporte se guarda
+            $dir_pasaporte=null;
+            if (array_key_exists('foto_pasaporte',$fotos)) {               
+                $dir_pasaporte = "../views/img/documentos/usuarios/pasaporte".$id_user.".png";
+                           
+                $tmp_name = $fotos["foto_pasaporte"]["tmp_name"];
+                // basename() puede evitar ataques de denegación de sistema de ficheros;
+                // podría ser apropiada más validación/saneamiento del nombre del fichero
+                $name = basename($fotos["foto_pasaporte"]["name"]);
+                move_uploaded_file($tmp_name, "$dir_pasaporte");
+                    
+            }
+
+            #Se actualiza la db con la ruta de la imagen
+            $this->db->update('users',array(
+                //'codigo_qr'=> $img,
+                'documento_identidad'=> $dir_documento,
+                'pasaporte'=> $dir_pasaporte
+            ), "id_user = '$id_user'");
 
 
             # Iniciar sesión

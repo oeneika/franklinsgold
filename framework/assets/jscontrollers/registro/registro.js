@@ -1,4 +1,3 @@
-
 /**
  * Abre el modal con los términos y condiciones
  */
@@ -19,15 +18,35 @@ function registro(){
     if( $('#id_terminos').prop('checked') ) {
         
     var $ocrendForm = $(this), __data = {};
-    $('#registro_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
+    //$('#registro_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
 
         if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
+
+            var paqueteDeDatos = new FormData();
+           
+            paqueteDeDatos.append('foto_documento_identidad', $('#id_foto_documento_identidad')[0].files[0]);
+            paqueteDeDatos.append('foto_pasaporte', $('#id_foto_pasaporte')[0].files[0]);
+
+            paqueteDeDatos.append('primer_nombre', $('#id_primer_nombre').prop('value'));
+            paqueteDeDatos.append('segundo_nombre', $('#id_segundo_nombre').prop('value'));
+            paqueteDeDatos.append('primer_apellido', $('#id_primer_apellido').prop('value'));
+            paqueteDeDatos.append('segundo_apellido', $('#id_segundo_apellido').prop('value'));
+            paqueteDeDatos.append('sexo', $('#id_sexo').prop('value'));
+            paqueteDeDatos.append('usuario', $('#id_usuario').prop('value'));
+            paqueteDeDatos.append('email', $('#id_email').prop('value'));
+            paqueteDeDatos.append('telefono', $('#id_telefono').prop('value'));        
+            paqueteDeDatos.append('pass', $('#id_pass').prop('value'));
+            paqueteDeDatos.append('pass_repeat', $('#id_pass_repeat').prop('value')); 
+            paqueteDeDatos.append('numero_cuenta', $('#id_numero_cuenta').prop('value'));
+
             $('#registro').attr('disabled','disabled');
             $.ajax({
                 type : "POST",
                 url : "api/register",
+                contentType: false,
+                processData: false,
                 dataType: 'json',
-                data : __data,
+                data : paqueteDeDatos,
                 beforeSend: function(){ 
                     $ocrendForm.data('locked', true) 
                 },
