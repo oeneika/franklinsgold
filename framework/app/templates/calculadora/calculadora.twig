@@ -25,13 +25,15 @@
                     <div class="ibox-content">
 						<div class="row">
 							
-							<div class="col-md-6 col-xs-12">
+							<div class="col-md-3 col-xs-12">
 								<div class="form-group">
 									<label for="divisa_inicial" class="control-label mb-1" >De la dívisa</label>
-									<select name="divisa_inicial" id="id_divisa_inicial" onchange="changePrice('id_divisa_inicial','id_precio_divisa_inicial')" class="form-control" style="width: 100%">
+									<select name="divisa_inicial" id="id_divisa_inicial" onchange="changePrice()" class="form-control" style="width: 100%">
 										<option disabled selected value>Seleccione una dívisa</option>
 										<option value="{{ultimo_precio_oro}}">Oro(Onza)</option>
+										<option value="{{ultimo_precio_oro / 28.3495}}">Oro(Gramo)</option>
 										<option value="{{ultimo_precio_plata}}">Plata(Onza)</option>
+										<option value="{{ultimo_precio_plata / 28.3495}}">Plata(Gramo)</option>
 										{% for d in divisas %}
 											<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}</option>
 										{% endfor %}
@@ -39,21 +41,36 @@
 								</div>
 							</div>
 
-							<div class="col-md-6 col-xs-12">							
+							<div class="col-md-3 col-xs-12">							
 								<div class="form-group">
 									<label for="precio_divisa_inicial">Precio(Dólares por unidad)</label>
-									<input name="precio_divisa_inicial" id="id_precio_divisa_inicial" type="number" class="form-control">
+									<input name="precio_divisa_inicial" id="id_precio_divisa_inicial" type="number" onchange="changeMontoInicial()" class="form-control">
 								</div>
 							</div>
 
+							<div class="col-md-3 col-xs-12">							
+								<div class="form-group">
+									<label for="cantidad_divisa_inicial">Cantidad dívisa inicial</label>
+									<input name="cantidad_divisa_inicial" id="id_cantidad_divisa_inicial" type="number" onchange="changeMontoInicial()" class="form-control">
+								</div>
+							</div>
+							
+							<div class="col-md-3 col-xs-12">							
+								<div class="form-group">
+									<label for="monto_inicial">Monto(Dólares)</label>
+									<input name="monto_inicial" id="id_monto_inicial" type="text" readonly="readonly" class="form-control">
+								</div>
+							</div>
 
-							<div class="col-md-6 col-xs-12">
+							<div class="col-md-12 col-xs-12">
 								<div class="form-group">
 									<label for="divisa_final" class="control-label mb-1" >A la dívisa</label>
-									<select name="divisa_final" id="id_divisa_final" onchange="changePrice('id_divisa_final','id_precio_divisa_final')" class="form-control" style="width: 100%">
+									<select name="divisa_final" id="id_divisa_final" class="form-control" style="width: 100%">
 											<option disabled selected value>Seleccione una dívisa</option>
 											<option value="{{ultimo_precio_oro}}">Oro(Onza)</option>
+											<option value="{{ultimo_precio_oro / 28.3495}}">Oro(Gramo)</option>
 											<option value="{{ultimo_precio_plata}}">Plata(Onza)</option>
+											<option value="{{ultimo_precio_plata / 28.3495}}">Plata(Gramo)</option>
 											{% for d in divisas %}
 												<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}</option>
 											{% endfor %}
@@ -61,14 +78,18 @@
 								</div>
 							</div>
 
-							<div class="col-md-6 col-xs-12">							
-									<div class="form-group">
-										<label for="precio_divisa_final">Precio(Dólares por unidad)</label>
-										<input name="precio_divisa_final" id="id_precio_divisa_final" type="number" class="form-control">
-									</div>
+							<div class="col-md-12 col-xs-12">							
+								<div class="form-group">
+									<button type="button" id="convertirDivisabtn" class="btn btn-primary">Convertir</button>
 								</div>
+							</div>
 
-
+							<div class="col-md-12 col-xs-12">							
+								<div class="form-group">
+									<label for="monto_final">Equivalente</label>
+									<input name="monto_final" id="id_monto_final" type="text" readonly="readonly" class="form-control">
+								</div>
+							</div>
 
 						</div>
                     </div>

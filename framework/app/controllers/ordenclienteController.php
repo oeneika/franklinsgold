@@ -31,6 +31,7 @@ class ordenclienteController extends Controllers implements IControllers {
         $s = new Model\Sucursales($router);
         $o = new Model\Orden($router);
         $m = new Model\Monedas($router);
+        $d = new Model\Divisa($router);
         
         $id_owner = $this->user["id_user"];
         $select = "orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido";
@@ -44,7 +45,8 @@ class ordenclienteController extends Controllers implements IControllers {
             'total_oro_comprado' => $o->getTotalGramos("oro","id_usuario='$id_owner'"),
             'total_plata_comprado' => $o->getTotalGramos("plata","id_usuario='$id_owner'"),
             'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
-            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0]
+            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0],
+            'precio_bolivar' => ($d->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"],
         ));
  
         

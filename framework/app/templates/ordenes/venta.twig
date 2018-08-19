@@ -11,29 +11,39 @@
 
                 <form id="crearOrdenVenta_form">
                     <div class="row">
+
                         <div class="col-md-3 col-xs-12">
                             <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1" >Oro o Plata</label>
-                                <select name="tipo_gramo" id="id_tipo_venta" onchange="resetMonto('id_cantidad_venta','id_monto_venta','id_tipo_venta')" class="form-control" style="width: 100%">
+                                <label for="cantidad_bolivar_soberano" class="control-label mb-1" >Cantidad BsS</label>
+                                <input name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_venta" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_venta','id_tipo_venta','id_cantidad_venta','id_monto_dolares_venta')" class="form-control" >
+                            </div>
+                        </div>  
+
+                        <div class="col-md-3 col-xs-12">
+                            <div class="form-group">
+                                <label for="cc-payment" class="control-label mb-1" >Tipo metal</label>
+                                <select name="tipo_gramo" id="id_tipo_venta" onchange="resetQuantity('id_cantidad_bolivar_soberano_venta','id_tipo_venta','id_cantidad_venta','id_monto_dolares_venta')" class="form-control" style="width: 100%">
                                     <option disabled selected value>Tipo</option>
                                     <option value="oro">Oro</option>
                                     <option value="plata">Plata</option>
                                 </select>
-                            </div>
-                            
+                            </div>                         
                         </div>
-                        <div class="col-md-4 col-xs-12">
+
+                        <div class="col-md-3 col-xs-12">
                             <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1">Gramos</label>
-                                <input name="cantidad" id="id_cantidad_venta" type="number" onchange="resetMonto('id_cantidad_venta','id_monto_venta','id_tipo_venta')" class="form-control" aria-required="true" aria-invalid="false" placeholder="0">
+                                <label for="cantidad" class="control-label mb-1">Cantidad gramos</label>
+                                <input name="cantidad" id="id_cantidad_venta" type="number" readonly="readonly" class="form-control" >
                             </div>                           
                         </div>
-                        <div class="col-md-5 col-xs-12">
+                        
+                        <div class="col-md-3 col-xs-12">
                             <div class="form-group">
-                                <label for="cc-payment" class="control-label mb-1">Monto $</label>
-                                <input id="id_monto_venta" type="number"  onchange="resetCantidad('id_cantidad_venta','id_monto_venta','id_tipo_venta')" class="form-control" aria-required="true" aria-invalid="false" placeholder="0.00">
+                                <label for="monto_dolares" class="control-label mb-1">Monto(Dólares)</label>
+                                <input name="monto_dolares" id="id_monto_dolares_venta" type="text" readonly="readonly" class="form-control" aria-required="true" aria-invalid="false" >
                             </div>                           
                         </div>
+
                         {#<div class="col-md-12 col-xs-12">
                         <div class="form-group">
                             <label for="cc-payment" class="control-label mb-1" >Sucursal</label>
@@ -47,7 +57,6 @@
                         </div>#}
                     </div>  
 
-                    <input name="id_usuario" value="{{owner_user.id_user}}" type="hidden">
                     <input name="tipo_orden" value="2" type="hidden">
                 </form>
 

@@ -1,63 +1,48 @@
 /**
- * Variables que contienen los precios actuales del oro y de la plata
+ * Variables que contienen los precios actuales del oro y de la plata y del BsS
  */
 var ultimo_precio_oro;
 var ultimo_precio_plata;
+var precio_bolivar_soberano;
 
 /**
  * 
  * @param {string} modal : nombre del modal
  * @param {int} ultimo_precio_oro : precio actual del oro
  * @param {int} ultimo_precio_plata : precio actual de la plata
+ * @param {int} precio_BsS : precio del BsS almacenado en la base de datos
  */
-function showModal(modal,ultimo_precio_oro,ultimo_precio_plata) {
-    this.ultimo_precio_oro = ultimo_precio_oro;
-    this.ultimo_precio_plata = ultimo_precio_plata;
+function showModal(modal,ultimo_precio_oro,ultimo_precio_plata,precio_BsS) {
+    this.ultimo_precio_oro = ultimo_precio_oro/28.3495;
+    this.ultimo_precio_plata = ultimo_precio_plata/28.3495;
+    this.precio_bolivar_soberano = precio_BsS;
+
     $('#'+modal).modal('show');
 }
 
-/**
- * Resetea el monto de la transacción en un input
- * @param {int} id_cantidad : id del input a sacar la cantidad
- * @param {int} id_monto : id del input a colocar el monto
- * @param {int} id_tipo : id del input que me indica el tipo de gramo
- */
-function resetMonto(id_cantidad,id_monto,id_tipo){
-
-    var cantidad = $('#'+id_cantidad).val();
-
-    if($('#'+id_tipo).val() === 'oro'){
-        var monto = cantidad * (this.ultimo_precio_oro/28.3495);
-    }else
-    if($('#'+id_tipo).val() === 'plata'){
-        var monto = cantidad * (this.ultimo_precio_plata/28.3495);
-    }
-      
-    //$('#'+id_monto).val(number_format(Math.ceil10(monto, -2), 2, ',', '.'));
-    $('#'+id_monto).val(Math.ceil10(monto, -2));
-}
 
 /**
- * Resetea la cantidad  de la transacción en un input
- * @param {int} id_cantidad : id del input a colocar la cantidad
- * @param {int} id_monto : id del input a sacar el monto
+ * Resetea la cantidad de gramos en el input
+ * @param {int} id_cantidad_BsS : id del input con la cantidad de BsS
  * @param {int} id_tipo : id del input que me indica el tipo de gramo
+ * @param {int} id_cantidad_gramos : id del input donde se colocará la cantidad de gramos
+ * @param {int} id_monto_dolares : id del input donde se colocará la cantidad de dólares
  */
-function resetCantidad(id_cantidad,id_monto,id_tipo){
+function resetQuantity(id_cantidad_BsS,id_tipo,id_cantidad_gramos,id_monto_dolares){
 
-    var monto = $('#'+id_monto).val();
+    var cantidad_BsS = $('#'+id_cantidad_BsS).val();
 
     if($('#'+id_tipo).val() === 'oro'){
-        //var monto = cantidad * (this.ultimo_precio_oro/28.3495);
-        var cantidad = monto / (this.ultimo_precio_oro/28.3495);
+        
+        var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_oro);
     }else
     if($('#'+id_tipo).val() === 'plata'){
-        //var monto = cantidad * (this.ultimo_precio_plata/28.3495);
-        var cantidad = monto / (this.ultimo_precio_plata/28.3495);
+        
+        var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_plata);
     }
       
-    //$('#'+id_cantidad).val(number_format(Math.ceil10(monto, -2), 2, ',', '.'));
-    $('#'+id_cantidad).val(Math.ceil10(cantidad, -2));
+    $('#'+id_monto_dolares).val(Math.ceil10(cantidad_BsS*precio_bolivar_soberano, -2));
+    $('#'+id_cantidad_gramos).val(Math.ceil10(cantidad, -2));
 }
 
 

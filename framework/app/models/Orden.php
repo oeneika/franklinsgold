@@ -31,6 +31,7 @@ class Orden extends Models implements IModels {
     private $cantidad;
     private $id_sucursal;
     private $tipo_orden;
+    private $cantidad_bolivar_soberano;
 
     private $id_moneda;
 
@@ -43,11 +44,12 @@ class Orden extends Models implements IModels {
         global $http;
 
         #Obtener los datos $_POST
-        $this->id_usuario = $http->request->get('id_usuario');
+        $this->id_usuario = ((new Model\Users)->getOwnerUser())["id_user"];
         $this->tipo_gramo = $http->request->get('tipo_gramo');     
         $this->cantidad = $http->request->get('cantidad');
         //$this->id_sucursal = $http->request->get('id_sucursal');
         $this->tipo_orden = $http->request->get('tipo_orden');
+        $this->cantidad_bolivar_soberano = $http->request->get('cantidad_bolivar_soberano');
 
         #Usada en caso de ser una compra/venta vía movil
         $email = $http->request->get('email');
@@ -65,8 +67,8 @@ class Orden extends Models implements IModels {
             throw new ModelsException('Debe seleccionar todos los elementos.');
         }
 
-        if($this->cantidad<0.1){
-            throw new ModelsException('Debe introducir características válidas.');
+        if($this->cantidad<=0){
+            throw new ModelsException('La cantidad de gramos debe ser mayor a cero.');
         }
 
         if( $this->tipo_gramo != "oro" and $this->tipo_gramo != "plata" ){
@@ -75,6 +77,14 @@ class Orden extends Models implements IModels {
 
         if( $this->tipo_orden != 1 and $this->tipo_orden != 2 and $this->tipo_orden != 3 ){
             throw new ModelsException('Tipo de orden inválida.');
+        }
+
+        if( $this->tipo_gramo === 'oro' and $this->cantidad_bolivar_soberano<20000 ){
+            throw new ModelsException('Las compras de de oro son a partir 20.000 BsS.');
+        }
+
+        if( $this->tipo_gramo === 'plata' and ($this->cantidad_bolivar_soberano<1 or $this->cantidad_bolivar_soberano>20000   )){
+            throw new ModelsException('Las compras de plata deben ser entre 1 y 20.000 BsS.');
         }
 
         #Trae la cantidad en cartera para validar si existe la posibilidad de vender/intercambiar

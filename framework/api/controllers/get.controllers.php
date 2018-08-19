@@ -129,3 +129,14 @@ $app->get('/terminosycondiciones/get', function() use($app) {
 
     return $app->json($r->getTerminos());      
 });
+
+/**
+ * Servicio que devuelve el precio del BsS almacenado en la base de datos
+ *
+ * @return json
+*/
+$app->get('/get/precioBsS', function() use($app) {
+    $D = new Model\Divisa; 
+
+    return $app->json($d->getDivisas("precio_dolares","nombre_divisa=Bolívar Soberano"));      
+});

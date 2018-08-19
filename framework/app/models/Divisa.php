@@ -106,8 +106,8 @@ class Divisa extends Models implements IModels {
      *
      * @return false|array con información de los usuarios
      */  
-    public function getDivisas(string $select = '*') {
-        return $this->db->select($select,'divisa');
+    public function getDivisas(string $select = '*',string $where="1=1") {
+        return $this->db->select($select,'divisa',null,$where);
     }
 
     /**

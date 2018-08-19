@@ -53,7 +53,7 @@
                                     <tr>
                                         <td>{{d.id_divisa}}</td>
                                         <td>{{d.nombre_divisa}}</td>
-                                        <td>{{d.precio_dolares}}</td>
+                                        <td>{{d.precio_dolares|number_format(2, ',', '.')}}</td>
                                         <td>
                                             <a onclick="editar_una_divisa({{d.id_divisa}},'{{d.nombre_divisa}}',{{d.precio_dolares}})" style="font-size:22px;" title="Editar">
                                                 <i class="fa fa-sliders naranja"></i>
