@@ -4,6 +4,26 @@
 	}
 }
 
+.ibox-title h5.font{
+	font-size: 11px;
+}
+
+.betiviris{
+	font-size: 11px;
+	color: #A6A6A6;
+}
+
+.betiviris:hover{
+	color: #606060;
+	font-weight: bold;
+}
+
+@media (max-width: 480px){
+	.ibox-title h5.font{
+	font-size: 14px;
+	}
+}
+
 li.active strong, .naranja{
 	color: #DB8F18;
 }

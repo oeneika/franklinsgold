@@ -56,11 +56,11 @@
                                 <div class="form-group">
                                     <label for="radio" class="control-label mb-1">Tipo usuario<span>*</span></label>
                                     </br>
-                                    <input type="radio" id="tipo" checked="" value="0" name="tipo"> Administrador
+                                    <input type="radio" id="tipouno" checked="" value="0" name="tipo"> Administrador
                                     </br>
-                                    <input type="radio" id="tipo" checked="" value="1" name="tipo"> Vendedor
+                                    <input type="radio" id="tipodos" checked="" value="1" name="tipo"> Vendedor
                                     </br>
-                                    <input type="radio" id="tipo" checked="" value="2"  name="tipo"> Cliente
+                                    <input type="radio" id="tipotres" checked="" value="2"  name="tipo"> Cliente
                                 </div>
                             </div>
                         <div class="col-md-3 col-xs-12">
@@ -88,7 +88,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="cc-payment" class="control-label mb-1">Comercio Afiliado<span>*</span></label>
-                                        <select name="id_comercio" id="" class="form-control m-b" style="width: 100%">
+                                        <select name="id_comercio" class="form-control m-b" style="width: 100%">
                                             <option selected value>Seleccione un comercio</option>
                                                 {% for a in afiliados %}
                                                     <option value="{{ a.id_comercio_afiliado }}">{{a.nombre}}</option>

@@ -117,11 +117,25 @@
     <script src="views/intl-tel-input-master/build/js/intlTelInput.js"></script>
 
     <script>
+    $( document ).ready(function() {
         $(".select2").select2({
+            language: {
+
+            noResults: function() {
+
+              return "No hay resultado";        
+            },
+            searching: function() {
+
+              return "Buscando..";
+            }
+          },
             dropdownCssClass:'increasezindex',
-            width: 'style', 
-            dropdownParent: $('.modal')
+            width: 'resolve',
+            closeOnSelect: false,
+            dropdownParent: $('.jiji')
         });
+    });
     </script>
 
     <script>

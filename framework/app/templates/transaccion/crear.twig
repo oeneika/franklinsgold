@@ -1,4 +1,4 @@
-<div class="modal inmodal" id="crearTransacciones" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal jiji" id="crearTransacciones" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
@@ -17,7 +17,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cc-payment" class="control-label mb-1" >Usuario<span>*</span></label>
-                                <select name="id_usuario" id="selector_usuario" class="form-control" style="width: 100%">
+                                <select name="id_usuario" id="selector_usuario" class="form-control select2" style="width: 100%">
                                     <option disabled selected value>Seleccione un usuario</option>
                                     {% for u in usuarios %}
                                         {% if u.id_user == owner_user.id_user %}
