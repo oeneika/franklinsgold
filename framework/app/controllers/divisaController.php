@@ -28,7 +28,7 @@ class divisaController extends Controllers implements IControllers {
             'users_admin'=>true
         ));
         
-        $d = new Model\Divisa();
+        $d = new Model\Divisa($router);
 
         switch($this->method) {
             case 'eliminar':

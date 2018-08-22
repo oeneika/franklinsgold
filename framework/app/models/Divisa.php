@@ -120,7 +120,7 @@ class Divisa extends Models implements IModels {
       $res = $this->db->delete('divisa',"id_divisa='$this->id'",'1');
 
       # Redireccionar al controlador usuarios con un success=true
-      Helper\Functions::redir($config['build']['url'] . 'divisa/&success=true');
+      Helper\Functions::redir($config['build']['url'] . 'divisa/&success=true'.$this->id);
     }
 
     /**
