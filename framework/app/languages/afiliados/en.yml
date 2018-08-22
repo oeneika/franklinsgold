@@ -1,0 +1,20 @@
+wrapper:
+  comercioafil: Affiliated Stores
+  crearcomercio: Create Trade
+  titleuno: Affiliated Trades registered in the system
+  nombre: Name
+  sucursal: Branch
+  direccion: Direction
+  telefono: Telephone
+  acciones: Actions
+  noresultado: No result
+  crearcomercioafil: Creation of affiliated trade
+  cerrar: Close
+  crear: Create
+  edicioncomercioafil: Edition of affiliated trade
+  save: Save
+  moneda: Coin
+  fecha: Date
+  monto: Amount
+  monedascomercio: Currencies in this commerce
+  telefonoscomercio: Telephones of the affiliated trade

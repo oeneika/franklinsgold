@@ -6,13 +6,13 @@
 	</div>
 	<div class="row wrapper border-bottom white-bg page-heading">
 	    <div class="col-lg-10">
-	        <h2><i class="fa fa-gears"></i> Conversor de dívisas</h2>
+	        <h2><i class="fa fa-gears"></i> Conversor de dívisas {{lang.wrappercal.conversordiv}}</h2>
 				<ol class="breadcrumb">
 					<li>
 						<a href="home/">Home</a>
 					</li>
 					<li class="active">
-						<strong>Conversor</strong>
+						<strong>Conversor {{lang.wrappercal.conversor}}</strong>
 					</li>
 				</ol>
 	    </div>
@@ -27,13 +27,13 @@
 							
 							<div class="col-md-3 col-xs-12">
 								<div class="form-group">
-									<label for="divisa_inicial" class="control-label mb-1" >De la dívisa</label>
+									<label for="divisa_inicial" class="control-label mb-1" >De la dívisa {{lang.wrappercal.divisa}}</label>
 									<select name="divisa_inicial" id="id_divisa_inicial" onchange="changePrice()" class="form-control" style="width: 100%">
-										<option disabled selected value>Seleccione una dívisa</option>
-										<option value="{{ultimo_precio_oro}}">Oro(Onza)</option>
-										<option value="{{ultimo_precio_oro / 28.3495}}">Oro(Gramo)</option>
-										<option value="{{ultimo_precio_plata}}">Plata(Onza)</option>
-										<option value="{{ultimo_precio_plata / 28.3495}}">Plata(Gramo)</option>
+										<option disabled selected value>Seleccione una dívisa {{lang.wrappercal.selecdivisa}}</option>
+										<option value="{{ultimo_precio_oro}}">Oro(Onza) {{lang.wrappercal.oroonza}}</option>
+										<option value="{{ultimo_precio_oro / 28.3495}}">Oro(Gramo) {{lang.wrappercal.orogramo}}</option>
+										<option value="{{ultimo_precio_plata}}">Plata(Onza) {{lang.wrappercal.plataonza}}</option>
+										<option value="{{ultimo_precio_plata / 28.3495}}">Plata(Gramo) {{lang.wrappercal.platagramo}}</option>
 										{% for d in divisas %}
 											<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}</option>
 										{% endfor %}
@@ -43,34 +43,34 @@
 
 							<div class="col-md-3 col-xs-12">							
 								<div class="form-group">
-									<label for="precio_divisa_inicial">Precio(Dólares por unidad)</label>
+									<label for="precio_divisa_inicial">Precio(Dólares por unidad) {{lang.wrappercal.preciodol}}</label>
 									<input name="precio_divisa_inicial" id="id_precio_divisa_inicial" type="number" onchange="changeMontoInicial()" class="form-control">
 								</div>
 							</div>
 
 							<div class="col-md-3 col-xs-12">							
 								<div class="form-group">
-									<label for="cantidad_divisa_inicial">Cantidad dívisa inicial</label>
+									<label for="cantidad_divisa_inicial">Cantidad dívisa inicial {{lang.wrappercal.cantidaddiv}}</label>
 									<input name="cantidad_divisa_inicial" id="id_cantidad_divisa_inicial" type="number" onchange="changeMontoInicial()" class="form-control">
 								</div>
 							</div>
 							
 							<div class="col-md-3 col-xs-12">							
 								<div class="form-group">
-									<label for="monto_inicial">Monto(Dólares)</label>
+									<label for="monto_inicial">Monto(Dólares) {{lang.wrappercal.montodol}}</label>
 									<input name="monto_inicial" id="id_monto_inicial" type="text" readonly="readonly" class="form-control">
 								</div>
 							</div>
 
 							<div class="col-md-12 col-xs-12">
 								<div class="form-group">
-									<label for="divisa_final" class="control-label mb-1" >A la dívisa</label>
+									<label for="divisa_final" class="control-label mb-1" >A la dívisa {{lang.wrappercal.aladivisa}}</label>
 									<select name="divisa_final" id="id_divisa_final" class="form-control" style="width: 100%">
-											<option disabled selected value>Seleccione una dívisa</option>
-											<option value="{{ultimo_precio_oro}}">Oro(Onza)</option>
-											<option value="{{ultimo_precio_oro / 28.3495}}">Oro(Gramo)</option>
-											<option value="{{ultimo_precio_plata}}">Plata(Onza)</option>
-											<option value="{{ultimo_precio_plata / 28.3495}}">Plata(Gramo)</option>
+											<option disabled selected value>Seleccione una dívisa {{lang.wrappercal.selecdivisa}}</option>
+											<option value="{{ultimo_precio_oro}}">Oro(Onza)  {{lang.wrappercal.oroonza}}</option>
+											<option value="{{ultimo_precio_oro / 28.3495}}">Oro(Gramo) {{lang.wrappercal.orogramo}}</option>
+											<option value="{{ultimo_precio_plata}}">Plata(Onza) {{lang.wrappercal.plataonza}}</option>
+											<option value="{{ultimo_precio_plata / 28.3495}}">Plata(Gramo) {{lang.wrappercal.platagramo}}</option>
 											{% for d in divisas %}
 												<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}</option>
 											{% endfor %}
@@ -80,13 +80,13 @@
 
 							<div class="col-md-12 col-xs-12">							
 								<div class="form-group">
-									<button type="button" id="convertirDivisabtn" class="btn btn-primary">Convertir</button>
+									<button type="button" id="convertirDivisabtn" class="btn btn-primary">Convertir {{lang.wrappercal.convertir}}</button>
 								</div>
 							</div>
 
 							<div class="col-md-12 col-xs-12">							
 								<div class="form-group">
-									<label for="monto_final">Equivalente</label>
+									<label for="monto_final">Equivalente {{lang.wrappercal.equivalente}}</label>
 									<input name="monto_final" id="id_monto_final" type="text" readonly="readonly" class="form-control">
 								</div>
 							</div>

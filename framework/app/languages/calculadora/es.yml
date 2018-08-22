@@ -1,0 +1,15 @@
+wrappercal:
+  conversordiv: Conversor de dívisas
+  conversor: Conversor
+  divisa: De la dívisa
+  selecdivisa: Seleccione una dívisa
+  oroonza: Oro(Onza)
+  orogramo: Oro(Gramo)
+  plataonza: Plata(Onza)
+  platagramo: Plata(Gramo)
+  preciodol: Precio(Dólares por unidad)
+  cantidaddiv: Cantidad dívisa inicial
+  montodol: Monto(Dólares)
+  aladivisa: A la dívisa
+  convertir: Convertir
+  equivalente: Equivalente

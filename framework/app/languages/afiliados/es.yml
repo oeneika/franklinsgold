@@ -1,0 +1,20 @@
+wrapper:
+  comercioafil: Comercios Afiliados
+  crearcomercio: Crear Comercio
+  titleuno: Comercios afiliados registrados en el sistema
+  nombre: Nombre
+  sucursal: Sucursal
+  direccion: Dirección
+  telefono: Teléfono
+  acciones: Acciones
+  noresultado: No hay resultado
+  crearcomercioafil: Creación de comercio afiliado
+  cerrar: Cerrar
+  crear: Crear
+  edicioncomercioafil: Edición de comercio afiliado
+  save: Guardar
+  moneda: Moneda
+  fecha: Fecha
+  monto: Monto
+  monedascomercio: Monedas en este comercio
+  telefonoscomercio: Teléfonos del comercio afiliado

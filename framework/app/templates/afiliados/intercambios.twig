@@ -2,8 +2,8 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title">Monedas en este comercio</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar {{lang.wrapper.cerrar}}</span></button>
+                <h4 class="modal-title">Monedas en este comercio {{lang.wrapper.monedascomercio}}</h4>
                 <small class="font-bold">Franklins Gold</small>
             </div>
             <div class="modal-body">
@@ -11,9 +11,9 @@
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Moneda</th>
-                                <th>Fecha</th>
-                                <th>Monto</th>
+                                <th>Moneda {{lang.wrapper.moneda}}</th>
+                                <th>Fecha {{lang.wrapper.fecha}}</th>
+                                <th>Monto {{lang.wrapper.monto}}</th>
                             </tr>
                         </thead>
                         <tbody id="body_intercambios">
@@ -21,9 +21,9 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Moneda</th>
-                                <th>Fecha</th>
-                                <th>Monto</th>
+                                <th>Moneda {{lang.wrapper.moneda}}</th>
+                                <th>Fecha {{lang.wrapper.fecha}}</th>
+                                <th>Monto {{lang.wrapper.monto}}</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar {{lang.wrapper.cerrar}}</button>
             </div>
         </div>
     </div>
