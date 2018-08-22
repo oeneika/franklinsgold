@@ -251,7 +251,11 @@ class Monedas extends Models implements IModels {
         $result = json_decode($result, true);
         $data = $result['buttonFrame'][$composicion]['1m']['data'];
       
-        return [array_reverse($data)];
+            if($data != null){
+                return [array_reverse($data)];
+            }
+
+             return array(array(0));
 
     }
 

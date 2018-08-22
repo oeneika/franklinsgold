@@ -1,9 +1,9 @@
 /**
  * Variables que contienen los precios actuales del oro y de la plata y del BsS
  */
-var ultimo_precio_oro;
-var ultimo_precio_plata;
-var precio_bolivar_soberano;
+var ultimo_precio_oro=0;
+var ultimo_precio_plata=0;
+var precio_bolivar_soberano=0;
 
 /**
  * 

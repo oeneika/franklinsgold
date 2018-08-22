@@ -44,8 +44,10 @@ class ordenclienteController extends Controllers implements IControllers {
             'ultimas_cinco_ordenes_plata' => $o->get($select,$where_plata,5,"ORDER BY orden.id_orden DESC"),
             'total_oro_comprado' => $o->getTotalGramos("oro","id_usuario='$id_owner'"),
             'total_plata_comprado' => $o->getTotalGramos("plata","id_usuario='$id_owner'"),
-            'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
-            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0],
+            /*'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
+            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0],*/
+            'ultimo_precio_oro' => ($d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'"))[0]["precio_dolares"],
+            'ultimo_precio_plata' => ($d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'"))[0]["precio_dolares"],
             'precio_bolivar' => ($d->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"],
         ));
  
