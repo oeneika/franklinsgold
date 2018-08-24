@@ -259,3 +259,14 @@ $app->post('/divisa/editar', function() use($app) {
 
 
 
+
+/**
+ * Endpoint para landing
+ *
+ * @return json
+*/
+$app->post('/landing', function() use($app) {
+    $l = new Model\Landing; 
+
+    return $app->json($l->foo());   
+});
