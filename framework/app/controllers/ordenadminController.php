@@ -29,6 +29,7 @@ class ordenadminController extends Controllers implements IControllers {
         ));
 
         $o = new Model\Orden($router);  
+        $u = new Model\Users($router);  
 
         switch($this->method) {
             case 'eliminar':
@@ -40,7 +41,8 @@ class ordenadminController extends Controllers implements IControllers {
             default:
             $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
             $this->template->display('ordenes/ordenes',array(
-                'ordenes' => $o->get($select)
+                'ordenes' => $o->get($select),
+                'clientes' => $u->getUsers('*','users.tipo=2')
             ));
             break;
         }

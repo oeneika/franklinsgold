@@ -139,6 +139,10 @@ $('#crearOrdenIntercambio').click(function(e) {
     e.defaultPrevented;
     createOrden('crearOrdenIntercambio_form');
 });
+$('#crearOrdenCompraVentaTienda').click(function(e) {
+    e.defaultPrevented;
+    createOrden('crearOrdenCompraVentaTienda_form');
+});
 
 $('form#crearOrdenCompra_form input').keypress(function(e) {
     e.defaultPrevented;
@@ -158,6 +162,13 @@ $('form#crearOrdenIntercambio_form input').keypress(function(e) {
     e.defaultPrevented;
     if(e.which == 13) {
         createOrden('crearOrdenIntercambio_form');
+        return false;
+    }
+});
+$('form#crearOrdenCompraVentaTienda_form input').keypress(function(e) {
+    e.defaultPrevented;
+    if(e.which == 13) {
+        createOrden('crearOrdenCompraVentaTienda_form');
         return false;
     }
 });

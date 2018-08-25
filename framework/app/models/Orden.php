@@ -51,7 +51,7 @@ class Orden extends Models implements IModels {
         $this->tipo_orden = $http->request->get('tipo_orden');
         $this->cantidad_bolivar_soberano = $http->request->get('cantidad_bolivar_soberano');
 
-        #Usada en caso de ser una compra/venta vía movil
+        #Usada en caso de ser una compra/venta vía movil o tienda
         $email = $http->request->get('email');
         if ( !Helper\Functions::emp($email)) {
             $email = $this->db->scape($email);

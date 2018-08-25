@@ -42,13 +42,14 @@
                                 </a>
                             </li>
                             <li class="">
-                                <a href="ordenadmin/"><i class="fa fa-shopping-cart"></i><span class="nav-label">Ordenes</span></a>
-                            </li>
-                            <li class="">
                                 <a href="divisa/"><i class="fa fa-money"></i><span class="nav-label">Dívisas</span></a>
                             </li>
                         {% endif %}
                         {% if owner_user.tipo == 0 or owner_user.tipo == 1 %}
+                        <li class="">
+                            <a href="ordenadmin/"><i class="fa fa-shopping-cart"></i><span class="nav-label">Órdenes</span></a>
+                        </li>    
+
                         <li class="">
                             <a><i class="fa fa-line-chart"></i> <span class="nav-label">Transacciones</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">

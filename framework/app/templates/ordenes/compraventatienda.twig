@@ -1,0 +1,68 @@
+<div class="modal inmodal" id="compraventatiendaModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title">Compra o venta de gramos de Oro o Plata</h4>
+                <small class="font-bold">Franklins Gold</small>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="crearOrdenCompraVentaTienda_form">
+                    <div class="row">
+                       
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="id_tipo_orden_transaccion" class="control-label mb-1" >Tipo transacción</label>
+                                <select name="tipo_orden" id="id_tipo_orden_transaccion" class="form-control" style="width: 100%">
+                                    <option disabled selected value>Tipo</option>
+                                    <option value="1">Compra</option>
+                                    <option value="2">Venta</option>
+                                </select>
+                            </div>                         
+                        </div>
+
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="id_cliente" class="control-label mb-1" >Clientes</label>
+                                <select name="email" id="id_cliente" class="form-control" style="width: 100%">
+                                    <option disabled selected value>Seleccione un cliente</option>
+                                    {% for c in clientes %}
+                                        <option value="{{c.email}}">{{c.email}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>  
+
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="id_tipo_gramo" class="control-label mb-1" >Tipo metal</label>
+                                <select name="tipo_gramo" id="id_tipo_gramo" class="form-control" style="width: 100%">
+                                    <option disabled selected value>Tipo</option>
+                                    <option value="oro">Oro</option>
+                                    <option value="plata">Plata</option>
+                                </select>
+                            </div>                         
+                        </div>
+
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="cantidad" class="control-label mb-1" >Cantidad(gramos)</label>
+                                <input name="cantidad" id="cantidad" type="number"> 
+                            </div>                         
+                        </div>
+                        <input name="cantidad_bolivar_soberano" type="hidden" value="50000"> 
+                    </div>                      
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="crearOrdenCompraVentaTienda" class="btn btn-primary">Crear</button>
+            </div>
+            
+        </div>
+    </div>
+</div>

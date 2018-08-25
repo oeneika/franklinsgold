@@ -20,6 +20,11 @@
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
+        <div class="col-md-12">
+        <a onclick="showModal('compraventatiendaModal',0,0,0)" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Compra o venta</a>
+        </div>
+    </div>
+    <div class="row">
              <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
@@ -103,12 +108,13 @@
             </div>
     </div>
 </div>
-
+{% include 'ordenes/compraventatienda' %}
 
 </div>
 {% endblock %}
 
 {% block appFooter %}
+    <script src="./assets/jscontrollers/ordenes/crear.js"></script> 
     <script src="./assets/jscontrollers/ordenes/concretar.js"></script> 
     <script src="views/propios/js/delete_item.js"></script>   
 {% endblock %}
