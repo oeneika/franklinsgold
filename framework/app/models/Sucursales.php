@@ -42,12 +42,30 @@ class Sucursales extends Models implements IModels {
 
         #Verifica que los campos no esten vacios
         if(Functions::emp($this->data['nombre'])){
-            throw new ModelsException("El nombre no debe estar vacio");
+            throw new ModelsException("El nombre no debe estar vacío");
+        }else{
+
+            $nombre_sucursal = $this->db->scape($this->data['nombre']);
+            $a = $this->db->select('nombre','sucursal',null,"nombre='nombre_sucursal'");
+
+            if($a!=false){
+                throw new ModelsException("El nombre de la sucursal ya existe");
+            }
+
         }
 
         if(strlen($this->data['nombre']) > 45){
             throw new ModelsException("El nombre no debe tener más de 45 carácteres");
         }
+
+        if (!ctype_digit($this->data['telefono'])){
+            throw new ModelsException("Teléfono inválido, debe ser numérico.");              
+        }
+
+        if (strlen($this->data['telefono']) < 11){
+            throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
+        }
+
 
         if(Functions::emp($this->data['direccion'])){
             throw new ModelsException("La direccion no debe estar vacia");
@@ -68,17 +86,35 @@ class Sucursales extends Models implements IModels {
     }
 
     /**
-     * Crear una nueva sucursal
+     * Crear una nueva sucursal y a su usuario respectivo
      * 
      * @return array
     */ 
     public function add() : array {
         try {
             $this->errors();
-            $id = $this->db->insert('sucursal',array(
-                'nombre'=>$this->data['nombre'],
-                'direccion'=>$this->data['direccion']
+
+            $u = array(
+                'primer_nombre' => $this->data['nombre'],
+                'primer_apellido' => $this->data['nombre'],
+                'usuario' => $this->data['nombre'],
+                'pass' => Helper\Strings::hash(123),
+                'sexo' => 'm',
+                'telefono' => $this->data['telefono'],
+                'email' => $this->data['nombre'].'@franklingolds.com',
+                'tipo' => 1
+            );
+
+            # Registrar al usuario
+            $id_user =  $this->db->insert('users',$u);
+
+            $id_sucursal = $this->db->insert('sucursal',array(
+                'nombre'=> $this->data['nombre'],
+                'direccion'=> $this->data['direccion'],
+                'telefono'=> $this->data['telefono'],
+                'id_user' => $id_user
             ));
+
             return array('success' => 1, 'message' => 'Sucursal creada con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
@@ -93,12 +129,24 @@ class Sucursales extends Models implements IModels {
     public function edit(){
         try {
             $this->errors(true);
-            $id = $this->db->scape($this->data['id_sucursal']);
-            $filas=  $this->db->update('sucursal',array(
+
+            $id_sucursal = $this->data['id_sucursal'];
+            $id_user = $this->data['id_user'];
+
+            $filas =  $this->db->update('sucursal',array(
                 'nombre'=>$this->data['nombre'],
+                'telefono'=> $this->data['telefono'],
                 'direccion'=>$this->data['direccion']
-            ),
-            "id_sucursal = $id");
+            ),"id_sucursal = $id_sucursal");
+
+            $this->db->update('users',array(
+                'primer_nombre' => $this->data['nombre'],
+                'primer_apellido' => $this->data['nombre'],
+                'usuario' => $this->data['nombre'],
+                'telefono' => $this->data['telefono'],
+                'email' => $this->data['nombre'].'@franklingolds.com'
+            ),"id_user = '$id_user'");
+
             return array('success' => 1, 'message' =>"Sucursal editada con éxito!");
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
@@ -112,7 +160,12 @@ class Sucursales extends Models implements IModels {
      */
     public function del(){
         global $config;
-        $this->db->delete('sucursal',"id_sucursal=$this->id");
+
+        $id_sucursal = $this->db->scape($this->id);
+        $id_user = $this->db->select('id_user','sucursal',null,"id_sucursal='$id_sucursal'")[0]["id_user"];
+
+        $this->db->delete('sucursal',"id_sucursal=$id_sucursal");
+        $this->db->delete('users',"id_user=$id_user");
 
         Functions::redir($config['build']['url'] . 'sucursal/&success=true');
     }

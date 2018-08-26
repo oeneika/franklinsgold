@@ -1,9 +1,11 @@
 /**
  * Abre el modal para un nuevo sucursal
  */
-function editarSucursal(id,nombre,direccion) {
-    $('#id_edit_sucursal').val(id);
+function editarSucursal(id_sucursal,id_user,nombre,telefono,direccion) {
+    $('#id_edit_sucursal').val(id_sucursal);
+    $('#id_edit_user').val(id_user);
     $('#id_edit_nombre').val(nombre);
+    $('#id_edit_telefono').val(telefono);
     $('#id_edit_direccion').val(direccion);
     $('#editarSucursal').modal('show');
 }

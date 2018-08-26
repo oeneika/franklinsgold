@@ -25,7 +25,7 @@ class ordenadminController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {        
         parent::__construct($router,array(
             'users_logged' => true,
-            'users_admin'=>true
+            'users_vendedoradmin'=>true
         ));
 
         $o = new Model\Orden($router);  

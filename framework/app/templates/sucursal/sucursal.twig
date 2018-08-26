@@ -41,6 +41,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Nombre</th>
+                                            <th>Teléfono</th>
                                             <th>Dirección</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -50,9 +51,10 @@
                                             <tr>
                                                 <td>{{ s.id_sucursal }}</td>
                                                 <td>{{ s.nombre }}</td>
+                                                <td>{{ s.telefono }}</td>
                                                 <td>{{ s.direccion }}</td>
                                                 <td>
-                                                <a style="font-size:22px;" title="Editar" data-toggle="modal" onclick="editarSucursal({{ s.id_sucursal }},'{{ s.nombre }}','{{ s.direccion }}')"><i class="fa fa-sliders naranja"></i></a>
+                                                <a style="font-size:22px;" title="Editar" data-toggle="modal" onclick="editarSucursal({{ s.id_sucursal }},{{ s.id_user }},'{{ s.nombre }}','{{ s.telefono }}','{{ s.direccion }}')"><i class="fa fa-sliders naranja"></i></a>
                                                 <a style="margin-left: 20px;font-size:22px;" onclick="delete_item({{ s.id_sucursal }},'sucursal')" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
                                                 </td>
                                             </tr>
@@ -64,6 +66,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Nombre</th>
+                                            <th>Teléfono</th>
                                             <th>Dirección</th>
                                             <th>Acciones</th>
                                         </tr>

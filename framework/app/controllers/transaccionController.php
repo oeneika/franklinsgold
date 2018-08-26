@@ -31,46 +31,16 @@ class transaccionController extends Controllers implements IControllers {
 
         $t = new Model\Transaccion($router); 
         $u = new Model\Users($router); 
-        $m = new Model\Monedas($router); 
-        $s = new Model\Sucursales($router);  
-        $a = new Model\Afiliados($router);  
-
-        //$owner_user = $this->template->getGlobals()["owner_user"];
+        $m = new Model\Monedas($router);  
         
         switch($this->method) {
           case 'compra':
             $this->template->display('transaccion/compra',array(
                 'transacciones' => $t->getTransacciones(1),
                 'usuarios' => $u->getUsers("*","tipo!=0"),
-                'monedas' => $m->getMonedas(),
-                'sucursales' => $s->get(),
-                'afiliados' => $a->get()
-            ));
-          break;
-          /*case 'venta':
-            $this->template->display('transaccion/venta',array(
-                'transacciones' => $t->getTransacciones(2),
-                'usuarios' => $u->getUsers("*","tipo!=0"),
-                'monedas' => $m->getMonedas(),
-                'sucursales' => $s->get(),
-                'afiliados' => $a->get()
-            ));
-          break;
-          case 'intercambio':
-            $this->template->display('transaccion/intercambio',array(
-                'transacciones' => $t->getTransacciones(3),
-                'usuarios' => $u->getUsers("*","tipo=2 or tipo=1"),
                 'monedas' => $m->getMonedas()
             ));
           break;
-          case 'intercambioafiliado':
-            $this->template->display('transaccion/intercambioafiliado',array(
-              'transacciones' => $t->getIntercambiosAfiliados(),
-              'usuarios' => $u->getUsers("*","tipo=2"),
-              'monedas' => $m->getMonedas(),
-              'afiliados' => $a->get()
-          ));
-          break;*/
           case 'transaccion_en_espera':
           $this->template->display('transaccion/transaccion_en_espera',array(
             'transacciones_en_espera' => $t->getTransaccionesEnEspera()
@@ -80,9 +50,7 @@ class transaccionController extends Controllers implements IControllers {
           $this->template->display('transaccion/compra',array(
             'transacciones' => $t->getTransacciones(1),
             'usuarios' => $u->getUsers("*","tipo!=0"),
-            'monedas' => $m->getMonedas(),
-            'sucursales' => $s->get(),
-            'afiliados' => $a->get()
+            'monedas' => $m->getMonedas()
           ));
           break;
         }
