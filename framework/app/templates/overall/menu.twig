@@ -72,10 +72,31 @@
                         {% endif %}
                         {% if owner_user.tipo == 0 or owner_user.tipo == 2 %}
                         <li class="">
-                            <a href="ordencliente/"><i class="fa fa-tasks"></i><span class="nav-label">Compra y Venta</span></a>
+                            <a href=""><i class="fa fa-tasks"></i><span class="nav-label">Compra y Venta</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a href="ordencliente/">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a onclick="showModal('compraModalOro',{{ultimo_precio_oro}},0,{{precio_bolivar}})">Compra de oro</a>
+                                </li>
+                                <li>
+                                    <a onclick="showModal('compraModalPlata',0,{{ultimo_precio_plata}},{{precio_bolivar}})">Compra de plata</a>
+                                </li>
+                                <li>
+                                    <a onclick="showModal('ventaModalOro',{{ultimo_precio_oro}},0,{{precio_bolivar}})">Venta de oro</a>
+                                </li>
+                                <li>
+                                    <a onclick="showModal('ventaModalPlata',0,{{ultimo_precio_plata}},{{precio_bolivar}})">Venta de plata</a>
+                                </li>
+                            </ul>
                         </li>
                         {% endif %}
             {% endif %}   
         </ul>
     </div>
 </nav>
+
+
+{% include 'ordenes/compra' %}
+{% include 'ordenes/venta' %}

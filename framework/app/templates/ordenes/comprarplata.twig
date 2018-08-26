@@ -1,0 +1,92 @@
+{% extends 'overall/layout' %}
+{% block appBody %}
+<div id="page-wrapper" class="gray-bg">
+<div class="row border-bottom">
+    {% include 'overall/header' %}
+</div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2><i class="fa fa-money"></i> Comprar plata</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="home/">Home</a>
+                        </li>
+                        <li class="active">
+                            <strong>Comprar plata</strong>
+                        </li>
+                    </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+             <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                            <h5>Comprar plata</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                    </div>
+                        <div class="ibox-content">
+                            <form id="crearOrdenCompra_form">
+                                <div class="row">
+
+                                    <div class="col-md-3 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="cantidad_bolivar_soberano" class="control-label mb-1" >Cantidad BsS</label>
+                                            <input name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_compra" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_compra','id_tipo_compra','id_cantidad_compra','id_monto_dolares_compra')" class="form-control" >
+                                        </div>
+                                    </div>  
+
+                                    <div class="col-md-3 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="cc-payment" class="control-label mb-1" >Tipo metal</label>
+                                            <select disabled name="tipo_gramo" id="id_tipo_compra" onchange="resetQuantity('id_cantidad_bolivar_soberano_compra','id_tipo_compra','id_cantidad_compra','id_monto_dolares_compra')" class="form-control" style="width: 100%">
+                                                <option value="plata">Plata</option>
+                                            </select>
+                                        </div>                         
+                                    </div>
+
+                                    <div class="col-md-3 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="cantidad" class="control-label mb-1">Cantidad gramos</label>
+                                            <input name="cantidad" id="id_cantidad_compra" type="number" readonly="readonly" class="form-control" >
+                                        </div>                           
+                                    </div>
+                                    
+                                    <div class="col-md-3 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="monto_dolares" class="control-label mb-1">Monto(Dólares)</label>
+                                            <input name="monto_dolares" id="id_monto_dolares_compra" type="text" readonly="readonly" class="form-control" aria-required="true" aria-invalid="false" >
+                                        </div>                           
+                                    </div>
+
+                                </div>  
+                               
+                                <input name="tipo_orden" value="1" type="hidden"> 
+                                
+                                <div class="row">
+                                    <div class="col-md-9"></div>
+                                        <div class="col-md-3">
+                                            <button type="button" id="crearOrdenCompra" class="btn btn-primary" style="width:100%">Comprar</button>
+                                        </div>
+                                </div>
+                            </form>
+
+                        </div>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block appFooter %}
+<script src="./assets/jscontrollers/ordenes/crear.js"></script>
+{% endblock %}
