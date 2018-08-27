@@ -12,12 +12,10 @@ var precio_bolivar_soberano=0;
  * @param {int} ultimo_precio_plata : precio actual de la plata
  * @param {int} precio_BsS : precio del BsS almacenado en la base de datos
  */
-function showModal(modal,ultimo_precio_oro,ultimo_precio_plata,precio_BsS) {
+function showModal(ultimo_precio_oro,ultimo_precio_plata,precio_BsS) {
     this.ultimo_precio_oro = ultimo_precio_oro/28.3495;
     this.ultimo_precio_plata = ultimo_precio_plata/28.3495;
     this.precio_bolivar_soberano = precio_BsS;
-
-    $('#'+modal).modal('show');
 }
 
 

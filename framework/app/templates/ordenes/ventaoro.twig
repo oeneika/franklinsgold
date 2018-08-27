@@ -46,9 +46,7 @@
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="cc-payment" class="control-label mb-1" >Tipo metal</label>
-                                            <select disabled name="tipo_gramo" id="id_tipo_venta" onchange="resetQuantity('id_cantidad_bolivar_soberano_venta','id_tipo_venta','id_cantidad_venta','id_monto_dolares_venta')" class="form-control" style="width: 100%">
-                                                <option value="oro">Oro</option>
-                                            </select>
+                                            <input disabled name="tipo_gramo" id="id_tipo_venta" onchange="resetQuantity('id_cantidad_bolivar_soberano_venta','id_tipo_venta','id_cantidad_venta','id_monto_dolares_venta')" class="form-control" value="oro">
                                         </div>                         
                                     </div>
 
@@ -88,4 +86,9 @@
 
 {% block appFooter %}
 <script src="./assets/jscontrollers/ordenes/crear.js"></script>
+<script>
+    $(document).ready(function(){
+        showModal( {{ultimo_precio_oro}} , 0, {{precio_bolivar}} );
+    });
+</script>
 {% endblock %}
