@@ -35,8 +35,8 @@ class ordenclienteController extends Controllers implements IControllers {
         
         $id_owner = $this->user["id_user"];
         $select = "orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido";
-        $where_oro = "orden.estado=2 and orden.tipo_gramo='oro' and u.id_user='$id_owner'";
-        $where_plata = "orden.estado=2 and orden.tipo_gramo='plata' and u.id_user='$id_owner'";
+        $where_oro = "orden.estado=4 and orden.tipo_gramo='oro' and u.id_user='$id_owner'";
+        $where_plata = "orden.estado=4 and orden.tipo_gramo='plata' and u.id_user='$id_owner'";
 
         $this->template->display('ordenes/dashboard',array(
             'sucursales' => $s->get(),

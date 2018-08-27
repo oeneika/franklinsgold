@@ -82,12 +82,3 @@ $('form#crear_usuario_form').keypress(function (e) {
         return false;
     }
 });
-
-$('input[type=radio][name=tipo]').on('change',function (e){
-    if ($('input[type=radio][name=tipo]:checked').val() == 1){
-        $('.selects_body').show();
-    }
-    else{
-        $('.selects_body').hide();
-    }
-})

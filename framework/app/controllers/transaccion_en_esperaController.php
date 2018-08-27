@@ -25,7 +25,7 @@ class transaccion_en_esperaController extends Controllers implements IController
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true,
-            'users_vendedoradmin' => true
+            'users_supervisoradmin' => true
           ));
 
           $t = new Model\Transaccion($router); 

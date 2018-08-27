@@ -741,7 +741,7 @@ class Users extends Models implements IModels {
             throw new ModelsException('Sexo no válido.');
         }
 
-        if($this->tipo!=0 and $this->tipo!=1 and $this->tipo!=2) {
+        if($this->tipo!=0 and $this->tipo!=1 and $this->tipo!=2 and $this->tipo!=3) {
             throw new ModelsException('Tipo de usuario no válido.');
         }
 
@@ -856,7 +856,6 @@ class Users extends Models implements IModels {
                 'segundo_nombre' => $this->segundo_nombre,
                 'primer_apellido' => $this->primer_apellido,
                 'segundo_apellido' => $this->segundo_apellido,
-                'tipo' => $this->tipo,
                 'sexo' => $this->sexo,
                 'telefono' => $this->telefono,
                 'numero_cuenta' => $this->numero_cuenta,
@@ -893,6 +892,10 @@ class Users extends Models implements IModels {
                     $data['id_comercio_afiliado']=$this->id_comercio;
                     $this->db->update('users', $data, "id_user = '$id_user'");
                 }
+            }else{
+                $this->db->real_query("UPDATE users SET id_comercio_afiliado = NULL WHERE id_user = '$id_user'");
+                $this->db->real_query("UPDATE users SET id_sucursal = NULL WHERE id_user = '$id_user'");
+                $this->db->update('users', $data, "id_user = '$id_user'");
             }
 
 

@@ -33,10 +33,10 @@ class dashBoardpublicoController extends Controllers implements IControllers {
      
         $select = "orden.fecha,orden.cantidad,orden.precio,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
         $this->template->display('dashboardpublico/dashboardpublico',array(
-            'compras_oro' => $o->get($select,"orden.tipo_orden=1 and orden.estado=2 and orden.tipo_gramo='oro'",null,"ORDER BY orden.id_orden DESC"),
-            'compras_plata' => $o->get($select,"orden.tipo_orden=1 and orden.estado=2 and orden.tipo_gramo='plata'",null,"ORDER BY orden.id_orden DESC"),
-            'ventas_oro' => $o->get($select,"orden.tipo_orden=2 and orden.estado=2 and orden.tipo_gramo='oro'",null,"ORDER BY orden.id_orden DESC"),
-            'ventas_plata' => $o->get($select,"orden.tipo_orden=2 and orden.estado=2 and orden.tipo_gramo='plata'",null,"ORDER BY orden.id_orden DESC"),
+            'compras_oro' => $o->get($select,"orden.tipo_orden=1 and orden.estado=4 and orden.tipo_gramo='oro'",null,"ORDER BY orden.id_orden DESC"),
+            'compras_plata' => $o->get($select,"orden.tipo_orden=1 and orden.estado=4 and orden.tipo_gramo='plata'",null,"ORDER BY orden.id_orden DESC"),
+            'ventas_oro' => $o->get($select,"orden.tipo_orden=2 and orden.estado=4 and orden.tipo_gramo='oro'",null,"ORDER BY orden.id_orden DESC"),
+            'ventas_plata' => $o->get($select,"orden.tipo_orden=2 and orden.estado=4 and orden.tipo_gramo='plata'",null,"ORDER BY orden.id_orden DESC"),
             'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
             'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0],
 

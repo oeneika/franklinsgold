@@ -26,7 +26,7 @@ class transaccionController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {
       parent::__construct($router,array(
         'users_logged' => true,
-        'users_vendedoradmin' => true
+        'users_supervisoradmin' => true
       ));
 
         $t = new Model\Transaccion($router); 
@@ -37,7 +37,7 @@ class transaccionController extends Controllers implements IControllers {
           case 'compra':
             $this->template->display('transaccion/compra',array(
                 'transacciones' => $t->getTransacciones(1),
-                'usuarios' => $u->getUsers("*","tipo!=0"),
+                'usuarios' => $u->getUsers("*","tipo!=0 and tipo!=1"),
                 'monedas' => $m->getMonedas()
             ));
           break;
@@ -49,7 +49,7 @@ class transaccionController extends Controllers implements IControllers {
           default:
           $this->template->display('transaccion/compra',array(
             'transacciones' => $t->getTransacciones(1),
-            'usuarios' => $u->getUsers("*","tipo!=0"),
+            'usuarios' => $u->getUsers("*","tipo!=0 and tipo!=1"),
             'monedas' => $m->getMonedas()
           ));
           break;

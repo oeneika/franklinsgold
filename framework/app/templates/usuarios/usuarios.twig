@@ -55,7 +55,7 @@
                                             {% for u in usuarios %}  
                                             <tr>
                                                 <td>{{ u.id_user }}</td>
-                                                <td>{{ u.tipo == 0 ? "Administrador" : u.tipo == 1 ? "Vendedor" : "Cliente" }}</td>
+                                                <td>{{ u.tipo == 0 ? "Administrador" : u.tipo == 1 ? "Vendedor" : u.tipo == 2 ? "Cliente" : "Supervisor" }}</td>
                                                 <td>{{ u.primer_nombre }} {{ u.segundo_nombre == null ? "" : u.segundo_nombre }} {{ u.primer_apellido }} {{ u.segundo_apellido == null ? "" : u.segundo_apellido }}</td>                                       
                                                 <td>{{ u.usuario }}</td>
                                                 <td>{{ u.sexo }}</td>
@@ -112,8 +112,9 @@
 {% endblock %}
 
 {% block appFooter %}
+    <script src="./assets/jscontrollers/usuarios/showMinimenu.js"></script>
     <script src="./assets/jscontrollers/usuarios/crear.js"></script>
     <script src="./assets/jscontrollers/usuarios/editar.js"></script>
-    <script src="./assets/jscontrollers/usuarios/historial.js"></script>
+    <script src="./assets/jscontrollers/usuarios/historial.js"></script>   
     <script src="views/propios/js/delete_item.js"></script>
 {% endblock %}

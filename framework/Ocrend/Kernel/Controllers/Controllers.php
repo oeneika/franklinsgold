@@ -146,7 +146,9 @@ abstract class Controllers {
         'users_admin'=> false,
         'users_vendedor'=> false,
         'users_clienteadmin'=> false,
-        'users_vendedoradmin'=> false
+        'users_vendedoradmin'=> false,
+        'users_supervisoradmin'=> false,
+        'users_vendedorsupervisoradmin'=> false,
       ), $config);
     }
     
@@ -173,18 +175,28 @@ abstract class Controllers {
         Helper\Functions::redir($config['build']['url'] . 'home');
       }
 
-      # Sólamente usuarios tipo vendedor
+      /*# Sólamente usuarios tipo vendedor
       if ($this->controllerConfig['users_vendedor'] && !$this->user['tipo']==1) {
+        Helper\Functions::redir($config['build']['url'] . 'home');
+      }*/
+
+      # Sólamente usuarios tipo vendedor, supervisor y admin
+      if ($this->controllerConfig['users_vendedorsupervisoradmin'] && $this->user['tipo']==2) {
         Helper\Functions::redir($config['build']['url'] . 'home');
       }
 
       # Sólamente usuarios tipo cliente y admin
-      if ($this->controllerConfig['users_clienteadmin'] && $this->user['tipo']==1) {
+      if ($this->controllerConfig['users_clienteadmin'] && $this->user['tipo']==1 && $this->user['tipo']==3) {
         Helper\Functions::redir($config['build']['url'] . 'home');
       }
 
       # Sólamente usuarios tipo vendedor y admin
-      if ($this->controllerConfig['users_vendedoradmin'] && $this->user['tipo']==2) {
+      if ($this->controllerConfig['users_vendedoradmin'] && $this->user['tipo']==2 && $this->user['tipo']==3 ) {
+        Helper\Functions::redir($config['build']['url'] . 'home');
+      }
+
+      # Sólamente usuarios tipo vendedor y admin
+      if ($this->controllerConfig['users_supervisoradmin'] && $this->user['tipo']==1 && $this->user['tipo']==2) {
         Helper\Functions::redir($config['build']['url'] . 'home');
       }
 

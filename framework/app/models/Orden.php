@@ -151,7 +151,7 @@ class Orden extends Models implements IModels {
                 'tipo_gramo' => $this->tipo_gramo,
                 'cantidad' => $this->cantidad,
                 'precio' => ($m->getPrice($this->tipo_gramo))[0][0],
-                'id_sucursal' => 1 /*$this->id_sucursal*/, //Forzando una sucursal de momento
+                /*'id_sucursal' => $this->id_sucursal,*/ //Forzando una sucursal de momento
                 'tipo_orden' => $this->tipo_orden,
                 'fecha' => time(),
                 'estado' => 1
@@ -171,6 +171,42 @@ class Orden extends Models implements IModels {
     }
 
     /**
+     * Da confirmaciones a las ordenes antes de ser concretada
+     */
+    public function confirmOrden(){
+        Global $config;
+
+        #Trae la orden, valida su existencia y la concreta
+        $orden = $this->db->select("estado","orden",null,"id_orden='$this->id'");
+
+        #Si la orden no existe no hace ninguna confirmación
+        if($orden == false){
+            Functions::redir($config['build']['url'] . 'ordenadmin/&success=false');
+        }
+
+        #Si el usuario logeado es un vendedor y la orden esta en estado 1 da la primera confirmación
+        if($orden[0]["estado"] == 1 and ((new Model\Users)->getOwnerUser())["tipo"] == 1){
+
+            $this->db->update('orden',array(
+                'estado'=>2
+            ),"id_orden = $this->id");
+
+        }
+
+         #Si el usuario logeado es un supervisor y la orden esta en estado 2 da la segunda confirmación
+        if($orden[0]["estado"] == 2 and ((new Model\Users)->getOwnerUser())["tipo"] == 3){
+
+            $this->db->update('orden',array(
+                'estado'=>3
+            ),"id_orden = $this->id");
+
+        }
+
+        Functions::redir($config['build']['url'] . 'ordenadmin/&success=false');
+
+    }
+
+    /**
      * Concreta una orden de compra/venta
      * 
      * @return array
@@ -182,7 +218,8 @@ class Orden extends Models implements IModels {
             #Trae la orden, valida su existencia y la concreta
             $orden = $this->db->select("id_usuario,tipo_gramo,cantidad,tipo_orden,codigo_moneda","orden",null,"id_orden='$this->id'");
 
-            if($orden == false){
+            #Si la orden no existe o el usuario no es un administrador no la concreta
+            if($orden == false or (((new Model\Users)->getOwnerUser())["tipo"] != 0)){
                 Functions::redir($config['build']['url'] . 'ordenadmin/&success=false');
             }
 
@@ -218,7 +255,7 @@ class Orden extends Models implements IModels {
                 }
 
                 $this->db->update('orden',array(
-                    'estado'=>2
+                    'estado'=>4
                 ),"id_orden = $this->id");
 
                 Functions::redir($config['build']['url'] . 'ordenadmin/&success=true');
@@ -281,8 +318,8 @@ class Orden extends Models implements IModels {
      */
     public function get(string $select = "*",string $where="1=1",$limit=null,$extra=''){
 
-        $inner = "INNER JOIN users u ON u.id_user = orden.id_usuario
-                  INNER JOIN sucursal s On s.id_sucursal = orden.id_sucursal";
+        $inner = "INNER JOIN users u ON u.id_user = orden.id_usuario";
+                //INNER JOIN sucursal s On s.id_sucursal = orden.id_sucursal
 
         return $this->db->select($select,"orden",$inner,$where,$limit,$extra);
 

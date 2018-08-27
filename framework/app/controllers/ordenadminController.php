@@ -25,7 +25,7 @@ class ordenadminController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {        
         parent::__construct($router,array(
             'users_logged' => true,
-            'users_vendedoradmin'=>true
+            'users_vendedorsupervisoradmin'=>true
         ));
 
         $o = new Model\Orden($router);  
@@ -35,11 +35,14 @@ class ordenadminController extends Controllers implements IControllers {
             case 'eliminar':
                 $o->del();           
             break;
+            case 'confirmar':
+                $o->confirmOrden();           
+            break;
             case 'concretar':
                 $o->specifyOrden();           
             break;
             default:
-            $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
+            $select = "orden.*,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
             $this->template->display('ordenes/ordenes',array(
                 'ordenes' => $o->get($select),
                 'clientes' => $u->getUsers('*','users.tipo=2')

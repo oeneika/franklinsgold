@@ -47,7 +47,13 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
     if (tipo == 2){
         $("#id_tipoc").prop("checked", true);
         $('.selects_body').hide();
+    } else
+    //Supervisores
+    if (tipo == 3){
+        $("#id_tipos").prop("checked", true);
+        $('.selects_body').hide();
     }
+    
     
     $('#editarUsuario').modal('show');
 
