@@ -64,10 +64,10 @@ class Orden extends Models implements IModels {
 
         #Hago esto para que funcionen los servicios sin problema
         $rango = $this->db->select("tipo_cliente","users",null,"id_user='$this->id_usuario'")[0]["tipo_cliente"];
-        $total = $this->getDailyMoneyByUser($this->id_usuario) + ($monto_dolares == null ? 0 : $monto_dolares);
+        $total_movido_hoy = $this->getDailyMoneyByUser($this->id_usuario) + ($monto_dolares == null ? 0 : $monto_dolares);
         
         #Valida que la compra no exceda el monto diario permitido según el rango
-        if($total > $this->getDailyMoneyByRango($rango)){
+        if($total_movido_hoy > $this->getDailyMoneyByRango($rango)  ){
             throw new ModelsException('Ha excedido el límite diario de dinero movido.');
         }
 
@@ -409,9 +409,10 @@ class Orden extends Models implements IModels {
     /**
      * Retorna la cantidad de dólares que puede mover según el rango
      */
-    private function getDailyMoneyByRango(string $rango){
+    private function getDailyMoneyByRango($rango){
 
         return $this->db->select("monto_diario","rango",null,"nombre_rango='$rango'")[0]["monto_diario"];
+
 
     }
 

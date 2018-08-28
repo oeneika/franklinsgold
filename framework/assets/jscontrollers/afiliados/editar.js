@@ -27,15 +27,17 @@ function fillTel(id){
 }
 
 /**
- * Abre el modal para un nuevo afiliados
+ * Abre el modal para editar un comercio afiliado
  */
-function editarAfiliado(id,nombre,direccion,sucursal) {
+function editarAfiliado(id,id_user,nombre,direccion,sucursal) {
     numTelefonos = 1;
     $('#id_afiliados_edit').val(id);
+    $('#id_edit_user').val(id_user);
     $('#id_nombre_edit').val(nombre);
     $('#id_sucursal_edit').val(sucursal);
     $('#id_direccion_edit').val(direccion);
     $('#editarAfiliado').modal('show');
+    
     fillTel(id);
 }
 

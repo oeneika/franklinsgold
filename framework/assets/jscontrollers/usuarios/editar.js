@@ -56,8 +56,10 @@ function editar_un_usuario(id_user,tipo,tipo_cliente,primer_nombre,segundo_nombr
     //Supervisores
     if (tipo == 3){
         $("#id_tipos").prop("checked", true);
-        $('.selects_body').hide();
+        $('.selects_body').show();
         $('.selects_body2').hide();
+        $('#id_sucursal').val(id_sucursal).change();
+        $('#id_comercio').val(id_comercio).change();
     }
     
     

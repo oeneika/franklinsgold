@@ -42,7 +42,7 @@ class Dashboard extends Models implements IModels {
         $ventas_anuales = $this->db->select("COUNT(id_transaccion) as total",'transaccion',null,
         "tipo = 1 AND fecha > ($tiempo - 29030400) AND fecha <= $tiempo");
 
-        $usuarios = $this->db->select("COUNT(id_user) as total",'users');
+        $usuarios = $this->db->select("COUNT(id_user) as total",'users',null,"tipo=2");
 
         $ventas_oro = $this->db->select("SUM(precio_moneda1) as total",'transaccion','INNER JOIN moneda ON moneda.codigo = transaccion.codigo_moneda',
         "transaccion.tipo = 1 AND moneda.composicion = 'oro'");

@@ -219,7 +219,7 @@
                                 <h5 Class="font">Gramos de oro comprados el último día {{lang.wrapperdash.grcompradosoro}}</h5>
                             </div>
                             <div class="ibox-content">
-                                <h3 class="no-margins">{{ compras_oro_1dia }}</h3>
+                                <h3 class="no-margins">{{ compras_oro_1dia == null ? 0 : compras_oro_1dia }}</h3>
                             </div>
                         </div>
                     </div>
@@ -229,7 +229,7 @@
                                 <h5 Class="font">Gramos de oro vendidos el último día {{lang.wrapperdash.grvendidosoro}}</h5>
                             </div>
                             <div class="ibox-content">
-                                <h3 class="no-margins">{{ ventas_oro_1dia }}</h3>
+                                <h3 class="no-margins">{{ ventas_oro_1dia == null ? 0 : ventas_oro_1dia }}</h3>
                             </div>
                         </div>
                     </div>
@@ -239,7 +239,7 @@
                                 <h5 Class="font">Gramos de oro comprados el último mes {{lang.wrapperdash.grcompradosooromes}}</h5>
                             </div>
                             <div class="ibox-content">
-                                <h3 class="no-margins">{{ compras_oro_1mes }}</h3>
+                                <h3 class="no-margins">{{ compras_oro_1mes == null ? 0 : compras_oro_1mes }}</h3>
                             </div>
                         </div>
                     </div>
@@ -249,7 +249,7 @@
                                 <h5 Class="font">Gramos de oro vendidos el último mes {{lang.wrapperdash.grvendidosoromes}}</h5>
                             </div>
                             <div class="ibox-content">
-                                <h3 class="no-margins">{{ ventas_oro_1mes }}</h3>
+                                <h3 class="no-margins">{{ ventas_oro_1mes == null ? 0 : ventas_oro_1mes }}</h3>
                             </div>
                         </div>
                     </div>
@@ -264,7 +264,7 @@
                                     <h5 Class="font">Gramos de plata comprados el último día {{lang.wrapperdash.grcompradosplata}}</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h3 class="no-margins">{{ compras_plata_1dia }}</h3>
+                                    <h3 class="no-margins">{{ compras_plata_1dia == null ? 0 : compras_plata_1dia }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -274,7 +274,7 @@
                                     <h5 Class="font">Gramos de plata vendidos el último día {{lang.wrapperdash.grvendidosplata}}</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h3 class="no-margins">{{ ventas_plata_1dia }}</h3>
+                                    <h3 class="no-margins">{{ ventas_plata_1dia == null ? 0 : ventas_plata_1dia }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -284,7 +284,7 @@
                                     <h5 Class="font">Gramos de plata comprados el último mes {{lang.wrapperdash.grcompradosplatames}}</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h3 class="no-margins">{{ compras_plata_1mes }}</h3>
+                                    <h3 class="no-margins">{{ compras_plata_1mes == null ? 0 : compras_plata_1mes }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -294,7 +294,7 @@
                                     <h5 Class="font">Gramos de plata vendidos el último mes {{lang.wrapperdash.grvendidosplatames}}</h5>
                                 </div>
                                 <div class="ibox-content">
-                                    <h3 class="no-margins">{{ ventas_plata_1mes }}</h3>
+                                    <h3 class="no-margins">{{ ventas_plata_1mes == null ? 0 : ventas_plata_1mes }}</h3>
                                 </div>
                             </div>
                         </div>

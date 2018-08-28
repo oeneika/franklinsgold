@@ -35,15 +35,14 @@ class afiliadosController extends Controllers implements IControllers {
         switch ($this->method) {
             case 'eliminar':
                 $a->del();
-                break;
-            
+            break;          
             default:
-                $this->template->display('afiliados/afiliados', array(
-                    'afiliados' => $a->get(),
-                    'usuarios' => $u->getUsers(),
-                    'monedas' => $m->getMonedas()
-                ));
-                break;
+            $this->template->display('afiliados/afiliados', array(
+                'afiliados' => $a->get(),
+                'usuarios' => $u->getUsers(),
+                'monedas' => $m->getMonedas()
+            ));
+            break;
         }
     }
 }

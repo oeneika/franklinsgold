@@ -29,6 +29,7 @@ class Afiliados extends Models implements IModels {
      * Array en el que se guardaran datos del comercio
      */
     private $data;
+    private $id_comercio_afiliado;
 
     /**
      * Errores en telefonos
@@ -55,14 +56,31 @@ class Afiliados extends Models implements IModels {
     }
 
     /**
-     * Funcion para verificar errores en el formulario
+     * Función para verificar errores en el formulario
      */
     private function errors($edit = false){
         global $http;
+
         $this->data = $http->request->all();
+
+        #Si es editar trae el id del comercio afiliado para validar el nombre del mismo
+        $this->id_comercio_afiliado = 0;
+        
+        if($edit){
+            $this->id_comercio_afiliado = $this->data['id_comercio_afiliado'];
+        }
 
         if (!array_key_exists('nombre',$this->data) || Helper\Functions::emp($this->data['nombre'])) {
             throw new ModelsException('El nombre no debe estar vacio');
+        }else{
+
+            $sucursal_comercio_afiliado= $this->db->scape($this->data['sucursal']);
+            $a = $this->db->select('id_comercio_afiliado','comercio_afiliado',null,"sucursal='$sucursal_comercio_afiliado'");
+
+            if($a!=false and $this->id_comercio_afiliado!=$a[0]["id_comercio_afiliado"] ){
+                throw new ModelsException("El nombre de la sucursal del comercio ya existe");
+            }
+
         }
 
         if (!array_key_exists('sucursal',$this->data)  || Helper\Functions::emp($this->data['sucursal']) ) {
@@ -72,6 +90,16 @@ class Afiliados extends Models implements IModels {
         if (!array_key_exists('direccion',$this->data)  || Helper\Functions::emp($this->data['direccion']) ) {
             throw new ModelsException('La direccion no debe estar vacia');
         }
+
+        if( strpos($this->data['nombre'],' ') !== false ){
+            throw new ModelsException('El nombre no puede tener espacios en blanco');
+        }
+
+        if( strpos($this->data['sucursal'],' ') !== false ){
+            throw new ModelsException('La sucursal no puede tener espacios en blanco');
+        }
+
+        
 
         $this->errorsTel();
     }
@@ -100,19 +128,97 @@ class Afiliados extends Models implements IModels {
 
             $this->errors();
 
+            $u = array(
+                'primer_nombre' => $this->data['nombre'],
+                'primer_apellido' => $this->data['sucursal'],
+                'usuario' => $this->data['sucursal'],
+                'pass' => Helper\Strings::hash(123),
+                'sexo' => 'm',
+                'telefono' => $this->data['telefono'][0],
+                'email' => $this->data['sucursal'].'@franklingolds.com',
+                'tipo' => 1,
+                'es_comercio_afiliado' => 1
+            );
+
+            #Crea el usuario
+            $id_user =  $this->db->insert('users',$u);
+
+            #Crea el comercio afiliado
             $id = $this->db->insert('comercio_afiliado', array(
                 'nombre' => $this->data['nombre'],
                 'sucursal' => $this->data['sucursal'],
-                'direccion' => $this->data['direccion']
+                'direccion' => $this->data['direccion'],
+                'id_user' => $id_user
             ));
 
             $this->addTelefonos($id);
+
 
             return array('success' => 1, 'message' => 'Comercio creado con exito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
+
+
+     /**
+     * Edita un comercio
+     * 
+     * @return array
+     */
+    public function edit() : array {
+        try {
+
+            $this->errors(true);
+
+            $id_user = $this->db->scape($this->data['id_user']);
+
+            #Trae el nombre pa cambiarlo a todas las sucursales
+            $nombre_actual = $this->db->select("nombre","comercio_afiliado",null,"id_comercio_afiliado='$this->id_comercio_afiliado'")[0]["nombre"];
+
+            #Edita el comercio afiliado
+            $this->db->update('comercio_afiliado', array(
+                'nombre' => $this->data['nombre'],
+                'sucursal' => $this->data['sucursal'],
+                'direccion' => $this->data['direccion']
+            ),"id_comercio_afiliado = $this->id_comercio_afiliado");
+
+
+            #Edita todos todos los comercios afiliados con el mismo nombre
+            $nombre = $this->data['nombre'];
+            $this->db->update('comercio_afiliado', array(
+                'nombre' => $this->data['nombre']
+            ),"nombre = '$nombre_actual'");
+
+  
+            #Edita el usuario
+            $this->db->update('users',array(
+                'primer_nombre' => $this->data['nombre'],
+                'primer_apellido' => $this->data['sucursal'],
+                'usuario' => $this->data['sucursal'],
+                'telefono' => $this->data['telefono'][1],
+                'email' => $this->data['sucursal'].'@franklingolds.com'
+            ),"id_user = '$id_user'");
+
+            #Edita todos todos los usuarios con el mismo nombre
+            $this->db->update('users', array(
+                'primer_nombre' => $this->data['nombre']
+            ),"primer_nombre = '$nombre_actual' and es_comercio_afiliado=1");
+
+
+            
+            #Elimina la relacion con los telefonos
+            $this->db->delete('telefono',"id_comercio_afiliado='$this->id_comercio_afiliado'");
+
+            #Crea una nueva relacion con los telefonos
+            $this->addTelefonos($this->id_comercio_afiliado);
+
+            return array('success' => 1, 'message' => 'Comercio editado con exito!');
+        } catch(ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
 
     /**
      * Crear un intercambio
@@ -168,33 +274,6 @@ class Afiliados extends Models implements IModels {
     }
 
     /**
-     * Edita un comercio
-     * 
-     * @return array
-     */
-    public function edit() : array {
-        try {
-
-            $this->errors(true);
-
-            $id = $this->data['id_comercio_afiliado'];
-            $this->db->update('comercio_afiliado', array(
-                'nombre' => $this->data['nombre'],
-                'sucursal' => $this->data['sucursal'],
-                'direccion' => $this->data['direccion']
-            ),"id_comercio_afiliado = $id");
-
-            $this->db->delete('telefono',"id_comercio_afiliado=$id");
-
-            $this->addTelefonos($id);
-
-            return array('success' => 1, 'message' => 'Comercio editado con exito!');
-        } catch(ModelsException $e) {
-            return array('success' => 0, 'message' => $e->getMessage());
-        }
-    }
-
-    /**
      * Trae todos los comercios en la db
      */
     public function get($select = '*'){
@@ -213,8 +292,19 @@ class Afiliados extends Models implements IModels {
      */
     public function del(){
         global $config;
-        $d= $this->db->delete('comercio_afiliado',"id_comercio_afiliado = $this->id");
+
+        $id_comercio_afiliado = $this->db->scape($this->id);
+
+        #Trae el id del usuario
+        $id_user = $this->db->select('id_user','comercio_afiliado',null,"id_comercio_afiliado='$id_comercio_afiliado'")[0]["id_user"];
+
+        #Elimina el comercio afiliado, sus telefonos y el usuario correspondiente al mismo
+        $this->db->delete('users',"id_user=$id_user");
+        $this->db->delete('telefono',"id_comercio_afiliado=$id_comercio_afiliado");
+        $this->db->delete('comercio_afiliado',"id_comercio_afiliado=$id_comercio_afiliado");
+        
         Helper\Functions::redir($config['build']['url'] . "afiliados/&success=true");
+        
     }
 
 

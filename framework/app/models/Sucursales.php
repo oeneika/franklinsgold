@@ -30,7 +30,7 @@ class Sucursales extends Models implements IModels {
      * Data de la sucursal
      */
     private $data;
-
+    private $id_sucursal;
 
     /**
      * Verifica errores en el formulario
@@ -40,15 +40,23 @@ class Sucursales extends Models implements IModels {
         global $http;
         $this->data = $http->request->all();
 
+        #Si es editar trae el id de la sucursal para validar el nombre de la misma
+        $this->id_sucursal = 0;
+
+        if($edit){
+            $this->id_sucursal = $this->data['id_sucursal'];
+        }
+
+
         #Verifica que los campos no esten vacios
         if(Functions::emp($this->data['nombre'])){
             throw new ModelsException("El nombre no debe estar vacío");
         }else{
 
             $nombre_sucursal = $this->db->scape($this->data['nombre']);
-            $a = $this->db->select('nombre','sucursal',null,"nombre='nombre_sucursal'");
+            $a = $this->db->select('id_sucursal','sucursal',null,"nombre='$nombre_sucursal'");
 
-            if($a!=false){
+            if($a!=false and $this->id_sucursal!=$a[0]["id_sucursal"] ){
                 throw new ModelsException("El nombre de la sucursal ya existe");
             }
 
@@ -66,7 +74,6 @@ class Sucursales extends Models implements IModels {
             throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
         }
 
-
         if(Functions::emp($this->data['direccion'])){
             throw new ModelsException("La direccion no debe estar vacia");
         }
@@ -75,14 +82,9 @@ class Sucursales extends Models implements IModels {
             throw new ModelsException("La dirección no debe tener más de 45 carácteres");
         }
 
-        #Verifica si ya exitse un tienda con ese nombre
-        $nombre = $this->db->scape($this->data['nombre']);
-        $sucursales = $this->db->select('nombre','sucursal',null,"nombre = '$nombre'");
-
-        if(false !== $sucursales && false === $edit){
-            throw new ModelsException("Ya existe una sucursal con ese nombre");
-        }
-                    
+        if( strpos($this->data['nombre'],' ') !== false ){
+            throw new ModelsException('El nombre no puede tener espacios en blanco');
+        }       
     }
 
     /**
@@ -102,12 +104,14 @@ class Sucursales extends Models implements IModels {
                 'sexo' => 'm',
                 'telefono' => $this->data['telefono'],
                 'email' => $this->data['nombre'].'@franklingolds.com',
-                'tipo' => 1
+                'tipo' => 1,
+                'es_sucursal' => 1
             );
 
-            # Registrar al usuario
+            # Crea al usuario
             $id_user =  $this->db->insert('users',$u);
 
+            # Crea la sucursal
             $id_sucursal = $this->db->insert('sucursal',array(
                 'nombre'=> $this->data['nombre'],
                 'direccion'=> $this->data['direccion'],
@@ -129,16 +133,17 @@ class Sucursales extends Models implements IModels {
     public function edit(){
         try {
             $this->errors(true);
-
-            $id_sucursal = $this->data['id_sucursal'];
+         
             $id_user = $this->data['id_user'];
 
-            $filas =  $this->db->update('sucursal',array(
+            #Edita la sucursal
+            $this->db->update('sucursal',array(
                 'nombre'=>$this->data['nombre'],
                 'telefono'=> $this->data['telefono'],
                 'direccion'=>$this->data['direccion']
-            ),"id_sucursal = $id_sucursal");
+            ),"id_sucursal = $this->id_sucursal");
 
+            #Edita al usuario
             $this->db->update('users',array(
                 'primer_nombre' => $this->data['nombre'],
                 'primer_apellido' => $this->data['nombre'],
@@ -162,11 +167,14 @@ class Sucursales extends Models implements IModels {
         global $config;
 
         $id_sucursal = $this->db->scape($this->id);
+
+        #Trae el id del usuario
         $id_user = $this->db->select('id_user','sucursal',null,"id_sucursal='$id_sucursal'")[0]["id_user"];
 
-        $this->db->delete('sucursal',"id_sucursal=$id_sucursal");
+        #Elimina la sucursal y el usuario correspondiente a la sucursal
         $this->db->delete('users',"id_user=$id_user");
-
+        $this->db->delete('sucursal',"id_sucursal=$id_sucursal");
+       
         Functions::redir($config['build']['url'] . 'sucursal/&success=true');
     }
 

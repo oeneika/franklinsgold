@@ -323,7 +323,7 @@ class Transaccion extends Models implements IModels {
             $u = array(
                 'id_usuario' => $this->id_usuario,
                 'codigo_moneda' => $this->codigo_moneda,
-                'precio_moneda1' => $precio_moneda1,
+                'precio_moneda' => $precio_moneda1,
                 'tipo' => $this->tipo,
                 'id_usuario2' => $this->id_usuario2,
                 'codigo_moneda2' => $this->codigo_moneda2,
@@ -434,7 +434,7 @@ class Transaccion extends Models implements IModels {
                 'codigo_moneda'=>$data['codigo'],
                 'id_comercio_afiliado'=>$data['id_comercio'],
                 'id_usuario'=>$data['id_usuario'],
-                'precio_moneda1'=> $monto
+                'precio_moneda'=> $monto
             ));
 
             # Si no posee la moneda, entonces se inserta en afiliado_moneda
@@ -468,9 +468,9 @@ class Transaccion extends Models implements IModels {
     public function getIntercambiosUsers($id_user,$id_comercio){
         $where = "id_comercio_afiliado = $id_comercio AND id_usuario = $id_user";
 
-        $intercambios = $this->db->select('codigo_moneda AS codigo, precio_moneda1 AS monto, fecha','transaccion',null,$where);
+        $intercambios = $this->db->select('codigo_moneda AS codigo, precio_moneda AS monto, fecha','transaccion',null,$where);
 
-        $total = $this->db->select('IFNULL(SUM(precio_moneda1),0) AS total','transaccion',null,$where);
+        $total = $this->db->select('IFNULL(SUM(precio_moneda),0) AS total','transaccion',null,$where);
         return array(
             'intercambios' => $intercambios,
             'total' => $total
@@ -616,27 +616,24 @@ class Transaccion extends Models implements IModels {
     public function getTransacciones(int $tipo = 0) {
 
         $inner = "INNER JOIN users u1 ON u1.id_user=transaccion.id_usuario
-                  INNER JOIN moneda m1 ON m1.codigo=transaccion.codigo_moneda 
-                  LEFT JOIN sucursal s ON s.id_sucursal=transaccion.id_sucursal
-                  LEFT JOIN comercio_afiliado c ON c.id_comercio_afiliado=transaccion.id_comercio_afiliado
-                  ";
+                  INNER JOIN moneda m1 ON m1.codigo=transaccion.codigo_moneda";
 
         if($tipo == 1){
-            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda1,
-                                        u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
-                                        s.nombre as nombre_sucursal, c.nombre as nombre_comercio','transaccion',$inner,'transaccion.tipo=1');
+            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda,
+                                        u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo',
+                                        'transaccion',$inner,'transaccion.tipo=1');
         }else 
         if($tipo == 2){
-            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda1,
-                                        u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo,
-                                        s.nombre as nombre_sucursal, c.nombre as nombre_comercio','transaccion',$inner,'transaccion.tipo=2');
+            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda,
+                                        u1.primer_nombre,u1.primer_apellido,u1.id_user,m1.codigo',
+                                        'transaccion',$inner,'transaccion.tipo=2');
         }else
         if($tipo == 3){
             $inner2 = "INNER JOIN users u2 ON u2.id_user=transaccion.id_usuario2 
                        INNER JOIN moneda m2 ON m2.codigo=transaccion.codigo_moneda2";
 
             $inner = $inner . $inner2;         
-            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda1,transaccion.precio_moneda2,
+            return $this->db->select('transaccion.id_transaccion,transaccion.fecha,transaccion.precio_moneda,transaccion.precio_moneda2,
                                         u1.primer_nombre as pn1,u1.primer_apellido as pa1,u1.id_user as iu1,m1.codigo as c1,
                                         u2.primer_nombre as pn2,u2.primer_apellido as pa2,u2.id_user as iu2,m2.codigo as c2'
                                         ,'transaccion',$inner,'transaccion.tipo=3');
@@ -648,10 +645,9 @@ class Transaccion extends Models implements IModels {
     #Sii el usuario es del tipo 2 traer moneda 2
     public function getByUser(int $id_user){
         $inner = "INNER JOIN moneda m1 ON m1.codigo=transaccion.codigo_moneda
-                  LEFT  JOIN moneda m2 ON m2.codigo=transaccion.codigo_moneda2
-                  LEFT JOIN sucursal s ON s.id_sucursal=transaccion.id_sucursal";
+                  LEFT  JOIN moneda m2 ON m2.codigo=transaccion.codigo_moneda2";
 
-        return $this->db->select('transaccion.fecha,transaccion.tipo,transaccion.id_usuario,s.nombre,m1.codigo as m1,m2.codigo as m2',
+        return $this->db->select('transaccion.fecha,transaccion.tipo,transaccion.id_usuario,m1.codigo as m1,m2.codigo as m2',
                                  'transaccion',$inner,"transaccion.id_usuario='$id_user' OR transaccion.id_usuario2='$id_user'");
 
     }

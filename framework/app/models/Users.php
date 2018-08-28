@@ -753,11 +753,11 @@ class Users extends Models implements IModels {
             throw new ModelsException('Tipo de usuario no válido.');
         }
 
-        if($this->tipo_cliente!=='Simple' and $this->tipo_cliente!=='Medio' and $this->tipo_cliente!=='Premiun') {
+        if($this->tipo == 2 and $this->tipo_cliente!=='Simple' and $this->tipo_cliente!=='Medio' and $this->tipo_cliente!=='Premiun') {
             throw new ModelsException('Tipo de cliente no válido.');
         }
 
-        if($this->tipo == 1){
+        if( ($this->tipo == 1)  or ($this->tipo == 3)  ){
             if(!Helper\Functions::emp($this->id_comercio) && !Helper\Functions::emp($this->id_sucursal)){
                 throw new ModelsException('El usuario solo puede pertenecer a una sucursal o a un comercio.');
             }
@@ -817,8 +817,8 @@ class Users extends Models implements IModels {
             # Registrar al usuario
             $id_user =  $this->db->insert('users',$data);
 
-            #Se relaciona con sucursal o comercio si es un vendedor
-            if ($this->tipo == 1){
+            #Se relaciona con sucursal o comercio si es un vendedor o supervisor
+            if (  ($this->tipo == 1)  or ($this->tipo == 3)  ){
                 if (!Helper\Functions::emp($this->id_sucursal)){
                     $this->db->update('users', array('id_sucursal'=>$this->id_sucursal), "id_user = $id_user");
                 }else{
@@ -906,7 +906,7 @@ class Users extends Models implements IModels {
             }
             
             #Edita un usuario
-             if ($this->tipo == 1){
+             if ( ($this->tipo == 1) or ($this->tipo == 3)  ){
                 if (!Helper\Functions::emp($this->id_sucursal)){
                     $this->db->real_query("UPDATE users SET id_comercio_afiliado = NULL WHERE id_user = '$id_user'");
                     $data['id_sucursal']=$this->id_sucursal;
@@ -1129,7 +1129,18 @@ class Users extends Models implements IModels {
     final public function del() {
         Global $config;
 
-       $res = $this->db->delete('users',"id_user='$this->id'",'1');
+       $id_user = $this->db->scape($this->id);
+
+       #Verifica si el usuario a borrar es una sucursal
+       $id_sucursal = $this->db->select("id_sucursal","sucursal",null,"id_user='$id_user'");
+
+       #En caso de existir una sucursal con el id de usuario la borra
+        if($id_sucursal != false){
+            $is = $id_sucursal[0]["id_sucursal"];
+            $this->db->delete('sucursal',"id_sucursal='$is'",'1');
+        }
+
+        $this->db->delete('users',"id_user='$id_user'",'1');
 
       # Redireccionar al controlador usuarios con un success=true
       Functions::redir($config['build']['url'] . 'usuarios/&success=true');

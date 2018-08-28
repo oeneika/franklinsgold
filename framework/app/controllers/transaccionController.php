@@ -37,7 +37,7 @@ class transaccionController extends Controllers implements IControllers {
           case 'compra':
             $this->template->display('transaccion/compra',array(
                 'transacciones' => $t->getTransacciones(1),
-                'usuarios' => $u->getUsers("*","tipo!=0 and tipo!=1"),
+                'usuarios' => $u->getUsers("*","tipo=2 or (tipo=1 and es_sucursal=1)"),
                 'monedas' => $m->getMonedas()
             ));
           break;
@@ -49,7 +49,7 @@ class transaccionController extends Controllers implements IControllers {
           default:
           $this->template->display('transaccion/compra',array(
             'transacciones' => $t->getTransacciones(1),
-            'usuarios' => $u->getUsers("*","tipo!=0 and tipo!=1"),
+            'usuarios' => $u->getUsers("*","tipo=2 or (tipo=1 and es_sucursal=1)"),
             'monedas' => $m->getMonedas()
           ));
           break;

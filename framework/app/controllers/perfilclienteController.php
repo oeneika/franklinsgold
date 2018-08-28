@@ -25,7 +25,7 @@ class perfilclienteController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true,
-            'users_clienteadmin' => true
+            'users_cliente' => true
         ));
 
         $u = new Model\Users();

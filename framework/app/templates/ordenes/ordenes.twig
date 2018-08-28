@@ -69,7 +69,7 @@
                                                 <td>{{ o.cantidad }}</td>
                                                 <td>{{ o.precio|number_format(2, ',', '.') }}</td>
                                                 <td>{{ (o.cantidad * (o.precio / 28.3495))|number_format(2, ',', '.') }}</td>
-                                                <td>{{ o.tipo_orden == 1 ? 'Compra' :  o.tipo_orden == 2  ? "Venta" : "Intercambio" }}</td>
+                                                <td style="{{ o.tipo_orden == 1 ? 'color: green;' : 'color: red;' }}">{{ o.tipo_orden == 1 ? 'Compra' : "Venta" }}</td>
                                                 <td>{{ o.estado == 1 ? 'Sin confirmaciones' : o.estado == 2 ? 'Confirmada por vendedor' : o.estado == 3 ? 'Confirmada por supervisor' : "Confirmada totalmente"}}</td>
                                                 <td>{{ fecha('D, d F, Y h:i a', o.fecha) }}</td>
                                                 <td>{{ o.codigo_moneda }}</td>
