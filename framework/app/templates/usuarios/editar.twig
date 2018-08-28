@@ -93,6 +93,26 @@
                                 </div>
                         </div>
                     </div>
+
+                    <div class="panel panel-warning selects_body2" style="display: none;">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Seleccione un rango para el cliente</h3>
+                        </div>
+                        <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="cc-payment" class="control-label mb-1">Rango<span>*</span></label>
+                                        <select id="id_tipo_cliente" name="tipo_cliente" class="form-control m-b" style="width: 100%">
+                                            <option selected value>Seleccione un rango para el cliente</option> 
+                                            {% for r in rangos %}
+                                                <option value="{{r.nombre_rango}}">{{r.nombre_rango}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-4 col-xs-12">
                             <div class="form-group">

@@ -64,8 +64,9 @@
                                                 <td>{{ u.numero_cuenta }}</td>
                                                 <td>
                                                 
-                                                {% if owner_user.id_user != u.id_user %}  
-                                                    <a onclick="editar_un_usuario({{u.id_user}},{{u.tipo}},'{{u.primer_nombre}}','{{u.segundo_nombre}}','{{u.primer_apellido}}',
+                                                {% if owner_user.id_user != u.id_user %} 
+                                                 
+                                                    <a onclick="editar_un_usuario({{u.id_user}},{{u.tipo}},'{{u.tipo_cliente is not null ? u.tipo_cliente :'-1' }}','{{u.primer_nombre}}','{{u.segundo_nombre}}','{{u.primer_apellido}}',
                                                     '{{u.segundo_apellido}}','{{u.sexo}}','{{u.telefono}}',{{ u.numero_cuenta }},{{ u.id_sucursal is not null ? u.id_sucursal :'-1'  }},{{ u.id_comercio_afiliado is not null ? u.id_comercio_afiliado:'-1' }})" style="font-size:22px;" title="Editar"  ><i class="fa fa-sliders naranja"></i></a>
 
                                                     <a onclick="delete_item({{u.id_user}},'usuarios')"style="font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
@@ -75,6 +76,11 @@
                                                             <i class="fa fa-user naranja"></i>
                                                         </a>
                                                     {% endif %}
+
+                                                    <a onclick="documentosUsuario('{{ u.documento_identidad }}','{{ u.pasaporte }}','{{ u.rif }}',
+                                                                                    '{{ u.referencia_bancaria_1 }}','{{ u.referencia_bancaria_2 }}')" style="font-size:22px;" title="Documentos" >
+                                                        <i class="fa fa-folder-open naranja"></i>
+                                                    </a>
 
                                                 {% endif %}
 
@@ -107,6 +113,7 @@
 {% include 'usuarios/crear' %}
 {% include 'usuarios/editar' %}
 {% include 'usuarios/historial' %}
+{% include 'usuarios/documentos' %}
 {% include 'overall/footer' %}
 </div>
 {% endblock %}
@@ -116,5 +123,6 @@
     <script src="./assets/jscontrollers/usuarios/crear.js"></script>
     <script src="./assets/jscontrollers/usuarios/editar.js"></script>
     <script src="./assets/jscontrollers/usuarios/historial.js"></script>   
+    <script src="./assets/jscontrollers/usuarios/documentos.js"></script>   
     <script src="views/propios/js/delete_item.js"></script>
 {% endblock %}

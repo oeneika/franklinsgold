@@ -18,28 +18,22 @@ use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
 
 /**
- * Controlador sucursal/
- *
- * @author Ocrend Software C.A <bnarvaez@ocrend.com>
+ * Controlador perfilcliente/
 */
-class sucursalController extends Controllers implements IControllers {
+class perfilclienteController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true,
-            'users_admin'=>true
+            'users_clienteadmin' => true
         ));
 
-        $s = new Model\Sucursales($router);
-        switch ($this->method) {
-            case 'eliminar':
-                $s->del();
-            break;         
-            default:
-            $this->template->display('sucursal/sucursal',array(
-                'sucursales' => $s->get()
-            ));
-            break;
-        }
+        $u = new Model\Users();
+        $id_documentos = $u->getOwnerUser()["id_documentos"];
+        
+        $this->template->display('perfilcliente/perfilcliente',array(
+            'documentos' => $u->getDocumentosById($id_documentos)[0]
+        ));
+        
     }
 }

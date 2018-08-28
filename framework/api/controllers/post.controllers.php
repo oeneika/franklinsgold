@@ -56,16 +56,27 @@ $app->post('/usuarios/crear', function() use($app) {
   });
   
   
-  /**
+/**
     * Acción vía ajax de usuarios en api/usuarios/editar
     *
     * @return json
-  */
-  $app->post('/usuarios/editar', function() use($app) {
+*/
+$app->post('/usuarios/editar', function() use($app) {
     $u = new Model\Users; 
-  
+
     return $app->json($u->edit());   
-  });
+});
+
+/**
+    * Acción vía ajax de usuarios en api/usuarios/subirdocumentos
+    *
+    * @return json
+*/
+$app->post('/usuarios/subirdocumentos', function() use($app) {
+    $u = new Model\Users; 
+
+    return $app->json($u->UploadDocuments());   
+});
 
 
 
@@ -256,11 +267,7 @@ $app->post('/divisa/editar', function() use($app) {
     return $app->json($d->edit());   
 });
 
-
-
-
-
-/**
+/**
  * Endpoint para landing
  *
  * @return json
@@ -269,4 +276,22 @@ $app->post('/landing', function() use($app) {
     $l = new Model\Landing; 
 
     return $app->json($l->foo());   
+});
+
+/**
+ * Endpoints para rangos
+ *
+ * @return json
+*/
+$app->post('/rango/crear', function() use($app) {
+    $r = new Model\Rango; 
+
+    return $app->json($r->add());   
+});
+
+
+$app->post('/rango/editar', function() use($app) {
+    $r = new Model\Rango; 
+
+    return $app->json($r->edit());   
 });

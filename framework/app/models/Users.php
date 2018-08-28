@@ -65,6 +65,7 @@ class Users extends Models implements IModels {
     private $id_sucursal;
     private $id_comercio;
     private $numero_cuenta;
+    private $tipo_cliente;
 
 
     /**
@@ -318,7 +319,7 @@ class Users extends Models implements IModels {
      */
     public function register() : array {
         try {
-            global $http;
+            global $http,$config;
 
             # Obtener los datos $_POST
             $user_data = $http->request->all();
@@ -464,6 +465,7 @@ class Users extends Models implements IModels {
                 'telefono' => $user_data['telefono'],
                 'numero_cuenta' => $user_data['numero_cuenta'],
                 'tipo' => $tipo,
+                'tipo_cliente' => 'Simple',
                 'pass' => Helper\Strings::hash($user_data['pass'])
             ));
 
@@ -477,34 +479,39 @@ class Users extends Models implements IModels {
             $img = "../views/img/codigos/usuarios/$conc.png";
             file_put_contents($img, file_get_contents($url));*/
 
+            $path = "../";
 
             #Se guarda la foto del documento de identidad
-            $dir_documento = "../views/img/documentos/usuarios/documentoidentidad".$id_user.".png";
+            $dir_documento = "views/img/documentos/usuarios/documentoidentidad".$id_user.".png";
             $tmp_name = $fotos["foto_documento_identidad"]["tmp_name"];
             // basename() puede evitar ataques de denegación de sistema de ficheros;
             // podría ser apropiada más validación/saneamiento del nombre del fichero
             $name = basename($fotos["foto_documento_identidad"]["name"]);
-            move_uploaded_file($tmp_name, "$dir_documento");
+            move_uploaded_file($tmp_name, "$path"."$dir_documento");
 
                 
             #Si se cargó la foto del pasaporte se guarda
             $dir_pasaporte=null;
             if (array_key_exists('foto_pasaporte',$fotos)) {               
-                $dir_pasaporte = "../views/img/documentos/usuarios/pasaporte".$id_user.".png";
+                $dir_pasaporte = "views/img/documentos/usuarios/pasaporte".$id_user.".png";
                            
                 $tmp_name = $fotos["foto_pasaporte"]["tmp_name"];
                 // basename() puede evitar ataques de denegación de sistema de ficheros;
                 // podría ser apropiada más validación/saneamiento del nombre del fichero
                 $name = basename($fotos["foto_pasaporte"]["name"]);
-                move_uploaded_file($tmp_name, "$dir_pasaporte");
+                move_uploaded_file($tmp_name, "$path"."$dir_pasaporte");
                     
             }
 
-            #Se actualiza la db con la ruta de la imagen
+            # Crea la relación con los documentos
+            $id_documentos = $this->db->insert('documentos', array(
+                'documento_identidad' => $config['build']['url'] . $dir_documento,
+                'pasaporte' => $config['build']['url'] . $dir_pasaporte
+            ));
+
+            #Se actualiza la db con la ruta de los documentos
             $this->db->update('users',array(
-                //'codigo_qr'=> $img,
-                'documento_identidad'=> $dir_documento,
-                'pasaporte'=> $dir_pasaporte
+                'id_documentos'=> $id_documentos
             ), "id_user = '$id_user'");
 
 
@@ -669,6 +676,7 @@ class Users extends Models implements IModels {
         $this->telefono = $http->request->get('telefono');
         $this->email = $http->request->get('email');
         $this->numero_cuenta = $http->request->get('numero_cuenta');
+        $this->tipo_cliente = $http->request->get('tipo_cliente');
 
         $this->id_comercio = $this->db->scape($http->request->get('id_comercio'));
         $this->id_sucursal = $this->db->scape($http->request->get('id_sucursal'));
@@ -745,6 +753,10 @@ class Users extends Models implements IModels {
             throw new ModelsException('Tipo de usuario no válido.');
         }
 
+        if($this->tipo_cliente!=='Simple' and $this->tipo_cliente!=='Medio' and $this->tipo_cliente!=='Premiun') {
+            throw new ModelsException('Tipo de cliente no válido.');
+        }
+
         if($this->tipo == 1){
             if(!Helper\Functions::emp($this->id_comercio) && !Helper\Functions::emp($this->id_sucursal)){
                 throw new ModelsException('El usuario solo puede pertenecer a una sucursal o a un comercio.');
@@ -794,8 +806,14 @@ class Users extends Models implements IModels {
                }
              }
 
+            #Porque el tipo puede ser cero
             $data['tipo'] = $this->tipo;
   
+            #Si es un cliente será un cliente simple
+            if( $this->tipo==2 ){
+                $data['tipo_cliente']="Simple";
+            }
+
             # Registrar al usuario
             $id_user =  $this->db->insert('users',$data);
 
@@ -803,11 +821,11 @@ class Users extends Models implements IModels {
             if ($this->tipo == 1){
                 if (!Helper\Functions::emp($this->id_sucursal)){
                     $this->db->update('users', array('id_sucursal'=>$this->id_sucursal), "id_user = $id_user");
-                }
-                else{
+                }else{
                     $this->db->update('users', array('id_comercio_afiliado'=>$this->id_comercio), "id_user = $id_user");
-                }
+                }          
             }
+            
 
             /*
             #Concatena una palabra para evitar repeticiones del codigoqr
@@ -880,6 +898,13 @@ class Users extends Models implements IModels {
             #Porque el tipo puede ser cero
             $data['tipo'] = $this->tipo;
             
+            #Si es un cliente 
+            if( $this->tipo==2 ){
+                $data['tipo_cliente']=$this->tipo_cliente;
+            }else{
+                $this->db->real_query("UPDATE users SET tipo_cliente = NULL WHERE id_user = '$id_user'");
+            }
+            
             #Edita un usuario
              if ($this->tipo == 1){
                 if (!Helper\Functions::emp($this->id_sucursal)){
@@ -905,6 +930,176 @@ class Users extends Models implements IModels {
         }
     }
 
+
+    /**
+     * Sube documentos de de un usuario
+     */
+    public function UploadDocuments(){
+        try {
+        
+            global $http,$config;
+
+            #Obtiene los documentos del formulario
+            $fotos = $_FILES;
+
+            #Carga del documento de identidad
+            if (array_key_exists('foto_documento',$fotos)) {
+
+                if ($fotos["foto_documento"]["error"] != 0) {
+                    throw new ModelsException('Hubo un error cargando documento de identidad, intente de nuevo.');
+                }
+
+                if ( !strpos($fotos["foto_documento"]["type"], "jpeg") and !strpos($fotos["foto_documento"]["type"], "jpg") and
+                !strpos($fotos["foto_documento"]["type"], "png") ){
+                    throw new ModelsException('El documento de identidad debe ser una imagen.');
+                }
+
+            }
+
+            #Carga del pasaporte
+            if (array_key_exists('foto_pasaporte',$fotos)) {
+
+                if ($fotos["foto_pasaporte"]["error"] != 0) {
+                    throw new ModelsException('Hubo un error cargando el pasaporte, intente de nuevo.');
+                }
+
+                if ( !strpos($fotos["foto_pasaporte"]["type"], "jpeg") and !strpos($fotos["foto_pasaporte"]["type"], "jpg") and
+                !strpos($fotos["foto_pasaporte"]["type"], "png") ){
+                    throw new ModelsException('El pasaporte debe ser una imagen.');
+                }
+
+            }
+
+            #Carga del rif
+            if (array_key_exists('foto_rif',$fotos)) {
+
+                if ($fotos["foto_rif"]["error"] != 0) {
+                    throw new ModelsException('Hubo un error cargando el rif, intente de nuevo.');
+                }
+
+                if ( !strpos($fotos["foto_rif"]["type"], "jpeg") and !strpos($fotos["foto_rif"]["type"], "jpg") and
+                !strpos($fotos["foto_rif"]["type"], "png") ){
+                    throw new ModelsException('El rif debe ser una imagen.');
+                }
+
+            }
+
+            #Carga de la referencia bancaria 1
+            if (array_key_exists('foto_ref1',$fotos)) {
+
+                if ($fotos["foto_ref1"]["error"] != 0) {
+                    throw new ModelsException('Hubo un error cargando la primera referencia bancaria, intente de nuevo.');
+                }
+
+                if ( !strpos($fotos["foto_ref1"]["type"], "jpeg") and !strpos($fotos["foto_ref1"]["type"], "jpg") and
+                !strpos($fotos["foto_ref1"]["type"], "png") ){
+                    throw new ModelsException('La primera referencia bancaria debe ser una imagen.');
+                }
+
+            }
+
+            #Carga de la referencia bancaria 2
+            if (array_key_exists('foto_ref2',$fotos)) {
+
+                if ($fotos["foto_ref2"]["error"] != 0) {
+                    throw new ModelsException('Hubo un error cargando la segunda referencia bancaria intente de nuevo.');
+                }
+
+                if ( !strpos($fotos["foto_ref2"]["type"], "jpeg") and !strpos($fotos["foto_ref2"]["type"], "jpg") and
+                !strpos($fotos["foto_ref2"]["type"], "png") ){
+                    throw new ModelsException('La segunda referencia bancaria debe ser una imagen.');
+                }
+
+            }
+
+
+            $path = "../";        
+            $id_user = $this->getOwnerUser()["id_user"];   
+
+                #Si se cargó la foto del documento de identidad se guarda
+                $dir_foto_documento=null;
+                if (array_key_exists('foto_documento',$fotos)) {               
+                    $dir_foto_documento = "views/img/documentos/usuarios/documentoidentidad".$id_user.".png";
+                            
+                    $tmp_name = $fotos["foto_documento"]["tmp_name"];
+                    // basename() puede evitar ataques de denegación de sistema de ficheros;
+                    // podría ser apropiada más validación/saneamiento del nombre del fichero
+                    $name = basename($fotos["foto_documento"]["name"]);
+                    move_uploaded_file($tmp_name, "$path"."$dir_foto_documento");
+                        
+                }
+
+                #Si se cargó la foto del pasaporte se guarda
+                $dir_pasaporte=null;
+                if (array_key_exists('foto_pasaporte',$fotos)) {               
+                    $dir_pasaporte = "views/img/documentos/usuarios/pasaporte".$id_user.".png";
+                            
+                    $tmp_name = $fotos["foto_pasaporte"]["tmp_name"];
+                    // basename() puede evitar ataques de denegación de sistema de ficheros;
+                    // podría ser apropiada más validación/saneamiento del nombre del fichero
+                    $name = basename($fotos["foto_pasaporte"]["name"]);
+                    move_uploaded_file($tmp_name, "$path"."$dir_pasaporte");
+                        
+                }
+
+                #Si se cargó la foto del rif se guarda
+                $dir_rif=null;
+                if (array_key_exists('foto_rif',$fotos)) {               
+                    $dir_rif = "views/img/documentos/usuarios/rif".$id_user.".png";
+                            
+                    $tmp_name = $fotos["foto_rif"]["tmp_name"];
+                    // basename() puede evitar ataques de denegación de sistema de ficheros;
+                    // podría ser apropiada más validación/saneamiento del nombre del fichero
+                    $name = basename($fotos["foto_rif"]["name"]);
+                    move_uploaded_file($tmp_name, "$path"."$dir_rif");
+                        
+                }
+
+                 #Si se cargó la foto de la primera referencia bancaria se guarda
+                 $dir_ref1=null;
+                 if (array_key_exists('foto_ref1',$fotos)) {               
+                     $dir_ref1 = "views/img/documentos/usuarios/primerareferenciabancaria".$id_user.".png";
+                             
+                     $tmp_name = $fotos["foto_ref1"]["tmp_name"];
+                     // basename() puede evitar ataques de denegación de sistema de ficheros;
+                     // podría ser apropiada más validación/saneamiento del nombre del fichero
+                     $name = basename($fotos["foto_ref1"]["name"]);
+                     move_uploaded_file($tmp_name, "$path"."$dir_ref1");
+                         
+                 }
+
+                #Si se cargó la foto de la segunda referencia bancaria se guarda
+                $dir_ref2=null;
+                if (array_key_exists('foto_ref2',$fotos)) {               
+                    $dir_ref2 = "views/img/documentos/usuarios/segundareferenciabancaria".$id_user.".png";
+                            
+                    $tmp_name = $fotos["foto_ref2"]["tmp_name"];
+                    // basename() puede evitar ataques de denegación de sistema de ficheros;
+                    // podría ser apropiada más validación/saneamiento del nombre del fichero
+                    $name = basename($fotos["foto_ref2"]["name"]);
+                    move_uploaded_file($tmp_name, "$path"."$dir_ref2");
+                        
+                }
+
+                $id_documentos = $this->db->select("id_documentos","users",null,"id_user=$id_user")[0]["id_documentos"];
+
+                $data = array(
+                    'documento_identidad' =>  $dir_foto_documento == null ? null : $config['build']['url'] . $dir_foto_documento,
+                    'pasaporte' => $dir_pasaporte == null ? null : $config['build']['url'] . $dir_pasaporte,
+                    'rif' => $dir_rif == null ? null : $config['build']['url'] . $dir_rif,
+                    'referencia_bancaria_1' => $dir_ref1 == null ? null : $config['build']['url'] . $dir_ref1,
+                    'referencia_bancaria_2' => $dir_ref2 == null ? null : $config['build']['url'] . $dir_ref2
+                );
+
+                #Se actualiza la db con la ruta de los documentos
+                $this->db->update('documentos',$data, "id_documento = '$id_documentos'");
+
+            return array('success' => 1, 'message' => 'Carga de imagenes realizada con éxito.');
+        } catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        } 
+
+    }
 
     /**
      * Verifica la existencia del nombre de usuario
@@ -964,8 +1159,24 @@ class Users extends Models implements IModels {
      */  
     public function getUsers(string $select = '*',string $where = "1=1") {
         $inner = "LEFT JOIN sucursal ON sucursal.id_sucursal = users.id_sucursal
-                  LEFT JOIN comercio_afiliado ON comercio_afiliado.id_comercio_afiliado = users.id_comercio_afiliado";
-        return $this->db->select("users.$select,sucursal.nombre as ns, comercio_afiliado.nombre as can",'users',$inner,$where);
+                  LEFT JOIN comercio_afiliado ON comercio_afiliado.id_comercio_afiliado = users.id_comercio_afiliado
+                  LEFT JOIN documentos ON documentos.id_documento = users.id_documentos";
+        return $this->db->select("users.$select,sucursal.nombre as ns, comercio_afiliado.nombre as can,
+                                documentos.documento_identidad,documentos.pasaporte,documentos.rif,
+                                documentos.referencia_bancaria_1,documentos.referencia_bancaria_2",'users',$inner,$where);
+    }
+
+    /**
+     * Obtiene los documentos del usuario según la id
+     * 
+     *  @param string $id_documentos : Id del elemento que contiene los documentos de un usuario
+     * 
+     * @return false|array con información de los documentos
+     */
+    public function getDocumentosById($id_documentos){
+
+        return $this->db->select("*","documentos",null,"id_documento='$id_documentos'");
+
     }
 
     /**

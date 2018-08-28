@@ -12,7 +12,7 @@
  * @param {*} id_sucursal 
  * @param {*} id_comercio 
  */
-function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono,numero_cuenta,id_sucursal,id_comercio) {
+function editar_un_usuario(id_user,tipo,tipo_cliente,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono,numero_cuenta,id_sucursal,id_comercio) {
 
     $('#id_id_user').val(id_user);
     $('#id_primer_nombre').val(primer_nombre);
@@ -21,6 +21,7 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
     $('#id_segundo_apellido').val(segundo_apellido);
     $('#id_telefono').val(telefono);
     $('#id_numero_cuenta').val(numero_cuenta);
+    $('#id_tipo_cliente').val(null).change();
     $('#id_sucursal').val(null).change();
     $('#id_comercio').val(null).change();
     
@@ -35,11 +36,13 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
     if (tipo == 0) {
         $("#id_tipoa").prop("checked", true);
         $('.selects_body').hide();
+        $('.selects_body2').hide();
     } else
     //Vendedores
     if (tipo == 1) {
         $("#id_tipov").prop("checked", true);
         $('.selects_body').show();
+        $('.selects_body2').hide();
         $('#id_sucursal').val(id_sucursal).change();
         $('#id_comercio').val(id_comercio).change();
     } else
@@ -47,11 +50,14 @@ function editar_un_usuario(id_user,tipo,primer_nombre,segundo_nombre,primer_apel
     if (tipo == 2){
         $("#id_tipoc").prop("checked", true);
         $('.selects_body').hide();
+        $('.selects_body2').show();
+        $('#id_tipo_cliente').val(tipo_cliente).change();
     } else
     //Supervisores
     if (tipo == 3){
         $("#id_tipos").prop("checked", true);
         $('.selects_body').hide();
+        $('.selects_body2').hide();
     }
     
     

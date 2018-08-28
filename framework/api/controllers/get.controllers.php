@@ -73,7 +73,7 @@ $app->get('/get/monedas/BySucursal/{id}', function($id) use($app) {
 });
 
 
-$app->get('/get/oro', function() use($app) {
+  $app->get('/get/oro', function() use($app) {
     $m = new Model\Monedas; 
   
     return $app->json($m->getPrice("oro"));   
@@ -115,8 +115,21 @@ $app->get('/orden/historial', function() use($app) {
     $o = new Model\Orden; 
 
     $select = "orden.tipo_orden,orden.cantidad,orden.tipo_gramo,orden.precio";
-    $where = "orden.estado=2";
+    $where = "orden.estado=4";
     return $app->json($o->get($select,$where,5));      
+});
+
+/**
+ * Servicio que devuelve las ordenes concretadas por usuario
+ *
+ * @return json
+*/
+$app->get('/orden/get/{id}', function($id) use($app) {
+    $o = new Model\Orden; 
+  
+    $select = "orden.tipo_orden,orden.cantidad,orden.tipo_gramo,orden.precio,orden.fecha";
+    $where = "orden.estado=4 and u.id_user='$id'";
+    return $app->json($o->get($select,$where));   
 });
 
 /**

@@ -18,63 +18,72 @@
                 <a href="dashboardpublico/dashboardpublico/"><i class="fa fa-bar-chart"></i><span class="nav-label">Dashboard</span></a>
             </li>
             {% if owner_user != null  %}
-                        <li class="">
-                            <a href="calculadora/"><i class="fa fa-gears"></i><span class="nav-label">Calculadora</span></a>
+            
+                {% if owner_user.tipo == 2 %}
+                <li class="">
+                    <a href="perfilcliente/"><i class="fa fa-user"></i><span class="nav-label">Perfil</span></a>
+                </li>
+                {% endif %}
+                <li class="">
+                    <a href="calculadora/"><i class="fa fa-gears"></i><span class="nav-label">Calculadora</span></a>
+                </li>
+                {% if owner_user.tipo == 0 %}
+                    <li class="">
+                        <a href="usuarios/"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span></a>
+                    </li>
+                    <li class="">
+                        <a href="rango/"><i class="fa fa-star"></i> <span class="nav-label">Rangos</span></a>
+                    </li>       
+                    <li class="">
+                        <a href="monedas/"><i class="fa fa-usd"></i> <span class="nav-label">Moneda</span></a>
+                    </li>
+                    <li class="">
+                        <a href="sucursal/"><i class="fa fa-institution"></i> <span class="nav-label">Sucursal</span></a>
+                    </li>
+                    <li class="">
+                            <a href="afiliados/"><i class="fa fa-sun-o"></i> <span class="nav-label">Comercios Afiliados</span></a>
                         </li>
-                        {% if owner_user.tipo == 0 %}
-                            <li class="">
-                                <a href="usuarios/"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span></a>
-                            </li>
-                            <li class="">
-                                <a href="monedas/"><i class="fa fa-usd"></i> <span class="nav-label">Moneda</span></a>
-                            </li>
-                            <li class="">
-                                <a href="sucursal/"><i class="fa fa-institution"></i> <span class="nav-label">Sucursal</span></a>
-                            </li>
-                            <li class="">
-                                    <a href="afiliados/"><i class="fa fa-sun-o"></i> <span class="nav-label">Comercios Afiliados</span></a>
-                                </li>
-                            </li>
-                            <li class="">
-                                <a href="origen/"><i class="fa fa-home"></i><span class="nav-label">Origen</span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="divisa/"><i class="fa fa-money"></i><span class="nav-label">Dívisas</span></a>
-                            </li>
-                        {% endif %}
-                        {% if owner_user.tipo != 2 %}
-                        <li class="">
-                            <a href="ordenadmin/"><i class="fa fa-shopping-cart"></i><span class="nav-label">Órdenes</span></a>
-                        </li>    
-                        {% endif %}
-                        {% if owner_user.tipo == 0 or owner_user.tipo == 3 %}
-                        <li class="">
-                            <a><i class="fa fa-line-chart"></i> <span class="nav-label">Transacciones</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level collapse">
-                                <li>
-                                    <a href="transaccion/compra/">Compra</a>
-                                </li>
-                                <!--<li>
-                                    <a href="transaccion/venta/">Venta</a>
-                                </li>-->
-                                <li>
-                                    <a href="transaccion/transaccion_en_espera/">En espera</a>
-                                </li>
-                                <!--<li>
-                                    <a href="transaccion/intercambio/">Intercambio</a>
-                                </li>-->
-                                <!--<li>
-                                    <a href="transaccion/intercambioafiliado/">Intercambio con Afiliados</a>
-                                </li>-->
-                            </ul>
-                        </li>                   
-                        {% endif %}
-                        {% if owner_user.tipo == 0 or owner_user.tipo == 2 %}
-                        <li class="">
-                            <a href="ordencliente/"><i class="fa fa-tasks"></i><span class="nav-label">Compra y Venta</span></a>
+                    </li>
+                    <li class="">
+                        <a href="origen/"><i class="fa fa-home"></i><span class="nav-label">Origen</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="divisa/"><i class="fa fa-money"></i><span class="nav-label">Dívisas</span></a>
+                    </li>
+                {% endif %}
+                {% if owner_user.tipo != 2 %}
+                <li class="">
+                    <a href="ordenadmin/"><i class="fa fa-shopping-cart"></i><span class="nav-label">Órdenes</span></a>
+                </li>    
+                {% endif %}
+                {% if owner_user.tipo == 0 or owner_user.tipo == 3 %}
+                <li class="">
+                    <a><i class="fa fa-line-chart"></i> <span class="nav-label">Transacciones</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li>
+                            <a href="transaccion/compra/">Compra</a>
                         </li>
-                        {% endif %}
+                        <!--<li>
+                            <a href="transaccion/venta/">Venta</a>
+                        </li>-->
+                        <li>
+                            <a href="transaccion/transaccion_en_espera/">En espera</a>
+                        </li>
+                        <!--<li>
+                            <a href="transaccion/intercambio/">Intercambio</a>
+                        </li>-->
+                        <!--<li>
+                            <a href="transaccion/intercambioafiliado/">Intercambio con Afiliados</a>
+                        </li>-->
+                    </ul>
+                </li>                   
+                {% endif %}
+                {% if owner_user.tipo == 0 or owner_user.tipo == 2 %}
+                <li class="">
+                    <a href="ordencliente/"><i class="fa fa-tasks"></i><span class="nav-label">Compra y Venta</span></a>
+                </li>
+                {% endif %}
             {% endif %}   
         </ul>
     </div>

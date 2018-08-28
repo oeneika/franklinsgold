@@ -130,7 +130,7 @@ class Monedas extends Models implements IModels {
 
             #Se actualiza la db con la ruta de la imagen
             $this->db->update('moneda',array(
-                'codigo_qr'=> $config['build']['url'] . "/views/img/codigos/monedas/$id_moneda.png",
+                'codigo_qr'=> $config['build']['url'] . "views/img/codigos/monedas/$id_moneda.png",
                 'qr_alfanumerico'=> $conc
             ), "codigo = '$id_moneda'");
 

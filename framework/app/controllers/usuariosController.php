@@ -33,6 +33,7 @@ class usuariosController extends Controllers implements IControllers {
         $u = new Model\Users($router);  
         $s = new Model\Sucursales($router);  
         $a = new Model\Afiliados($router);  
+        $r = new Model\Rango($router); 
 
         switch($this->method) {
             case 'eliminar':
@@ -42,7 +43,8 @@ class usuariosController extends Controllers implements IControllers {
             $this->template->display('usuarios/usuarios',array(
                 'usuarios' => $u->getUsers(),
                 'afiliados' => $a->get(),
-                'sucursales' => $s->get()
+                'sucursales' => $s->get(),
+                'rangos' => $r->get()
             ));
             break;
         }

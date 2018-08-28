@@ -18,11 +18,9 @@ use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
 
 /**
- * Controlador sucursal/
- *
- * @author Ocrend Software C.A <bnarvaez@ocrend.com>
+ * Controlador rangos/
 */
-class sucursalController extends Controllers implements IControllers {
+class rangoController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
@@ -30,16 +28,21 @@ class sucursalController extends Controllers implements IControllers {
             'users_admin'=>true
         ));
 
-        $s = new Model\Sucursales($router);
-        switch ($this->method) {
-            case 'eliminar':
-                $s->del();
-            break;         
+        $r = new Model\Rango($router);
+        
+        switch($this->method) {
+            /*case 'eliminar':
+                $r->del();
+            break;*/
             default:
-            $this->template->display('sucursal/sucursal',array(
-                'sucursales' => $s->get()
+            $this->template->display('rango/rango',array(
+                'rangos' => $r->get()
             ));
             break;
         }
+
+
+
+        
     }
 }

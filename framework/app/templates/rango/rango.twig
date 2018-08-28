@@ -1,0 +1,86 @@
+{% extends 'overall/layout' %}
+{% block appBody %}
+<div id="page-wrapper" class="gray-bg">
+<div class="row border-bottom">
+    {% include 'overall/header' %}
+</div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2><i class="fa fa-star"></i> Rangos</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="home/">Home</a>
+                        </li>
+                        <li class="active">
+                            <strong>Rangos</strong>
+                        </li>
+                    </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+             <div class="col-lg-12">
+                <!--<a onclick="crearRango()" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;"><i class="fa fa-star"></i> Crear Rango</a>-->
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                            <h5>Rangos registrados en el sistema</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                    </div>
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover tablita" >
+                                        <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Monto diario(Dólares)</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for r in rangos %}  
+                                            <tr>
+                                                <td>{{ r.nombre_rango }}</td>
+                                                <td>{{ r.monto_diario|number_format(2,",",".") }}</td>
+                                                <td>
+                                                <a style="font-size:22px;" title="Editar" data-toggle="modal" onclick="editarRango({{ r.id_rango }},'{{ r.nombre_rango }}',{{ r.monto_diario }})"><i class="fa fa-sliders naranja"></i></a>
+                                                <!--<a style="margin-left: 20px;font-size:22px;" onclick="delete_item({{ r.id_rango }},'rango')" title="Eliminar"><i class="fa fa-trash naranja"></i></a>-->
+                                                </td>
+                                            </tr>
+                                            {% else %}
+                                                 <tr><td>No hay resultados</td></tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Monto diario</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                            </div>
+                        </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+{% include 'rango/crear' %}
+{% include 'rango/editar' %}
+{% include 'overall/footer' %}
+</div>
+{% endblock %}
+
+{% block appFooter %}
+    <script src="assets/jscontrollers/rango/crear.js"></script>
+    <script src="assets/jscontrollers/rango/editar.js"></script>
+    <script src="views/propios/js/delete_item.js"></script>   
+{% endblock %}

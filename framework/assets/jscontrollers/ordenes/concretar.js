@@ -23,7 +23,7 @@ function specify_orden(id_orden){
 
 
 /**
- * Swal para concretar una orden
+ * Swal para confirmar una orden
  * @param {*} id_orden : id de la orden a confirmar
  * @param {*} tipo_usuario : tipo de usuario que confirmará la orden
  */

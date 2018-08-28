@@ -31,9 +31,9 @@ class Orden extends Models implements IModels {
     private $cantidad;
     private $id_sucursal;
     private $tipo_orden;
-    private $cantidad_bolivar_soberano;
 
     private $id_moneda;
+
 
     /**
      * Revisa errores en el formulario
@@ -49,7 +49,9 @@ class Orden extends Models implements IModels {
         $this->cantidad = $http->request->get('cantidad');
         //$this->id_sucursal = $http->request->get('id_sucursal');
         $this->tipo_orden = $http->request->get('tipo_orden');
-        $this->cantidad_bolivar_soberano = $http->request->get('cantidad_bolivar_soberano');
+        $cantidad_bolivar_soberano = $http->request->get('cantidad_bolivar_soberano');
+        $monto_dolares = $http->request->get('monto_dolares');
+        $compra_tienda = $http->request->get('compra_tienda');
 
         #Usada en caso de ser una compra/venta vía movil o tienda
         $email = $http->request->get('email');
@@ -58,6 +60,15 @@ class Orden extends Models implements IModels {
 
             $this->id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
             
+        }
+
+        #Hago esto para que funcionen los servicios sin problema
+        $rango = $this->db->select("tipo_cliente","users",null,"id_user='$this->id_usuario'")[0]["tipo_cliente"];
+        $total = $this->getDailyMoneyByUser($this->id_usuario) + ($monto_dolares == null ? 0 : $monto_dolares);
+        
+        #Valida que la compra no exceda el monto diario permitido según el rango
+        if($total > $this->getDailyMoneyByRango($rango)){
+            throw new ModelsException('Ha excedido el límite diario de dinero movido.');
         }
 
         $this->id_moneda = $http->request->get('id_moneda');
@@ -79,12 +90,12 @@ class Orden extends Models implements IModels {
             throw new ModelsException('Tipo de orden inválida.');
         }
 
-        if( $this->tipo_gramo === 'oro' and $this->cantidad_bolivar_soberano<20000 ){
-            throw new ModelsException('Las compras de de oro son a partir 20.000 BsS.');
+        if( $this->tipo_gramo === 'oro' and $cantidad_bolivar_soberano<20000 and $compra_tienda == null ){
+            throw new ModelsException('Las compras o ventas de oro son a partir 20.000 BsS.');
         }
 
-        if( $this->tipo_gramo === 'plata' and ($this->cantidad_bolivar_soberano<1 or $this->cantidad_bolivar_soberano>20000   )){
-            throw new ModelsException('Las compras de plata deben ser entre 1 y 20.000 BsS.');
+        if( $this->tipo_gramo === 'plata' and ($cantidad_bolivar_soberano<1 or $cantidad_bolivar_soberano>20000 and $compra_tienda == null  )){
+            throw new ModelsException('Las compras o ventas de plata deben ser entre 1 y 20.000 BsS.');
         }
 
         #Trae la cantidad en cartera para validar si existe la posibilidad de vender/intercambiar
@@ -295,7 +306,7 @@ class Orden extends Models implements IModels {
                     }
 
                         $this->db->update('orden',array(
-                            'estado'=>2
+                            'estado'=>4
                         ),"id_orden = $this->id");
 
                         Functions::redir($config['build']['url'] . 'ordenadmin/&success=true');
@@ -336,7 +347,7 @@ class Orden extends Models implements IModels {
         $past = strtotime($days);
         $present = strtotime('now');
 
-        return $this->db->select("SUM(cantidad) as volumen","orden",null,"tipo_orden='$type' and estado=2 and tipo_gramo='$composition' and fecha>='$past' and fecha<='$present'");
+        return $this->db->select("SUM(cantidad) as volumen","orden",null,"tipo_orden='$type' and estado=4 and tipo_gramo='$composition' and fecha>='$past' and fecha<='$present'");
 
     }
     
@@ -370,10 +381,40 @@ class Orden extends Models implements IModels {
         $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
               
         $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
-        $where = "orden.estado=2 and orden.tipo_gramo='$tipo_gramo' and orden.tipo_orden='$tipo' and u.id_user='$id_usuario'";
+        $where = "orden.estado=4 and orden.tipo_gramo='$tipo_gramo' and orden.tipo_orden='$tipo' and u.id_user='$id_usuario'";
     
         return $this->get($select,$where,5,"ORDER BY orden.id_orden DESC");
     }
+
+
+    /**
+     * Retorna la cantidad de dólares movidos en compra y venta de gramos por usuario en el día actual
+     * 
+     * @param int id_user :  id del usuario a traer el monto diario
+     * 
+     * @return int
+     */
+    public function getDailyMoneyByUser(int $id_user){
+        
+        $inicio_hoy = strtotime('today midnight');       
+        $query = $this->db->select("SUM(cantidad*precio) as monto_diario","orden",null,"id_usuario='$id_user' and fecha>'$inicio_hoy' and estado=4",null,"ORDER BY id_usuario");
+   
+        if($query == false){
+            return 0;
+        }
+
+        return $query[0]["monto_diario"];
+    }
+
+    /**
+     * Retorna la cantidad de dólares que puede mover según el rango
+     */
+    private function getDailyMoneyByRango(string $rango){
+
+        return $this->db->select("monto_diario","rango",null,"nombre_rango='$rango'")[0]["monto_diario"];
+
+    }
+
 
     /**
      * Servicio que devuelve las ultimas cinco ordenes concretadaspor usuario
@@ -386,7 +427,7 @@ class Orden extends Models implements IModels {
         $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
               
         $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
-        $where = "orden.estado=2 and u.id_user='$id_usuario'";
+        $where = "orden.estado=4 and u.id_user='$id_usuario'";
     
         return $this->get($select,$where,5,"ORDER BY orden.id_orden DESC");
     }
@@ -402,8 +443,7 @@ class Orden extends Models implements IModels {
 
         $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
   
-        return $this->getTotalGramos($tipo_gramo,"id_usuario='$id_usuario'");  
-        
+        return $this->getTotalGramos($tipo_gramo,"id_usuario='$id_usuario'");         
     }
 
 
