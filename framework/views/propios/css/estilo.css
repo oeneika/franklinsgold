@@ -18,6 +18,10 @@
 	font-weight: bold;
 }
 
+strong.font-bold.hover:hover{
+	color: #FFCF3D!important;
+}
+
 @media (max-width: 480px){
 	.ibox-title h5.font{
 	font-size: 14px;

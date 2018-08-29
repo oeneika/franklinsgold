@@ -36,7 +36,7 @@ function edit_divisa() {
                     timeOut: 4000
                 };
 
-                toastr.info('¡Dívisa editado!','Exito!');
+                toastr.success(json.message,'Exito!');
                 
                 setTimeout(function () {
                     location.reload();

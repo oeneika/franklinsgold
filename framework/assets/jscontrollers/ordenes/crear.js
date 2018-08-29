@@ -71,7 +71,7 @@ function createOrden(formulario){
                         timeOut: 4000
                     };
     
-                    toastr.info(json.message,'Exito!');
+                    toastr.success(json.message,'Exito!');
                     
                     setTimeout(function () {
                         location.reload();

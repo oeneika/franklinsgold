@@ -1,9 +1,9 @@
-<div class="modal inmodal" id="compraventatiendaModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal jiji" id="compraventatiendaModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
-                <h4 class="modal-title">Compra o venta de gramos de Oro o Plata</h4>
+                <h4 class="modal-title">Compra ó venta de gramos de Oro ó Plata</h4>
                 <small class="font-bold">Franklins Gold</small>
             </div>
 
@@ -26,14 +26,17 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="id_cliente" class="control-label mb-1" >Clientes</label>
-                                <select name="email" id="id_cliente" class="form-control" style="width: 100%">
+                                <select name="email" id="id_cliente" class="form-control select2" style="width: 100%">
                                     <option disabled selected value>Seleccione un cliente</option>
-                                    {% for c in clientes %}
-                                        <option value="{{c.email}}">{{c.email}}</option>
-                                    {% endfor %}
+                                    {% for u in clientes %}       
+                                         <option value="{{c.email}}">{{c.email}}</option>
+                                     {% endfor %}
                                 </select>
                             </div>
-                        </div>  
+                        </div> 
+
+                    </div>
+                    <div class="row">
 
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
@@ -49,11 +52,14 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="cantidad" class="control-label mb-1" >Cantidad(gramos)</label>
-                                <input name="cantidad" id="cantidad" type="number"> 
+                                <input name="cantidad" id="cantidad" type="number" class="form-control"> 
                             </div>                         
                         </div>
-                        <input name="compra_tienda" type="hidden" value="50000"> 
-                    </div>                      
+
+                    </div>
+
+                    <input name="compra_tienda" type="hidden" value="50000"> 
+                                          
                 </form>
 
             </div>

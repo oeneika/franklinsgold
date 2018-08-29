@@ -7,7 +7,7 @@
                     <a href="home/"><img alt="image" src="views/propios/img/logo.png" style="height:100px; margin: 0 40px;" /></a>
                     </span>
                     <span class="clear"> 
-                        <span class="block m-t-xs"> <strong class="font-bold" style="margin: 0 35px;">Franklin's Gold</strong></span>
+                        <a href="home/" title="Ir al inicio del sistema"><span class="block m-t-xs"><strong class="font-bold hover" style="margin: 0 35px;">Franklin's Gold</strong></span></a>
                     </span>
                 </div>
                 <div class="logo-element">
@@ -15,7 +15,7 @@
                 </div>
             </li>
             <li class="">
-                <a href="dashboardpublico/dashboardpublico/"><i class="fa fa-bar-chart"></i><span class="nav-label">Dashboard</span></a>
+                <a href="dashboardpublico/dashboardpublico/"><i class="fa fa-sliders-h"></i><span class="nav-label">Dashboard</span></a>
             </li>
             {% if owner_user != null  %}
             
@@ -25,23 +25,23 @@
                 </li>
                 {% endif %}
                 <li class="">
-                    <a href="calculadora/"><i class="fa fa-gears"></i><span class="nav-label">Calculadora</span></a>
+                    <a href="calculadora/"><i class="fa fa-calculator"></i><span class="nav-label">Calculadora</span></a>
                 </li>
                 {% if owner_user.tipo == 0 %}
                     <li class="">
                         <a href="usuarios/"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span></a>
                     </li>
                     <li class="">
-                        <a href="rango/"><i class="fa fa-star"></i> <span class="nav-label">Rangos</span></a>
+                        <a href="rango/"><i class="fa fa-arrow-circle-up"></i> <span class="nav-label">Rangos</span></a>
                     </li>       
                     <li class="">
-                        <a href="monedas/"><i class="fa fa-usd"></i> <span class="nav-label">Moneda</span></a>
+                        <a href="monedas/"><i class="fas fa-coins"></i> <span class="nav-label">Moneda</span></a>
                     </li>
                     <li class="">
-                        <a href="sucursal/"><i class="fa fa-institution"></i> <span class="nav-label">Sucursal</span></a>
+                        <a href="sucursal/"><i class="fa fa-hotel"></i> <span class="nav-label">Sucursal</span></a>
                     </li>
                     <li class="">
-                            <a href="afiliados/"><i class="fa fa-sun-o"></i> <span class="nav-label">Comercios Afiliados</span></a>
+                            <a href="afiliados/"><i class="fa fa-hand-holding"></i> <span class="nav-label">Comercios Afiliados</span></a>
                         </li>
                     </li>
                     <li class="">
@@ -49,7 +49,7 @@
                         </a>
                     </li>
                     <li class="">
-                        <a href="divisa/"><i class="fa fa-money"></i><span class="nav-label">Dívisas</span></a>
+                        <a href="divisa/"><i class="fa fa-money-bill-alt"></i><span class="nav-label">Dívisas</span></a>
                     </li>
                 {% endif %}
                 {% if owner_user.tipo != 2 and owner_user.id_comercio_afiliado == null %}
@@ -59,7 +59,7 @@
                 {% endif %}
                 {% if owner_user.tipo == 0 or (owner_user.tipo == 3 and owner_user.id_comercio_afiliado == null)  %}
                 <li class="">
-                    <a><i class="fa fa-line-chart"></i> <span class="nav-label">Transacciones</span><span class="fa arrow"></span></a>
+                    <a><i class="fa fa-money-check-alt"></i> <span class="nav-label">Transacciones</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li>
                             <a href="transaccion/compra/">Compra</a>
@@ -79,10 +79,27 @@
                     </ul>
                 </li>                   
                 {% endif %}
-                {% if owner_user.tipo == 2  %}
+                {%  if owner_user.tipo == 0 or owner_user.tipo == 2 %}
                 <li class="">
-                    <a href="ordencliente/"><i class="fa fa-tasks"></i><span class="nav-label">Compra y Venta</span></a>
-                </li>
+                            <a href=""><i class="fa fa-tasks"></i><span class="nav-label">Compra y Venta</span><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level collapse">
+                                <li>
+                                    <a href="ordencliente/">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="ordencliente/compraoro/">Compra de oro</a>
+                                </li>
+                                <li>
+                                    <a href="ordencliente/compraplata/">Compra de plata</a>
+                                </li>
+                                <li>
+                                    <a href="ordencliente/ventaoro/">Venta de oro</a>
+                                </li>
+                                <li>
+                                    <a href="ordencliente/ventaplata/">Venta de plata</a>
+                                </li>
+                            </ul>
+                        </li>
                 {% endif %}
             {% endif %}   
         </ul>

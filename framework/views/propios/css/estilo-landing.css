@@ -1,0 +1,8 @@
+.landing-page .btn-primary, .landing-page .social-icon a, .landing-page .navy-line{
+	background-color:#e4b748;
+	border-color:#e4b748;
+}
+
+.landing-page span.navy, .landing-page .navbar-default .nav li a:hover{
+	color: #e4b748;
+}

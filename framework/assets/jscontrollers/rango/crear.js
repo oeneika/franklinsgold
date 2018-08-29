@@ -31,7 +31,7 @@ function createRango(formulario) {
                         timeOut: 1000
                     };
     
-                    toastr.info(json.message,'Exito!');
+                    toastr.success(json.message,'Exito!');
                     
                     setTimeout(function () {
                         location.reload();

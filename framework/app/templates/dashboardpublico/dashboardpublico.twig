@@ -1,6 +1,9 @@
 {% extends 'overall/layout' %}
 {% block appBody %}
 <div id="page-wrapper" class="gray-bg">
+    <div class="row border-bottom">
+        {% include 'overall/header' %}
+    </div>
 
             <div class="wrapper wrapper-content">
             	<div class="row">
@@ -12,7 +15,7 @@
                             <div class="ibox-content">
                                 <div>
                                         <span class="pull-right text-right">
-                                        <small>Cotización en tiempo real del precio del oro en el mercado {{lang.wrapperdash.titulooro}}</small>
+                                        <small>Cotización en tiempo real del precio del oro {{lang.wrapperdash.titulooro}}</small>
                                         </span>
                                         <h3 class="font-bold no-margins">
                                             Precio del oro (USD){{lang.wrapperdash.preciooro}}
@@ -20,7 +23,7 @@
                                 </div>
 
                                 <div>
-                                    <canvas id="lineChart" height="45" width="100%"></canvas>
+                                    <canvas id="lineChart" height="46" width="100%"></canvas>
                                 </div>
 
                                 <div class="m-t-md">
@@ -38,7 +41,7 @@
                             <div class="ibox-content">
                                     <div>
                                         <span class="pull-right text-right">
-                                        <small>Cotización en tiempo real del precio de la plata en el mercado. {{lang.wrapperdash.tituloplata}}</small>
+                                        <small>Cotización en tiempo real del precio de la plata {{lang.wrapperdash.tituloplata}}</small>
                                         </span>
                                         <h3 class="font-bold no-margins">
                                             Precio de la plata (USD){{lang.wrapperdash.precioplata}}
@@ -46,7 +49,7 @@
                                     </div>
 
                                 <div>
-                                    <canvas id="plataChart" height="45" width="100%"></canvas>
+                                    <canvas id="plataChart" height="46" width="100%"></canvas>
                                 </div>
 
                                 <div class="m-t-md">
@@ -75,7 +78,7 @@
                                     </div>
                                     <div class="ibox-content">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered table-hover" >
+                                            <table class="table table-striped table-bordered table-hover tablita" >
                                                 <thead>
                                                 <tr>
                                                     <th>Fecha {{lang.wrapperdash.fecha}}</th>
@@ -106,7 +109,7 @@
                                     </div>
                                     <div class="ibox-content">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered table-hover" >
+                                            <table class="table table-striped table-bordered table-hover tablita" >
                                                 <thead>
                                                 <tr>
                                                     <th>Fecha {{lang.wrapperdash.fecha}}</th>
@@ -151,7 +154,7 @@
                                     </div>
                                     <div class="ibox-content">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered table-hover" >
+                                            <table class="table table-striped table-bordered table-hover tablita" >
                                                 <thead>
                                                 <tr>
                                                     <th>Fecha {{lang.wrapperdash.fecha}}</th>
@@ -182,7 +185,7 @@
                                     </div>
                                     <div class="ibox-content">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered table-hover" >
+                                            <table class="table table-striped table-bordered table-hover tablita" >
                                                 <thead>
                                                 <tr>
                                                     <th>Fecha {{lang.wrapperdash.fecha}}</th>

@@ -6,7 +6,7 @@
 </div>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2><i class="fa fa-user"></i> Usuarios</h2>
+        <h2><i class="fa fa-users"></i> Usuarios</h2>
                     <ol class="breadcrumb">
                         <li>
                             <a href="home/">Home</a>
@@ -22,7 +22,7 @@
     <div class="row">
              <div class="col-lg-12">
 
-                <a onclick="crearUsuario()" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;"><i class="fa fa-user"></i> Crear Usuario</a>
+                <a onclick="crearUsuario()" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;"><i class="fa fa-users"></i> Crear Usuario</a>
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                             <h5>Usuarios registrados en el sistema</h5>
@@ -48,7 +48,7 @@
                                             <th>Teléfono</th>
                                             <th>Correo</th>
                                             <th>Número de cuenta</th>
-                                            <th>Acciones</th>
+                                            <th width="30%">Acciones</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -69,20 +69,20 @@
                                                     {#Si el usuario es una sucursal o un comercio afiliado no se puede borrar ni editar#}
                                                     {% if u.es_sucursal != 1 and  u.es_comercio_afiliado != 1  %}  
                                                     <a onclick="editar_un_usuario({{u.id_user}},{{u.tipo}},'{{u.tipo_cliente is not null ? u.tipo_cliente :'-1' }}','{{u.primer_nombre}}','{{u.segundo_nombre}}','{{u.primer_apellido}}',
-                                                    '{{u.segundo_apellido}}','{{u.sexo}}','{{u.telefono}}',{{ u.numero_cuenta }},{{ u.id_sucursal is not null ? u.id_sucursal :'-1'  }},{{ u.id_comercio_afiliado is not null ? u.id_comercio_afiliado:'-1' }})" style="font-size:22px;" title="Editar"  ><i class="fa fa-sliders naranja"></i></a>
+                                                    '{{u.segundo_apellido}}','{{u.sexo}}','{{u.telefono}}',{{ u.numero_cuenta }},{{ u.id_sucursal is not null ? u.id_sucursal :'-1'  }},{{ u.id_comercio_afiliado is not null ? u.id_comercio_afiliado:'-1' }})" style="font-size:20px;" title="Editar"  ><i class="fa fa-sliders naranja"></i></a>
 
                                                     <a onclick="delete_item({{u.id_user}},'usuarios')"style="font-size:22px;" title="Eliminar"><i class="fa fa-trash naranja"></i></a>
                                                     {% endif %}
 
                                                     {% if u.tipo != 0  %}  
-                                                        <a onclick="historialUsuario({{ u.id_user }})" style="font-size:22px;" title="Historial" >
+                                                        <a onclick="historialUsuario({{ u.id_user }})" style="font-size:20px;" title="Historial" >
                                                             <i class="fa fa-user naranja"></i>
                                                         </a>
                                                     {% endif %}
 
                                                     {% if u.tipo == 2 %}  
                                                     <a onclick="documentosUsuario('{{ u.documento_identidad }}','{{ u.pasaporte }}','{{ u.rif }}',
-                                                                                    '{{ u.referencia_bancaria_1 }}','{{ u.referencia_bancaria_2 }}')" style="font-size:22px;" title="Documentos" >
+                                                                                    '{{ u.referencia_bancaria_1 }}','{{ u.referencia_bancaria_2 }}')" style="font-size:20px;" title="Documentos" >
                                                         <i class="fa fa-folder-open naranja"></i>
                                                     </a>
                                                     {% endif %}
