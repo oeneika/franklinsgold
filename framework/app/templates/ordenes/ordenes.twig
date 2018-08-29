@@ -75,15 +75,15 @@
                                                 <td>{{ o.codigo_moneda }}</td>
                                                 <td>
                                                  {% if o.estado == 1 and owner_user.tipo == 1 %} 
-                                                 <a style="font-size:22px;" title="Confirmación 1" data-toggle="modal" onclick="confirm_orden({{ o.id_orden }},'vendedor')"><i class="fa fa-sliders naranja"></i></a>                
+                                                 <a style="font-size:22px;" title="Confirmación 1" data-toggle="modal" onclick="confirm_orden({{ o.id_orden }},'vendedor')"><i class="fa fa-sliders-h naranja"></i></a>                
                                                  {% endif %} 
 
                                                  {% if o.estado == 2 and owner_user.tipo == 3 %} 
-                                                 <a style="font-size:22px;" title="Confirmación 2" data-toggle="modal" onclick="confirm_orden({{ o.id_orden }},'supervisor')"><i class="fa fa-sliders naranja"></i></a>                
+                                                 <a style="font-size:22px;" title="Confirmación 2" data-toggle="modal" onclick="confirm_orden({{ o.id_orden }},'supervisor')"><i class="fa fa-sliders-h naranja"></i></a>                
                                                  {% endif %} 
 
                                                  {% if o.estado == 3 and owner_user.tipo == 0 %} 
-                                                 <a style="font-size:22px;" title="Concretar" data-toggle="modal" onclick="specify_orden({{ o.id_orden }})"><i class="fa fa-sliders naranja"></i></a>                
+                                                 <a style="font-size:22px;" title="Concretar" data-toggle="modal" onclick="specify_orden({{ o.id_orden }})"><i class="fa fa-sliders-h naranja"></i></a>                
                                                  {% endif %} 
                                                  <a style="margin-left: 20px;font-size:22px;" onclick="delete_item({{ o.id_orden }},'ordenadmin')" title="Eliminar"><i class="fa fa-trash naranja"></i></a>                                      
                                                 </td>
