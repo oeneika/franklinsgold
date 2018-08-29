@@ -37,7 +37,7 @@ twig:
   
 # Configuración del sitio
 build:
-  production: false
+  production: true
   name: Franklin's Gold
   url: http://localhost/franklinsgold/framework/
   timezone: America/Caracas

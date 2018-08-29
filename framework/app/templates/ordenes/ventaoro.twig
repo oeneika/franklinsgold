@@ -34,7 +34,7 @@
                             </div>
                     </div>
                         <div class="ibox-content">
-                            <form id="crearOrdenVenta_form">
+                            <form id="crearOrdenCompra_form">
                                 <div class="row">
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
@@ -46,7 +46,7 @@
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="cc-payment" class="control-label mb-1" >Tipo metal</label>
-                                            <input readonly="readonly" name="tipo_gramo" id="id_tipo_venta" onchange="resetQuantity('id_cantidad_bolivar_soberano_venta','id_tipo_venta','id_cantidad_venta','id_monto_dolares_venta')" class="form-control" value="oro">
+                                            <input disabled name="tipo_gramo" id="id_tipo_venta" onchange="resetQuantity('id_cantidad_bolivar_soberano_venta','id_tipo_venta','id_cantidad_venta','id_monto_dolares_venta')" class="form-control" value="oro">
                                         </div>                         
                                     </div>
 
@@ -66,12 +66,12 @@
 
                                 </div>  
                                
-                                <input name="tipo_orden" value="2" type="hidden"> 
+                                <input name="tipo_orden" value="1" type="hidden"> 
                                 
                                 <div class="row">
                                     <div class="col-md-9"></div>
                                         <div class="col-md-3">
-                                            <button type="button" id="crearOrdenVenta" class="btn btn-primary" style="width:100%">Vender</button>
+                                            <button type="button" id="crearOrdenCompra" class="btn btn-primary" style="width:100%">Vender</button>
                                         </div>
                                 </div>
                             </form>
