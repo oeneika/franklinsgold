@@ -22,6 +22,7 @@ class ordenclienteController extends Controllers implements IControllers {
             'users_logged' => true,
             'users_clienteadmin' => true
         ));
+        
         $s = new Model\Sucursales($router);
         $o = new Model\Orden($router);
         $m = new Model\Monedas($router);
@@ -34,6 +35,8 @@ class ordenclienteController extends Controllers implements IControllers {
         $precio_oro = ($d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'"))[0]["precio_dolares"];
         $precio_plata = ($d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'"))[0]["precio_dolares"];
         $precio_bolivar = ($d->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"];
+
+    
         switch($this->method) {
           case 'compraoro':
             $this->template->display('ordenes/compraoro',array(
