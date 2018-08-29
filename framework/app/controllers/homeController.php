@@ -29,11 +29,30 @@ class homeController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-
-        
+      
         $d = new Model\Dashboard;
+        $o = new Model\Orden;
+        $u = new Model\Users;
+
+        #Trae al usuario logeado
+        $owner_user = $u->getOwnerUser();
+
+        #Si el usuario logeado es un supervisor de un comercio afiliado
+        $ordenes = false;
+        if($owner_user["tipo"] == 3 and $owner_user["id_comercio_afiliado"]!=null){
+            $ordenes = $o->getOrdenesComerciosAfiliados($owner_user["id_comercio_afiliado"]);
+        }
+
+        #Si el usuario logeado es un admin
+        if($owner_user["tipo"] == 0 ){
+            $ordenes = $o->getOrdenesComerciosAfiliados();
+        }
+
+        $ordenes_de_comercios = false;
         $this->template->display('home/home',array(
-            'data'=> $d->getData()
+            'data'=> $d->getData(),
+            'clientes'=> $u->getUsers('*','tipo=2'),
+            'ordenes' => $ordenes
         ));
     }
 }

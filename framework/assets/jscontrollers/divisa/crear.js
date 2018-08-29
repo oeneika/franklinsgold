@@ -8,7 +8,6 @@ function crearDivisa() {
 /**
  * Ajax action to api rest
 */
-
 function createDivisa(formulario) {
     var $ocrendForm = $(this), __data = {};
     $('#'+formulario).serializeArray().map(function(x){__data[x.name] = x.value;}); 

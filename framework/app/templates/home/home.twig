@@ -5,138 +5,198 @@
     {% include 'overall/header' %}
 </div>
 
-            <div class="wrapper wrapper-content">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                    <div>
-                                        <span class="pull-right text-right">
-                                        <small>Cotización en tiempo real del precio del oro en el mercado al contado</small>
-                                        </span>
-                                        <h3 class="font-bold no-margins">
-                                            Precio del oro (En dólares)
-                                        </h3>
-                                    </div>
-
-                                <div>
-                                    <canvas id="lineChart" height="40" width="100%"></canvas>
-                                </div>
-
-                                <div class="m-t-md">
-                                    <small class="pull-right">
-                                        <i class="fa fa-clock-o"> </i>
-                                        <i id="fecha_oro"> </i>
-                                    </small>
-                                </div>
-
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            {% if owner_user.id_comercio_afiliado != null %}
+            <div class="col-md-12">
+                <a onclick="showModal('confirmarintercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Confirmar</a>
+                <a onclick="showModal('intercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Intercambio</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                            <div>
+                                <span class="pull-right text-right">
+                                <small>Cotización en tiempo real del precio del oro en el mercado al contado</small>
+                                </span>
+                                <h3 class="font-bold no-margins">
+                                    Precio del oro (En dólares)
+                                </h3>
                             </div>
+
+                        <div>
+                            <canvas id="lineChart" height="40" width="100%"></canvas>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-content">
-                                    <div>
-                                        <span class="pull-right text-right">
-                                        <small>Cotización en tiempo real del precio de la plata en el mercado al contado</small>
-                                        </span>
-                                        <h3 class="font-bold no-margins">
-                                            Precio de la plata (USD)
-                                        </h3>
-                                    </div>
 
-                                <div>
-                                    <canvas id="plataChart" height="40" width="100%"></canvas>
-                                </div>
+                        <div class="m-t-md">
+                            <small class="pull-right">
+                                <i class="fa fa-clock-o"> </i>
+                                <i id="fecha_oro"> </i>
+                            </small>
+                        </div>
 
-                                <div class="m-t-md">
-                                    <small class="pull-right">  
-                                        <i class="fa fa-clock-o"> </i>                                     
-                                        <i id="fecha_plata"></i>
-                                    </small>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-md-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-primary pull-right">Hoy</span>
-                                <h5>Ventas Diarias</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">{{ data.diarias.total }}</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-info pull-right">Mensual</span>
-                                <h5>Ventas Mensuales</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">{{ data.mensuales.total }}</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <span class="label label-warning pull-right">Anual</span>
-                                <h5>Ventas del año</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">{{ data.anuales.total }}</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-
-                    <div class="col-md-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Usuarios registrados en el sistema</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">{{ data.usuarios.total }}</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Dólares de monedas vendidas en oro</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">${{ data.ventas_oro.total|number_format(2,'.',',') }}</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Dólares de monedas vendidas en plata</h5>
-                            </div>
-                            <div class="ibox-content">
-                                <h1 class="no-margins">${{ data.ventas_plata.total|number_format(2,'.',',') }}</h1>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                            <div>
+                                <span class="pull-right text-right">
+                                <small>Cotización en tiempo real del precio de la plata en el mercado al contado</small>
+                                </span>
+                                <h3 class="font-bold no-margins">
+                                    Precio de la plata (USD)
+                                </h3>
+                            </div>
 
+                        <div>
+                            <canvas id="plataChart" height="40" width="100%"></canvas>
+                        </div>
+
+                        <div class="m-t-md">
+                            <small class="pull-right">  
+                                <i class="fa fa-clock-o"> </i>                                     
+                                <i id="fecha_plata"></i>
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if owner_user.tipo == 0 or (owner_user.tipo == 3 and owner_user.id_comercio_afiliado != null)%}
+        <div class="row">
+                <div class="row">
+                   <div class="col-lg-12">
+                       <div class="ibox float-e-margins">
+                           <div class="ibox-title">
+                               <h5>Transacciones realizadas por los comercios afiliados</h5>
+                           </div>
+                           <div class="ibox-content">
+                                <div class="table-responsive">
+                                   <table class="table table-striped table-bordered table-hover" >
+                                       <thead>
+                                       <tr>
+                                            <th>Usuario</th>
+                                            <th>Comercio afiliado</th>
+                                            <th>Sucursal</th>
+                                            <th>Composición</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Monto(USD)</th>
+                                            <th>Fecha</th>
+                                       </tr>
+                                       </thead>
+                                       <tbody>  
+                                           {% for o in ordenes %}
+                                           <tr>
+                                                <td>{{ o.primer_nombre }} {{ o.primer_apellido }}</td>
+                                                <td>{{ o.nombre_afiliado }}</td>
+                                                <td>{{ o.sucursal }}</td>
+                                                <td>{{ o.tipo_gramo }}</td>
+                                                <td>{{ o.cantidad }}</td>
+                                                <td>{{ o.precio|number_format(2, ',', '.') }}</td>   
+                                                <td>{{ (o.cantidad * (o.precio / 28.3495))|number_format(2, ',', '.') }}</td>
+                                                <td>{{ fecha('D, d F, Y h:i a', o.fecha) }}</td> 
+                                           </tr>
+                                           {% endfor %}
+                                           
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        {% endif %}
+
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-primary pull-right">Hoy</span>
+                        <h5>Ventas Diarias</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ data.diarias.total }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-info pull-right">Mensual</span>
+                        <h5>Ventas Mensuales</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ data.mensuales.total }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-warning pull-right">Anual</span>
+                        <h5>Ventas del año</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ data.anuales.total }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Usuarios registrados en el sistema</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ data.usuarios.total }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Dólares de monedas vendidas en oro</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">${{ data.ventas_oro.total|number_format(2,'.',',') }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Dólares de monedas vendidas en plata</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">${{ data.ventas_plata.total|number_format(2,'.',',') }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% include 'home/confirmarintercambioencomercio' %}
+{% include 'home/intercambioencomercio' %}   
 {% include 'overall/footer' %}
+
 </div>
 {% endblock %}
 
 {% block appFooter %}
+    <script src="./assets/jscontrollers/home/intercambioencomercio.js"></script>
     <script src="./assets/jscontrollers/home/dashboard.js"></script>
 {% endblock %}

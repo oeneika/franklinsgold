@@ -174,13 +174,13 @@ abstract class Controllers {
         Helper\Functions::redir($config['build']['url'] . 'home');
       }
 
-      # Sólamente usuarios tipo vendedor, supervisor y admin
-      if ($this->controllerConfig['users_vendedorsupervisoradmin'] && $this->user['tipo']==2) {
+      # Sólamente usuarios tipo vendedor(sólo de sucursal), supervisor(sólo de sucursal) y admin
+      if ($this->controllerConfig['users_vendedorsupervisoradmin'] && ($this->user['tipo']==2 or !$this->user['id_comercio_afiliado']==null  ) ) {
         Helper\Functions::redir($config['build']['url'] . 'home');
       }
 
       # Sólamente usuarios tipo vendedor y admin
-      if ($this->controllerConfig['users_supervisoradmin'] && ($this->user['tipo']==1 or $this->user['tipo']==2) ){
+      if ($this->controllerConfig['users_supervisoradmin'] && ($this->user['tipo']==1 or $this->user['tipo']==2 or !$this->user['id_comercio_afiliado']==null) ){
         Helper\Functions::redir($config['build']['url'] . 'home');
       }
 

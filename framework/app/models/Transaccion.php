@@ -45,7 +45,7 @@ class Transaccion extends Models implements IModels {
      * @param apellido :  apellido del usuario que realiza la transacción
      * 
      */
-    private function sendSuccesMail(string $HTML, string $email, string $nombre = "", string $apellido = "") {
+    public function sendSuccesMail(string $HTML, string $email, string $nombre = "", string $apellido = "") {
         global $config;
 
         $dest = array();

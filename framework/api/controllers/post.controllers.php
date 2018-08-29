@@ -249,6 +249,28 @@ $app->post('/orden/getOrdenesByUser', function() use($app) {
     return $app->json($o->getOrdenesByUser());      
 });
 
+ /**
+ * Crea una orden en espera por un intercambio en un comercio afiliado
+ *
+ * @return json
+*/
+$app->post('/orden/intercambiocomercio', function() use($app) {
+    $o = new Model\Orden; 
+
+    return $app->json($o->createOrdenEnEspera());      
+});
+
+/**
+ * Concreta una orden en espera por un intercambio en un comercio afiliado
+ *
+ * @return json
+*/
+$app->post('/orden/concretarintercambiocomercio', function() use($app) {
+    $o = new Model\Orden; 
+
+    return $app->json($o->concreteOrdenEnEspera());      
+});
+
 /**
  * Endpoints para divisas
  *

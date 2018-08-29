@@ -86,7 +86,7 @@
                                         <select id="id_comercio" name="id_comercio" class="form-control m-b" style="width: 100%">
                                             <option selected value>Seleccione un comercio</option>
                                                 {% for a in afiliados %}
-                                                    <option value="{{ a.id_comercio_afiliado }}">{{a.nombre}}</option>
+                                                    <option value="{{ a.id_comercio_afiliado }}">{{a.nombre}} - {{a.sucursal}}</option>
                                                 {% endfor %}
                                         </select>
                                     </div>

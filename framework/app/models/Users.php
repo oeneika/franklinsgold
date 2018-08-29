@@ -169,10 +169,15 @@ class Users extends Models implements IModels {
      */
     private function authentication(string $email,string $pass) : bool {
         $email = $this->db->scape($email);
-        $query = $this->db->select('id_user,pass','users',null, "email='$email'",1);
+        $query = $this->db->select('id_user,pass,es_comercio_afiliado','users',null, "email='$email'",1);
         
         # Incio de sesión con éxito
         if(false !== $query && Helper\Strings::chash($query[0]['pass'],$pass)) {
+
+            # Si es un comercio afiliado no puede entrar a la web
+            if($query[0]["es_comercio_afiliado"] == 1){
+                return false;
+            }
 
             # Restaurar intentos
             $this->restoreAttempts($email);

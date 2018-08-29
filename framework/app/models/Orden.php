@@ -135,11 +135,7 @@ class Orden extends Models implements IModels {
 
             }
 
-
         }
-
-        
-
 
     }
 
@@ -323,6 +319,150 @@ class Orden extends Models implements IModels {
 
 
     /**
+     * Crea una orden en espera
+     */
+    public function createOrdenEnEspera(){
+
+        try {
+        global $http;
+
+        #Obtener los datos $_POST
+        $id_vendedor_owner = ((new Model\Users)->getOwnerUser())["id_user"];
+        $id_cliente = $http->request->get('id_cliente'); 
+        $tipo_gramo = $http->request->get('tipo_gramo');     
+        $cantidad = $http->request->get('cantidad');
+        
+
+        # Verificar que no están vacíos
+        if (Helper\Functions::e($id_cliente,$tipo_gramo,$cantidad)) {
+            throw new ModelsException('Debe seleccionar todos los elementos.');
+        }
+
+        if($cantidad<=0){
+            throw new ModelsException('La cantidad de gramos debe ser mayor a cero.');
+        }
+
+        if( $tipo_gramo != "oro" and $tipo_gramo != "plata" ){
+            throw new ModelsException('Tipo de gramo inválido.');
+        }
+
+        
+        #Verifica si el cliente posee lo suficiente en gramos para pagar
+        $cantidad_en_cartera = $this->db->select("cantidad","user_gramo",null,"id_usuario='$id_cliente' and tipo_gramo='$tipo_gramo'");
+
+        if($cantidad_en_cartera != false){
+            $cantidad_en_cartera = $cantidad_en_cartera[0]["cantidad"];
+
+            if($cantidad_en_cartera < $cantidad){
+                throw new ModelsException('El cliente no posee lo suficiente para pagar.');
+            }  
+
+        }else{
+            throw new ModelsException('El cliente no posee lo suficiente para pagare.');
+        }
+
+            #Token de confirmacion
+            $token = substr(uniqid(chr(rand(97,122))), 0, 8);
+
+            #Array con los datos para el insert
+            $orden = array(
+                'id_usuario_vendedor' => $id_vendedor_owner,
+                'id_usuario_cliente' => $id_cliente,
+                'tipo_gramo' => $tipo_gramo,
+                'cantidad' => $cantidad,
+                'codigo_confirmacion' => $token
+            );
+                   
+           #Crea una orden en espera
+           $id_orden =  $this->db->insert('orden_en_espera',$orden);
+
+           #Trae los datos del cliente para enviarle el correo con el codigo de confirmacion
+           $id_cliente = $this->db->scape($id_cliente);
+           $usuario_emisor = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_cliente'");
+           
+           #Envía el email para confirmar la transaccion
+           (new Model\Transaccion())->sendSuccesMail('Enhorabuena! ' . $usuario_emisor[0]["primer_nombre"] . ' ' . $usuario_emisor[0]["primer_apellido"] . 
+           ', para concretar su compra debe proveerle el siguiente código al vendedor : ' . $token .
+            '<br /> 
+            <br />', $usuario_emisor[0]["email"],$usuario_emisor[0]["primer_nombre"],$usuario_emisor[0]["primer_apellido"]);
+                    
+            return array('success' => 1, 'message' => 'Se ha enviado un correo con el código de confirmacíón al cliente!');
+        } catch(ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }    
+
+    }
+
+
+    /**
+     * Concreta una orden en espera
+     */
+    public function concreteOrdenEnEspera(){
+
+        try {
+            global $http;
+    
+            #Obtener los datos $_POST
+            $codigo_confirmacion = $http->request->get('codigo_confirmacion'); 
+
+            #Busca la orden en espera
+            $orden = $this->db->select("*","orden_en_espera",null,"codigo_confirmacion='$codigo_confirmacion'");
+
+            #Verifica si existe la orden en espera
+            if($orden == false){
+                throw new ModelsException('El código no corresponde a ninguna orden en espera.');
+            }
+
+            #Contiene los datos de la orden
+            $id_cliente = $orden[0]["id_usuario_cliente"];
+            $tipo_gramo = $orden[0]["tipo_gramo"];
+            $cantidad_en_orden = $orden[0]["cantidad"];
+            $id_usuario_vendedor = $orden[0]["id_usuario_vendedor"];
+            $codigo_confirmacion = $orden[0]["codigo_confirmacion"];
+
+            #Trae la cartera del cliente
+            $cartera = $this->db->select("cantidad,id_usuario_gramo","user_gramo",null,"id_usuario='$id_cliente' and tipo_gramo='$tipo_gramo'");
+            $id_cartera = $cartera[0]["id_usuario_gramo"];
+            $cantidad_en_cartera = $cartera[0]["cantidad"];
+
+            #Si la cantidad en la cartera es mayor o igual a la cantidad de la orden se procede
+            if( $cantidad_en_cartera >= $cantidad_en_orden ){
+
+                $m = new Model\Monedas();
+                $orden = array(
+                    'id_usuario' => $id_usuario_vendedor,
+                    'tipo_gramo' => $tipo_gramo,
+                    'cantidad' => $cantidad_en_orden,
+                    'precio' => ($m->getPrice($tipo_gramo))[0][0],
+                    'tipo_orden' => 1,
+                    'fecha' => time(),
+                    'estado' => 4
+                );
+                             
+               #Crea la orden
+               $this->db->insert('orden',$orden);
+
+                #Actualiza la cartera del usuario
+                $this->db->update('user_gramo',array(
+                    'cantidad'=> $cantidad_en_cartera - $cantidad_en_orden
+                ),"id_usuario_gramo = '$id_cartera'");  
+
+                #Borra la orden en espera
+                $this->db->delete('orden_en_espera',"codigo_confirmacion='$codigo_confirmacion'");
+          
+            }else{
+                throw new ModelsException('El cliente no posee lo suficiente para pagar.');
+            }
+
+            return array('success' => 1, 'message' => 'Se ha concretado la orden!');
+        } catch(ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+
+    }
+
+
+    /**
      * Trae las ordenes
      * 
      * @return array
@@ -433,6 +573,29 @@ class Orden extends Models implements IModels {
         return $this->get($select,$where,5,"ORDER BY orden.id_orden DESC");
     }
 
+     /**
+     * Devuelve las ordenes que pertenecen a comercios afiliados
+     * 
+     *  @param int id_comercio_afiliado :  id del comercio afiliado
+     * 
+     *  @return array|false
+     */
+    public function getOrdenesComerciosAfiliados(int $id_comercio_afiliado = 0){
+        Global $http;
+
+        $where="";
+        if($id_comercio_afiliado != 0){
+            $where = "o.estado=4 and u.id_comercio_afiliado=$id_comercio_afiliado";
+        }
+
+        $inner = "INNER JOIN users u ON u.id_user=o.id_usuario
+                  INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=u.id_comercio_afiliado "; 
+ 
+        return $this->db->select("o.*,ca.nombre as nombre_afiliado,ca.sucursal,u.primer_nombre,u.primer_apellido",
+                                 "orden o",$inner,$where); //,null,"1=1",NULL,"ORDER BY ca.id_comercio_afiliado"
+    }
+
+
     /**
      * Servicio que devuelve la cantidad de gramos de oro/plata en posesión de un usuario
      */
@@ -479,8 +642,6 @@ class Orden extends Models implements IModels {
 
         
     }
-
-
 
 
     /**
