@@ -161,7 +161,7 @@ abstract class Controllers {
 
       # Sólamente usuarios logeados
       if ($this->controllerConfig['users_logged'] && !$this->is_logged) {
-        Helper\Functions::redir($config['build']['url'] . 'login');
+        Helper\Functions::redir($config['build']['url'] . 'landing/');
       }
 
       # Sólamente usuarios tipo admin
