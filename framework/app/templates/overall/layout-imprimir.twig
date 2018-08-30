@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ config.build.name }}</title>
+
+    <link href="../../views/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../..//font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="../../views/css/animate.css" rel="stylesheet">
+    <link href="../../views/css/style.css" rel="stylesheet">
+
+</head>
+<body class="white-bg">
+    {% block appBody %}
+    {% endblock %}
+
+
+    <!-- Mainly scripts -->
+    <script src="../../views/js/jquery-3.1.1.min.js"></script>
+    <script src="../../views/js/popper.min.js"></script>
+    <script src="../../views/js/bootstrap.js"></script>
+    <script src="../../views/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="../../views/js/inspinia.js"></script>
+
+    <script type="text/javascript">
+        window.print();
+    </script>
+
+    {% block appFooter %}
+    {% endblock %}
+
+
+</body>
+</html>

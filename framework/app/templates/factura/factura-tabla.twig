@@ -1,0 +1,86 @@
+{% extends 'overall/layout' %}
+{% block appBody %}
+<div id="page-wrapper" class="gray-bg">
+<div class="row border-bottom">
+    {% include 'overall/header' %}
+</div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2><i class="fa fa-copy"></i> Facturas</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="home/">Home</a>
+                        </li>
+                        <li class="active">
+                            <strong>Facturas</strong>
+                        </li>
+                    </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+             <div class="col-lg-12">
+               
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                            <h5>Facturas registradas en el sistema</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                    </div>
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover tablita" >
+                                        <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Fecha</th>
+                                            <th>Sede de origen</th>
+                                            <th>Acciones</th>
+                                            
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>192845</td>
+                                                <td>10/10/2018</td>
+                                                <td>Caracas</td>
+                                                <td>
+                                                <a style="font-size:22px;" title="Mostrar factura" onclick="mostrarFactura({{ s.id_factura }},{{ s.id_fecha }}')"><i class="fa fa-eye naranja"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>192845</td>
+                                                <td>10/10/2018</td>
+                                                <td>Caracas</td>
+                                                <td>
+                                                <a style="font-size:22px;" title="Mostrar factura" onclick="mostrarFactura({{ s.id_factura }},{{ s.id_fecha }}')"><i class="fa fa-eye naranja"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Fecha</th>
+                                            <th>Sede de origen</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                            </div>
+                        </div>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block appFooter %} 
+{% endblock %}

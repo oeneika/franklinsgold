@@ -1,66 +1,41 @@
-{% extends 'overall/layout' %}
-{% block appHeader %}
-{% endblock %}
+{% extends 'overall/layout-imprimir' %}
 {% block appBody %}
-<div id="page-wrapper" class="gray-bg">
-	<div class="row border-bottom">
-	    {% include 'overall/header' %}
-	</div>
-		<div class="row wrapper border-bottom white-bg page-heading">
-		    <div class="col-lg-8">
-		        <h2><i class="fa fa-user"></i> Factura</h2>
-		                    <ol class="breadcrumb">
-		                        <li>
-		                            <a href="home/">Home</a>
-		                        </li>
-		                        <li class="active">
-		                            <strong>Factura</strong>
-		                        </li>
-		                    </ol>
-		    </div>
-            <div class="col-lg-4">
-                    <div class="title-action">
-                        <a href="factura/imprimir/" target="_blank" class="btn btn-primary"><i class="fa fa-print"></i> Imprimir Factura </a>
-                    </div>
-                </div>
-		</div>
+<div class="wrapper wrapper-content p-xl">
+    <div class="ibox-content p-xl">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>De:</h5>
+                <address>
+                    <strong>Fraklin's Gold.</strong><br>
+                    106 Jorg Avenu, 600/10<br>
+                    Chicago, VT 32456<br>
+                    <abbr title="Phone">P:</abbr> (123) 601-4590
+                </address>
+            </div>
 
-			<div class="wrapper wrapper-content animated fadeInRight">
-                    <div class="ibox-content p-xl">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <h5>De:</h5>
-                                    <address>
-                                        <strong>Franklin's Gold.</strong><br>
-                                        106 Jorg Avenu, 600/10<br>
-                                        Chicago, VT 32456<br>
-                                        <abbr title="Phone">P:</abbr> (123) 601-4590
-                                    </address>
-                                </div>
+            <div class="col-md-6 text-right">
+                <h4>Factura: </h4>
+                <h4 class="text-navy">INV-000567F7-00</h4>
+                <span>Para:</span>
+                <address>
+                    <strong>Corporate, Inc.</strong><br>
+                    <abbr title="Phone">P:</abbr> (120) 9000-4321
+                </address>
+                <p>
+                    <span><strong>Fecha:</strong> Marzo 18, 2014</span><br/>
+                </p>
+            </div>
+        </div>
 
-                                <div class="col-sm-6 text-right">
-                                    <h4>Invoice No.</h4>
-                                    <h4 class="text-navy">INV-000567F7-00</h4>
-                                    <span>Para:</span>
-                                    <address>
-                                        <strong>Corporate, Inc.</strong><br>
-                                        <abbr title="Phone">P:</abbr> (120) 9000-4321
-                                    </address>
-                                    <p>
-                                        <span><strong>Fecha de la factura:</strong> Marzo 18, 2014</span><br/>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="table-responsive m-t">
+        <div class="table-responsive">
                                 <table class="table invoice-table">
                                     <thead>
                                     <tr>
                                         <th>Producto</th>
                                         <th>Cantidad</th>
-                                        <th>Precio de la unidad</th>
+                                        <th>Precio</th>
                                         <th>Iva</th>
-                                        <th>Precio total</th>
+                                        <th>Total</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -92,9 +67,9 @@
 
                                     </tbody>
                                 </table>
-                            </div><!-- /table-responsive -->
+        </div><!-- /table-responsive -->
 
-                            <table class="table invoice-total">
+        <table class="table invoice-total">
                                 <tbody>
                                 <tr>
                                     <td><strong>Sub Total :</strong></td>
@@ -109,11 +84,9 @@
                                     <td>$1261.98</td>
                                 </tr>
                                 </tbody>
-                            </table>
-                        </div>
-                </div>
+        </table>
+    </div>
+
 </div>
 {% endblock %}
 
-{% block appFooter %}
-{% endblock %}
