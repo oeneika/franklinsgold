@@ -1,14 +1,14 @@
 /**
  * Ajax action to api rest
 */
-function landing(){
+function inicio(){
     var $ocrendForm = $(this), __data = {};
-    $('#landing_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
+    $('#inicio_form').serializeArray().map(function(x){__data[x.name] = x.value;}); 
 
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
         $.ajax({
             type : "POST",
-            url : "api/landing",
+            url : "api/inicio",
             dataType: 'json',
             data : __data,
             beforeSend: function(){ 
@@ -34,14 +34,14 @@ function landing(){
 /**
  * Events
  */
-$('#landing').click(function(e) {
+$('#inicio').click(function(e) {
     e.defaultPrevented;
-    landing();
+    inicio();
 });
-$('form#landing_form input').keypress(function(e) {
+$('form#inicio_form input').keypress(function(e) {
     e.defaultPrevented;
     if(e.which == 13) {
-        landing();
+        inicio();
 
         return false;
     }

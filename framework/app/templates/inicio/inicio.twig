@@ -1,0 +1,112 @@
+{% extends 'overall/layoutinicio' %}
+{% block appBody %}
+<div class="navbar-wrapper">
+        <nav class="navbar navbar-default navbar-fixed-top navbar-expand-md" role="navigation">
+            <div class="container">
+                
+                <div class="navbar-header page-scroll">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse justify-content-end" id="navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a class="nav-link page-scroll" href="#page-top">Inicio</a></li>
+                        <li><a class="nav-link page-scroll" href="#features">Acerca de nosotros</a></li>
+                        <li><a class="nav-link page-scroll" href="">Sucursales</a></li>
+                        <li><a class="nav-link page-scroll" href="">Comercios afiliados</a></li>
+                        <li><a class="nav-link page-scroll" href="">Ateción al cliente</a></li>
+                        <li><a class="nav-link page-scroll" href="login/">Iniciar sesión</a></li>
+                        <li><a class="nav-link page-scroll" href="registro/">Registrarse</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id="inSlider" class="carousel slide" data-ride="carousel" >
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <li data-target="#inSlider" data-slide-to="1"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>¿Compras y vendes oro?<br/>
+                        Proteja su dinero<br/>
+                        invierta en oro solido</h1>
+                    <p>Invierte con los expertos en oro y plata</p>
+                    <p>
+                        <a class="btn btn-lg btn-primary" href="#" role="button">¡AFILIATE!</a>
+                    </p>
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back one"></div>
+
+        </div>
+        <div class="carousel-item">
+            <div class="container">
+                <div class="carousel-caption blank">
+                    <h1>Sea miembro exclusivo de nuestro Franklin’s Gold Club</h1>
+                    <p>Franklin’s Gold, le compra su oro, al precio del mercado internacional y le pagará al instante.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">¡AFILIATE!</a></p>
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back two"></div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#inSlider" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Anterior</span>
+    </a>
+    <a class="carousel-control-next" href="#inSlider" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Siguiente</span>
+    </a>
+</div>
+
+<section id="features" class="container features">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1>Franky’s Efectivo Corp<br/> <span class="navy"> Es un Centro Financiero Internacional</span> </h1>
+            <p> con más de 20 años de experiencia y 20 tiendas alrededor del mundo donde nos especializamos en comprar y vender Oro y en otorgar préstamos inmediatos sobre joyas, con los más altos niveles de seguridad.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-center wow fadeInLeft">
+            <div>
+                <i class="fa fa-coins features-icon"></i>
+                <h2>Primera razón para invertir en oro y plata</h2>
+                <p> El oro y la plata son los únicos activos que jamás han fallado en 5 mil años. Como son activos tangibles con un valor inherente, su poder adquisitivo nunca caerá hasta cero.</p>
+            </div>
+            <div class="m-t-lg">
+                <h2>Segunda razón para invertir en oro y plata</h2>
+                <p>Invertir en ellos representa un refugio seguro que aumenta durante los levantamientos económicos, la guerra, el terrorismo y los sucesos naturales.</p>
+            </div>
+        </div>
+        <div class="col-md-6 text-center  wow zoomIn">
+            <img src="views/img/landing/perspective.png" alt="dashboard" class="img-fluid">
+        </div>
+        <div class="col-md-3 text-center wow fadeInRight">
+            <div>
+                <i class="fa fa-money-check-alt features-icon"></i>
+                <h2>Tercera razón para invertir en plata</h2>
+                <p>Tienen una densidad de alto valor lo cual significa que, a diferencia del cobre o el petróleo, una pequeña cantidad de oro o plata puede ofrecer un poder adquisitivo grande.</p>
+            </div>
+            <div class="m-t-lg">
+                <h2>Cuarta razón para invertir en oro</h2>
+                <p>Cada onza tiene el mismo valor. Por otra parte, cada diamante o moneda de colección es diferente, y por lo tanto, se requiere de un experto para determinar su valor.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<br>
+<br>
+{% endblock %}
+{% block appFooter %}
+    <script src="./assets/jscontrollers/inicio/inicio.js"></script>
+{% endblock %}

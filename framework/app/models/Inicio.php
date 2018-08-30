@@ -20,9 +20,9 @@ use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
 
 /**
- * Modelo Landing
+ * Modelo Inicio
  */
-class Landing extends Models implements IModels {
+class Inicio extends Models implements IModels {
     use DBModel;
 
     /**

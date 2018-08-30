@@ -18,13 +18,13 @@ use Ocrend\Kernel\Controllers\IControllers;
 use Ocrend\Kernel\Router\IRouter;
 
 /**
- * Controlador landing/
+ * Controlador inicio/
 */
-class landingController extends Controllers implements IControllers {
+class inicioController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);
-        $l = new Model\Landing;
-		$this->template->display('landing/landing');
+        $i = new Model\Inicio;
+		$this->template->display('inicio/inicio');
     }
 }

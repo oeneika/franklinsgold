@@ -317,3 +317,14 @@ $app->post('/rango/editar', function() use($app) {
 
     return $app->json($r->edit());   
 });
+
+/**
+ * Endpoint para inicio
+ *
+ * @return json
+*/
+$app->post('/inicio', function() use($app) {
+    $i = new Model\Inicio; 
+
+    return $app->json($i->foo());   
+});
