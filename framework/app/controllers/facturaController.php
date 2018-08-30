@@ -25,6 +25,16 @@ class facturaController extends Controllers implements IControllers {
     public function __construct(IRouter $router) {
         parent::__construct($router);
         $f = new Model\Factura;
-		$this->template->display('factura/factura');
+		switch($this->method) {
+          case 'imprimir':
+            $this->template->display('factura/imprimir');
+          break;
+          case 'factura-tabla':
+            $this->template->display('factura/factura-tabla');
+          break;
+          default:
+            $this->template->display('factura/factura');
+          break;
+        }
     }
 }
