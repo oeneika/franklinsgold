@@ -29,14 +29,14 @@ class ordenclienteController extends Controllers implements IControllers {
         $d = new Model\Divisa($router);
         
         $id_owner = $this->user["id_user"];
-        $select = "orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido";
-        $where_oro = "orden.estado=2 and orden.tipo_gramo='oro' and u.id_user='$id_owner'";
-        $where_plata = "orden.estado=2 and orden.tipo_gramo='plata' and u.id_user='$id_owner'";
+
+        $select = "orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,u.primer_nombre,u.primer_apellido";
+        $where_oro = "orden.estado=4 and orden.tipo_gramo='oro' and u.id_user='$id_owner'";
+        $where_plata = "orden.estado=4 and orden.tipo_gramo='plata' and u.id_user='$id_owner'";
         $precio_oro = ($d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'"))[0]["precio_dolares"];
         $precio_plata = ($d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'"))[0]["precio_dolares"];
         $precio_bolivar = ($d->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"];
 
-    
         switch($this->method) {
           case 'compraoro':
             $this->template->display('ordenes/compraoro',array(
