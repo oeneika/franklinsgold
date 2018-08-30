@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-08-2018 a las 12:52:25
+-- Tiempo de generación: 30-08-2018 a las 03:04:52
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -114,7 +114,8 @@ CREATE TABLE `moneda` (
 INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `composicion`, `peso`, `codigo_qr`, `qr_alfanumerico`, `id_origen`) VALUES
 (12, 1532404026, 4, 4, 'plata', 5, 'http://localhost/franklinsgold/framework//views/img/codigos/monedas/12.png', 'VEN 004 004 PLA 005 23072018', 1),
 (13, 1532404776, 1, 1, 'oro', 1, 'http://localhost/franklinsgold/framework//views/img/codigos/monedas/13.png', 'VEN 001 001 ORO 001 23072018', 1),
-(14, 1534295995, 0.1, 0.1, 'oro', 0.1, 'http://localhost/franklinsgold/framework//views/img/codigos/monedas/14.png', 'VEN 000014 0.1 0.1 ORO 0.1 140', 1);
+(14, 1534295995, 0.1, 0.1, 'oro', 0.1, 'http://localhost/franklinsgold/framework//views/img/codigos/monedas/14.png', 'VEN 000014 0.1 0.1 ORO 0.1 140', 1),
+(15, 1535558679, 1, 2, 'plata', 2, 'http://localhost/franklinsgold/framework/views/img/codigos/monedas/15.png', 'VEN 000015 001 002 PLA 002 290', 1);
 
 -- --------------------------------------------------------
 
@@ -149,7 +150,11 @@ INSERT INTO `orden` (`id_orden`, `id_usuario`, `id_sucursal`, `tipo_gramo`, `can
 (9, 59, NULL, 'oro', 1, 1207.36, 1, 1, 1535427823, NULL),
 (10, 72, NULL, 'oro', 1, 1210.87, 1, 4, 1535515256, NULL),
 (11, 72, NULL, 'oro', 1, 1210.87, 1, 4, 1535515441, NULL),
-(12, 76, NULL, 'oro', 2, 1210.87, 1, 4, 1535517128, NULL);
+(12, 76, NULL, 'oro', 2, 1210.87, 1, 4, 1535517128, NULL),
+(13, 15, NULL, 'oro', 25199.6, 1205.5, 1, 4, 1535584019, NULL),
+(14, 15, NULL, 'plata', 5.67, 14.87, 1, 1, 1535584924, NULL),
+(15, 15, NULL, 'oro', 25199.6, 1205.5, 2, 1, 1535585396, NULL),
+(16, 15, NULL, 'plata', 5.67, 14.87, 2, 1, 1535585415, NULL);
 
 -- --------------------------------------------------------
 
@@ -165,6 +170,13 @@ CREATE TABLE `orden_en_espera` (
   `cantidad` int(11) UNSIGNED NOT NULL,
   `codigo_confirmacion` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `orden_en_espera`
+--
+
+INSERT INTO `orden_en_espera` (`id`, `id_usuario_cliente`, `id_usuario_vendedor`, `tipo_gramo`, `cantidad`, `codigo_confirmacion`) VALUES
+(1, 59, 72, 'oro', 1, 'h5b86c3e');
 
 -- --------------------------------------------------------
 
@@ -207,7 +219,7 @@ CREATE TABLE `rango` (
 INSERT INTO `rango` (`id_rango`, `nombre_rango`, `monto_diario`) VALUES
 (3, 'Simple', 1234.34),
 (4, 'Medio', 10),
-(5, 'Premiun', 1231230);
+(5, 'Premiun', 100000000000);
 
 -- --------------------------------------------------------
 
@@ -316,7 +328,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `tipo`, `es_sucursal`, `es_comercio_afiliado`, `id_sucursal`, `id_comercio_afiliado`, `tipo_cliente`, `usuario`, `pass`, `tmp_pass`, `token`, `sexo`, `telefono`, `email`, `numero_cuenta`, `id_documentos`) VALUES
-(15, 'admin', '', 'admin', '', 0, NULL, NULL, NULL, NULL, NULL, 'admin', '$2a$10$f5e7c087a530bbf4e118duBLka3xc715bOuv0WMOawlo5vAaN0TIm', '', '', 'm', '123', 'admin@hotmail.com', '18446744073709551615', NULL),
+(15, 'admin', '', 'admin', '', 0, NULL, NULL, NULL, NULL, 'Premiun', 'admin', '$2a$10$f5e7c087a530bbf4e118duBLka3xc715bOuv0WMOawlo5vAaN0TIm', '', '', 'm', '123', 'admin@hotmail.com', '18446744073709551615', NULL),
 (50, 'cliente', '', 'uno', '', 2, NULL, NULL, NULL, NULL, 'Premiun', 'clienteuno', '$2a$10$7b19c6d9730c02986b60eeldH3XQRsA3VHqPewqEttL/0iYOpnaSC', '', '', 'm', '04168352573', 'clienteuno@hotmail.com', '12345698746325148000', NULL),
 (59, 'foto', '', 'foto', '', 2, NULL, NULL, NULL, NULL, 'Medio', 'foto', '$2a$10$2eccc213d972a89f9541duNWlBiyJfYyFsfM1Gb43VUOaN7wWaNsu', '', '', 'm', '04168352573', 'gomzjale@gmail.com', '64643124579864310000', 4),
 (62, 'Prueba', '', 'Prueba', '', 1, NULL, 1, NULL, NULL, NULL, 'Prueba', '$2a$10$044a0ebd710d9f1835b56OCX2cK1OGye8St5QD07bdIpylEJWglNO', '', '', 'm', '02122380193', 'Prueba@franklingolds.com', NULL, NULL),
@@ -348,7 +360,7 @@ CREATE TABLE `user_gramo` (
 
 INSERT INTO `user_gramo` (`id_usuario_gramo`, `id_usuario`, `tipo_gramo`, `cantidad`) VALUES
 (1, 15, 'plata', 106),
-(2, 15, 'oro', 503),
+(2, 15, 'oro', 25703),
 (3, 50, 'oro', 4),
 (4, 59, 'oro', 661);
 
@@ -369,7 +381,8 @@ CREATE TABLE `user_moneda` (
 --
 
 INSERT INTO `user_moneda` (`id_usuario_moneda`, `id_usuario`, `codigo_moneda`) VALUES
-(2, 50, 12);
+(2, 50, 12),
+(3, 73, 15);
 
 --
 -- Índices para tablas volcadas
@@ -512,19 +525,19 @@ ALTER TABLE `documentos`
 -- AUTO_INCREMENT de la tabla `moneda`
 --
 ALTER TABLE `moneda`
-  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `orden`
 --
 ALTER TABLE `orden`
-  MODIFY `id_orden` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_orden` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_en_espera`
 --
 ALTER TABLE `orden_en_espera`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `origen`
@@ -572,7 +585,7 @@ ALTER TABLE `user_gramo`
 -- AUTO_INCREMENT de la tabla `user_moneda`
 --
 ALTER TABLE `user_moneda`
-  MODIFY `id_usuario_moneda` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario_moneda` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas

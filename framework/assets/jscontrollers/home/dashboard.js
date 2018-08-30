@@ -5,7 +5,7 @@ $(document).ready(function(){
         data: {action: "getMetalPrice", api_key: "anonymous"},
         dataType: 'json',
         success : function(json) {
-            //console.log(json);
+            
             console.log(json);
 
             //Buscamos la ulitma fecha de actualizacion y la traducimos
@@ -31,6 +31,9 @@ $(document).ready(function(){
                 ]
             };
 
+           /* var precios_oro = json['buttonFrame']['gold']['1m']['data'];
+            console.log(precios_oro[precios_oro.length-1]);*/
+
             //Datos de la plata
             var lineDataPlata = {
                 labels: json['buttonFrame']['silver']['1m']['labels'],
@@ -47,6 +50,9 @@ $(document).ready(function(){
                     }
                 ]
             };
+
+            /*var precios_plata = json['buttonFrame']['silver']['1m']['data'];
+            console.log(precios_plata[precios_plata.length-1]);  */     
 
             var lineOptions = {
                 scaleShowGridLines: true,

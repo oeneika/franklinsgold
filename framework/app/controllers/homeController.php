@@ -33,6 +33,7 @@ class homeController extends Controllers implements IControllers {
         $d = new Model\Dashboard;
         $o = new Model\Orden;
         $u = new Model\Users;
+        $di = new Model\Divisa;
 
         #Trae al usuario logeado
         $owner_user = $u->getOwnerUser();
@@ -52,7 +53,10 @@ class homeController extends Controllers implements IControllers {
         $this->template->display('home/home',array(
             'data'=> $d->getData(),
             'clientes'=> $u->getUsers('*','tipo=2'),
-            'ordenes' => $ordenes
+            'ordenes' => $ordenes,
+            'precio_oro' => ($di->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'"))[0]["precio_dolares"],
+            'precio_plata' => ($di->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'"))[0]["precio_dolares"],
+            'precio_bolivar' => ($di->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"]
         ));
     }
 }

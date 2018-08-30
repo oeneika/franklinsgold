@@ -1,10 +1,50 @@
+
+/**
+ * Variables que contienen los precios actuales del oro y de la plata y del BsS
+ */
+var ultimo_precio_oro=0;
+var ultimo_precio_plata=0;
+var precio_bolivar_soberano=0;
+
 /**
  * 
- * @param {string} modal : nombre del modal a mostrar
+ * @param {int} ultimo_precio_oro : precio actual del oro
+ * @param {int} ultimo_precio_plata : precio actual de la plata
+ * @param {int} precio_BsS : precio del BsS almacenado en la base de datos
  */
-function showModal(modal){
+function showModal(ultimo_precio_oro,ultimo_precio_plata,precio_BsS,modal) {
+    this.ultimo_precio_oro = ultimo_precio_oro/*/28.3495*/;
+    this.ultimo_precio_plata = ultimo_precio_plata/*/28.3495*/;
+    this.precio_bolivar_soberano = precio_BsS;
+
     $('#'+modal).modal('show');
+    
 }
+
+
+/**
+ * Resetea la cantidad de gramos en el input
+ * @param {int} id_cantidad_BsS : id del input con la cantidad de BsS
+ * @param {int} id_tipo : id del input que me indica el tipo de gramo
+ * @param {int} id_cantidad_gramos : id del input donde se colocará la cantidad de gramos
+ * @param {int} id_monto_dolares : id del input donde se colocará la cantidad de dólares
+ */
+function resetQuantity(id_cantidad_BsS,id_tipo,id_cantidad_gramos){
+
+    var cantidad_BsS = $('#'+id_cantidad_BsS).val();
+
+    if($('#'+id_tipo).val() === 'oro'){
+        
+        var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_oro);
+    }else
+    if($('#'+id_tipo).val() === 'plata'){
+        
+        var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_plata);
+    }
+      
+    $('#'+id_cantidad_gramos).val(Math.ceil10(cantidad, -2));
+}
+
 
 /**
  * Ajax action to api rest
