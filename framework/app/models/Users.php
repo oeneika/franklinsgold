@@ -758,7 +758,7 @@ class Users extends Models implements IModels {
             throw new ModelsException('Tipo de usuario no válido.');
         }
 
-        if($this->tipo == 2 and $this->tipo_cliente!=='Simple' and $this->tipo_cliente!=='Medio' and $this->tipo_cliente!=='Premiun') {
+        if($this->tipo == 2 and $this->tipo_cliente!=='Simple' and $this->tipo_cliente!=='Medio' and $this->tipo_cliente!=='Premium') {
             throw new ModelsException('Tipo de cliente no válido.');
         }
 
