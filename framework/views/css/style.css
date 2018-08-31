@@ -6559,7 +6559,7 @@ body.landing-page {
 .landing-page .navbar-default .nav li a {
   color: #fff;
   font-family: 'Open Sans', helvetica, arial, sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
   font-size: 14px;
@@ -6614,8 +6614,8 @@ body.landing-page {
   color: #fec401;
 }
 .landing-page .navbar-wrapper .navbar.navbar-scroll {
-  padding-top: 0;
-  padding-bottom: 0;
+  padding-top: 6px;
+  padding-bottom: 6px;
   border-bottom: 1px solid #e7eaec;
   border-radius: 0;
 }
@@ -6627,7 +6627,7 @@ body.landing-page {
   padding: 25px 10px 15px 10px;
 }
 .landing-page .navbar-scroll .navbar-nav > li > a {
-  padding: 20px 10px;
+  padding: 8px 10px;
 }
 .landing-page .navbar-default .navbar-nav > .active > a,
 .landing-page .navbar-default .navbar-nav > .active > a:hover {
