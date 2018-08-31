@@ -5181,7 +5181,6 @@ del {
 }
 .product-imitation {
   text-align: center;
-  padding: 90px 0;
   background-color: #f8f8f9;
   color: #bebec3;
   font-weight: 600;
@@ -6815,7 +6814,7 @@ body.landing-page {
   border-radius: 50px;
 }
 .landing-page .social-icon a:hover {
-  background: #179d82;
+  background: #D3A408;
 }
 .landing-page .img-small {
   height: 88px;
@@ -6933,8 +6932,8 @@ body.landing-page {
 .landing-page .btn-primary:active,
 .landing-page .btn-primary.active,
 .landing-page .open .dropdown-toggle.btn-primary {
-  background-color: #179d82;
-  border-color: #179d82;
+  background-color: #D3A408;
+  border-color: #D3A408;
   color: #FFFFFF;
 }
 .landing-page .btn-primary:active,
