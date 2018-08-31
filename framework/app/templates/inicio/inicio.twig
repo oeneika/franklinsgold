@@ -33,7 +33,7 @@
                 <div class="carousel-caption">
                     <h1>Sea miembro exclusivo de nuestro Franklins Gold Club</h1>
                     <p>Franklins Gold, le compra su oro, al precio del mercado internacional y le pagará al instante.</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">¡AFíLIATE!</a></p>
+                    <p><a class="btn btn-lg btn-primary" href="login/" role="button">¡AFíLIATE!</a></p>
                 </div>
             </div>
             <!-- Set background for slide in css -->
@@ -42,6 +42,12 @@
         </div>
     </div>
 </div>
+
+<section id="testimonials" class="navy-section testimonials" style="margin-top: 0">
+
+</section>
+
+
 
 <section id="features" class="container features">
     <div class="row">
@@ -136,7 +142,6 @@
                     	<img src="views/img/landing/1.jpg" alt="" style="width:100%">
                 	</div>
                 	<div class="product-desc">
-                                <small class="text-muted">Category</small>
                                 <a href="#" class="product-name"> Compra y venta de gramos de oro</a>
 
                                 <div class="small m-t-xs">
@@ -186,32 +191,51 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                                <label for="estado" class="control-label mb-1">Estado</label>
-                                <input  name="estado" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                        <label for="estado" class="control-label mb-1">Estado</label>
+                            <select name="estado" id="" class="form-control" style="width: 100%">
+                                <option disabled selected value>Seleccione un estado</option>      
+                                <option value="estado1">Estado 1</option>
+                                <option value="estado2">Estado 2</option>
+                            </select>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                                <label for="ciudad" class="control-label mb-1">Ciudad</label>
-                                <input  name="ciudad" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                        <label for="ciudad" class="control-label mb-1">Ciudad</label>
+                        <select name="estado" id="" class="form-control" style="width: 100%">
+                                <option disabled selected value>Seleccione una ciudad</option>      
+                                <option value="ciudad1">Ciudad 1</option>
+                                <option value="ciudad2">Ciudad 2</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                                <label for="municipio" class="control-label mb-1">Municipio</label>
-                                <input  name="municipio" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                        <label for="municipio" class="control-label mb-1">Municipio</label>
+                        <select name="estado" id="" class="form-control" style="width: 100%">
+                                <option disabled selected value>Seleccione un municipio</option>      
+                                <option value="municipio1">Municipio 1</option>
+                                <option value="municipio2">Municipio 2</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                                <label for="cc-avenida" class="control-label mb-1">Avenida</label>
-                                <input  name="avenida" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                        <label for="cc-avenida" class="control-label mb-1">Avenida</label>
+                        <select name="estado" id="" class="form-control" style="width: 100%">
+                                <option disabled selected value>Seleccione una avenida</option>      
+                                <option value="avenida1">Avenida 1</option>
+                                <option value="avenida2">Avenida 2</option>
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15693.76049510255!2d-66.9896847802246!3d10.465928150000014!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sve!4v1535727209343" width="1920" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+    <div class="container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15693.76049510255!2d-66.9896847802246!3d10.465928150000014!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sve!4v1535727209343" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div>
+    
 </section>
 
 <section id="team" class="gray-section team">
@@ -226,22 +250,22 @@
         <div class="row">
             <div class="col-sm-4 wow fadeInLeft">
                 <div class="team-member">
-                    <img src="views/img/landing/logo1.png" class="img-fluid" alt="">
-                    <h4><span class="navy">Logo</span>1</h4>
+                    <img src="views/img/landing/logo.png" class="img-fluid" alt="">
+                    <h4>Nombre del comercio</h4>
                     
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="team-member wow zoomIn">
-                    <img src="views/img/landing/logo2.jpg" class="img-fluid" alt="">
-                    <h4><span class="navy">Logo</span>2</h4>
+                    <img src="views/img/landing/logo.png" class="img-fluid" alt="">
+                    <h4>Nombre del comercio</h4>
                     
                 </div>
             </div>
             <div class="col-sm-4 wow fadeInRight">
                 <div class="team-member">
-                    <img src="views/img/landing/logo3.png" class="img-fluid" alt="">
-                    <h4><span class="navy">Logo</span>3</h4>
+                    <img src="views/img/landing/logo.png" class="img-fluid" alt="">
+                    <h4>Nombre del comercio</h4>
                 </div>
             </div>
         </div>
@@ -291,7 +315,7 @@
             <div class="col-lg-12 text-center">
                 <a href="mailto:test@email.com" class="btn btn-primary">Contáctanos por e-mail</a>
                 <p class="m-t-sm">
-                    O síguenos en nuestras redes sociales
+                    Ó síguenos en nuestras redes sociales
                 </p>
                 <ul class="list-inline social-icon">
                     <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a>

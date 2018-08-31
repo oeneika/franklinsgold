@@ -6789,7 +6789,6 @@ body.landing-page {
   font-size: 40px;
 }
 .landing-page .navy-section {
-  background: #393939;
   color: #fff;
 }
 .landing-page .gray-section {
@@ -6852,11 +6851,21 @@ body.landing-page {
 .landing-page .testimonials {
   padding-top: 80px;
   padding-bottom: 90px;
-  background-color: #f7a54a;
   background-image: url('../img/landing/imagen.jpg');
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: 100%;
 }
+
+@media (max-width: 480px){
+  .landing-page .testimonials {
+  padding-top: 65px;
+  padding-bottom: 0px;
+  background-image: url('../img/landing/imagen.jpg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  }
+}
+
 .landing-page .big-icon {
   font-size: 56px !important;
 }
