@@ -28,7 +28,7 @@
                                 <label for="id_cliente" class="control-label mb-1" >Clientes</label>
                                 <select name="email" id="id_cliente" class="form-control select2" style="width: 100%">
                                     <option disabled selected value>Seleccione un cliente</option>
-                                    {% for c in clientes %}       
+                                     {% for c in clientes %}       
                                          <option value="{{c.email}}">{{c.email}}</option>
                                      {% endfor %}
                                 </select>
