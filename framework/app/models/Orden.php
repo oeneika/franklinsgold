@@ -430,11 +430,12 @@ class Orden extends Models implements IModels {
 
                 $m = new Model\Monedas();
                 $orden = array(
-                    'id_usuario' => $id_usuario_vendedor,
+                    'id_usuario' => $id_cliente,
+                    'id_vendedor' => $id_usuario_vendedor,
                     'tipo_gramo' => $tipo_gramo,
                     'cantidad' => $cantidad_en_orden,
                     'precio' => ($m->getPrice($tipo_gramo))[0][0],
-                    'tipo_orden' => 1,
+                    'tipo_orden' => 2,
                     'fecha' => time(),
                     'estado' => 4
                 );
@@ -588,11 +589,11 @@ class Orden extends Models implements IModels {
             $where = "o.estado=4 and u.id_comercio_afiliado=$id_comercio_afiliado";
         }
 
-        $inner = "INNER JOIN users u ON u.id_user=o.id_usuario
+        $inner = "INNER JOIN users u ON u.id_user=o.id_vendedor
                   INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=u.id_comercio_afiliado "; 
  
         return $this->db->select("o.*,ca.nombre as nombre_afiliado,ca.sucursal,u.primer_nombre,u.primer_apellido",
-                                 "orden o",$inner,$where); //,null,"1=1",NULL,"ORDER BY ca.id_comercio_afiliado"
+                                 "orden o",$inner,$where,null,"ORDER BY o.id_orden DESC");
     }
 
 
