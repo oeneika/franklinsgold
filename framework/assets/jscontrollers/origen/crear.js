@@ -26,7 +26,7 @@ function createOrigen() {
                     timeOut: 1000
                 };
 
-                toastr.info('¡Origen creado!','Exito!');
+                toastr.info(json.message,'¡Éxito!');
                 
                 setTimeout(function () {
                     location.reload();

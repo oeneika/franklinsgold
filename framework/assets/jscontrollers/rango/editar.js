@@ -40,7 +40,7 @@ function editRango(formulario) {
                         timeOut: 1000
                     };
     
-                    toastr.success(json.message,'Exito!');
+                    toastr.success(json.message,'¡Éxito!');
                     
                     setTimeout(function () {
                         location.reload();

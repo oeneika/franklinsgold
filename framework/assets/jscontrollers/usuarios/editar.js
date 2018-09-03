@@ -88,7 +88,7 @@ function edit_usuario() {
                     timeOut: 4000
                 };
 
-                toastr.success('¡Usuario editado!','Exito!');
+                toastr.success(json.message,'¡Éxito!');
                 
                 setTimeout(function () {
                     location.reload();

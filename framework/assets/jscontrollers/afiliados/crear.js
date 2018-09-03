@@ -31,7 +31,7 @@ function crear_afiliado(){
                         location.href='afiliados/afiliados/';
                     },1000);
                 } else {
-                    toastr.error(json.message);
+                    toastr.error(json.message, '¡Ups!');
                 }
             },
             error : function(xhr, status) {

@@ -36,7 +36,7 @@ function edit_origen() {
                     timeOut: 4000
                 };
 
-                toastr.info('¡Origen editado!','Exito!');
+                toastr.info(json.message,'¡Éxito!');
                 
                 setTimeout(function () {
                     location.reload();

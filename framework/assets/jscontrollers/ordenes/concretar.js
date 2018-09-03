@@ -13,7 +13,7 @@ function specify_orden(id_orden){
         confirmButtonText: "¡Si, quiero concretar!",
         closeOnConfirm: false
     }, function () {
-        swal("Exito!", "La orden ha sido concretada", "success");
+        swal("¡Éxito!", "La orden ha sido concretada", "success");
         setTimeout(function(){
             location.href = 'ordenadmin/concretar/' + id_orden.toString();
         },1000);
@@ -38,7 +38,7 @@ function confirm_orden(id_orden,tipo_usuario){
         confirmButtonText: "¡Si, quiero confirmar!",
         closeOnConfirm: false
     }, function () {
-        swal("Exito!", "La orden ha sido confirmada", "success");
+        swal("¡Éxito!", "La orden ha sido confirmada", "success");
         setTimeout(function(){
             location.href = 'ordenadmin/confirmar/' + id_orden.toString();
         },1000);
