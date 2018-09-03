@@ -76,7 +76,7 @@
                                 <h5>Total de oro en dólares</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">{{ ((total_oro_comprado * (ultimo_precio_oro / 28.3495))|round(2, 'ceil'))|number_format(2, ',', '.') }}</h1>
+                                <h1 class="no-margins">{{ ((total_oro_comprado * ultimo_precio_oro)|round(2, 'ceil'))|number_format(2, ',', '.') }}</h1>
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                                 <h5>Total de plata en dólares</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">{{ ((total_plata_comprado * (ultimo_precio_plata / 28.3495))|round(2, 'ceil'))|number_format(2, ',', '.') }}</h1>
+                                <h1 class="no-margins">{{ ((total_plata_comprado * ultimo_precio_plata)|round(2, 'ceil'))|number_format(2, ',', '.') }}</h1>
                             </div>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                                                 {#<td>{{ a.nombre_sucursal }}</td>#}
                                                 <td>{{ a.cantidad }}</td>
                                                 <td>{{ a.precio|number_format(2, ',', '.') }}</td>
-                                                <td>{{ (a.cantidad * (a.precio / 28.3495))|number_format(2, ',', '.') }}</td>
+                                                <td>{{ (a.cantidad * a.precio)|number_format(2, ',', '.') }}</td>
                                                 <td style="{{a.tipo_orden == 1 ? 'color: #DC2929;' :  a.tipo_orden == 2  ? 'color: red;' : 'color: #3CD219;'}}">{{ a.tipo_orden == 1 ? 'Compra' :  a.tipo_orden == 2  ? "Venta" : "Intercambio" }}</td>
                                             </tr>
                                             {% endfor %}  
@@ -167,7 +167,7 @@
                                                 {#<td>{{ a.nombre_sucursal }}</td>#}
                                                 <td>{{ a.cantidad }}</td>
                                                 <td>{{ a.precio|number_format(2, ',', '.') }}</td>
-                                                <td>{{ (a.cantidad * (a.precio / 28.3495))|number_format(2, ',', '.') }}</td>
+                                                <td>{{ (a.cantidad * a.precio)|number_format(2, ',', '.') }}</td>
                                                 <td style="{{a.tipo_orden == 1 ? 'color: #DC2929;;' :  a.tipo_orden == 2  ? 'color: red;' : 'color: #3CD219;'}}">{{ a.tipo_orden == 1 ? 'Compra' :  a.tipo_orden == 2  ? "Venta" : "Intercambio" }}</td>
                                             </tr>
                                             {% endfor %}                           

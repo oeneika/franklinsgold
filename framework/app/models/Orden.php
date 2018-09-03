@@ -94,7 +94,7 @@ class Orden extends Models implements IModels {
             throw new ModelsException('Las compras o ventas de oro son a partir 20.000 BsS.');
         }
 
-        if( $this->tipo_gramo === 'plata' and ($cantidad_bolivar_soberano<1 or $cantidad_bolivar_soberano>20000 and $compra_tienda == null  )){
+        if( $this->tipo_gramo === 'plata' and ($cantidad_bolivar_soberano<1 or $cantidad_bolivar_soberano>20000) and $compra_tienda == null  ){
             throw new ModelsException('Las compras o ventas de plata deben ser entre 1 y 20.000 BsS.');
         }
 
@@ -151,13 +151,24 @@ class Orden extends Models implements IModels {
             #Valida los posibles errores
             $this->errors();
 
-            $m = new Model\Monedas();
+            $d = new Model\Divisa();
+
+            #Si es oro trae el precio del oro 
+            if($this->tipo_gramo === 'oro'){
+
+              $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
+
+            }else{
+
+              $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
+
+            }
 
             $orden = array(
                 'id_usuario' => $this->id_usuario,
                 'tipo_gramo' => $this->tipo_gramo,
                 'cantidad' => $this->cantidad,
-                'precio' => ($m->getPrice($this->tipo_gramo))[0][0],
+                'precio' => $precio,
                 /*'id_sucursal' => $this->id_sucursal,*/ //Forzando una sucursal de momento
                 'tipo_orden' => $this->tipo_orden,
                 'fecha' => time(),
@@ -428,13 +439,25 @@ class Orden extends Models implements IModels {
             #Si la cantidad en la cartera es mayor o igual a la cantidad de la orden se procede
             if( $cantidad_en_cartera >= $cantidad_en_orden ){
 
-                $m = new Model\Monedas();
+                $d = new Model\Divisa();
+
+                #Si es oro trae el precio del oro 
+                if($tipo_gramo === 'oro'){
+
+                $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
+
+                }else{
+
+                $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
+
+                }
+
                 $orden = array(
                     'id_usuario' => $id_cliente,
                     'id_vendedor' => $id_usuario_vendedor,
                     'tipo_gramo' => $tipo_gramo,
                     'cantidad' => $cantidad_en_orden,
-                    'precio' => ($m->getPrice($tipo_gramo))[0][0],
+                    'precio' => $precio,
                     'tipo_orden' => 2,
                     'fecha' => time(),
                     'estado' => 4
@@ -504,7 +527,13 @@ class Orden extends Models implements IModels {
      */
     public function getTotalGramos($composicion,$where="1=1"){
 
-        return $this->db->select("cantidad","user_gramo",null,"tipo_gramo='$composicion' and $where")[0]["cantidad"];
+        $result = $this->db->select("cantidad","user_gramo",null,"tipo_gramo='$composicion' and $where");
+
+        if( $result == false){
+            return 0;
+        }
+
+        return $result[0]["cantidad"];
 
     }
 

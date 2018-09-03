@@ -101,7 +101,7 @@
                                                 <td>{{ o.tipo_gramo }}</td>
                                                 <td>{{ o.cantidad }}</td>
                                                 <td>{{ o.precio|number_format(2, ',', '.') }}</td>   
-                                                <td>{{ (o.cantidad * (o.precio / 28.3495))|number_format(2, ',', '.') }}</td>
+                                                <td>{{ (o.cantidad * o.precio )|number_format(2, ',', '.') }}</td>
                                                 <td>{{ fecha('D, d F, Y h:i a', o.fecha) }}</td> 
                                            </tr>
                                            {% endfor %}

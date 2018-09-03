@@ -95,7 +95,7 @@
                                                         {#<td>{{ co.nombre_sucursal }}</td>#}                                                   
                                                         <td>{{ co.cantidad }}</td>
                                                         <td>{{ co.precio|number_format(2, ',', '.') }}</td>
-                                                        <td>{{ (co.cantidad * (co.precio / 28.3495))|number_format(2, ',', '.') }}</td>
+                                                        <td>{{ (co.cantidad * co.precio)|number_format(2, ',', '.') }}</td>
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -126,7 +126,7 @@
                                                         {#<td>{{ vo.nombre_sucursal }}</td>#}                                                     
                                                         <td>{{ vo.cantidad }}</td>
                                                         <td>{{ vo.precio|number_format(2, ',', '.') }}</td>
-                                                        <td>{{ (vo.cantidad * (vo.precio / 28.3495))|number_format(2, ',', '.') }}</td>
+                                                        <td>{{ (vo.cantidad * vo.precio)|number_format(2, ',', '.') }}</td>
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -171,7 +171,7 @@
                                                         {#<td>{{ cp.nombre_sucursal }}</td>#}                                                        
                                                         <td>{{ cp.cantidad }}</td>
                                                         <td>{{ cp.precio|number_format(2, ',', '.') }}</td>
-                                                        <td>{{ (cp.cantidad * (cp.precio / 28.3495))|number_format(2, ',', '.') }}</td>
+                                                        <td>{{ (cp.cantidad * cp.precio)|number_format(2, ',', '.') }}</td>
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
@@ -202,7 +202,7 @@
                                                         {#<td>{{ vp.nombre_sucursal }}</td>#}                                                     
                                                         <td>{{ vp.cantidad }}</td>
                                                         <td>{{ vp.precio|number_format(2, ',', '.') }}</td>
-                                                        <td>{{ (vp.cantidad * (vp.precio / 28.3495))|number_format(2, ',', '.') }}</td>
+                                                        <td>{{ (vp.cantidad * vp.precio)|number_format(2, ',', '.') }}</td>
                                                     </tr>
                                                 {% endfor %}
                                                 </tbody>
