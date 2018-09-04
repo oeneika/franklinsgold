@@ -81,8 +81,17 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <input type="number" name='numero_cuenta' id="id_numero_cuenta" class="form-control" placeholder="Número de cuenta (*)">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" name="banco" id="banco" class="form-control" placeholder="Entidad Bancaria (*)">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="number" name='numero_cuenta' id="id_numero_cuenta" class="form-control" placeholder="Número de cuenta (*)">
+                        </div>
+                    </div>
                 </div>
 
                 <input type="hidden" id="terminos_ocultos" value="'{{terminos}}'">

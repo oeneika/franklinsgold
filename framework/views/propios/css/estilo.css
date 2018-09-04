@@ -79,3 +79,29 @@ li.active strong, .naranja{
 .venta-rojo{
  color: #3CD219;
 }
+
+.colororo{
+	color: #f7a54a;
+}
+
+.colorplata{
+	color: #B2B2B2;
+}
+
+@media (min-width: 768px ){
+	.bloque{
+		background-color: #f7a54a;
+	}
+
+	.navbar{
+		min-height: 40px;
+	}
+
+	
+}
+
+@media (min-width: 768px) and (max-width: 1300px){
+	.sizepequeño{
+		font-size: 11px;
+	}
+}

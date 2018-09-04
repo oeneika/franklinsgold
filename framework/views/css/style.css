@@ -6608,7 +6608,7 @@ body.landing-page {
   transition: all 0.3s ease-in-out 0s;
 }
 .landing-page .navbar-scroll.navbar-default .nav li a {
-  color: #676a6c;
+  color: #303030;
 }
 .landing-page .navbar-scroll.navbar-default .nav li a:hover {
   color: #f7a54a;

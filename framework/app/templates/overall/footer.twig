@@ -1,8 +1,25 @@
 <div class="footer">
-                    <div class="pull-right">
-                        Desarrollado por: Corporación JSK [ www.corporacionjsk.com ]
-                    </div>
-                    <div>
-                        <strong>Caracas, Venezuela</strong> Franklins Gold &copy; 2018
-                    </div>
+  	<div class="pull-right">
+    	Desarrollado por: Corporación JSK [ www.corporacionjsk.com ]
+  	</div>
+  	<div>
+    	<strong>Caracas, Venezuela</strong> Franklins Gold &copy; 2018 / <strong>Fecha:</strong>
+    	<script type="text/javascript">
+		//<![CDATA[
+		var date = new Date();
+		var d  = date.getDate();
+		var day = (d < 10) ? '0' + d : d;
+		var m = date.getMonth() + 1;
+		var month = (m < 10) ? '0' + m : m;
+		var yy = date.getYear();
+		var year = (yy < 1000) ? yy + 1900 : yy;
+		document.write(day + "/" + month + "/" + year);
+		//]]>
+		</script>
+		<strong>Hora:</strong>
+		<script type="text/javascript">
+		var d = new Date();
+		document.write(+d.getHours(),':'+d.getMinutes(),':'+d.getSeconds());
+		</script>
+  	</div>
 </div>
