@@ -109,10 +109,16 @@ abstract class Controllers {
         $this->template->addGlobal('config', $config);
         $this->template->addGlobal('is_logged', $this->is_logged);
 
+        $d = new Model\Divisa();
+
         # Datos del usuario actual
         if ($this->is_logged) {
           $this->user = (new Model\Users)->getOwnerUser();
+          $oro = ($d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'"))[0]["precio_dolares"];
+          $plata = ($d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'"))[0]["precio_dolares"];
           $this->template->addGlobal('owner_user', $this->user);
+          $this->template->addGlobal('precio_oro_global', $oro);
+          $this->template->addGlobal('precio_plata_global', $plata);
         }
 
         # Extensiones
