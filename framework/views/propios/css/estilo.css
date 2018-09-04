@@ -88,6 +88,14 @@ li.active strong, .naranja{
 	color: #B2B2B2;
 }
 
+.background{
+	background-color: #252525;
+}
+
+.background table tbody tr{
+	color: white;
+}
+
 @media (min-width: 768px ){
 	.bloque{
 		background-color: #f7a54a;

@@ -1,0 +1,432 @@
+<?php
+
+/* inicio/inicio.twig */
+class __TwigTemplate_974193ef3df9421e46143d6fa0dee5cb8bc68d871f6ebba0e57b5d11c978b76b extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        // line 1
+        $this->parent = $this->loadTemplate("overall/layoutinicio", "inicio/inicio.twig", 1);
+        $this->blocks = array(
+            'appBody' => array($this, 'block_appBody'),
+            'appFooter' => array($this, 'block_appFooter'),
+        );
+    }
+
+    protected function doGetParent(array $context)
+    {
+        return "overall/layoutinicio";
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        $this->parent->display($context, array_merge($this->blocks, $blocks));
+    }
+
+    // line 2
+    public function block_appBody($context, array $blocks = array())
+    {
+        // line 3
+        echo "<div class=\"navbar-wrapper\">
+        <nav class=\"navbar navbar-default navbar-fixed-top navbar-expand-md\" role=\"navigation\">
+            <div class=\"container\">
+                
+                <div class=\"navbar-header page-scroll\">
+                    <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar\">
+                        <i class=\"fa fa-bars\"></i>
+                    </button>
+                </div>
+                <div class=\"collapse navbar-collapse justify-content-end\" id=\"navbar\">
+                    <ul class=\"nav navbar-nav navbar-right\">
+                        <li><a class=\"nav-link page-scroll\" href=\"#page-top\">Inicio</a></li>
+                        <li><a class=\"nav-link page-scroll\" href=\"#features\">Nosotros</a></li>
+                        <li><a class=\"nav-link page-scroll\" href=\"#productos\">Productos</a></li>
+                        <li><a class=\"nav-link page-scroll\" href=\"#sucursales\">Sucursales</a></li>
+                        <li><a class=\"nav-link page-scroll\" href=\"#team\">Comercios afiliados</a></li>
+                        <li><a class=\"nav-link page-scroll\" href=\"#contact\">Ateción al cliente</a></li>
+                        <li><a class=\"nav-link page-scroll bloque\" href=\"login/\" style=\"font-weight:bold;\">Iniciar sesión</a></li>
+                        <li><a class=\"nav-link page-scroll\" href=\"registro/\" style=\"font-weight:bold;\">Registrarse</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+</div>
+<div id=\"inSlider\" class=\"carousel slide\" data-ride=\"carousel\" >
+    <ol class=\"carousel-indicators\">
+    </ol>
+    <div class=\"carousel-inner\" role=\"listbox\">
+        <div class=\"carousel-item active\">
+            <div class=\"container\">
+                <div class=\"carousel-caption\">
+                    <h1>Sea miembro exclusivo de nuestro Franklins Gold Club</h1>
+                    <p>Franklins Gold, le compra su oro, al precio del mercado internacional y le pagará al instante.</p>
+                    <p><a class=\"btn btn-lg btn-primary\" href=\"login/\" role=\"button\">¡AFíLIATE!</a></p>
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class=\"header-back one\"></div>
+
+        </div>
+    </div>
+</div>
+
+<section id=\"testimonials\" class=\"navy-section testimonials\" style=\"margin-top: 0\">
+
+</section>
+
+
+
+<section id=\"features\" class=\"container features\">
+    <div class=\"row\">
+        <div class=\"col-lg-12 text-center\">
+            <div class=\"navy-line\"></div>
+            <h1>Franklin Gold<br/> <span class=\"navy\"> Es un Centro Financiero Internacional</span> </h1>
+            <p> con más de 20 años de experiencia y 20 tiendas alrededor del mundo donde nos especializamos en comprar y vender Oro y en otorgar préstamos inmediatos sobre joyas, con los más altos niveles de seguridad.</p>
+        </div>
+    </div>
+    <div class=\"row\">
+        <div class=\"col-md-3 text-center wow fadeInLeft\">
+            <div>
+                <i class=\"fa fa-coins features-icon\"></i>
+                <h2>Primera razón para invertir en oro y plata</h2>
+                <p> El oro y la plata son los únicos activos que jamás han fallado en 5 mil años. Como son activos tangibles con un valor inherente, su poder adquisitivo nunca caerá hasta cero.</p>
+            </div>
+            <div class=\"m-t-lg\">
+                <h2>Segunda razón para invertir en oro y plata</h2>
+                <p>Invertir en ellos representa un refugio seguro que aumenta durante los levantamientos económicos, la guerra, el terrorismo y los sucesos naturales.</p>
+            </div>
+        </div>
+        <div class=\"col-md-6 text-center  wow zoomIn\">
+            <img src=\"views/img/landing/perspective.png\" alt=\"dashboard\" class=\"img-fluid\" style=\"width:100%\">
+        </div>
+        <div class=\"col-md-3 text-center wow fadeInRight\">
+            <div>
+                <i class=\"fa fa-money-check-alt features-icon\"></i>
+                <h2>Tercera razón para invertir en plata</h2>
+                <p>Tienen una densidad de alto valor lo cual significa que, a diferencia del cobre o el petróleo, una pequeña cantidad de oro o plata puede ofrecer un poder adquisitivo grande.</p>
+            </div>
+            <div class=\"m-t-lg\">
+                <h2>Cuarta razón para invertir en oro</h2>
+                <p>Cada onza tiene el mismo valor. Por otra parte, cada diamante o moneda de colección es diferente, y por lo tanto, se requiere de un experto para determinar su valor.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id=\"productos\" class=\"container features\">
+    <div class=\"row\">
+        <div class=\"col-lg-12 text-center\">
+            <div class=\"navy-line\"></div>
+            <h1>Franklin Gold<br/></h1>
+            <p>Nos especializamos en la compra y venta de oro y plata, con los precios mas competitivos del mercado</p>
+        </div>
+    </div>
+    <div class=\"row\">
+        <div class=\"col-md-3\">
+        \t<div class=\"ibox\">
+            \t<div class=\"ibox-content product-box\">
+                \t<div class=\"product-imitation\">
+                    \t<img src=\"views/img/landing/3.jpg\" alt=\"\" style=\"width:100%\">
+                \t</div>
+                \t<div class=\"product-desc\">
+                                <a href=\"#\" class=\"product-name\"> Compra de monedas de colección</a>
+
+                                <div class=\"small m-t-xs\">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero sint, repellendus consectetur quasi? Veritatis molestiae, aliquid, esse ab itaque delectus.
+                                </div>
+                                <div class=\"m-t text-righ\">
+
+                                    <a href=\"login/\" class=\"btn btn-xs btn-outline btn-primary\">¡Afíliate! <i class=\"fa fa-long-arrow-right\"></i> </a>
+                                </div>
+                \t</div>
+            \t</div>
+        \t</div>
+        </div>
+        <div class=\"col-md-3\">
+        \t<div class=\"ibox\">
+            \t<div class=\"ibox-content product-box\">
+                \t<div class=\"product-imitation\">
+                    \t<img src=\"views/img/landing/4.jpg\" alt=\"\" style=\"width:100%\">
+                \t</div>
+                \t<div class=\"product-desc\">
+                                <a href=\"#\" class=\"product-name\"> Compra de monedas de plata de colección</a>
+
+                                <div class=\"small m-t-xs\">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero sint, repellendus consectetur quasi? Veritatis molestiae, aliquid, esse ab itaque delectus.
+                                </div>
+                                <div class=\"m-t text-righ\">
+
+                                    <a href=\"login/\" class=\"btn btn-xs btn-outline btn-primary\">¡Afíliate! <i class=\"fa fa-long-arrow-right\"></i> </a>
+                                </div>
+                \t</div>
+            \t</div>
+        \t</div>
+        </div>
+        <div class=\"col-md-3\">
+        \t<div class=\"ibox\">
+            \t<div class=\"ibox-content product-box\">
+                \t<div class=\"product-imitation\">
+                    \t<img src=\"views/img/landing/1.jpg\" alt=\"\" style=\"width:100%\">
+                \t</div>
+                \t<div class=\"product-desc\">
+                                <a href=\"#\" class=\"product-name\"> Compra y venta de gramos de oro</a>
+
+                                <div class=\"small m-t-xs\">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero sint, repellendus consectetur quasi? Veritatis molestiae, aliquid, esse ab itaque delectus.
+                                </div>
+                                <div class=\"m-t text-righ\">
+
+                                    <a href=\"login/\" class=\"btn btn-xs btn-outline btn-primary\">¡Afíliate! <i class=\"fa fa-long-arrow-right\"></i> </a>
+                                </div>
+                \t</div>
+            \t</div>
+        \t</div>
+        </div>
+        <div class=\"col-md-3\">
+        \t<div class=\"ibox\">
+            \t<div class=\"ibox-content product-box\">
+                \t<div class=\"product-imitation\">
+                    \t<img src=\"views/img/landing/2.jpg\" alt=\"\" style=\"width:100%\">
+                \t</div>
+                \t<div class=\"product-desc\">
+                                <a href=\"#\" class=\"product-name\"> Compra y venta de gramos de plata</a>
+
+                                <div class=\"small m-t-xs\">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero sint, repellendus consectetur quasi? Veritatis molestiae, aliquid, esse ab itaque delectus.
+                                </div>
+                                <div class=\"m-t text-righ\">
+
+                                    <a href=\"login/\" class=\"btn btn-xs btn-outline btn-primary\">¡Afíliate! <i class=\"fa fa-long-arrow-right\"></i> </a>
+                                </div>
+                \t</div>
+            \t</div>
+        \t</div>
+        </div>
+    </div>
+    <hr>
+    <div class=\"row\">
+       <h3>goa</h3>
+        <div class=\"background\">
+            <div class=\"table-responsive\">
+                <table class=\"table table-bordered\">
+                                            <thead>
+                                            <tr>
+                                                <th>Onzas (oz) / Ounces</th>
+                                                <th>Gramos (g) / Grams</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>0.035</td>
+                                                    <td>1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>0.035</td>
+                                                    <td>1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>0.035</td>
+                                                    <td>1</td>
+                                                </tr>
+                                            </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <hr>
+</section>
+
+
+<section id=\"sucursales\" class=\"navy-section\" style=\"margin-top: 0\">
+    <form action=\"\" id=\"\" class=\"\">
+        <div class=\"container\">
+            <div class=\"row\">
+                <div class=\"col-lg-12 text-center wow zoomIn\">
+                <h1>Sucursales</h1>
+                </div>
+            </div>
+            <br>
+            <div class=\"row\">
+                <div class=\"col-md-3\">
+                    <div class=\"form-group\">
+                        <label for=\"estado\" class=\"control-label mb-1\">Estado</label>
+                            <select name=\"estado\" id=\"\" class=\"form-control\" style=\"width: 100%\">
+                                <option disabled selected value>Seleccione un estado</option>      
+                                <option value=\"estado1\">Estado 1</option>
+                                <option value=\"estado2\">Estado 2</option>
+                            </select>
+                    </div>
+                </div>
+                <div class=\"col-md-3\">
+                    <div class=\"form-group\">
+                        <label for=\"ciudad\" class=\"control-label mb-1\">Ciudad</label>
+                        <select name=\"estado\" id=\"\" class=\"form-control\" style=\"width: 100%\">
+                                <option disabled selected value>Seleccione una ciudad</option>      
+                                <option value=\"ciudad1\">Ciudad 1</option>
+                                <option value=\"ciudad2\">Ciudad 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class=\"col-md-3\">
+                    <div class=\"form-group\">
+                        <label for=\"municipio\" class=\"control-label mb-1\">Municipio</label>
+                        <select name=\"estado\" id=\"\" class=\"form-control\" style=\"width: 100%\">
+                                <option disabled selected value>Seleccione un municipio</option>      
+                                <option value=\"municipio1\">Municipio 1</option>
+                                <option value=\"municipio2\">Municipio 2</option>
+                        </select>
+                    </div>
+                </div>
+                <div class=\"col-md-3\">
+                    <div class=\"form-group\">
+                        <label for=\"cc-avenida\" class=\"control-label mb-1\">Avenida</label>
+                        <select name=\"estado\" id=\"\" class=\"form-control\" style=\"width: 100%\">
+                                <option disabled selected value>Seleccione una avenida</option>      
+                                <option value=\"avenida1\">Avenida 1</option>
+                                <option value=\"avenida2\">Avenida 2</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class=\"container\">
+        <iframe src=\"https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15693.76049510255!2d-66.9896847802246!3d10.465928150000014!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sve!4v1535727209343\" width=\"100%\" height=\"400\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>
+    </div>
+    
+</section>
+
+<section id=\"team\" class=\"gray-section team\">
+    <div class=\"container\">
+        <div class=\"row m-b-lg\">
+            <div class=\"col-lg-12 text-center\">
+                <div class=\"navy-line\"></div>
+                <h1>Comercios afiliados</h1>
+                <p>Estos son nuestros aliados</p>
+            </div>
+        </div>
+        <div class=\"row\">
+            <div class=\"col-sm-4 wow fadeInLeft\">
+                <div class=\"team-member\">
+                    <img src=\"views/img/landing/logo.png\" class=\"img-fluid\" alt=\"\">
+                    <h4>Nombre del comercio</h4>
+                    
+                </div>
+            </div>
+            <div class=\"col-sm-4\">
+                <div class=\"team-member wow zoomIn\">
+                    <img src=\"views/img/landing/logo.png\" class=\"img-fluid\" alt=\"\">
+                    <h4>Nombre del comercio</h4>
+                    
+                </div>
+            </div>
+            <div class=\"col-sm-4 wow fadeInRight\">
+                <div class=\"team-member\">
+                    <img src=\"views/img/landing/logo.png\" class=\"img-fluid\" alt=\"\">
+                    <h4>Nombre del comercio</h4>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+    </div>
+</section>
+
+
+<section id=\"contact\" class=\"gray-section contact\">
+    <div class=\"container\">
+        <div class=\"row m-b-lg\">
+            <div class=\"col-lg-12 text-center\">
+                <div class=\"navy-line\"></div>
+                <h1>Atención al cliente</h1>
+                <p>Visitanos en nuestras oficinas a nivel mundial</p>
+            </div>
+        </div>
+        <div class=\"row m-b-lg justify-content-center\">
+            <div class=\"col-lg-4 \">
+                <address>
+                    <strong><span class=\"navy\">Miami – USA</span></strong><br/>
+\t                    12344 SW 127 avenue<br/>
+\t                    Miami Fl 33186<br/>
+\t                    <abbr title=\"Phone\">P:</abbr> +1 (786) 592-1010
+                </address>
+            </div>
+            <div class=\"col-lg-4\">
+                <address>
+\t                    <strong><span class=\"navy\">Bogota – Colombia</span></strong><br/>
+\t                    Carrera 15 No. 90-20/34<br/>
+\t                    L102-103<br/>
+\t                    <abbr title=\"Phone\">P:</abbr> +57 (1) 257-2079
+\t            </address>
+            </div>
+            <div class=\"col-lg-4 \">
+\t                <address>
+\t                    <strong><span class=\"navy\">Caracas – Venezuela</span></strong><br/>
+\t                    Av. Francisco de Miranda c/c
+\t                    Av.San Juan Bosco<br/>
+\t                    Edf. Seguros Adriática, PB<br/>
+\t                    <abbr title=\"Phone\">P:</abbr> +58 (212) 266-6955
+\t                </address>
+\t        </div>
+        </div>
+        <div class=\"row\">
+            <div class=\"col-lg-12 text-center\">
+                <a href=\"mailto:test@email.com\" class=\"btn btn-primary\">Contáctanos por e-mail</a>
+                <p class=\"m-t-sm\">
+                    Ó síguenos en nuestras redes sociales
+                </p>
+                <ul class=\"list-inline social-icon\">
+                    <li class=\"list-inline-item\"><a href=\"#\"><i class=\"fab fa-twitter\"></i></a>
+                    </li>
+                    <li class=\"list-inline-item\"><a href=\"#\"><i class=\"fab fa-facebook\"></i></a>
+                    </li>
+                    <li class=\"list-inline-item\"><a href=\"#\"><i class=\"fab fa-linkedin\"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class=\"row\">
+            <div class=\"col-lg-12 text-center m-t-lg m-b-lg\">
+                <p><strong>&copy; 2018 CorporaciónJSK C.A</strong></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<br>
+<br>
+";
+    }
+
+    // line 374
+    public function block_appFooter($context, array $blocks = array())
+    {
+        // line 375
+        echo "    <script src=\"./assets/jscontrollers/inicio/inicio.js\"></script>
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "inicio/inicio.twig";
+    }
+
+    public function isTraitable()
+    {
+        return false;
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  409 => 375,  406 => 374,  32 => 3,  29 => 2,  11 => 1,);
+    }
+
+    public function getSourceContext()
+    {
+        return new Twig_Source("", "inicio/inicio.twig", "C:\\xampp\\htdocs\\franklinsgold\\framework\\app\\templates\\inicio\\inicio.twig");
+    }
+}
