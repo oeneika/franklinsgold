@@ -45,17 +45,8 @@ class Orden extends Models implements IModels {
         # Obtener los datos $_FILES los cuales contienen las imagenes cargadas
         $this->file = $_FILES;
        // dump($this->file);
-        #Obtener los datos $_POST
-        $this->id_usuario = ((new Model\Users)->getOwnerUser())["id_user"];
-        $this->tipo_gramo = $http->request->get('tipo_gramo');     
-        $this->cantidad = $http->request->get('cantidad');
-        //$this->id_sucursal = $http->request->get('id_sucursal');
-        $this->tipo_orden = $http->request->get('tipo_orden');
-         
-        $cantidad_bolivar_soberano = $http->request->get('cantidad_bolivar_soberano');
-        $monto_dolares = $http->request->get('monto_dolares');
-        $compra_tienda = $http->request->get('compra_tienda');
 
+        #Obtener los datos $_POST
         #Usada en caso de ser una compra/venta vía movil o tienda
         $email = $http->request->get('email');
         if ( !Helper\Functions::emp($email)) {
@@ -63,7 +54,19 @@ class Orden extends Models implements IModels {
 
             $this->id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
             
+        }else{
+            $this->id_usuario = ((new Model\Users)->getOwnerUser())["id_user"];
         }
+
+        $this->tipo_gramo = $http->request->get('tipo_gramo');     
+        $this->cantidad = $http->request->get('cantidad');
+        $this->tipo_orden = $http->request->get('tipo_orden');
+         
+        $cantidad_bolivar_soberano = $http->request->get('cantidad_bolivar_soberano');
+        $monto_dolares = $http->request->get('monto_dolares');
+        $compra_tienda = $http->request->get('compra_tienda');
+
+        
 
         #Hago esto para que funcionen los servicios sin problema
         $rango = $this->db->select("tipo_cliente","users",null,"id_user='$this->id_usuario'")[0]["tipo_cliente"];

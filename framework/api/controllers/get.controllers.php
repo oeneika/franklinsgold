@@ -144,12 +144,23 @@ $app->get('/terminosycondiciones/get', function() use($app) {
 });
 
 /**
- * Servicio que devuelve el precio del BsS almacenado en la base de datos
+ * Servicio que devuelve el precio del BsS, oro y plata almacenado en la base de datos
  *
  * @return json
 */
-$app->get('/get/precioBsS', function() use($app) {
+$app->get('/get/preciosDivisas', function() use($app) {
     $d = new Model\Divisa; 
 
-    return $app->json($d->getDivisas("precio_dolares","nombre_divisa=Bolívar Soberano"));      
+    $oro = $d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Oro Franklin'")[0];
+    $plata = $d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Plata Franklin'")[0];
+    $bss = $d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Bolívar Soberano'")[0];
+
+    $a = array (
+        'oro' => ($oro),
+        'plata' =>($plata),
+        'bss' =>($bss)
+    );
+
+    return $app->json($a);
+
 });
