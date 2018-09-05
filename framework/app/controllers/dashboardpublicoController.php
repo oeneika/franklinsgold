@@ -37,8 +37,6 @@ class dashBoardpublicoController extends Controllers implements IControllers {
             'compras_plata' => $o->get($select,"orden.tipo_orden=1 and orden.estado=4 and orden.tipo_gramo='plata'",null,"ORDER BY orden.id_orden DESC"),
             'ventas_oro' => $o->get($select,"orden.tipo_orden=2 and orden.estado=4 and orden.tipo_gramo='oro'",null,"ORDER BY orden.id_orden DESC"),
             'ventas_plata' => $o->get($select,"orden.tipo_orden=2 and orden.estado=4 and orden.tipo_gramo='plata'",null,"ORDER BY orden.id_orden DESC"),
-            'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
-            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0],
 
             'compras_oro_1dia' => ($o->getVolumenes("-1 days","oro",1))[0]["volumen"],
             'compras_oro_1mes' => ($o->getVolumenes("-31 days","oro",1))[0]["volumen"],

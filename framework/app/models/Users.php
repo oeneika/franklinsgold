@@ -66,6 +66,7 @@ class Users extends Models implements IModels {
     private $id_comercio;
     private $numero_cuenta;
     private $tipo_cliente;
+    private $nombre_banco;
 
 
     /**
@@ -328,14 +329,14 @@ class Users extends Models implements IModels {
 
             # Obtener los datos $_POST
             $user_data = $http->request->all();
-
+            var_dump($user_data);
             # Obtener los datos $_FILES los cuales contienen las imagenes cargadas
             $fotos = $_FILES;
-            //var_dump($fotos);
+            var_dump($fotos);
            
             #Todo usuario que se registre será un cliente
             $tipo = 2;
-
+            
             if ($tipo !== 0 && $tipo !== 1 && $tipo !== 2){
                 throw new ModelsException('Tipo de usuario inválido');
             }
@@ -389,7 +390,7 @@ class Users extends Models implements IModels {
                 throw new ModelsException('El email no debe estar vacío');
             }
 
-            if(!array_key_exists('telefono',$user_data)){
+            if(!array_key_exists('telefono',$user_data) || Functions::emp($user_data['telefono'])){
                 throw new ModelsException('Campo teléfono no definido');
             }
 
@@ -408,8 +409,12 @@ class Users extends Models implements IModels {
             if (!array_key_exists('pass_repeat',$user_data) || Functions::emp($user_data['pass_repeat'])) {
                 throw new ModelsException('Por favor repita el password');
             }
-        
-            if(!array_key_exists('numero_cuenta',$user_data)){
+            
+            if(!array_key_exists('nombre_banco',$user_data) || Functions::emp($user_data['nombre_banco'])){
+                throw new ModelsException('Debe introducir el nombre de la entidad bancaria');
+            }
+
+            if(!array_key_exists('numero_cuenta',$user_data) || Functions::emp($user_data['numero_cuenta'])){
                 throw new ModelsException('Debe introducir un número de cuenta');
             }
             
@@ -423,7 +428,7 @@ class Users extends Models implements IModels {
                 throw new ModelsException("El número de cuenta ya esta asocioado a otro usuario.");              
             }
 
-            if(!array_key_exists('sexo',$user_data)){
+            if(!array_key_exists('sexo',$user_data) || Functions::emp($user_data['sexo'])){
                 throw new ModelsException('Campo sexo no definido');
             }
 
@@ -468,6 +473,7 @@ class Users extends Models implements IModels {
                 'sexo' => $user_data['sexo'],
                 'email' => $user_data['email'],
                 'telefono' => $user_data['telefono'],
+                'nombre_banco' => $user_data['nombre_banco'],
                 'numero_cuenta' => $user_data['numero_cuenta'],
                 'tipo' => $tipo,
                 'tipo_cliente' => 'Simple',
@@ -484,6 +490,7 @@ class Users extends Models implements IModels {
             $img = "../views/img/codigos/usuarios/$conc.png";
             file_put_contents($img, file_get_contents($url));*/
 
+            #Usada para definir correctamente la dirección a guardar las imagenes
             $path = "../";
 
             #Se guarda la foto del documento de identidad
@@ -680,6 +687,7 @@ class Users extends Models implements IModels {
         $this->sexo = $http->request->get('sexo');
         $this->telefono = $http->request->get('telefono');
         $this->email = $http->request->get('email');
+        $this->nombre_banco = $http->request->get('nombre_banco');
         $this->numero_cuenta = $http->request->get('numero_cuenta');
         $this->tipo_cliente = $http->request->get('tipo_cliente');
 
@@ -723,6 +731,10 @@ class Users extends Models implements IModels {
 
         if (strlen($this->telefono) < 11){
             throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
+        }
+
+        if( Helper\Functions::emp($this->nombre_banco) ){
+            throw new ModelsException('Debe introducir el nombre de la entidad bancaria');
         }
 
         if( Helper\Functions::emp($this->numero_cuenta) ){
@@ -786,7 +798,6 @@ class Users extends Models implements IModels {
             #Revisa errores del formulario
             $this->errors();
 
-            
             $u = array(
             'primer_nombre' => $this->primer_nombre,
             'segundo_nombre' => $this->segundo_nombre,
@@ -795,6 +806,7 @@ class Users extends Models implements IModels {
             'usuario' => $this->usuario,
             'pass' => Helper\Strings::hash($this->pass),
             'sexo' => $this->sexo,
+            'nombre_banco' => $this->nombre_banco,
             'numero_cuenta' => $this->numero_cuenta,
             'telefono' => $this->telefono,
             'email' => $this->email
@@ -881,6 +893,7 @@ class Users extends Models implements IModels {
                 'segundo_apellido' => $this->segundo_apellido,
                 'sexo' => $this->sexo,
                 'telefono' => $this->telefono,
+                'nombre_banco' => $this->nombre_banco,
                 'numero_cuenta' => $this->numero_cuenta,
             );
                     
@@ -937,10 +950,9 @@ class Users extends Models implements IModels {
 
 
     /**
-     * Sube documentos de de un usuario
+     * Sube documentos de un usuario
      */
-    public function UploadDocuments(){
-        try {
+    public function UploadDocuments(){try {
         
             global $http,$config;
 
@@ -1103,7 +1115,6 @@ class Users extends Models implements IModels {
         } catch (ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         } 
-
     }
 
     /**

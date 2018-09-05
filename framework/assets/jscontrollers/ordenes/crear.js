@@ -53,14 +53,28 @@ function resetQuantity(id_cantidad_BsS,id_tipo,id_cantidad_gramos,id_monto_dolar
 */
 function createOrden(formulario){
     var $ocrendForm = $(this), __data = {};
-    $('#'+formulario).serializeArray().map(function(x){__data[x.name] = x.value;}); 
+   // $('#'+formulario).serializeArray().map(function(x){__data[x.name] = x.value;}); 
 
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
+
+        var paqueteDeDatos = new FormData();
+
+            paqueteDeDatos.append('foto_transferencia', $('#id_foto_transferencia')[0].files[0]);
+
+            paqueteDeDatos.append('cantidad_bolivar_soberano', $('#id_cantidad_bolivar_soberano').prop('value'));
+            paqueteDeDatos.append('tipo_gramo', $('#id_tipo').prop('value'));
+            paqueteDeDatos.append('cantidad', $('#id_cantidad').prop('value'));
+            paqueteDeDatos.append('monto_dolares', $('#id_monto_dolares').prop('value'));
+            paqueteDeDatos.append('tipo_orden', $('#id_tipo_orden').prop('value'));
+
+
         $.ajax({
             type : "POST",
             url : "api/orden/crear",
+            contentType: false,
+            processData: false,
             dataType: 'json',
-            data : __data,
+            data : paqueteDeDatos,
             beforeSend: function(){ 
                 $ocrendForm.data('locked', true) 
             },

@@ -1,14 +1,16 @@
 /**
  * 
- * @param {*} id_divisa 
- * @param {*} nombre 
+ * @param {int} id_divisa : contiene el id de la divisa en la db
+ * @param {string} nombre : nombre de la divisa
+ * @param {int} precio_dolares : precio de compra de la divisa
+ * @param {int} precio_dolares_venta : precio de venta de la divisa
  */
-function editar_una_divisa(id_divisa,nombre,precio_dolares) {
+function editar_una_divisa(id_divisa,nombre,precio_dolares,precio_dolares_venta) {
 
     $('#id_id_divisa').val(id_divisa);
     $('#id_nombre').val(nombre);
     $('#id_precio_dolares').val(precio_dolares);
-
+    $('#id_precio_dolares_venta').val(precio_dolares_venta);
 
     $('#editardivisa').modal('show');
 

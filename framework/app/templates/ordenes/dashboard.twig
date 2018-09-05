@@ -76,7 +76,7 @@
                                 <h5>Total de oro en dólares</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">{{ ((total_oro_comprado * ultimo_precio_oro)|round(2, 'ceil'))|number_format(2, ',', '.') }}</h1>
+                                <h1 class="no-margins">{{ ((total_oro_comprado * precio_oro_global.precio_dolares)|round(2, 'ceil'))|number_format(2, ',', '.') }}</h1>
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                                 <h5>Total de plata en dólares</h5>
                             </div>
                             <div class="ibox-content">
-                                <h1 class="no-margins">{{ ((total_plata_comprado * ultimo_precio_plata)|round(2, 'ceil'))|number_format(2, ',', '.') }}</h1>
+                                <h1 class="no-margins">{{ ((total_plata_comprado * precio_plata_global.precio_dolares)|round(2, 'ceil'))|number_format(2, ',', '.') }}</h1>
                             </div>
                         </div>
                     </div>

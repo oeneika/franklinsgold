@@ -26,6 +26,7 @@ class Divisa extends Models implements IModels {
     use DBModel;
     private $nombre;
     private $precio_dolares;
+    private $precio_dolares_venta;
 
     /**
      * Revisa errores en el formulario
@@ -36,6 +37,7 @@ class Divisa extends Models implements IModels {
         global $http;
         $this->nombre = $http->request->get('nombre');
         $this->precio_dolares = $http->request->get('precio_dolares');
+        $this->precio_dolares_venta = $http->request->get('precio_dolares_venta');
         
         # Verificar que no estan vacíos
         if (Helper\Functions::emp($this->nombre)) {
@@ -43,12 +45,17 @@ class Divisa extends Models implements IModels {
         }
 
         if (Helper\Functions::emp($this->precio_dolares)) {
-            throw new ModelsException('Debe introducir un precio.');
+            throw new ModelsException('Debe introducir un precio de compra.');
         }
 
-        if ( $this->precio_dolares<0 ) {
-            throw new ModelsException('Debe introducir un precio válido.');
+        if (Helper\Functions::emp($this->precio_dolares_venta)) {
+            throw new ModelsException('Debe introducir un precio de venta.');
         }
+
+        if ( $this->precio_dolares<0 or $this->precio_dolares_venta<0 ) {
+            throw new ModelsException('Debe introducir precios válidos.');
+        }
+        
         
     }
     /**
@@ -65,7 +72,8 @@ class Divisa extends Models implements IModels {
             # Registrar al usuario
             $id_divisa =  $this->db->insert('divisa',array(
                 'nombre_divisa' => $this->nombre,
-                'precio_dolares' => $this->precio_dolares
+                'precio_dolares' => $this->precio_dolares,
+                'precio_dolares_venta' => $this->precio_dolares_venta
             ));
 
             return array('success' => 1, 'message' => 'Dívisa creada con éxito!');
@@ -88,7 +96,8 @@ class Divisa extends Models implements IModels {
 
             $data = array(
                 'nombre_divisa' => $this->nombre,
-                'precio_dolares' => $this->precio_dolares
+                'precio_dolares' => $this->precio_dolares,
+                'precio_dolares_venta' => $this->precio_dolares_venta
             );
 
             #Edita un origen

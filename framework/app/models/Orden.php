@@ -31,9 +31,8 @@ class Orden extends Models implements IModels {
     private $cantidad;
     private $id_sucursal;
     private $tipo_orden;
-
     private $id_moneda;
-
+    private $file;
 
     /**
      * Revisa errores en el formulario
@@ -43,12 +42,16 @@ class Orden extends Models implements IModels {
     private function errors(bool $edit = false){
         global $http;
 
+        # Obtener los datos $_FILES los cuales contienen las imagenes cargadas
+        $this->file = $_FILES;
+       // dump($this->file);
         #Obtener los datos $_POST
         $this->id_usuario = ((new Model\Users)->getOwnerUser())["id_user"];
         $this->tipo_gramo = $http->request->get('tipo_gramo');     
         $this->cantidad = $http->request->get('cantidad');
         //$this->id_sucursal = $http->request->get('id_sucursal');
         $this->tipo_orden = $http->request->get('tipo_orden');
+         
         $cantidad_bolivar_soberano = $http->request->get('cantidad_bolivar_soberano');
         $monto_dolares = $http->request->get('monto_dolares');
         $compra_tienda = $http->request->get('compra_tienda');
@@ -96,6 +99,19 @@ class Orden extends Models implements IModels {
 
         if( $this->tipo_gramo === 'plata' and ($cantidad_bolivar_soberano<1 or $cantidad_bolivar_soberano>20000) and $compra_tienda == null  ){
             throw new ModelsException('Las compras o ventas de plata deben ser entre 1 y 20.000 BsS.');
+        }
+
+        if (array_key_exists('foto_transferencia',$this->file)) {
+            
+            if ($this->file["foto_transferencia"]["error"] != 0) {
+                throw new ModelsException('Hubo un error cargando la imagen de la transferencia, intente de nuevo.');
+            }
+
+            if ( !strpos($this->file["foto_transferencia"]["type"], "jpeg") and !strpos($this->file["foto_transferencia"]["type"], "jpg") and
+            !strpos($this->file["foto_transferencia"]["type"], "png") ){
+                throw new ModelsException('La transferencia debe ser una imagen.');
+            }
+
         }
 
         #Trae la cantidad en cartera para validar si existe la posibilidad de vender/intercambiar
@@ -156,11 +172,21 @@ class Orden extends Models implements IModels {
             #Si es oro trae el precio del oro 
             if($this->tipo_gramo === 'oro'){
 
-              $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
+                #Si es compra trae el precio de compra
+                if($this->tipo_orden==1){
+                    $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
+                }else{
+                    $precio = $d->getDivisas("precio_dolares_venta","nombre_divisa='Oro Franklin'")[0]["precio_dolares_venta"];
+                }             
 
             }else{
 
-              $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
+                #Si es compra trae el precio de compra
+                if($this->tipo_orden==1){
+                    $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
+                }else{
+                    $precio = $d->getDivisas("precio_dolares_venta","nombre_divisa='Plata Franklin'")[0]["precio_dolares_venta"];
+                }     
 
             }
 
@@ -178,9 +204,34 @@ class Orden extends Models implements IModels {
             if(NULL !== $this->id_moneda && !Functions::emp($this->id_moneda)){
                 $orden["codigo_moneda"] = $this->id_moneda;
             }
+
+            
            
-           #Crea una transaccion
+           #Crea una rden
            $id_orden =  $this->db->insert('orden',$orden);
+
+            #Usada para definir correctamente la dirección a guardar la imagen
+            $path = "../";
+
+           #Si se cargó la foto de la transferencia se guarda y se actualiza la db
+           $dir_transferencia=null;
+           if (array_key_exists('foto_transferencia',$this->file)) {               
+               $dir_transferencia = "views/img/transferencias/bancaria".$id_orden.".png";
+                          
+               $tmp_name = $this->file["foto_transferencia"]["tmp_name"];
+               // basename() puede evitar ataques de denegación de sistema de ficheros;
+               // podría ser apropiada más validación/saneamiento del nombre del fichero
+               $name = basename($this->file["foto_transferencia"]["name"]);
+               move_uploaded_file($tmp_name, "$path"."$dir_transferencia");
+
+
+             #Se actualiza la db con la ruta de los documentos
+             $this->db->update('orden',array(
+                'foto_transferencia'=> $dir_transferencia
+            ), "id_orden = '$id_orden'");
+
+                   
+           }
                     
             return array('success' => 1, 'message' => 'Orden creada con exito!');
         } catch(ModelsException $e) {
@@ -444,11 +495,21 @@ class Orden extends Models implements IModels {
                 #Si es oro trae el precio del oro 
                 if($tipo_gramo === 'oro'){
 
-                $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
+                    #Si es compra trae el precio de compra
+                    if($this->tipo_orden==1){
+                        $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
+                    }else{
+                        $precio = $d->getDivisas("precio_dolares_venta","nombre_divisa='Oro Franklin'")[0]["precio_dolares_venta"];
+                    }
 
                 }else{
 
-                $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
+                    #Si es compra trae el precio de compra
+                    if($this->tipo_orden==1){
+                        $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
+                    }else{
+                        $precio = $d->getDivisas("precio_dolares_venta","nombre_divisa='Plata Franklin'")[0]["precio_dolares_venta"];
+                    }
 
                 }
 
@@ -607,15 +668,21 @@ class Orden extends Models implements IModels {
      * Devuelve las ordenes que pertenecen a comercios afiliados
      * 
      *  @param int id_comercio_afiliado :  id del comercio afiliado
+     *  @param int id_vendedor :  id del vendedor del comercio afiliado
      * 
      *  @return array|false
      */
-    public function getOrdenesComerciosAfiliados(int $id_comercio_afiliado = 0){
+    public function getOrdenesComerciosAfiliados(int $id_comercio_afiliado = 0,int $id_vendedor = 0){
         Global $http;
 
-        $where="";
+        $where="o.estado=4";
+
         if($id_comercio_afiliado != 0){
-            $where = "o.estado=4 and u.id_comercio_afiliado=$id_comercio_afiliado";
+            $where = $where." and u.id_comercio_afiliado=$id_comercio_afiliado";
+        }
+
+        if($id_vendedor != 0){
+            $where = $where." and u.id_user=$id_vendedor";
         }
 
         $inner = "INNER JOIN users u ON u.id_user=o.id_vendedor

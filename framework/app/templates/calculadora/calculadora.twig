@@ -35,7 +35,7 @@
 										<option value="{{ultimo_precio_plata}}">Plata(Onza) {{lang.wrappercal.plataonza}}</option>
 										<option value="{{ultimo_precio_plata / 28.3495}}">Plata(Gramo) {{lang.wrappercal.platagramo}}</option>
 										{% for d in divisas %}
-											<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}</option>
+											<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}(Precio compra)</option>
 										{% endfor %}
 									</select>
 								</div>
@@ -72,7 +72,7 @@
 											<option value="{{ultimo_precio_plata}}">Plata(Onza) {{lang.wrappercal.plataonza}}</option>
 											<option value="{{ultimo_precio_plata / 28.3495}}">Plata(Gramo) {{lang.wrappercal.platagramo}}</option>
 											{% for d in divisas %}
-												<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}</option>
+												<option value="{{d.precio_dolares}}">{{d.nombre_divisa}}(Precio compra)</option>
 											{% endfor %}
 									</select>
 								</div>

@@ -35,27 +35,29 @@ class homeController extends Controllers implements IControllers {
         $u = new Model\Users;
         $di = new Model\Divisa;
 
-        #Trae al usuario logeado
-        $owner_user = $u->getOwnerUser();
-
-        #Si el usuario logeado es un supervisor de un comercio afiliado
+        #Variable que contendrá las ordenes a pedir segun el usuario logeado
         $ordenes = false;
-        if($owner_user["tipo"] == 3 and $owner_user["id_comercio_afiliado"]!=null){
-            $ordenes = $o->getOrdenesComerciosAfiliados($owner_user["id_comercio_afiliado"]);
+
+        #Si el usuario logeado es un supervisor de un comercio afiliado      
+        if($this->user["tipo"] == 3 and $this->user["id_comercio_afiliado"]!=null){
+            $ordenes = $o->getOrdenesComerciosAfiliados($this->user["id_comercio_afiliado"]);
+        }
+
+        #Si el usuario logeado es un vendedor de un comercio afiliado      
+        if($this->user["tipo"] == 1 and $this->user["id_comercio_afiliado"]!=null){
+            $ordenes = $o->getOrdenesComerciosAfiliados(0,$this->user["id_user"]);
         }
 
         #Si el usuario logeado es un admin
-        if($owner_user["tipo"] == 0 ){
+        if($this->user["tipo"] == 0 ){
             $ordenes = $o->getOrdenesComerciosAfiliados();
         }
 
         $ordenes_de_comercios = false;
         $this->template->display('home/home',array(
-            'data'=> $d->getData(),
+            'data'=> $d->getData(),//verificar esta data
             'clientes'=> $u->getUsers('*','tipo=2'),
             'ordenes' => $ordenes,
-            'precio_oro' => ($di->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'"))[0]["precio_dolares"],
-            'precio_plata' => ($di->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'"))[0]["precio_dolares"],
             'precio_bolivar' => ($di->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"]
         ));
     }

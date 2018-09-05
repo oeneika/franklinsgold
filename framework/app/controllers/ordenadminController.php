@@ -42,7 +42,7 @@ class ordenadminController extends Controllers implements IControllers {
                 $o->specifyOrden();           
             break;
             default:
-            $select = "orden.*,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
+            $select = "orden.*,u.primer_nombre,u.primer_apellido,u.numero_cuenta,u.nombre_banco";
             $this->template->display('ordenes/ordenes',array(
                 'ordenes' => $o->get($select),
                 'clientes' => $u->getUsers('*','users.tipo=2 or (tipo=1 and es_comercio_afiliado=1)')

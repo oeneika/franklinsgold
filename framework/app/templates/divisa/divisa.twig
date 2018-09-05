@@ -44,7 +44,8 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Nombre</th>
-                                        <th>Precio en dólares</th>
+                                        <th>Precio en dólares(compra)</th>
+                                        <th>Precio en dólares(venta)</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -54,8 +55,9 @@
                                         <td>{{d.id_divisa}}</td>
                                         <td>{{d.nombre_divisa}}</td>
                                         <td>{{d.precio_dolares|number_format(2, ',', '.')}}</td>
+                                        <td>{{d.precio_dolares_venta|number_format(2, ',', '.')}}</td>
                                         <td>
-                                            <a onclick="editar_una_divisa({{d.id_divisa}},'{{d.nombre_divisa}}',{{d.precio_dolares}})" style="font-size:22px;" title="Editar">
+                                            <a onclick="editar_una_divisa({{d.id_divisa}},'{{d.nombre_divisa}}',{{d.precio_dolares}},{{d.precio_dolares_venta}})" style="font-size:22px;" title="Editar">
                                                 <i class="fa fa-sliders-h naranja"></i>
                                             </a>
                                             <a onclick="delete_item({{d.id_divisa}},'divisa')" style="font-size:22px;" title="Eliminar">

@@ -40,14 +40,14 @@
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="cantidad_bolivar_soberano" class="control-label mb-1" >Cantidad BsS</label>
-                                            <input name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_compra" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_compra','id_tipo_compra','id_cantidad_compra','id_monto_dolares_compra')" class="form-control" >
+                                            <input name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano','id_tipo','id_cantidad','id_monto_dolares')" class="form-control" >
                                         </div>
                                     </div>  
 
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
-                                            <label for="id_tipo_compra" class="control-label mb-1" >Tipo metal</label>
-                                            <input name="tipo_gramo" id="id_tipo_compra" readonly="readonly" class="form-control" value="oro">
+                                            <label for="id_tipo" class="control-label mb-1" >Tipo metal</label>
+                                            <input name="tipo_gramo" id="id_tipo" readonly="readonly" class="form-control" value="oro">
                                             
                                         </div>                         
                                     </div>
@@ -55,20 +55,27 @@
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="cantidad" class="control-label mb-1">Cantidad gramos</label>
-                                            <input name="cantidad" id="id_cantidad_compra" type="number" readonly="readonly" class="form-control" >
+                                            <input name="cantidad" id="id_cantidad" type="number" readonly="readonly" class="form-control" >
                                         </div>                           
                                     </div>
                                     
                                     <div class="col-md-3 col-xs-12">
                                         <div class="form-group">
                                             <label for="monto_dolares" class="control-label mb-1">Monto(Dólares)</label>
-                                            <input name="monto_dolares" id="id_monto_dolares_compra" type="text" readonly="readonly" class="form-control" aria-required="true" aria-invalid="false" >
+                                            <input name="monto_dolares" id="id_monto_dolares" type="text" readonly="readonly" class="form-control" aria-required="true" aria-invalid="false" >
                                         </div>                           
                                     </div>
 
+                                    <div class="col-md-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="foto_transferencia" class="float-left">Subir imagen de la transferencia  </label>
+                                            <input type="file" class="form-control-file" name="foto_transferencia" id="id_foto_transferencia">
+                                        </div>
+                                    </div>
+                                    
                                 </div>  
                                
-                                <input name="tipo_orden" value="1" type="hidden"> 
+                                <input name="tipo_orden" id="id_tipo_orden" value="1" type="hidden"> 
                                 
                                 <div class="row">
                                     <div class="col-md-9"></div>
@@ -76,6 +83,7 @@
                                             <button type="button" id="crearOrdenCompra" class="btn btn-primary" style="width:100%">Comprar</button>
                                         </div>
                                 </div>
+
                             </form>
 
                         </div>
@@ -90,7 +98,7 @@
 <script src="./assets/jscontrollers/ordenes/crear.js"></script>
 <script>
     $(document).ready(function(){
-        showModal( {{ultimo_precio_oro}} , 0, {{precio_bolivar}} );
+        showModal( {{precio_oro_global.precio_dolares}} , 0, {{precio_bolivar}} );
     });
 </script>
 {% endblock %}

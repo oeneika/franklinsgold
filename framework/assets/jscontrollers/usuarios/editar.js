@@ -12,7 +12,7 @@
  * @param {*} id_sucursal 
  * @param {*} id_comercio 
  */
-function editar_un_usuario(id_user,tipo,tipo_cliente,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono,numero_cuenta,id_sucursal,id_comercio) {
+function editar_un_usuario(id_user,tipo,tipo_cliente,primer_nombre,segundo_nombre,primer_apellido,segundo_apellido,sexo,telefono,nombre_banco,numero_cuenta,id_sucursal,id_comercio) {
 
     $('#id_id_user').val(id_user);
     $('#id_primer_nombre').val(primer_nombre);
@@ -20,6 +20,7 @@ function editar_un_usuario(id_user,tipo,tipo_cliente,primer_nombre,segundo_nombr
     $('#id_primer_apellido').val(primer_apellido);
     $('#id_segundo_apellido').val(segundo_apellido);
     $('#id_telefono').val(telefono);
+    $('#id_nombre_banco').val(nombre_banco);
     $('#id_numero_cuenta').val(numero_cuenta);
     $('#id_tipo_cliente').val(null).change();
     $('#id_sucursal').val(null).change();

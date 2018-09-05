@@ -37,6 +37,7 @@ function registro(){
             paqueteDeDatos.append('telefono', $('#id_telefono').prop('value'));        
             paqueteDeDatos.append('pass', $('#id_pass').prop('value'));
             paqueteDeDatos.append('pass_repeat', $('#id_pass_repeat').prop('value')); 
+            paqueteDeDatos.append('nombre_banco', $('#id_nombre_banco').prop('value')); 
             paqueteDeDatos.append('numero_cuenta', $('#id_numero_cuenta').prop('value'));
 
             $('#registro').attr('disabled','disabled');

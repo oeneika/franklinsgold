@@ -33,32 +33,26 @@ class ordenclienteController extends Controllers implements IControllers {
         $select = "orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,u.primer_nombre,u.primer_apellido";
         $where_oro = "orden.estado=4 and orden.tipo_gramo='oro' and u.id_user='$id_owner'";
         $where_plata = "orden.estado=4 and orden.tipo_gramo='plata' and u.id_user='$id_owner'";
-        $precio_oro = ($d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'"))[0]["precio_dolares"];
-        $precio_plata = ($d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'"))[0]["precio_dolares"];
         $precio_bolivar = ($d->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"];
 
         switch($this->method) {
           case 'compraoro':
             $this->template->display('ordenes/compraoro',array(
-                'ultimo_precio_oro' => $precio_oro,
                 'precio_bolivar' => $precio_bolivar
             ));
           break;
           case 'compraplata':
             $this->template->display('ordenes/compraplata',array(
-                'ultimo_precio_plata' => $precio_plata,
                 'precio_bolivar' => $precio_bolivar
             ));
           break;
           case 'ventaoro':
             $this->template->display('ordenes/ventaoro',array(
-                'ultimo_precio_oro' => $precio_oro,
                 'precio_bolivar' => $precio_bolivar
             ));
           break;
           case 'ventaplata':
             $this->template->display('ordenes/ventaplata',array(
-                'ultimo_precio_plata' => $precio_plata,
                 'precio_bolivar' => $precio_bolivar
             ));
           break;
@@ -69,11 +63,7 @@ class ordenclienteController extends Controllers implements IControllers {
             'ultimas_cinco_ordenes_plata' => $o->get($select,$where_plata,5,"ORDER BY orden.id_orden DESC"),
             'total_oro_comprado' => $o->getTotalGramos("oro","id_usuario='$id_owner'"),
             'total_plata_comprado' => $o->getTotalGramos("plata","id_usuario='$id_owner'"),
-            /*'ultimo_precio_oro' => ($m->getPrice("oro"))[0][0],
-            'ultimo_precio_plata' => ($m->getPrice("plata"))[0][0],*/
-            'ultimo_precio_oro' => ($d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'"))[0]["precio_dolares"],
-            'ultimo_precio_plata' => ($d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'"))[0]["precio_dolares"],
-            'precio_bolivar' => ($d->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"],
+            'precio_bolivar' => $precio_bolivar
         ));
           break;
         }

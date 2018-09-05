@@ -45,6 +45,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Usuario</th>
+                                            <th>Entidad bancaria</th>
                                             <th>Número de cuenta</th>
                                             <!--<th>Sucursal</th>-->
                                             <th>Composición</th>
@@ -53,6 +54,7 @@
                                             <th>Monto(USD)</th>
                                             <th>Tipo Orden</th>
                                             <th>Estado</th>
+                                            <th>Foto transferencia bancaria</th>
                                             <th>Fecha Creación</th>
                                             <th>Moneda</th>
                                             <th>Acciones</th>
@@ -63,6 +65,7 @@
                                             <tr>
                                                 <td>{{ o.id_orden }}</td>
                                                 <td>{{ o.primer_nombre }} {{ o.primer_apellido }}</td>
+                                                <td>{{ o.nombre_banco }}</td>
                                                 <td>{{ o.numero_cuenta }}</td>
                                                 {#<td>{{ o.nombre_sucursal }}</td>#}
                                                 <td>{{ o.tipo_gramo }}</td>
@@ -71,6 +74,13 @@
                                                 <td>{{ (o.cantidad * o.precio )|number_format(2, ',', '.') }}</td>
                                                 <td style="{{ o.tipo_orden == 1 ? 'color: green;' : 'color: red;' }}">{{ o.tipo_orden == 1 ? 'Compra' : "Venta" }}</td>
                                                 <td>{{ o.estado == 1 ? 'Sin confirmaciones' : o.estado == 2 ? 'Confirmada por vendedor' : o.estado == 3 ? 'Confirmada por supervisor' : "Confirmada totalmente"}}</td>
+                                                <td>
+                                                    {% if o.foto_transferencia == null %}
+                                                    No posee
+                                                    {% else %}
+                                                    <a href="{{ o.foto_transferencia }}" target=_blank rel="noopener noreferrer"><img src="{{ o.foto_transferencia }}"  class="img-thumbnail" style="width:75px;"></a>
+                                                    {% endif %}                                                      
+                                                </td>
                                                 <td>{{ fecha('D, d F, Y h:i a', o.fecha) }}</td>
                                                 <td>{{ o.codigo_moneda }}</td>
                                                 <td>
@@ -96,6 +106,7 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Usuario</th>
+                                            <th>Entidad bancaria</th>
                                             <th>Número de cuenta</th>
                                             <!--<th>Sucursal</th>-->
                                             <th>Composición</th>
@@ -104,6 +115,7 @@
                                             <th>Monto(USD)</th>
                                             <th>Tipo Orden</th>
                                             <th>Estado</th>
+                                            <th>Foto transferencia bancaria</th>
                                             <th>Fecha Creación</th>
                                             <th>Moneda</th>
                                             <th>Acciones</th>

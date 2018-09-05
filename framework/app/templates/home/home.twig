@@ -10,10 +10,12 @@
             {% if owner_user.id_comercio_afiliado != null %}
             <div class="col-md-12">
                 <a onclick="showModal(0,0,0,'confirmarintercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Confirmar</a>
-                <a onclick="showModal({{precio_oro}},{{precio_plata}},{{precio_bolivar}},'intercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Intercambio</a>
+                <a onclick="showModal({{precio_oro_global.precio_dolares_venta}},{{precio_plata_global.precio_dolares_venta}},{{precio_bolivar}},'intercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Intercambio</a>
             </div>
             {% endif %}
         </div>
+
+        {% if owner_user.tipo != 1 %}
         <div class="row">
             <div class="col-md-6">
                 <div class="ibox float-e-margins">
@@ -68,8 +70,9 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
-        {% if owner_user.tipo == 0 or (owner_user.tipo == 3 and owner_user.id_comercio_afiliado != null)%}
+
         <div class="row">
                 <div class="row">
                    <div class="col-lg-12">
@@ -114,9 +117,9 @@
                    </div>
                </div>
            </div>
-        {% endif %}
 
 
+        {% if owner_user.tipo != 1  %}
         <div class="row">
 
             <div class="col-md-4">
@@ -187,6 +190,8 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+
     </div>
 
 {% include 'home/confirmarintercambioencomercio' %}
@@ -196,6 +201,9 @@
 {% endblock %}
 
 {% block appFooter %}
+    {% if owner_user.tipo != 1 %}
     <script src="./assets/jscontrollers/home/intercambioencomercio.js"></script>
+    {% endif %}
+
     <script src="./assets/jscontrollers/home/dashboard.js"></script>
 {% endblock %}
