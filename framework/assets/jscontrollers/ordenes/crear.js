@@ -47,10 +47,43 @@ function resetQuantity(id_cantidad_BsS,id_tipo,id_cantidad_gramos,id_monto_dolar
     $('#'+id_cantidad_gramos).val(Math.ceil10(cantidad, -2));
 }
 
+/**
+ * Trae las monedas segun la sucursal
+ */
+function getMonedas() {
+
+   $('#id_id_moneda').empty();
+    var sucursal = $('#id_id_sucursal').val();
+
+    $.ajax({
+        type : "GET",
+        url : "api/get/monedas/BySucursal/"+sucursal.toString(),
+        success : function(json) {
+         
+          for (var i = 0; i< json.length; i++){
+
+                $('.selector_moneda').append(new Option(
+                    " Gramos : " + json[i].peso + " Composición : " + json[i].composicion,
+                    json[i].codigo,
+                    false,
+                    true
+                ));
+
+          }
+        },
+        error : function(xhr, status) {
+         // error_toastr('Error', 'Ha ocurrido un problema');
+        }
+    });
+   
+
+}
+
 
 /**
  * Crea la orden
-*/
+ * @param {string} formulario : nombre del formulario
+ */
 function createOrden(formulario){
     var $ocrendForm = $(this), __data = {};
    // $('#'+formulario).serializeArray().map(function(x){__data[x.name] = x.value;}); 
@@ -59,13 +92,26 @@ function createOrden(formulario){
 
         var paqueteDeDatos = new FormData();
 
-            paqueteDeDatos.append('foto_transferencia', $('#id_foto_transferencia')[0].files[0]);
-
+            if($('#id_tipo_orden').val() != 3){
+                paqueteDeDatos.append('foto_transferencia', $('#id_foto_transferencia')[0].files[0]);
+            } 
+            
             paqueteDeDatos.append('cantidad_bolivar_soberano', $('#id_cantidad_bolivar_soberano').prop('value'));
             paqueteDeDatos.append('tipo_gramo', $('#id_tipo').prop('value'));
-            paqueteDeDatos.append('cantidad', $('#id_cantidad').prop('value'));
-            paqueteDeDatos.append('monto_dolares', $('#id_monto_dolares').prop('value'));
+            paqueteDeDatos.append('cantidad', $('#id_cantidad').prop('value'));     
             paqueteDeDatos.append('tipo_orden', $('#id_tipo_orden').prop('value'));
+
+            if($('#id_monto_dolares').val() != undefined){
+                paqueteDeDatos.append('monto_dolares', $('#id_monto_dolares').prop('value'));
+            }
+
+            if($('#id_id_moneda').val() != undefined){
+                paqueteDeDatos.append('id_moneda', $('#id_id_moneda').prop('value'));
+            }
+
+            if($('#id_cliente').val() != undefined){
+                paqueteDeDatos.append('email', $('#id_cliente').prop('value'));
+            }
 
 
         $.ajax({
@@ -105,40 +151,6 @@ function createOrden(formulario){
         });
     }
 } 
-
-/**
- * Trae las monedas segun la sucursal
- */
-function getMonedas() {
-
-   $('#id_id_moneda').empty();
-    var sucursal = $('#id_id_sucursal').val();
-
-    $.ajax({
-        type : "GET",
-        url : "api/get/monedas/BySucursal/"+sucursal.toString(),
-        success : function(json) {
-         
-          for (var i = 0; i< json.length; i++){
-
-                $('.selector_moneda').append(new Option(
-                    json[i].codigo + " Peso : " + json[i].peso,
-                    json[i].codigo,
-                    false,
-                    true
-                ));
-
-          }
-        },
-        error : function(xhr, status) {
-         // error_toastr('Error', 'Ha ocurrido un problema');
-        }
-    });
-   
-
-}
-
-
 
 /**
  * Events

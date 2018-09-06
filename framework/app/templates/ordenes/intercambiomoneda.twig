@@ -1,0 +1,104 @@
+{% extends 'overall/layout' %}
+{% block appBody %}
+<div id="page-wrapper" class="gray-bg">
+<div class="row border-bottom">
+    {% include 'overall/header' %}
+</div>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2><i class="fa fa-money"></i> Intercambio</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="home/">Home</a>
+                </li>
+                <li class="active">
+                    <strong>Intercambiar gramos de oro o plata por monedas</strong>
+                </li>
+            </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+             <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                            <h5>Intercambiar</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                    </div>
+                    <div class="ibox-content">
+                        <form id="crearOrdenIntercambio_form">
+                            <div class="row">
+                                
+                                <div class="col-md-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="cc-payment" class="control-label mb-1" >Oro o Plata</label>
+                                        <select name="tipo_gramo" id="id_tipo" class="form-control" style="width: 100%">
+                                            <option disabled selected value>Seleccione un tipo</option>
+                                            <option value="oro">Oro</option>
+                                            <option value="plata">Plata</option>
+                                        </select>
+                                    </div>                                   
+                                </div>
+
+                                <div class="col-md-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="cc-payment" class="control-label mb-1">Gramos</label>
+                                        <input name="cantidad" id="id_cantidad" type="number" class="form-control" aria-required="true" aria-invalid="false" >
+                                    </div>                           
+                                </div>
+
+                                <div class="col-md-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="cc-payment" class="control-label mb-1" >Sucursal</label>
+                                        <select name="id_sucursal" id="id_id_sucursal" onchange="getMonedas()" class="form-control" style="width: 100%">
+                                            <option disabled selected value>Seleccione un sucursal</option>
+                                            {% for s in sucursales %}
+                                                <option value="{{s.id_sucursal}}">{{s.nombre}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="cc-payment" class="control-label mb-1" >Moneda</label>
+                                        <select name="id_moneda" id="id_id_moneda" class="form-control selector_moneda" style="width: 100%">
+                                            <option disabled selected value>Seleccione una moneda</option>                                              
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>  
+                            
+                            <input name="tipo_orden" id="id_tipo_orden" value="3" type="hidden"> 
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button type="button" id="crearOrdenIntercambio" class="btn btn-primary" style="width:100%">Crear</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block appFooter %}
+<script src="./assets/jscontrollers/ordenes/crear.js"></script>
+<script>
+    $(document).ready(function(){
+        showModal( {{precio_oro_global.precio_dolares_venta}} , 0, {{precio_bolivar}} );
+    });
+</script>
+{% endblock %}

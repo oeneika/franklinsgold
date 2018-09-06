@@ -45,11 +45,11 @@ class Orden extends Models implements IModels {
         # Obtener los datos $_FILES los cuales contienen las imagenes cargadas
         $this->file = $_FILES;
        // dump($this->file);
-
+       
         #Obtener los datos $_POST
         #Usada en caso de ser una compra/venta vía movil o tienda
         $email = $http->request->get('email');
-        if ( !Helper\Functions::emp($email)) {
+        if ( !Helper\Functions::emp($email) and $email!=null) {
             $email = $this->db->scape($email);
 
             $this->id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
@@ -61,23 +61,11 @@ class Orden extends Models implements IModels {
         $this->tipo_gramo = $http->request->get('tipo_gramo');     
         $this->cantidad = $http->request->get('cantidad');
         $this->tipo_orden = $http->request->get('tipo_orden');
-         
+        $this->id_moneda = $http->request->get('id_moneda');
+
+        #Para validar el mínimo y el máximo diario
         $cantidad_bolivar_soberano = $http->request->get('cantidad_bolivar_soberano');
         $monto_dolares = $http->request->get('monto_dolares');
-        $compra_tienda = $http->request->get('compra_tienda');
-
-        
-
-        #Hago esto para que funcionen los servicios sin problema
-        $rango = $this->db->select("tipo_cliente","users",null,"id_user='$this->id_usuario'")[0]["tipo_cliente"];
-        $total_movido_hoy = $this->getDailyMoneyByUser($this->id_usuario) + ($monto_dolares == null ? 0 : $monto_dolares);
-        
-        #Valida que la compra no exceda el monto diario permitido según el rango
-        if($total_movido_hoy > $this->getDailyMoneyByRango($rango)  ){
-            throw new ModelsException('Ha excedido el límite diario de dinero movido.');
-        }
-
-        $this->id_moneda = $http->request->get('id_moneda');
 
         # Verificar que no están vacíos
         if (Helper\Functions::e($this->id_usuario,$this->tipo_gramo,$this->cantidad/*,$this->id_sucursal*/,$this->tipo_orden)) {
@@ -96,14 +84,30 @@ class Orden extends Models implements IModels {
             throw new ModelsException('Tipo de orden inválida.');
         }
 
-        if( $this->tipo_gramo === 'oro' and $cantidad_bolivar_soberano<20000 and $compra_tienda == null ){
+        #En caso de ser una compra/venta via web o app movil, se usa isset porque en js se usó un metodo disinto para serializar(caso particular)
+        if( $this->tipo_gramo === 'oro' and $cantidad_bolivar_soberano<20000 and $monto_dolares!=null and $this->tipo_orden!==3){
             throw new ModelsException('Las compras o ventas de oro son a partir 20.000 BsS.');
         }
 
-        if( $this->tipo_gramo === 'plata' and ($cantidad_bolivar_soberano<1 or $cantidad_bolivar_soberano>20000) and $compra_tienda == null  ){
+        if( $this->tipo_gramo === 'plata' and ($cantidad_bolivar_soberano<1 or $cantidad_bolivar_soberano>20000) and $monto_dolares!=null and $this->tipo_orden!==3 ){
             throw new ModelsException('Las compras o ventas de plata deben ser entre 1 y 20.000 BsS.');
         }
 
+        #Si no es un intercambio o un compra desde tienda procede a validar el dinero movido en el día
+        if ( $this->tipo_orden!== 3 and $monto_dolares == null) {
+
+        #Valido según el rango del usuario si es posible hacer una transacción mas
+        $rango = $this->db->select("tipo_cliente","users",null,"id_user='$this->id_usuario'")[0]["tipo_cliente"];
+        $total_movido_hoy = $this->getDailyMoneyByUser($this->id_usuario) + ($monto_dolares == null ? 0 : $monto_dolares);
+        
+            #Valida que la compra no exceda el monto diario permitido según el rango
+            if($total_movido_hoy > $this->getDailyMoneyByRango($rango)  ){
+                throw new ModelsException('Ha excedido el límite diario de dinero movido.');
+            }
+            
+        }
+
+        #Si se subió una foto valida que se haya hecho bien y el formato
         if (array_key_exists('foto_transferencia',$this->file)) {
             
             if ($this->file["foto_transferencia"]["error"] != 0) {
@@ -135,9 +139,9 @@ class Orden extends Models implements IModels {
 
             #Si es un intercambio exige la moneda
             if($this->tipo_orden == 3) {    
-                
-                if(Helper\Functions::e($this->id_moneda)){
-                    throw new ModelsException('Debe seleccionar todos los elementos.');
+
+                if(Helper\Functions::emp($this->id_moneda) or $this->id_moneda==null){
+                    throw new ModelsException('Debe seleccionar la moneda.');
                 }
                 
                 $moneda = $this->db->select("peso,composicion","moneda",null,"codigo='$this->id_moneda'");
@@ -149,7 +153,7 @@ class Orden extends Models implements IModels {
                 }
 
                 if($peso != $this->cantidad){
-                    throw new ModelsException('Los gramos de oro a intercambiar no coinciden con el peso de la moneda.');
+                    throw new ModelsException('Los gramos de oro a intercambiar no coinciden con el peso(gramos) de la moneda.');
                 }
 
             }
@@ -169,7 +173,7 @@ class Orden extends Models implements IModels {
 
             #Valida los posibles errores
             $this->errors();
-
+            
             $d = new Model\Divisa();
 
             #Si es oro trae el precio del oro 
@@ -204,17 +208,15 @@ class Orden extends Models implements IModels {
                 'estado' => 1
             );
             
-            if(NULL !== $this->id_moneda && !Functions::emp($this->id_moneda)){
+            if(!Helper\Functions::emp($this->id_moneda) or $this->id_moneda!=null){
                 $orden["codigo_moneda"] = $this->id_moneda;
             }
-
-            
-           
-           #Crea una rden
+        
+           #Crea una orden
            $id_orden =  $this->db->insert('orden',$orden);
 
-            #Usada para definir correctamente la dirección a guardar la imagen
-            $path = "../";
+           #Usada para definir correctamente la dirección a guardar la imagen
+           $path = "../";
 
            #Si se cargó la foto de la transferencia se guarda y se actualiza la db
            $dir_transferencia=null;
@@ -232,7 +234,6 @@ class Orden extends Models implements IModels {
              $this->db->update('orden',array(
                 'foto_transferencia'=> $dir_transferencia
             ), "id_orden = '$id_orden'");
-
                    
            }
                     
@@ -334,6 +335,7 @@ class Orden extends Models implements IModels {
 
             }else{
 
+                #En el caso de que la cartera no exista implica que el usuario ya no tiene gramos para vender/intermcabiar
                 if( $cartera == false ){
                
                     Functions::redir($config['build']['url'] . 'ordenadmin/&success=false');
@@ -371,8 +373,10 @@ class Orden extends Models implements IModels {
                         ),"id_orden = $this->id");
 
                         Functions::redir($config['build']['url'] . 'ordenadmin/&success=true');
-                    }else{
 
+                        
+                    }else{
+                        #El usuario ya no tiene gramos para vender/intermcabiar
                         Functions::redir($config['build']['url'] . 'ordenadmin/&success=false');
 
                     }

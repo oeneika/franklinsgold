@@ -14,8 +14,8 @@
                        
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="id_tipo_orden_transaccion" class="control-label mb-1" >Tipo transacción</label>
-                                <select name="tipo_orden" id="id_tipo_orden_transaccion" class="form-control" style="width: 100%">
+                                <label for="id_tipo_orden" class="control-label mb-1" >Tipo transacción</label>
+                                <select name="tipo_orden" id="id_tipo_orden" class="form-control" style="width: 100%">
                                     <option disabled selected value>Tipo</option>
                                     <option value="1">Compra</option>
                                     <option value="2">Venta</option>
@@ -41,7 +41,7 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="id_tipo_gramo" class="control-label mb-1" >Tipo metal</label>
-                                <select name="tipo_gramo" id="id_tipo_gramo" class="form-control" style="width: 100%">
+                                <select name="tipo_gramo" id="id_tipo" class="form-control" style="width: 100%">
                                     <option disabled selected value>Tipo</option>
                                     <option value="oro">Oro</option>
                                     <option value="plata">Plata</option>
@@ -52,13 +52,19 @@
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
                                 <label for="cantidad" class="control-label mb-1" >Cantidad(gramos)</label>
-                                <input name="cantidad" id="cantidad" type="number" class="form-control"> 
+                                <input name="cantidad" id="id_cantidad" type="number" class="form-control"> 
                             </div>                         
+                        </div>
+
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="foto_transferencia" class="float-left">Subir imagen de la transferencia  </label>
+                                <input type="file" class="form-control-file" name="foto_transferencia" id="id_foto_transferencia">
+                            </div>
                         </div>
 
                     </div>
 
-                    <input name="compra_tienda" type="hidden" value="50000"> 
                                           
                 </form>
 

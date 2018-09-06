@@ -56,6 +56,11 @@ class ordenclienteController extends Controllers implements IControllers {
                 'precio_bolivar' => $precio_bolivar
             ));
           break;
+          case 'intercambiomoneda':
+            $this->template->display('ordenes/intercambiomoneda',array(
+                'sucursales' => $s->get()
+            ));
+          break;
           default:
             $this->template->display('ordenes/dashboard',array(
             'sucursales' => $s->get(),
@@ -64,7 +69,7 @@ class ordenclienteController extends Controllers implements IControllers {
             'total_oro_comprado' => $o->getTotalGramos("oro","id_usuario='$id_owner'"),
             'total_plata_comprado' => $o->getTotalGramos("plata","id_usuario='$id_owner'"),
             'precio_bolivar' => $precio_bolivar
-        ));
+           ));
           break;
         }
         
