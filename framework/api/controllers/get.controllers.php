@@ -150,15 +150,41 @@ $app->get('/terminosycondiciones/get', function() use($app) {
 */
 $app->get('/get/preciosDivisas', function() use($app) {
     $d = new Model\Divisa; 
+    $o = new Model\Orden; 
 
+    #Precios actuales de las divisas
     $oro = $d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Oro Franklin'")[0];
     $plata = $d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Plata Franklin'")[0];
     $bss = $d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Bolívar Soberano'")[0];
 
+    #Ultimas ordenes de compra/venta de oro/plata
+    $ultimop_oro_compra = $o->get("precio","orden","tipo_gramo='oro' and tipo_orden=1 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
+    $ultimop_oro_venta = $o->get("precio","orden","tipo_gramo='oro' and tipo_orden=2 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
+    $ultimop_plata_compra = $o->get("precio","orden","tipo_gramo='plata' and tipo_orden=1 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
+    $ultimop_plata_venta = $o->get("precio","orden","tipo_gramo='plata' and tipo_orden=2 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
+
+    #Configura el estado de los precios, 0:disminuyo ,1:aumento, 2:se mantuvo
+    $estado_oro_compra = $ultimop_oro_compra > $oro["precio_dolares"] ? 0 : $ultimop_oro_compra < $oro["precio_dolares"] ? 1 : 2;
+    $estado_oro_venta = $ultimop_oro_venta > $oro["precio_dolares_venta"] ? 0 : $ultimop_oro_venta < $oro["precio_dolares_venta"] ? 1 : 2;
+    $estado_plata_compra = $ultimop_plata_compra > $plata["precio_dolares"] ? 0 : $ultimop_plata_compra < $plata["precio_dolares"] ? 1 : 2;
+    $estado_plata_venta = $ultimop_plata_venta > $plata["precio_dolares_venta"] ? 0 : $ultimop_plata_venta < $plata["precio_dolares_venta"] ? 1 : 2;
+
     $a = array (
-        'oro' => ($oro),
-        'plata' =>($plata),
-        'bss' =>($bss)
+        'oro' => array(
+            $oro,
+            'estado_compra'=>$estado_oro_compra,
+            'estado_venta'=>$estado_oro_venta
+        ),
+        'plata' =>array(
+            $plata,
+            'estado_compra'=>$estado_plata_compra,
+            'estado_venta'=>$estado_plata_venta
+        ),
+        'bss' =>array(
+            $bss,
+            'estado_compra'=>0,
+            'estado_venta'=>0
+        )
     );
 
     return $app->json($a);
