@@ -158,10 +158,10 @@ $app->get('/get/preciosDivisas', function() use($app) {
     $bss = $d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Bolívar Soberano'")[0];
 
     #Ultimas ordenes de compra/venta de oro/plata
-    $ultimop_oro_compra = $o->get("precio","orden","tipo_gramo='oro' and tipo_orden=1 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
-    $ultimop_oro_venta = $o->get("precio","orden","tipo_gramo='oro' and tipo_orden=2 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
-    $ultimop_plata_compra = $o->get("precio","orden","tipo_gramo='plata' and tipo_orden=1 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
-    $ultimop_plata_venta = $o->get("precio","orden","tipo_gramo='plata' and tipo_orden=2 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
+    $ultimop_oro_compra = $o->get("precio","tipo_gramo='oro' and tipo_orden=1 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
+    $ultimop_oro_venta = $o->get("precio","tipo_gramo='oro' and tipo_orden=2 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
+    $ultimop_plata_compra = $o->get("precio","tipo_gramo='plata' and tipo_orden=1 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
+    $ultimop_plata_venta = $o->get("precio","tipo_gramo='plata' and tipo_orden=2 and estado=4",1,"ORDER BY id_orden")[0]["precio"];
 
     #Configura el estado de los precios, 0:disminuyo ,1:aumento, 2:se mantuvo
     $estado_oro_compra = $ultimop_oro_compra > $oro["precio_dolares"] ? 0 : $ultimop_oro_compra < $oro["precio_dolares"] ? 1 : 2;
@@ -171,19 +171,22 @@ $app->get('/get/preciosDivisas', function() use($app) {
 
     $a = array (
         'oro' => array(
-            $oro,
+            'precios'=>$oro,
+            'estados'=>array(
             'estado_compra'=>$estado_oro_compra,
-            'estado_venta'=>$estado_oro_venta
+            'estado_venta'=>$estado_oro_venta)
         ),
         'plata' =>array(
-            $plata,
+            'precios'=>$plata,
+            'estados'=>array(
             'estado_compra'=>$estado_plata_compra,
-            'estado_venta'=>$estado_plata_venta
+            'estado_venta'=>$estado_plata_venta)
         ),
         'bss' =>array(
-            $bss,
-            'estado_compra'=>0,
-            'estado_venta'=>0
+            'precios'=>$bss,
+            'estados'=>array(
+            'estado_compra'=>2,
+            'estado_venta'=>2)
         )
     );
 
