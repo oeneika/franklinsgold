@@ -318,7 +318,8 @@ $app->post('/rango/editar', function() use($app) {
     return $app->json($r->edit());   
 });
 
-/**
+
+/**
  * Endpoint para inicio
  *
  * @return json

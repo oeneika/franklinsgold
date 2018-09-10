@@ -618,7 +618,7 @@ class Orden extends Models implements IModels {
  
         $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
               
-        $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
+        $select = "orden.*,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
         $where = "orden.estado=4 and orden.tipo_gramo='$tipo_gramo' and orden.tipo_orden='$tipo' and u.id_user='$id_usuario'";
     
         return $this->get($select,$where,5,"ORDER BY orden.id_orden DESC");
@@ -665,7 +665,7 @@ class Orden extends Models implements IModels {
  
         $id_usuario = $this->db->select("id_user","users",null,"email='$email'")[0]["id_user"];
               
-        $select = "orden.*,s.nombre as nombre_sucursal,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
+        $select = "orden.*,u.primer_nombre,u.primer_apellido,u.numero_cuenta";
         $where = "orden.estado=4 and u.id_user='$id_usuario'";
     
         return $this->get($select,$where,5,"ORDER BY orden.id_orden DESC");
