@@ -329,10 +329,10 @@ class Users extends Models implements IModels {
 
             # Obtener los datos $_POST
             $user_data = $http->request->all();
-            var_dump($user_data);
+            
             # Obtener los datos $_FILES los cuales contienen las imagenes cargadas
             $fotos = $_FILES;
-            var_dump($fotos);
+            
            
             #Todo usuario que se registre será un cliente
             $tipo = 2;
@@ -518,8 +518,8 @@ class Users extends Models implements IModels {
             # Crea la relación con los documentos
             $id_documentos = $this->db->insert('documentos', array(
                 'documento_identidad' => $config['build']['url'] . $dir_documento,
-                'pasaporte' => $config['build']['url'] . $dir_pasaporte
-            ));
+                'pasaporte' => $dir_pasaporte == null ? null : $config['build']['url'] . $dir_pasaporte
+            )); 
 
             #Se actualiza la db con la ruta de los documentos
             $this->db->update('users',array(
@@ -1098,15 +1098,26 @@ class Users extends Models implements IModels {
                         
                 }
 
+                #Id de los documentos del usuario
                 $id_documentos = $this->db->select("id_documentos","users",null,"id_user=$id_user")[0]["id_documentos"];
 
-                $data = array(
+                #Array con datos validos para el update
+                $data = array();
+
+                $docs = array(
                     'documento_identidad' =>  $dir_foto_documento == null ? null : $config['build']['url'] . $dir_foto_documento,
                     'pasaporte' => $dir_pasaporte == null ? null : $config['build']['url'] . $dir_pasaporte,
                     'rif' => $dir_rif == null ? null : $config['build']['url'] . $dir_rif,
                     'referencia_bancaria_1' => $dir_ref1 == null ? null : $config['build']['url'] . $dir_ref1,
                     'referencia_bancaria_2' => $dir_ref2 == null ? null : $config['build']['url'] . $dir_ref2
                 );
+
+                #Valida que los datos no esten vacios y los inserta en el array "data"
+                foreach ($docs as $key=>$val) {
+                    if(NULL !== $docs[$key] && !Functions::emp($docs[$key])){
+                        $data[$key] = $docs[$key];
+                    }
+                }
 
                 #Se actualiza la db con la ruta de los documentos
                 $this->db->update('documentos',$data, "id_documento = '$id_documentos'");
