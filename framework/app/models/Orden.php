@@ -250,12 +250,14 @@ class Orden extends Models implements IModels {
         Global $config;
 
         #Trae la orden, valida su existencia y la concreta
-        $orden = $this->db->select("estado","orden",null,"id_orden='$this->id'");
+        $orden = $this->db->select("estado,id_usuario","orden",null,"id_orden='$this->id'");
 
         #Si la orden no existe no hace ninguna confirmación
         if($orden == false){
             Functions::redir($config['build']['url'] . 'ordenadmin/&success=false');
         }
+
+        $id_user = $orden[0]["id_usuario"];
 
         #Si el usuario logeado es un vendedor y la orden esta en estado 1 da la primera confirmación
         if($orden[0]["estado"] == 1 and ((new Model\Users)->getOwnerUser())["tipo"] == 1){
@@ -263,6 +265,16 @@ class Orden extends Models implements IModels {
             $this->db->update('orden',array(
                 'estado'=>2
             ),"id_orden = $this->id");
+
+            #Trae los datos del usuario de la orden
+            $user = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_user'");
+
+            #Envía correo informativo sobre la orden al usuario
+            (new Model\Transaccion)->sendSuccesMail('Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] . 
+            ', le informamos que su orden ha sido confirmada por un vendedor de Franklins Gold, la misma se hará efectiva con la '.
+            'confirmación de un supervisor y posteriormente la confirmación de un administrador, le estaremos informando dicha trama.'.
+             '<br /> 
+             <br />', $user[0]["email"],$user[0]["primer_nombre"],$user[0]["primer_apellido"]);
 
         }
 
@@ -273,9 +285,19 @@ class Orden extends Models implements IModels {
                 'estado'=>3
             ),"id_orden = $this->id");
 
+            #Trae los datos del usuario de la orden
+            $user = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_user'");
+
+            #Envía correo informativo sobre la orden al usuario
+            (new Model\Transaccion)->sendSuccesMail('Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] . 
+            ', le informamos que su orden ha sido confirmada por un supervisor de Franklins Gold, la misma se hará efectiva con la '.
+            'confirmación de un administrador, le estaremos informando dicha trama.'.
+             '<br /> 
+             <br />', $user[0]["email"],$user[0]["primer_nombre"],$user[0]["primer_apellido"]);
+
         }
 
-        Functions::redir($config['build']['url'] . 'ordenadmin/&success=false');
+        Functions::redir($config['build']['url'] . 'ordenadmin/&success=true');
 
     }
 
@@ -302,6 +324,9 @@ class Orden extends Models implements IModels {
             $tipo_gramo = $orden[0]["tipo_gramo"];
             $cantidad_orden = $orden[0]["cantidad"];
             $cartera = $this->db->select("id_usuario_gramo,cantidad","user_gramo",null,"id_usuario='$id_usuario' and tipo_gramo='$tipo_gramo'");
+
+            #Trae los datos del usuario de la orden
+            $user = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_usuario'");
 
 
             #Si la orden es una compra inserta o actualiza
@@ -330,6 +355,13 @@ class Orden extends Models implements IModels {
                 $this->db->update('orden',array(
                     'estado'=>4
                 ),"id_orden = $this->id");
+
+
+                #Envía correo informativo sobre la orden al usuario
+                (new Model\Transaccion)->sendSuccesMail('Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] . 
+                ', le informamos que su orden ha sido confirmada totalmente, en este momento su transacción ha sido satisfactoria.'.
+                '<br /> 
+                <br />', $user[0]["email"],$user[0]["primer_nombre"],$user[0]["primer_apellido"]);
 
                 Functions::redir($config['build']['url'] . 'ordenadmin/&success=true');
 
@@ -371,6 +403,13 @@ class Orden extends Models implements IModels {
                         $this->db->update('orden',array(
                             'estado'=>4
                         ),"id_orden = $this->id");
+
+
+                        #Envía correo informativo sobre la orden al usuario
+                        (new Model\Transaccion)->sendSuccesMail('Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] . 
+                        ', le informamos que su orden ha sido confirmada totalmente, en este momento su transacción ha sido satisfactoria.'.
+                        '<br /> 
+                        <br />', $user[0]["email"],$user[0]["primer_nombre"],$user[0]["primer_apellido"]);
 
                         Functions::redir($config['build']['url'] . 'ordenadmin/&success=true');
 
