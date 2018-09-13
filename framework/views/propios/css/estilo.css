@@ -96,6 +96,10 @@ li.active strong, .naranja{
 	color: white;
 }
 
+.faq-question:hover,a:focus, a:hover{
+	color: #d26815;
+}
+
 @media (min-width: 768px ){
 	.bloque{
 		background-color: #f7a54a;
@@ -105,11 +109,9 @@ li.active strong, .naranja{
 		min-height: 40px;
 	}
 
-	
-}
-
-@media (min-width: 768px) and (max-width: 1300px){
-	.sizepequeño{
-		font-size: 11px;
+	.contenidobox{
+		height: 585px;
 	}
+
+	
 }
