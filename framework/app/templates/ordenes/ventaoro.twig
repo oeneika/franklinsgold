@@ -36,39 +36,43 @@
                         <div class="ibox-content">
                             <form id="crearOrdenCompra_form">
                                 <div class="row">
-                                    <div class="col-md-3 col-xs-12">
+                                    <div class="col-md-2 col-xs-12">
                                         <div class="form-group">
                                             <label for="cantidad_bolivar_soberano" class="control-label mb-1" >Cantidad BsS</label>
                                             <input name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano','id_tipo','id_cantidad','id_monto_dolares')" class="form-control" >
                                         </div>
                                     </div>  
 
-                                    <div class="col-md-3 col-xs-12">
+                                    <div class="col-md-2 col-xs-12">
                                         <div class="form-group">
                                             <label for="id_tipo" class="control-label mb-1" >Tipo metal</label>
                                             <input name="tipo_gramo" id="id_tipo" readonly="readonly" class="form-control" value="oro">
                                         </div>                         
                                     </div>
 
-                                    <div class="col-md-3 col-xs-12">
+                                    <div class="col-md-2 col-xs-12">
                                         <div class="form-group">
                                             <label for="cantidad" class="control-label mb-1">Cantidad gramos</label>
                                             <input name="cantidad" id="id_cantidad" type="number" readonly="readonly" class="form-control" >
                                         </div>                           
                                     </div>
                                     
-                                    <div class="col-md-3 col-xs-12">
+                                    <div class="col-md-2 col-xs-12">
                                         <div class="form-group">
                                             <label for="monto_dolares" class="control-label mb-1">Monto(Dólares)</label>
                                             <input name="monto_dolares" id="id_monto_dolares" type="text" readonly="readonly" class="form-control" aria-required="true" aria-invalid="false" >
                                         </div>                           
                                     </div>
 
-                                    <div class="col-md-12 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="foto_transferencia" class="float-left">Subir imagen de la transferencia  </label>
-                                            <input type="file" class="form-control-file" name="foto_transferencia" id="id_foto_transferencia">
-                                        </div>
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <br>
+                                            <span class="btn btn-default btn-file" style="margin-top:5px;"><span class="fileinput-new">Seleccionar archivo para la transferencia</span>
+                                            <span class="fileinput-exists">Cambiar</span>
+                                            <input type="file" name="foto_transferencia" id="id_foto_transferencia" style="width:100%" /></span>
+                                            <span class="fileinput-filename"></span>
+                                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">×</a>
+                                        </div> 
                                     </div>
 
                                 </div>  
@@ -77,7 +81,7 @@
                                 
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <button type="button" id="crearOrdenCompra" class="btn btn-primary" style="width:100%">Vender</button>
+                                        <button type="button" id="crearOrdenCompra" class="btn btn-primary" style="width:100%">Realizar Venta</button>
                                     </div>
                                 </div>
                             </form>

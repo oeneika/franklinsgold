@@ -18,19 +18,35 @@
         </ul>
 </nav>
 <div class="container">
-    <div class="row margintop-60">
+    <div class="row margintop-60 fonditola">
                 <div class="col-sm-6">
                     <div class="row">
-                        <h4 style="padding-left:15px" class="colororo">Precio del ORO</h4>
-                        <div class="col-sm-4 sizepequeño"><span style="font-weight:bold;">Venta:</span> ${{precio_oro_global.precio_dolares_venta}}</div>
-                        <div class="col-sm-4 sizepequeño"><span style="font-weight:bold;">Compra:</span> ${{precio_oro_global.precio_dolares}}</div>
+                        <h4 style="padding-left:15px" class="colororo font-18">Precio del ORO</h4>
+                        <div class="col-sm-6 font-18">
+                            <span style="font-weight:bold;">VENTA:</span> ${{precio_oro_global.precio_dolares_venta}}
+                            <br>
+                            <a type="button" href="ordencliente/ventaoro/" class="btn btn-primary" style="width:50%">Vender Oro</a>
+                        </div>
+                        <div class="col-sm-6 font-18">
+                            <span style="font-weight:bold;">COMPRA:</span> ${{precio_oro_global.precio_dolares}}
+                            <br>
+                            <a type="button" href="ordencliente/compraoro/" class="btn btn-primary" style="width:50%">Comprar Oro</a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="row">
-                        <h4 style="padding-left:15px" class="colorplata">Precio de la PLATA</h4>
-                        <div class="col-sm-4 sizepequeño"><span style="font-weight:bold;">Venta:</span> ${{precio_plata_global.precio_dolares_venta}}</div>
-                        <div class="col-sm-4 sizepequeño"><span style="font-weight:bold;">Compra:</span> ${{precio_plata_global.precio_dolares}}</div>
+                        <h4 style="padding-left:15px" class="colorplata font-18">Precio de la PLATA</h4>
+                        <div class="col-sm-6 font-18">
+                            <span style="font-weight:bold;">VENTA:</span> ${{precio_plata_global.precio_dolares_venta}}
+                            <br>
+                            <a type="button" href="ordencliente/ventaplata/" class="btn btn-primary" style="width:50%">Vender plata</a>
+                        </div>
+                        <div class="col-sm-6 font-18">
+                            <span style="font-weight:bold;">COMPRA:</span> ${{precio_plata_global.precio_dolares}}
+                            <br>
+                            <a type="button" href="ordencliente/compraplata/" class="btn btn-primary" style="width:50%">Vender Oro</a>
+                        </div>
                     </div>
                 </div>              
     </div>

@@ -15,8 +15,27 @@
                 </div>
             </li>
             <li class="">
-                <a href="dashboardpublico/dashboardpublico/"><i class="fa fa-sliders-h"></i><span class="nav-label">Dashboard</span></a>
+                <a href="dashboardpublico/dashboardpublico/"><i class="fa fa-sliders-h"></i><span class="nav-label">Tablero</span></a>
             </li>
+            {%  if owner_user.tipo == 0 or owner_user.tipo == 2 %}
+
+                <li style="background: #38372D">
+                    <a href="ordencliente/compraoro/" style="color: #ffc800"><i class="fa fa-coins"></i><span class="nav-label">Compra de oro</span> <span class="float-right label label-gris" style="margin-left:10px;"> ORO</span></a>
+                </li>
+
+                <li style="background: #38372D">
+                    <a href="ordencliente/ventaoro/" style="color: #ffc800"><i class="fa fa-coins"></i><span class="nav-label">Venta de oro</span> <span class="float-right label label-gris" style="margin-left:10px;"> ORO</span></a>
+                </li>
+
+                <li style="background: #38372D">
+                    <a href="ordencliente/compraplata/" style="color: #ffc800"><i class="fa fa-coins"></i><span class="nav-label">Compra de plata</span> <span class="float-right label label-gris" style="margin-left:10px;"> PLATA</span></a>
+                </li>
+                
+                <li style="background: #38372D">
+                    <a href="ordencliente/ventaplata/" style="color: #ffc800"><i class="fa fa-coins"></i><span class="nav-label">Venta de plata</span> <span class="float-right label label-gris" style="margin-left:10px;"> PLATA</span></a>
+                </li>
+                
+            {% endif %}
             {% if owner_user != null  %}
             
                 {% if owner_user.tipo == 2 %}
@@ -84,20 +103,9 @@
                             <a href=""><i class="fa fa-tasks"></i><span class="nav-label">Compra y Venta</span><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level collapse">
                                 <li>
-                                    <a href="ordencliente/">Dashboard</a>
+                                    <a href="ordencliente/">Tablero</a>
                                 </li>
-                                <li>
-                                    <a href="ordencliente/compraoro/">Compra de oro</a>
-                                </li>
-                                <li>
-                                    <a href="ordencliente/compraplata/">Compra de plata</a>
-                                </li>
-                                <li>
-                                    <a href="ordencliente/ventaoro/">Venta de oro</a>
-                                </li>
-                                <li>
-                                    <a href="ordencliente/ventaplata/">Venta de plata</a>
-                                </li>
+
                                 <li>
                                     <a href="ordencliente/intercambiomoneda/">Intercambio moneda</a>
                                 </li>

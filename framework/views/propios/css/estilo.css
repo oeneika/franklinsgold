@@ -8,6 +8,11 @@
 	font-size: 11px;
 }
 
+.fonditola{
+	background: #ededed;
+	padding: 15px 0;
+}
+
 .betiviris{
 	font-size: 11px;
 	color: #A6A6A6;
@@ -16,6 +21,15 @@
 .betiviris:hover{
 	color: #606060;
 	font-weight: bold;
+}
+
+.label-gris{
+	background-color: #818181!important;
+	color: white;
+}
+
+.font-18{
+	font-size: 18px;
 }
 
 strong.font-bold.hover:hover{
@@ -85,7 +99,7 @@ li.active strong, .naranja{
 }
 
 .colorplata{
-	color: #B2B2B2;
+	color: #949494;
 }
 
 .background{
