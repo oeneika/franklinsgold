@@ -41,7 +41,7 @@ function resetQuantity(id_cantidad_BsS,id_tipo,id_cantidad_gramos){
         
         var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_plata);
     }
-      
+
     $('#'+id_cantidad_gramos).val(Math.ceil10(cantidad, -2));
 }
 
@@ -64,18 +64,21 @@ function createIntercambioComercio(formulario) {
             },
             success : function(json) {
                 if(json.success == 1) {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-    
-                    toastr.success(json.message,'Exito!');
-                    
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
+
+                    //Vacía el body
+                    $( ".modal-body" ).empty();
+
+                    //Agrega al body la imagen de el código qr
+                    $( ".modal-body" ).append( `
+                    <div align="center" width="100%">
+                        <a href="${ json.message }" target=_blank rel='noopener noreferrer'><img src="${ json.message }" alt='Codigo QR' class='img-thumbnail'></a>
+                    </div>
+                    ` );
+
+                    //Elimina el boton de crear
+                    $( "#crearIntercambioEnComercioBtn" ).remove();
+                    /*$( ".footer-intercambio" ).append( "<button type='butto' id='concretarIntercambioEnComercioBtn' class='btn btn-primary'>Concretar</button>" );*/                
+
                 } else {
                     toastr.error(json.message, '¡Ups!');
                 }

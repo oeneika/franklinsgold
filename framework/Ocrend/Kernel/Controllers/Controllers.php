@@ -114,13 +114,16 @@ abstract class Controllers {
         # Datos del usuario actual y de las divisas para el header
         if ($this->is_logged) {
 
-          $this->user = (new Model\Users)->getOwnerUser();
-
           $d = new Model\Divisa();
+          $u = new Model\Users();
+
+          $this->user = $u->getOwnerUser();
+          $notifiaciones = $u->getNotifications($this->user["id_user"]);
           $oro = ($d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Oro Franklin'"))[0];
           $plata = ($d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Plata Franklin'"))[0];
 
           $this->template->addGlobal('owner_user', $this->user);
+          $this->template->addGlobal('notifications', $notifiaciones);
           $this->template->addGlobal('precio_oro_global', $oro);
           $this->template->addGlobal('precio_plata_global', $plata);
         }

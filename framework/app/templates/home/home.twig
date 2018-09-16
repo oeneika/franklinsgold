@@ -9,7 +9,7 @@
         <div class="row">
             {% if owner_user.id_comercio_afiliado != null %}
             <div class="col-md-12">
-                <a onclick="showModal(0,0,0,'confirmarintercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Confirmar</a>
+                <!-- <a onclick="showModal(0,0,0,'confirmarintercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Confirmar</a>-->
                 <a onclick="showModal({{precio_oro_global.precio_dolares_venta}},{{precio_plata_global.precio_dolares_venta}},{{precio_bolivar}},'intercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Crear compra</a>
             </div>
             {% endif %}

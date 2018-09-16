@@ -250,7 +250,7 @@ class Orden extends Models implements IModels {
         Global $config;
 
         #Trae la orden, valida su existencia y la concreta
-        $orden = $this->db->select("estado,id_usuario","orden",null,"id_orden='$this->id'");
+        $orden = $this->db->select("estado,id_usuario,tipo_orden,fecha,tipo_gramo,cantidad","orden",null,"id_orden='$this->id'");
 
         #Si la orden no existe no hace ninguna confirmación
         if($orden == false){
@@ -269,10 +269,20 @@ class Orden extends Models implements IModels {
             #Trae los datos del usuario de la orden
             $user = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_user'");
 
+            #Crea el mensaje de notificación e inserta la misma
+            $tipo_orden = $orden[0]["tipo_orden"] == 2 ? "venta" : "compra" ;
+            $mensaje = 'Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] .', le informamos que su orden de '.$tipo_orden.
+            ' de ' . $orden[0]["cantidad"] . ' gramos de ' . $orden[0]["tipo_gramo"] . ' realizada el ' .  Functions::fecha('d M Y h:i:s',$orden[0]["fecha"]).
+            ' ha sido confirmada por un vendedor de Franklins Gold, la misma se hará efectiva con la confirmación de un supervisor y '.
+            'posteriormente la confirmación de un administrador, le estaremos informando dicha trama.';
+
+            $this->db->insert('notificacion',array(
+                'id_usuario'=>$id_user,
+                'mensaje'=>$mensaje
+            ));
+
             #Envía correo informativo sobre la orden al usuario
-            (new Model\Transaccion)->sendSuccesMail('Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] . 
-            ', le informamos que su orden ha sido confirmada por un vendedor de Franklins Gold, la misma se hará efectiva con la '.
-            'confirmación de un supervisor y posteriormente la confirmación de un administrador, le estaremos informando dicha trama.'.
+            (new Model\Transaccion)->sendSuccesMail($mensaje.
              '<br /> 
              <br />', $user[0]["email"],$user[0]["primer_nombre"],$user[0]["primer_apellido"]);
 
@@ -288,10 +298,20 @@ class Orden extends Models implements IModels {
             #Trae los datos del usuario de la orden
             $user = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_user'");
 
+            #Crea el mensaje de notificación e inserta la misma
+            $tipo_orden = $orden[0]["tipo_orden"] == 2 ? "venta" : "compra" ;
+            $mensaje = 'Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] .', le informamos que su orden de '.$tipo_orden.
+            ' de ' . $orden[0]["cantidad"] . ' gramos de ' . $orden[0]["tipo_gramo"] . ' realizada el ' .  Functions::fecha('d M Y h:i:s',$orden[0]["fecha"]).
+            ' ha sido confirmada por un supervisor de Franklins Gold, la misma se hará efectiva con la confirmación de un administrador,'.
+            ' le estaremos informando dicha trama.';
+
+            $this->db->insert('notificacion',array(
+                'id_usuario'=>$id_user,
+                'mensaje'=>$mensaje
+            ));
+
             #Envía correo informativo sobre la orden al usuario
-            (new Model\Transaccion)->sendSuccesMail('Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] . 
-            ', le informamos que su orden ha sido confirmada por un supervisor de Franklins Gold, la misma se hará efectiva con la '.
-            'confirmación de un administrador, le estaremos informando dicha trama.'.
+            (new Model\Transaccion)->sendSuccesMail($mensaje.
              '<br /> 
              <br />', $user[0]["email"],$user[0]["primer_nombre"],$user[0]["primer_apellido"]);
 
@@ -311,7 +331,7 @@ class Orden extends Models implements IModels {
         Global $config;
 
             #Trae la orden, valida su existencia y la concreta
-            $orden = $this->db->select("id_usuario,tipo_gramo,cantidad,tipo_orden,codigo_moneda","orden",null,"id_orden='$this->id'");
+            $orden = $this->db->select("id_usuario,fecha,tipo_gramo,cantidad,tipo_orden,codigo_moneda","orden",null,"id_orden='$this->id'");
 
             #Si la orden no existe o el usuario no es un administrador no la concreta
             if($orden == false or (((new Model\Users)->getOwnerUser())["tipo"] != 0)){
@@ -327,7 +347,6 @@ class Orden extends Models implements IModels {
 
             #Trae los datos del usuario de la orden
             $user = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_usuario'");
-
 
             #Si la orden es una compra inserta o actualiza
             if($orden[0]["tipo_orden"] == 1){
@@ -356,10 +375,19 @@ class Orden extends Models implements IModels {
                     'estado'=>4
                 ),"id_orden = $this->id");
 
+                #Crea el mensaje de notificación e inserta la misma
+                $tipo_orden = $orden[0]["tipo_orden"] == 2 ? "venta" : "compra" ;
+                $mensaje = 'Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] .', le informamos que su orden de '.$tipo_orden.
+                ' de ' . $orden[0]["cantidad"] . ' gramos de ' . $orden[0]["tipo_gramo"] . ' realizada el ' .  Functions::fecha('d M Y h:i:s',$orden[0]["fecha"]).
+                ' ha sido confirmada totalmente, en este momento su transacción ha sido satisfactoria.';
+
+                $this->db->insert('notificacion',array(
+                    'id_usuario'=>$id_usuario,
+                    'mensaje'=>$mensaje
+                ));
 
                 #Envía correo informativo sobre la orden al usuario
-                (new Model\Transaccion)->sendSuccesMail('Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] . 
-                ', le informamos que su orden ha sido confirmada totalmente, en este momento su transacción ha sido satisfactoria.'.
+                (new Model\Transaccion)->sendSuccesMail($mensaje.
                 '<br /> 
                 <br />', $user[0]["email"],$user[0]["primer_nombre"],$user[0]["primer_apellido"]);
 
@@ -432,7 +460,7 @@ class Orden extends Models implements IModels {
     public function createOrdenEnEspera(){
 
         try {
-        global $http;
+        global $http,$config;
 
         #Obtener los datos $_POST
         $id_vendedor_owner = ((new Model\Users)->getOwnerUser())["id_user"];
@@ -466,7 +494,7 @@ class Orden extends Models implements IModels {
             }  
 
         }else{
-            throw new ModelsException('El cliente no posee lo suficiente para pagare.');
+            throw new ModelsException('El cliente no posee lo suficiente para pagar.');
         }
 
             #Token de confirmacion
@@ -484,17 +512,31 @@ class Orden extends Models implements IModels {
            #Crea una orden en espera
            $id_orden =  $this->db->insert('orden_en_espera',$orden);
 
-           #Trae los datos del cliente para enviarle el correo con el codigo de confirmacion
+           #Trae los datos del cliente para enviarle el correo con el código de confirmación
            $id_cliente = $this->db->scape($id_cliente);
-           $usuario_emisor = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_cliente'");
+
            
-           #Envía el email para confirmar la transaccion
+            #Concatena una palabra para evitar repeticiones del codigoqr
+            #id de usuario, número de transacción, tipo gramo, token
+            $conc = "$id_cliente $id_orden $tipo_gramo $token";
+
+            #Url del código qr
+            $url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=".urlencode($conc);
+
+            #Se actualiza la db con la ruta de la imagen
+            $this->db->update('orden_en_espera',array(
+                'codigo_confirmacion'=> $conc
+            ), "id = '$id_orden'");
+
+           /*$usuario_emisor = $this->db->select("primer_nombre,primer_apellido,email","users",null,"id_user='$id_cliente'");
+           
+           #Envía el email para confirmar la transacción
            (new Model\Transaccion())->sendSuccesMail('Enhorabuena! ' . $usuario_emisor[0]["primer_nombre"] . ' ' . $usuario_emisor[0]["primer_apellido"] . 
            ', para concretar su compra debe proveerle el siguiente código al vendedor : ' . $token .
             '<br /> 
-            <br />', $usuario_emisor[0]["email"],$usuario_emisor[0]["primer_nombre"],$usuario_emisor[0]["primer_apellido"]);
+            <br />', $usuario_emisor[0]["email"],$usuario_emisor[0]["primer_nombre"],$usuario_emisor[0]["primer_apellido"]);*/
                     
-            return array('success' => 1, 'message' => 'Se ha enviado un correo con el código de confirmacíón al cliente!');
+            return array('success' => 1, 'message' => $url);
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }    

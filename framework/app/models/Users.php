@@ -1218,6 +1218,19 @@ class Users extends Models implements IModels {
     }
 
     /**
+     * Obtiene las notificaciones del usuario
+     * 
+     *  @param string $id_user : Id del usuario a buscar las notifiaciones
+     * 
+     * @return false|array con información de los documentos
+     */
+    public function getNotifications(int $id_usuario){
+
+        return $this->db->select("mensaje","notificacion",null,"id_usuario=$id_usuario",5,"ORDER BY id_notificacion DESC");
+
+    }
+
+    /**
      * Trae los datos generales relacionados a las monedas
      */
     public function datosGenerales(){

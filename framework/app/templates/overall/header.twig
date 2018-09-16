@@ -6,7 +6,16 @@
             <li>
                 <span class=""><a href="{{ lang_url }}es" title="Idioma: Español" class="betiviris">ES</a>/<a href="{{ lang_url }}en" title="Idioma: Ingles" class="betiviris">EN</a></span>
             </li>  
-            {% if owner_user != null  %}          
+            {% if owner_user != null  %}     
+            
+            <label for="cc-payment" class="control-label mb-1" >Notificaciones</label>
+            <select class="form-control" style="width: 100%">
+                <option disabled selected value>Lista</option>
+                {% for n in notifications %}
+                    <option disabled value>{{n.mensaje}}</option>
+                {% endfor %}
+            </select>
+                   
             <li>
                 
                 <a href="logout/">
@@ -14,6 +23,7 @@
                 </a>
                  
             </li>
+
             {% endif %}
         </ul>
 </nav>

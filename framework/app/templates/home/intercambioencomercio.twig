@@ -12,43 +12,43 @@
                     <form id="crearIntercambioComercio_form">
                         <div class="row">
     
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="id_cliente" class="control-label mb-1" >Clientes</label>
-                                <select name="id_cliente" class="form-control" style="width: 100%">
-                                    <option disabled selected value>Seleccione un cliente</option>
-                                    {% for c in clientes %}
-                                        <option value="{{c.id_user}}">{{c.usuario}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div> 
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="id_cliente" class="control-label mb-1" >Clientes</label>
+                                    <select name="id_cliente" class="form-control" style="width: 100%">
+                                        <option disabled selected value>Seleccione un cliente</option>
+                                        {% for c in clientes %}
+                                            <option value="{{c.id_user}}">{{c.usuario}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div> 
 
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="id_tipo_int" class="control-label mb-1" >Tipo metal</label>
-                                <select name="tipo_gramo" id="id_tipo_int" class="form-control" style="width: 100%">
-                                    <option disabled selected value>Tipo</option>
-                                    <option value="oro">Oro</option>
-                                    <option value="plata">Plata</option>
-                                </select>
-                            </div>                         
-                        </div>                    
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="id_tipo_int" class="control-label mb-1" >Tipo metal</label>
+                                    <select name="tipo_gramo" id="id_tipo_int" class="form-control" style="width: 100%" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')">
+                                        <option disabled selected value>Tipo</option>
+                                        <option value="oro">Oro</option>
+                                        <option value="plata">Plata</option>
+                                    </select>
+                                </div>                         
+                            </div>                    
 
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="id_cantidad_bolivar_soberano_int" class="control-label mb-1" >Cantidad BsS</label>
-                                <input name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_int" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')" class="form-control" >
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="id_cantidad_bolivar_soberano_int" class="control-label mb-1" >Cantidad BsS</label>
+                                    <input name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_int" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')" class="form-control" >
+                                </div>
+                            </div>  
+
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-group">
+                                    <label for="id_cantidad_int" class="control-label mb-1" >Cantidad(gramos)</label>
+                                    <input name="cantidad" id="id_cantidad_int" readonly="readonly" type="number"> 
+                                </div>                         
                             </div>
                         </div>  
-
-                        <div class="col-md-6 col-xs-12">
-                            <div class="form-group">
-                                <label for="id_cantidad_int" class="control-label mb-1" >Cantidad(gramos)</label>
-                                <input name="cantidad" id="id_cantidad_int" readonly="readonly" type="number"> 
-                            </div>                         
-                        </div>
-                         
                          
                     </form>
     
