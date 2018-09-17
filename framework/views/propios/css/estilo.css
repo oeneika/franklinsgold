@@ -1,3 +1,7 @@
+div.modal.inmodal.show{
+	background: #454545!important;
+}
+
 @media (min-width: 1025px){
 	.oculto{
 		display: none!important;
@@ -76,6 +80,15 @@ li.active strong, .naranja{
 	.btn-rounded{
 	width: 100%;
 	}
+
+	.menucito{
+		width: 100%;
+		padding: 12px;
+	}
+
+	.bajandole{
+		margin: 15px 0;
+	}
 }
 
 .float-left{
@@ -114,6 +127,10 @@ li.active strong, .naranja{
 	color: #d26815;
 }
 
+.btn-responsive,.btn-responsiv{
+	width: 100%;
+}
+
 @media (min-width: 768px ){
 	.bloque{
 		background-color: #f7a54a;
@@ -127,5 +144,10 @@ li.active strong, .naranja{
 		height: 585px;
 	}
 
+	.btn-responsive{
+		width: 70%;
+	}
 	
 }
+
+

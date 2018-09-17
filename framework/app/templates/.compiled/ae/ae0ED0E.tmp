@@ -1,0 +1,158 @@
+<?php
+
+/* overall/header.twig */
+class __TwigTemplate_a2e2472682ea841d4c051185bec7b0933470fddae0d7b763536b6219b410de9f extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        // line 1
+        echo "<nav class=\"navbar navbar-static-top\" role=\"navigation\" style=\"margin-bottom: 0\">
+        <div class=\"navbar-header\">
+           <a class=\"navbar-minimalize minimalize-styl-2 btn btn-primary\" href=\"javascript:void(0)\"><i class=\"fa fa-bars\"></i></a>
+        </div>
+        <ul class=\"nav navbar-top-links navbar-right\" style=\"margin-top:5px;\">
+            <li>
+                <span class=\"\"><a href=\"";
+        // line 7
+        echo twig_escape_filter($this->env, ($context["lang_url"] ?? null), "html", null, true);
+        echo "es\" title=\"Idioma: Español\" class=\"betiviris\">ES</a>/<a href=\"";
+        echo twig_escape_filter($this->env, ($context["lang_url"] ?? null), "html", null, true);
+        echo "en\" title=\"Idioma: Ingles\" class=\"betiviris\">EN</a></span>
+            </li>  
+            ";
+        // line 9
+        if ((($context["owner_user"] ?? null) != null)) {
+            echo "     
+
+
+
+                   
+            <li>
+                
+                <a href=\"logout/\">
+                    <i class=\"fa fa-sign-out\"></i> Cerrar Sesi&oacute;n
+                </a>
+                 
+            </li>
+
+            ";
+        }
+        // line 23
+        echo "        </ul>
+</nav>
+
+<div class=\"container\">
+    <nav class=\"navbar navbar-static-top\" role=\"navigation\" style=\"margin-bottom: 0\">
+    <ul class=\"nav navbar-top-links\">
+        <li class=\"dropdown\">
+                    <a class=\"dropdown-toggle count-info label label-primary\" data-toggle=\"dropdown\" href=\"#\" style=\"width:50%;\">
+                        <i class=\"fa fa-bell\"></i>
+                    </a>
+                    <ul class=\"dropdown-menu dropdown-alerts\">
+                        ";
+        // line 34
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["notifications"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["n"]) {
+            // line 35
+            echo "                        <li>
+                            <a href=\"mailbox.html\" class=\"dropdown-item\">
+                                <div>
+                                    <i class=\"fa fa-envelope fa-fw\"></i> ";
+            // line 38
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["n"], "mensaje", array()), "html", null, true);
+            echo "
+                                </div>
+                            </a>
+                        </li>
+                        <li class=\"dropdown-divider\"></li>
+                        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['n'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 44
+        echo "                    </ul>
+                </li>
+    </ul>
+</nav>
+</div>
+<div class=\"container\">
+    <div class=\"row margintop-60 fonditola\">
+                <div class=\"col-sm-6\">
+                    <div class=\"row\">
+                        <h4 style=\"padding-left:15px\" class=\"colororo font-18\">Precio del ORO</h4>
+                        <div class=\"col-sm-6 font-18\">
+                            <span style=\"font-weight:bold;\">VENTA:</span> \$";
+        // line 55
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["precio_oro_global"] ?? null), "precio_dolares_venta", array()), "html", null, true);
+        echo "
+                            <br>
+                            <a type=\"button\" href=\"ordencliente/ventaoro/\" class=\"btn btn-primary\" style=\"width:50%\">Vender Oro</a>
+                        </div>
+                        <div class=\"col-sm-6 font-18\">
+                            <span style=\"font-weight:bold;\">COMPRA:</span> \$";
+        // line 60
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["precio_oro_global"] ?? null), "precio_dolares", array()), "html", null, true);
+        echo "
+                            <br>
+                            <a type=\"button\" href=\"ordencliente/compraoro/\" class=\"btn btn-primary\" style=\"width:50%\">Comprar Oro</a>
+                        </div>
+                    </div>
+                </div>
+                <div class=\"col-sm-6\">
+                    <div class=\"row\">
+                        <h4 style=\"padding-left:15px\" class=\"colorplata font-18\">Precio de la PLATA</h4>
+                        <div class=\"col-sm-6 font-18\">
+                            <span style=\"font-weight:bold;\">VENTA:</span> \$";
+        // line 70
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["precio_plata_global"] ?? null), "precio_dolares_venta", array()), "html", null, true);
+        echo "
+                            <br>
+                            <a type=\"button\" href=\"ordencliente/ventaplata/\" class=\"btn btn-primary\" style=\"width:50%\">Vender plata</a>
+                        </div>
+                        <div class=\"col-sm-6 font-18\">
+                            <span style=\"font-weight:bold;\">COMPRA:</span> \$";
+        // line 75
+        echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["precio_plata_global"] ?? null), "precio_dolares", array()), "html", null, true);
+        echo "
+                            <br>
+                            <a type=\"button\" href=\"ordencliente/compraplata/\" class=\"btn btn-primary\" style=\"width:50%\">Vender Oro</a>
+                        </div>
+                    </div>
+                </div>              
+    </div>
+</div>
+<br>";
+    }
+
+    public function getTemplateName()
+    {
+        return "overall/header.twig";
+    }
+
+    public function isTraitable()
+    {
+        return false;
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  127 => 75,  119 => 70,  106 => 60,  98 => 55,  85 => 44,  73 => 38,  68 => 35,  64 => 34,  51 => 23,  34 => 9,  27 => 7,  19 => 1,);
+    }
+
+    public function getSourceContext()
+    {
+        return new Twig_Source("", "overall/header.twig", "C:\\xampp\\htdocs\\franklinsgold\\framework\\app\\templates\\overall\\header.twig");
+    }
+}

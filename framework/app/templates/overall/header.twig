@@ -3,21 +3,19 @@
            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="javascript:void(0)"><i class="fa fa-bars"></i></a>
         </div>
         <ul class="nav navbar-top-links navbar-right" style="margin-top:5px;">
-            <li>
+            <li class="bajandole">
                 <span class=""><a href="{{ lang_url }}es" title="Idioma: Español" class="betiviris">ES</a>/<a href="{{ lang_url }}en" title="Idioma: Ingles" class="betiviris">EN</a></span>
             </li>  
             {% if owner_user != null  %}     
-            
-            <label for="cc-payment" class="control-label mb-1" >Notificaciones</label>
-            <select class="form-control" style="width: 100%">
-                <option disabled selected value>Lista</option>
-                {% for n in notifications %}
-                    <option disabled value>{{n.mensaje}}</option>
-                {% endfor %}
-            </select>
-                   
+            <li class="dropdown menucito">
+                <button type="button" class="btn btn-primary btn-responsiv" data-toggle="modal" data-target="#notificaciones">
+                  <i class="fa fa-bell"></i> Notificaciones del sistema <strong>( 3 )</strong>
+                </button>
+                {% include 'overall/notificaciones' %}
+            </li> 
+
+
             <li>
-                
                 <a href="logout/">
                     <i class="fa fa-sign-out"></i> Cerrar Sesi&oacute;n
                 </a>
@@ -35,12 +33,12 @@
                         <div class="col-sm-6 font-18">
                             <span style="font-weight:bold;">VENTA:</span> ${{precio_oro_global.precio_dolares_venta}}
                             <br>
-                            <a type="button" href="ordencliente/ventaoro/" class="btn btn-primary" style="width:50%">Vender Oro</a>
+                            <a type="button" href="ordencliente/ventaoro/" class="btn btn-primary btn-responsive">Vender Oro</a>
                         </div>
                         <div class="col-sm-6 font-18">
                             <span style="font-weight:bold;">COMPRA:</span> ${{precio_oro_global.precio_dolares}}
                             <br>
-                            <a type="button" href="ordencliente/compraoro/" class="btn btn-primary" style="width:50%">Comprar Oro</a>
+                            <a type="button" href="ordencliente/compraoro/" class="btn btn-primary btn-responsive">Comprar Oro</a>
                         </div>
                     </div>
                 </div>
@@ -50,12 +48,12 @@
                         <div class="col-sm-6 font-18">
                             <span style="font-weight:bold;">VENTA:</span> ${{precio_plata_global.precio_dolares_venta}}
                             <br>
-                            <a type="button" href="ordencliente/ventaplata/" class="btn btn-primary" style="width:50%">Vender plata</a>
+                            <a type="button" href="ordencliente/ventaplata/" class="btn btn-primary btn-responsive">Vender plata</a>
                         </div>
                         <div class="col-sm-6 font-18">
                             <span style="font-weight:bold;">COMPRA:</span> ${{precio_plata_global.precio_dolares}}
                             <br>
-                            <a type="button" href="ordencliente/compraplata/" class="btn btn-primary" style="width:50%">Vender Oro</a>
+                            <a type="button" href="ordencliente/compraplata/" class="btn btn-primary btn-responsive">Comprar plata</a>
                         </div>
                     </div>
                 </div>              

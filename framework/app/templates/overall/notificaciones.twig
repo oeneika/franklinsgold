@@ -1,0 +1,59 @@
+<div class="modal inmodal" id="notificaciones" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
+                <h4 class="modal-title"><i class="fa fa-bell"></i> Notificaciones del sistema</h4>
+                <small class="font-bold">Franklin Gold</small>
+            </div>
+            <div class="modal-body">
+                    <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th width="50%">Mensaje</th>
+                                <th>Tipo</th>
+                                <th>Total del gramos</th>
+                                <th>Fecha y hora</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>La transacción #1723242 fue completada y realizada con total éxito</td>
+                                <!-- Si este beta es compra que sea verde si es venta rojo -->
+                                {% if true %}
+                                    <td style="color:red;">Venta</td>
+                                {% endif %}
+                                <td>53</td>
+                                <td>17/09/2018 - 12:19:53</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><strong>Alexander De Azevedo</strong> confirmó la transacción #172346674</td>
+                                <!-- Si este beta es compra que sea verde si es venta rojo -->
+                                {% if true %}
+                                    <td style="color:red;">Venta</td>
+                                {% endif %}
+                                <td>53</td>
+                                <td>17/09/2018 - 12:19:53</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Se envió a su correo electronico y al de <strong>Alexander De Azevedo</strong> una notificación que ambos necesitan confirmar para procesar la transacción</td>
+                                <!-- Si este beta es compra que sea verde si es venta rojo -->
+                                {% if true %}
+                                    <td style="color:red;">Venta</td>
+                                {% endif %}
+                                <td>53</td>
+                                <td>17/09/2018 - 12:19:53</td>
+                            </tr>
+                            </tbody>
+                        </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
