@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-08-2018 a las 03:04:52
+-- Tiempo de generación: 17-09-2018 a las 20:31:15
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -54,18 +54,20 @@ INSERT INTO `comercio_afiliado` (`id_comercio_afiliado`, `nombre`, `direccion`, 
 CREATE TABLE `divisa` (
   `id_divisa` int(11) NOT NULL,
   `nombre_divisa` varchar(32) NOT NULL,
-  `precio_dolares` float NOT NULL
+  `precio_dolares` float NOT NULL,
+  `precio_dolares_venta` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `divisa`
 --
 
-INSERT INTO `divisa` (`id_divisa`, `nombre_divisa`, `precio_dolares`) VALUES
-(2, 'EURO', 1.145),
-(3, 'Bolívar Soberano', 2),
-(4, 'Oro Franklin', 45),
-(5, 'Plata Franklin', 10);
+INSERT INTO `divisa` (`id_divisa`, `nombre_divisa`, `precio_dolares`, `precio_dolares_venta`) VALUES
+(2, 'EURO', 1.145, 0),
+(3, 'Bolívar Soberano', 2, 0),
+(4, 'Oro Franklin', 45, 34),
+(5, 'Plata Franklin', 10, 7),
+(6, 'nueva', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -87,7 +89,13 @@ CREATE TABLE `documentos` (
 --
 
 INSERT INTO `documentos` (`id_documento`, `documento_identidad`, `pasaporte`, `rif`, `referencia_bancaria_1`, `referencia_bancaria_2`) VALUES
-(4, 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/documentoidentidad59.png', 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/pasaporte59.png', 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/rif59.png', 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/primerareferenciabancaria59.png', 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/segundareferenciabancaria59.png');
+(4, 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/documentoidentidad59.png', 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/pasaporte59.png', 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/rif59.png', 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/primerareferenciabancaria59.png', 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/segundareferenciabancaria59.png'),
+(5, 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/documentoidentidad79.png', 'http://localhost/franklinsgold/framework/', NULL, NULL, NULL),
+(6, 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/documentoidentidad80.png', 'http://localhost/franklinsgold/framework/', NULL, NULL, NULL),
+(7, 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/documentoidentidad81.png', 'http://localhost/franklinsgold/framework/', NULL, NULL, NULL),
+(8, 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/documentoidentidad82.png', 'http://localhost/franklinsgold/framework/', NULL, NULL, NULL),
+(9, 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/documentoidentidad85.png', 'http://localhost/franklinsgold/framework/', NULL, NULL, NULL),
+(10, 'http://localhost/franklinsgold/framework/views/img/documentos/usuarios/documentoidentidad86.png', 'http://localhost/franklinsgold/framework/', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -120,6 +128,26 @@ INSERT INTO `moneda` (`codigo`, `fecha_elaboracion`, `diametro`, `espesor`, `com
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `notificacion`
+--
+
+CREATE TABLE `notificacion` (
+  `id_notificacion` int(11) UNSIGNED NOT NULL,
+  `id_usuario` int(11) UNSIGNED NOT NULL,
+  `mensaje` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `notificacion`
+--
+
+INSERT INTO `notificacion` (`id_notificacion`, `id_usuario`, `mensaje`) VALUES
+(1, 59, 'Estimado foto foto, le informamos que su orden de compra de 888.89 gramos de oro realizada el 16 Sep 2018 05:31:50 ha sido confirmada totalmente, en este momento su transacción ha sido satisfactoria.'),
+(2, 59, 'Estimado foto foto, le informamos que su orden de compra de 888.89 gramos de oro realizada el 16 Sep 2018 05:31:50 ha sido confirmada totalmente, en este momento su transacción ha sido satisfactoria.');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `orden`
 --
 
@@ -132,7 +160,9 @@ CREATE TABLE `orden` (
   `precio` float NOT NULL,
   `tipo_orden` int(11) UNSIGNED NOT NULL,
   `estado` int(11) UNSIGNED NOT NULL,
+  `foto_transferencia` varchar(200) DEFAULT NULL,
   `fecha` int(11) UNSIGNED NOT NULL,
+  `id_vendedor` int(11) UNSIGNED DEFAULT NULL,
   `codigo_moneda` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -140,21 +170,24 @@ CREATE TABLE `orden` (
 -- Volcado de datos para la tabla `orden`
 --
 
-INSERT INTO `orden` (`id_orden`, `id_usuario`, `id_sucursal`, `tipo_gramo`, `cantidad`, `precio`, `tipo_orden`, `estado`, `fecha`, `codigo_moneda`) VALUES
-(3, 50, NULL, 'oro', 3, 1207.08, 1, 3, 1535330586, NULL),
-(4, 50, NULL, 'oro', 4, 1207.08, 1, 4, 1535330608, NULL),
-(5, 59, NULL, 'oro', 666, 1207.36, 1, 4, 1535417022, NULL),
-(6, 59, NULL, 'oro', 1, 1207.36, 2, 4, 1535417094, NULL),
-(7, 59, NULL, 'oro', 1, 1207.36, 1, 4, 1535426762, NULL),
-(8, 59, NULL, 'oro', 1, 1207.36, 1, 1, 1535427028, NULL),
-(9, 59, NULL, 'oro', 1, 1207.36, 1, 1, 1535427823, NULL),
-(10, 72, NULL, 'oro', 1, 1210.87, 1, 4, 1535515256, NULL),
-(11, 72, NULL, 'oro', 1, 1210.87, 1, 4, 1535515441, NULL),
-(12, 76, NULL, 'oro', 2, 1210.87, 1, 4, 1535517128, NULL),
-(13, 15, NULL, 'oro', 25199.6, 1205.5, 1, 4, 1535584019, NULL),
-(14, 15, NULL, 'plata', 5.67, 14.87, 1, 1, 1535584924, NULL),
-(15, 15, NULL, 'oro', 25199.6, 1205.5, 2, 1, 1535585396, NULL),
-(16, 15, NULL, 'plata', 5.67, 14.87, 2, 1, 1535585415, NULL);
+INSERT INTO `orden` (`id_orden`, `id_usuario`, `id_sucursal`, `tipo_gramo`, `cantidad`, `precio`, `tipo_orden`, `estado`, `foto_transferencia`, `fecha`, `id_vendedor`, `codigo_moneda`) VALUES
+(32, 15, NULL, 'oro', 888.89, 45, 1, 1, NULL, 1536108082, NULL, NULL),
+(33, 15, NULL, 'oro', 888.89, 45, 1, 1, 'views/img/transferencias/bancaria33.png', 1536108171, NULL, NULL),
+(34, 59, NULL, 'oro', 0.59, 34, 2, 4, NULL, 1536108789, 71, NULL),
+(35, 15, NULL, 'oro', 888.89, 45, 1, 1, NULL, 1536162454, NULL, NULL),
+(36, 15, NULL, 'oro', 888.89, 45, 1, 1, NULL, 1536163197, NULL, NULL),
+(37, 50, NULL, 'oro', 1, 45, 1, 1, NULL, 1536192113, NULL, NULL),
+(38, 15, NULL, 'oro', 1, 45, 1, 1, 'views/img/transferencias/bancaria38.png', 1536193201, NULL, NULL),
+(44, 59, NULL, 'oro', 1, 45, 1, 1, NULL, 1536194819, NULL, NULL),
+(46, 59, NULL, 'oro', 1, 45, 1, 1, NULL, 1536195395, NULL, NULL),
+(47, 15, NULL, 'oro', 1, 45, 1, 1, NULL, 1536195441, NULL, NULL),
+(48, 15, NULL, 'plata', 1, 7, 2, 1, NULL, 1536195551, NULL, NULL),
+(49, 15, NULL, 'plata', 2, 7, 3, 4, NULL, 1536195656, NULL, 15),
+(50, 15, NULL, 'oro', 888.89, 45, 1, 4, NULL, 1536195711, NULL, NULL),
+(51, 59, NULL, 'oro', 888.89, 45, 1, 4, NULL, 1536800713, NULL, NULL),
+(52, 50, NULL, 'oro', 0.06, 34, 2, 4, NULL, 1537131180, 71, NULL),
+(53, 50, NULL, 'oro', 0.06, 34, 2, 4, NULL, 1537131559, 71, NULL),
+(54, 59, NULL, 'oro', 888.89, 45, 1, 4, NULL, 1537133510, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -167,16 +200,9 @@ CREATE TABLE `orden_en_espera` (
   `id_usuario_cliente` int(11) UNSIGNED DEFAULT NULL,
   `id_usuario_vendedor` int(11) UNSIGNED DEFAULT NULL,
   `tipo_gramo` varchar(5) NOT NULL,
-  `cantidad` int(11) UNSIGNED NOT NULL,
-  `codigo_confirmacion` varchar(11) NOT NULL
+  `cantidad` float UNSIGNED NOT NULL,
+  `codigo_confirmacion` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Volcado de datos para la tabla `orden_en_espera`
---
-
-INSERT INTO `orden_en_espera` (`id`, `id_usuario_cliente`, `id_usuario_vendedor`, `tipo_gramo`, `cantidad`, `codigo_confirmacion`) VALUES
-(1, 59, 72, 'oro', 1, 'h5b86c3e');
 
 -- --------------------------------------------------------
 
@@ -217,9 +243,9 @@ CREATE TABLE `rango` (
 --
 
 INSERT INTO `rango` (`id_rango`, `nombre_rango`, `monto_diario`) VALUES
-(3, 'Simple', 1234.34),
+(3, 'Simple', 5000),
 (4, 'Medio', 10),
-(5, 'Premiun', 100000000000);
+(5, 'Premium', 100000000000);
 
 -- --------------------------------------------------------
 
@@ -320,6 +346,7 @@ CREATE TABLE `users` (
   `telefono` varchar(20) NOT NULL,
   `email` varchar(70) NOT NULL,
   `numero_cuenta` varchar(20) DEFAULT NULL,
+  `nombre_banco` varchar(200) DEFAULT NULL,
   `id_documentos` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -327,19 +354,25 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id_user`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `tipo`, `es_sucursal`, `es_comercio_afiliado`, `id_sucursal`, `id_comercio_afiliado`, `tipo_cliente`, `usuario`, `pass`, `tmp_pass`, `token`, `sexo`, `telefono`, `email`, `numero_cuenta`, `id_documentos`) VALUES
-(15, 'admin', '', 'admin', '', 0, NULL, NULL, NULL, NULL, 'Premiun', 'admin', '$2a$10$f5e7c087a530bbf4e118duBLka3xc715bOuv0WMOawlo5vAaN0TIm', '', '', 'm', '123', 'admin@hotmail.com', '18446744073709551615', NULL),
-(50, 'cliente', '', 'uno', '', 2, NULL, NULL, NULL, NULL, 'Premiun', 'clienteuno', '$2a$10$7b19c6d9730c02986b60eeldH3XQRsA3VHqPewqEttL/0iYOpnaSC', '', '', 'm', '04168352573', 'clienteuno@hotmail.com', '12345698746325148000', NULL),
-(59, 'foto', '', 'foto', '', 2, NULL, NULL, NULL, NULL, 'Medio', 'foto', '$2a$10$2eccc213d972a89f9541duNWlBiyJfYyFsfM1Gb43VUOaN7wWaNsu', '', '', 'm', '04168352573', 'gomzjale@gmail.com', '64643124579864310000', 4),
-(62, 'Prueba', '', 'Prueba', '', 1, NULL, 1, NULL, NULL, NULL, 'Prueba', '$2a$10$044a0ebd710d9f1835b56OCX2cK1OGye8St5QD07bdIpylEJWglNO', '', '', 'm', '02122380193', 'Prueba@franklingolds.com', NULL, NULL),
-(65, 'GammaExpres4', '', 'petareee', '', 1, NULL, 1, NULL, NULL, NULL, 'petareee', '$2a$10$ca60243157de84ac94197uQSku1My2vmR5FHTc0Hk.ias3G8isiEe', '', '', 'm', '04168352577', 'petareee@franklingolds.com', NULL, NULL),
-(67, 'GammaExpres4', '', 'petaree', '', 1, NULL, 1, NULL, NULL, NULL, 'petaree', '$2a$10$26dd3165ae6c4b2a820a0OA/WSLH3ZlkAZr4JnFLlQDaR3CbV9.gm', '', '', 'm', '04124211142', 'petaree@franklingolds.com', NULL, NULL),
-(71, 'vendedor', '', 'comercioafiliado', '', 1, NULL, NULL, NULL, 5, NULL, 'vendcom', '$2a$10$8fcc0da99373e46ad9b17uRPKaHQ2FH38a2zpUyjPhQZ8uAyqzN26', '', '', 'f', '04168352573', 'vendcom@hotmail.com', '12345678912345678911', NULL),
-(72, 'supervisor', '', 'comercioafiliado', '', 3, NULL, NULL, NULL, 5, NULL, 'supercom', '$2a$10$346ec62c9e1f80646edc9uAHiXkKqSbQRx2P1AikCoGAD7mHiTuQG', '', '', 'f', '04168352573', 'supercom@hotmail.com', '96385274112345678912', NULL),
-(73, 'Laesquina', '', 'Laesquina', '', 1, 1, NULL, NULL, NULL, NULL, 'Laesquina', '$2a$10$e00b5099fc8f4f98a101auElUSP1aPcL1xRPtHuNMs.e6KqWBtDqi', '', '', 'm', '04168352573', 'Laesquina@franklingolds.com', NULL, NULL),
-(74, 'vendedor', '', 'sucursal', '', 1, NULL, NULL, 12, NULL, NULL, 'vendsucu', '$2a$10$dcbf4b4ff4905c9c4290bOPG3ZyHm44Btq92a9SB2aeodi.XR04wG', '', '', 'f', '04168352573', 'g.a95@hotmail.comvendsucu', '64646754918724356497', NULL),
-(75, 'Daka', '', 'LasAdjuntas', '', 1, NULL, 1, NULL, NULL, NULL, 'LasAdjuntas', '$2a$10$8c212e0d718b5d6e05724eVfET2zqtIZkZ/fRZHLih4LxC/rcZ17K', '', '', 'm', '04163525453', 'LasAdjuntas@franklingolds.com', NULL, NULL),
-(76, 'vendedor', '', 'daka', '', 1, NULL, NULL, NULL, 9, NULL, 'vendedaka', '$2a$10$bf511d3d22116dabd9f21OTJouq/gTttXuI8Uc8TmozYTgEEjI.BO', '', '', 'f', '04168352573', 'vendedaka@hotmail.com', '36985214774125896315', NULL);
+INSERT INTO `users` (`id_user`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `tipo`, `es_sucursal`, `es_comercio_afiliado`, `id_sucursal`, `id_comercio_afiliado`, `tipo_cliente`, `usuario`, `pass`, `tmp_pass`, `token`, `sexo`, `telefono`, `email`, `numero_cuenta`, `nombre_banco`, `id_documentos`) VALUES
+(15, 'admin', '', 'admin', '', 0, NULL, NULL, NULL, NULL, 'Premium', 'admin', '$2a$10$f5e7c087a530bbf4e118duBLka3xc715bOuv0WMOawlo5vAaN0TIm', '', '', 'm', '123', 'admin@hotmail.com', '18446744073709551615', 'banesco', NULL),
+(50, 'cliente', '', 'uno', '', 2, NULL, NULL, NULL, NULL, 'Premium', 'clienteuno', '$2a$10$7b19c6d9730c02986b60eeldH3XQRsA3VHqPewqEttL/0iYOpnaSC', '', '', 'm', '04168352573', 'clienteuno@hotmail.com', '12345698746325148000', '', NULL),
+(59, 'foto', '', 'foto', '', 2, NULL, NULL, NULL, NULL, 'Medio', 'foto', '$2a$10$2eccc213d972a89f9541duNWlBiyJfYyFsfM1Gb43VUOaN7wWaNsu', '', '', 'm', '04168352573', 'gomzjale@gmail.com', '64643124579864310000', '', 4),
+(62, 'Prueba', '', 'Prueba', '', 1, NULL, 1, NULL, NULL, NULL, 'Prueba', '$2a$10$044a0ebd710d9f1835b56OCX2cK1OGye8St5QD07bdIpylEJWglNO', '', '', 'm', '02122380193', 'Prueba@franklingolds.com', NULL, '', NULL),
+(65, 'GammaExpres4', '', 'petareee', '', 1, NULL, 1, NULL, NULL, NULL, 'petareee', '$2a$10$ca60243157de84ac94197uQSku1My2vmR5FHTc0Hk.ias3G8isiEe', '', '', 'm', '04168352577', 'petareee@franklingolds.com', NULL, '', NULL),
+(67, 'GammaExpres4', '', 'petaree', '', 1, NULL, 1, NULL, NULL, NULL, 'petaree', '$2a$10$26dd3165ae6c4b2a820a0OA/WSLH3ZlkAZr4JnFLlQDaR3CbV9.gm', '', '', 'm', '04124211142', 'petaree@franklingolds.com', NULL, '', NULL),
+(71, 'vendedor', '', 'comercioafiliado', '', 1, NULL, NULL, NULL, 5, NULL, 'vendcom', '$2a$10$8fcc0da99373e46ad9b17uRPKaHQ2FH38a2zpUyjPhQZ8uAyqzN26', '', '', 'f', '04168352573', 'vendcom@hotmail.com', '12345678912345678911', '', NULL),
+(72, 'supervisor', '', 'comercioafiliado', '', 3, NULL, NULL, NULL, 5, NULL, 'supercom', '$2a$10$346ec62c9e1f80646edc9uAHiXkKqSbQRx2P1AikCoGAD7mHiTuQG', '', '', 'f', '04168352573', 'supercom@hotmail.com', '96385274112345678912', '', NULL),
+(73, 'Laesquina', '', 'Laesquina', '', 1, 1, NULL, NULL, NULL, NULL, 'Laesquina', '$2a$10$e00b5099fc8f4f98a101auElUSP1aPcL1xRPtHuNMs.e6KqWBtDqi', '', '', 'm', '04168352573', 'Laesquina@franklingolds.com', NULL, '', NULL),
+(74, 'vendedor', '', 'sucursal', '', 3, NULL, NULL, 12, NULL, NULL, 'vendsucu', '$2a$10$dcbf4b4ff4905c9c4290bOPG3ZyHm44Btq92a9SB2aeodi.XR04wG', '', '', 'f', '04168352573', 'g.a95@hotmail.comvendsucu', '64646754918724356497', '', NULL),
+(75, 'Daka', '', 'LasAdjuntas', '', 1, NULL, 1, NULL, NULL, NULL, 'LasAdjuntas', '$2a$10$8c212e0d718b5d6e05724eVfET2zqtIZkZ/fRZHLih4LxC/rcZ17K', '', '', 'm', '04163525453', 'LasAdjuntas@franklingolds.com', NULL, '', NULL),
+(76, 'vendedor', '', 'daka', '', 1, NULL, NULL, NULL, 9, NULL, 'vendedaka', '$2a$10$bf511d3d22116dabd9f21OTJouq/gTttXuI8Uc8TmozYTgEEjI.BO', '', '', 'f', '04168352573', 'vendedaka@hotmail.com', '36985214774125896315', '', NULL),
+(77, 'franklin', 'ahgh', 'gold', '', 2, NULL, NULL, NULL, NULL, 'Simple', 'frank', '$2a$10$14195b368f24d2e3a6de3uConhdKsu7JfAj7UPZf37xnzqypV2zOu', '', '', 'f', '04168352573', 'dasdas@hotmail.com', '12345696547896523000', '100$baneco', NULL),
+(78, 'banquito', '', 'banquito', '', 2, NULL, NULL, NULL, NULL, 'Simple', 'banquito', '$2a$10$d48dfa0f313d7ebe5f2f8uS2xZmbv5du.WJzxojuCms2gMRhB0d4S', '', '', 'f', '04168352573', 'banquito@hotmail.com', '31245124316798540000', 'banquitoto', NULL),
+(79, 'banquio', '', 'banquio', '', 2, NULL, NULL, NULL, NULL, 'Simple', 'banquio', '$2a$10$b91d1ec419282fd4cae06O7vpBgNtUDl9YRta8xiJJMwgCoWbaxYm', '', '', 'm', '04168352573', 'banquio@hotmail.com', '31245124316798542169', 'banquio', 5),
+(80, 'banqui', '', 'banqui', '', 2, NULL, NULL, NULL, NULL, 'Simple', 'banqui', '$2a$10$c9409d0fa9f483cb8357aOg/6SZ1UREvE1Xmz6cJhq/CkZ8SnmELC', '', '', 'm', '04168352573', 'banqui@hotmail.com', '31245124316798542194', '', 6),
+(86, 'sdas', '', 'asdas', '', 2, NULL, NULL, NULL, NULL, 'Simple', 'frankasdasd', '$2a$10$4c3230f7c7a5d1a6c3669OhbFAYT7aFB4DRaJr5YsHlmJZcEnyk.6', '', '', 'm', '04168352573', 'g.a9asdasd5@hotmail.com', '46457945164356798543', 'basd', 10),
+(87, 'vendedor', '', 'franklin', '', 1, NULL, NULL, 12, NULL, NULL, 'vendedorfranklin', '$2a$10$7e8d1cbccb03023e1d6bdOvER8ob0wmHITx7gjDkHaAQVYhcqu8AG', '', '', 'f', '04168352573', 'vendedor@hotmail.com', '14275431649784512436', 'banesco', NULL);
 
 -- --------------------------------------------------------
 
@@ -359,10 +392,10 @@ CREATE TABLE `user_gramo` (
 --
 
 INSERT INTO `user_gramo` (`id_usuario_gramo`, `id_usuario`, `tipo_gramo`, `cantidad`) VALUES
-(1, 15, 'plata', 106),
+(1, 15, 'plata', 104),
 (2, 15, 'oro', 25703),
 (3, 50, 'oro', 4),
-(4, 59, 'oro', 661);
+(4, 59, 'oro', 7772);
 
 -- --------------------------------------------------------
 
@@ -382,7 +415,7 @@ CREATE TABLE `user_moneda` (
 
 INSERT INTO `user_moneda` (`id_usuario_moneda`, `id_usuario`, `codigo_moneda`) VALUES
 (2, 50, 12),
-(3, 73, 15);
+(4, 15, 15);
 
 --
 -- Índices para tablas volcadas
@@ -416,13 +449,21 @@ ALTER TABLE `moneda`
   ADD KEY `qr_alfanumerico` (`qr_alfanumerico`);
 
 --
+-- Indices de la tabla `notificacion`
+--
+ALTER TABLE `notificacion`
+  ADD PRIMARY KEY (`id_notificacion`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
 -- Indices de la tabla `orden`
 --
 ALTER TABLE `orden`
   ADD PRIMARY KEY (`id_orden`),
   ADD KEY `id_usuario` (`id_usuario`),
   ADD KEY `id_sucursal` (`id_sucursal`),
-  ADD KEY `codigo_moneda` (`codigo_moneda`);
+  ADD KEY `codigo_moneda` (`codigo_moneda`),
+  ADD KEY `id_vendedor` (`id_vendedor`);
 
 --
 -- Indices de la tabla `orden_en_espera`
@@ -513,13 +554,13 @@ ALTER TABLE `comercio_afiliado`
 -- AUTO_INCREMENT de la tabla `divisa`
 --
 ALTER TABLE `divisa`
-  MODIFY `id_divisa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_divisa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_documento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `moneda`
@@ -528,16 +569,22 @@ ALTER TABLE `moneda`
   MODIFY `codigo` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT de la tabla `notificacion`
+--
+ALTER TABLE `notificacion`
+  MODIFY `id_notificacion` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `orden`
 --
 ALTER TABLE `orden`
-  MODIFY `id_orden` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_orden` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `orden_en_espera`
 --
 ALTER TABLE `orden_en_espera`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `origen`
@@ -573,7 +620,7 @@ ALTER TABLE `transaccion_en_espera`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT de la tabla `user_gramo`
@@ -585,7 +632,7 @@ ALTER TABLE `user_gramo`
 -- AUTO_INCREMENT de la tabla `user_moneda`
 --
 ALTER TABLE `user_moneda`
-  MODIFY `id_usuario_moneda` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_usuario_moneda` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -604,12 +651,19 @@ ALTER TABLE `moneda`
   ADD CONSTRAINT `moneda_ibfk_1` FOREIGN KEY (`id_origen`) REFERENCES `origen` (`id_origen`) ON DELETE SET NULL;
 
 --
+-- Filtros para la tabla `notificacion`
+--
+ALTER TABLE `notificacion`
+  ADD CONSTRAINT `notificacion_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
+
+--
 -- Filtros para la tabla `orden`
 --
 ALTER TABLE `orden`
   ADD CONSTRAINT `orden_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
   ADD CONSTRAINT `orden_ibfk_2` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id_sucursal`) ON DELETE CASCADE,
-  ADD CONSTRAINT `orden_ibfk_3` FOREIGN KEY (`codigo_moneda`) REFERENCES `moneda` (`codigo`) ON DELETE CASCADE;
+  ADD CONSTRAINT `orden_ibfk_3` FOREIGN KEY (`codigo_moneda`) REFERENCES `moneda` (`codigo`) ON DELETE CASCADE,
+  ADD CONSTRAINT `orden_ibfk_4` FOREIGN KEY (`id_vendedor`) REFERENCES `users` (`id_user`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `orden_en_espera`
