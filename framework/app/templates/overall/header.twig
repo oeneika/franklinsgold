@@ -6,12 +6,12 @@
             <li class="bajandole">
                 <span class=""><a href="{{ lang_url }}es" title="Idioma: Español" class="betiviris">ES</a>/<a href="{{ lang_url }}en" title="Idioma: Ingles" class="betiviris">EN</a></span>
             </li>  
-            
+
 
             {% if owner_user != null  %}     
             <li class="dropdown menucito">
                 <button type="button" class="btn btn-primary btn-responsiv" data-toggle="modal" data-target="#notificaciones">
-                  <i class="fa fa-bell"></i> Notificaciones del sistema <strong>( 3 )</strong>
+                  <i class="fa fa-bell"></i> Notificaciones del sistema <strong>( {{ notifications|length }} )</strong>
                 </button>
                 {% include 'overall/notificaciones' %}
             </li> 

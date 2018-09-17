@@ -14,11 +14,14 @@
                             </tr>
                             </thead>
                             <tbody>
+                                
+                            {% for n in notifications %}
                             <tr>
-                                {% for n in notifications %}
-                                <td>{{n.mensaje}}</td>
-                                {% endfor %}
+                                
+                                <td>{{n.mensaje}} </td>
+                                
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
             </div>
