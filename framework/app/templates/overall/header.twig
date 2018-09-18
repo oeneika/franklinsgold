@@ -8,13 +8,15 @@
             </li>  
 
 
-            {%  if owner_user.tipo == 0 or owner_user.tipo == 2 %}    
+            {%  if owner_user.tipo == 0 or owner_user.tipo == 2 %} 
             <li class="dropdown menucito">
                 <button type="button" class="btn btn-primary btn-responsiv" data-toggle="modal" data-target="#notificaciones">
                   <i class="fa fa-bell"></i> Notificaciones del sistema <strong>( {{ notifications|length }} )</strong>
                 </button>
                 {% include 'overall/notificaciones' %}
-            </li> 
+            </li>
+            {% endif %}
+            {% if owner_user != null  %}      
             <li>
                 <a href="logout/">
                     <i class="fa fa-sign-out"></i> Cerrar Sesi&oacute;n
