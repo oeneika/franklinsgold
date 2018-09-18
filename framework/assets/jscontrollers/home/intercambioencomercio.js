@@ -65,18 +65,21 @@ function createIntercambioComercio(formulario) {
             success : function(json) {
                 if(json.success == 1) {
 
-                    //Vacía el body
-                    $( ".modal-body" ).empty();
+                    //Oculta los elementos  del body
+                    $( ".clientes_intercambiocomercio" ).hide();
+                    $( ".cantidadbss_intercambiocomercio" ).hide();
+                    $( ".tipo_intercambiocomercio" ).hide();
+                    $( ".cantidad_intercambiocomercio" ).hide();
 
                     //Agrega al body la imagen de el código qr
                     $( ".modal-body" ).append( `
-                    <div align="center" width="100%">
+                    <div class="codigqr_intercambiocomercio" align="center" width="100%">
                         <a href="${ json.message }" target=_blank rel='noopener noreferrer'><img src="${ json.message }" alt='Codigo QR' class='img-thumbnail'></a>
                     </div>
                     ` );
 
-                    //Elimina el boton de crear
-                    $( "#crearIntercambioEnComercioBtn" ).remove();
+                    //Oculta el boton de crear
+                    $( "#crearIntercambioEnComercioBtn" ).hide();
                     /*$( ".footer-intercambio" ).append( "<button type='butto' id='concretarIntercambioEnComercioBtn' class='btn btn-primary'>Concretar</button>" );*/                
 
                 } else {
@@ -165,4 +168,23 @@ $('#concretarIntercambioComercio_form').keypress(function (e) {
         concreteIntercambioComercio('concretarIntercambioComercio_form');
         return false;
     }
+});
+$('#cerrarIntercambioModal').click(function (e) {
+    e.defaultPrevented;
+
+    setTimeout(function () {
+        location.reload();
+    }, 500);
+
+    //Muestra los elementos  del body
+   /* $( ".clientes_intercambiocomercio" ).show();
+    $( ".cantidadbss_intercambiocomercio" ).show();
+    $( ".tipo_intercambiocomercio" ).show();
+    $( ".cantidad_intercambiocomercio" ).show();
+
+    //Oculta la imagen qr del body
+    $( ".codigqr_intercambiocomercio" ).hide();
+
+    //Muestra el boton de crear
+    $( "#crearIntercambioEnComercioBtn" ).show();*/
 });
