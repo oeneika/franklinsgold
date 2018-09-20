@@ -14,7 +14,7 @@
                     <a href="home/">FG</a>
                 </div>
             </li>
-            {%  if owner_user.tipo == 0 or owner_user.tipo == 2 %}
+            {%  if owner_user.tipo == 2 %}
 
                 <li style="background: #38372D">
                     <a href="ordencliente/compraoro/" style="color: #ffc800"><i class="fa fa-coins"></i><span class="nav-label">Compra de</span> <span class="float-right label label-primary" style="margin-left:5px;"> ORO</span></a>
@@ -34,7 +34,7 @@
                 
             {% endif %}
             <li class="">
-                <a href="dashboardpublico/dashboardpublico/"><i class="fa fa-sliders-h"></i><span class="nav-label">Tablero</span></a>
+                <a href="dashboardpublico/"><i class="fa fa-sliders-h"></i><span class="nav-label">Tablero</span></a>
             </li>
             {% if owner_user != null  %}
             
