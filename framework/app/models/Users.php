@@ -59,6 +59,8 @@ class Users extends Models implements IModels {
     private $usuario;
     private $pass;
     private $pass2;
+    private $pin;
+    private $pin2;
     private $sexo;
     private $telefono;
     private $email;
@@ -88,9 +90,9 @@ class Users extends Models implements IModels {
      *
      * @throws ModelsException cuando las contraseñas no coinciden
      */
-    private function checkPassMatch(string $pass, string $pass_repeat) {
+    private function checkPassMatch(string $pass, string $pass_repeat,string $mensaje = 'Las contraseñas no coinciden') {
         if ($pass != $pass_repeat) {
-            throw new ModelsException('Las contraseñas no coinciden.');
+            throw new ModelsException($mensaje);
         }
     }
 
@@ -343,11 +345,11 @@ class Users extends Models implements IModels {
 
             # Verificar que no están vacíos
             if (!array_key_exists('primer_nombre',$user_data) || Functions::emp($user_data['primer_nombre'])) {
-                throw new ModelsException('El primer nombre no debe estar vacio');
+                throw new ModelsException('El primer nombre no debe estar vacío');
             }
 
             if (!array_key_exists('primer_apellido',$user_data) || Functions::emp($user_data['primer_apellido'])) {
-                throw new ModelsException('El primer apellido no debe estar vacio');
+                throw new ModelsException('El primer apellido no debe estar vacío');
             }
 
             if (!array_key_exists('foto_documento_identidad',$fotos)) {
@@ -377,7 +379,7 @@ class Users extends Models implements IModels {
             }
 
             if (!array_key_exists('usuario',$user_data) || Functions::emp($user_data['usuario'])) {
-                throw new ModelsException('El usuario no debe estar vacio');
+                throw new ModelsException('El usuario no debe estar vacío');
             }
 
             $username = $this->db->scape($user_data['usuario']);
@@ -402,20 +404,36 @@ class Users extends Models implements IModels {
                 throw new ModelsException("Teléfono inválido, debe tener al menos 11 dígitos");              
             }
 
+            if (!array_key_exists('pin',$user_data)  || Functions::emp($user_data['pin']) ) {
+                throw new ModelsException('El pin no debe estar vacío');
+            }
+
+            if (!array_key_exists('pin_re',$user_data)  || Functions::emp($user_data['pin_re']) ) {
+                throw new ModelsException('Debe repetir el pin');
+            }
+
+            if (!ctype_digit($user_data['pin'])){
+                throw new ModelsException("Pin inválido, debe ser numérico.");              
+            }
+
+            if ( strlen($user_data['pin']) != 4 ){
+                throw new ModelsException("Pin inválido, debe estar compuesto por 4 dígitos.");              
+            }
+
             if (!array_key_exists('pass',$user_data)  || Functions::emp($user_data['pass']) ) {
-                throw new ModelsException('El password no debe estar vacio');
+                throw new ModelsException('El password no debe estar vacío.');
             }
 
             if (!array_key_exists('pass_repeat',$user_data) || Functions::emp($user_data['pass_repeat'])) {
-                throw new ModelsException('Por favor repita el password');
+                throw new ModelsException('Por favor repita el password.');
             }
             
             if(!array_key_exists('nombre_banco',$user_data) || Functions::emp($user_data['nombre_banco'])){
-                throw new ModelsException('Debe introducir el nombre de la entidad bancaria');
+                throw new ModelsException('Debe introducir el nombre de la entidad bancaria.');
             }
 
             if(!array_key_exists('numero_cuenta',$user_data) || Functions::emp($user_data['numero_cuenta'])){
-                throw new ModelsException('Debe introducir un número de cuenta');
+                throw new ModelsException('Debe introducir un número de cuenta.');
             }
             
             if ( strlen($user_data['numero_cuenta']) != 20  ){
@@ -433,25 +451,25 @@ class Users extends Models implements IModels {
             }
 
             #Verificar que solo existan letras en los nombres y apellidos
-            if(!Helper\Strings::only_letters($user_data['primer_nombre'])){
+            if(!Helper\Strings::checkCaracteresLatinos($user_data['primer_nombre'])){
                 throw new ModelsException('El primer nombre solo puede contener letras.');
             }
 
             if( array_key_exists('segundo_nombre',$user_data) && !Functions::emp($user_data['segundo_nombre'])  ){
 
-                if(!Helper\Strings::only_letters($user_data['segundo_nombre'])){
+                if(!Helper\Strings::checkCaracteresLatinos($user_data['segundo_nombre'])){
                     throw new ModelsException('El segundo nombre solo puede contener letras.');
                 }
 
             }
 
-            if(!Helper\Strings::only_letters($user_data['primer_apellido'])){
+            if(!Helper\Strings::checkCaracteresLatinos($user_data['primer_apellido'])){
                 throw new ModelsException('El primer apellido solo puede contener letras');
             }
 
             if( array_key_exists('segundo_apellido',$user_data) && !Functions::emp($user_data['segundo_apellido'])  ){
 
-                if(!Helper\Strings::only_letters($user_data['segundo_apellido'])){
+                if(!Helper\Strings::checkCaracteresLatinos($user_data['segundo_apellido'])){
                     throw new ModelsException('El segundo apellido solo puede contener letras.');
                 }
 
@@ -462,6 +480,9 @@ class Users extends Models implements IModels {
 
             # Veriricar contraseñas
             $this->checkPassMatch($user_data['pass'], $user_data['pass_repeat']);
+
+            #Veriricar pin
+            $this->checkPassMatch($user_data['pin'], $user_data['pin_re'],'Los pin no coinciden.');
 
             # Registrar al usuario
             $id_user = $this->db->insert('users', array(
@@ -477,7 +498,8 @@ class Users extends Models implements IModels {
                 'numero_cuenta' => $user_data['numero_cuenta'],
                 'tipo' => $tipo,
                 'tipo_cliente' => 'Simple',
-                'pass' => Helper\Strings::hash($user_data['pass'])
+                'pass' => Helper\Strings::hash($user_data['pass']),
+                'pin' => Helper\Strings::hash($user_data['pin'])
             ));
 
             /*#Concatena una palabra para evitar repeticiones del codigoqr
@@ -684,6 +706,8 @@ class Users extends Models implements IModels {
         $this->usuario = $http->request->get('usuario');
         $this->pass = $http->request->get('pass');
         $this->pass2 = $http->request->get('pass2');
+        $this->pin = $http->request->get('pin');
+        $this->pin2 = $http->request->get('pin2');
         $this->sexo = $http->request->get('sexo');
         $this->telefono = $http->request->get('telefono');
         $this->email = $http->request->get('email');
@@ -709,15 +733,15 @@ class Users extends Models implements IModels {
             $this->email =  $this->db->select("email","users",null,"id_user=$id_user")[0]["email"];
         }
         
-        if ( !ctype_alpha($this->primer_nombre) or !ctype_alpha($this->primer_apellido) ) {
+        if ( !Helper\Strings::checkCaracteresLatinos($this->primer_nombre) or !Helper\Strings::checkCaracteresLatinos($this->primer_apellido) ) {
+            throw new ModelsException('Los nombres y apellidos no pueden poseer números, símbolos o espacioss.');
+        }
+
+        if ( !Helper\Functions::emp($this->segundo_nombre) && !Helper\Strings::checkCaracteresLatinos($this->segundo_nombre)) {
             throw new ModelsException('Los nombres y apellidos no pueden poseer números, símbolos o espacios.');
         }
 
-        if ( !Helper\Functions::emp($this->segundo_nombre) && !ctype_alpha($this->segundo_nombre)) {
-            throw new ModelsException('Los nombres y apellidos no pueden poseer números, símbolos o espacios.');
-        }
-
-        if ( !Helper\Functions::emp($this->segundo_apellido) && !ctype_alpha($this->segundo_apellido)) {
+        if ( !Helper\Functions::emp($this->segundo_apellido) && !Helper\Strings::checkCaracteresLatinos($this->segundo_apellido)) {
             throw new ModelsException('Los nombres y apellidos no pueden poseer números, símbolos o espacios.');
         }
 
@@ -762,6 +786,24 @@ class Users extends Models implements IModels {
            }
        }
 
+        # Veriricar pin
+        if( !Helper\Functions::emp($this->pin) ){
+
+            if (Helper\Functions::emp($this->pin2) ) {
+                throw new ModelsException('Debe repetir el pin');
+            }
+
+            if (!ctype_digit($this->pin)){
+                throw new ModelsException("Pin inválido, debe ser numérico.");              
+            }
+
+            if ( strlen($this->pin) != 4 ){
+                throw new ModelsException("Pin inválido, debe estar compuesto por 4 dígitos.");  
+            }     
+
+            $this->checkPassMatch($this->pin, $this->pin2,'Los pin no coinciden');
+        }
+
         if($this->sexo!="m" and $this->sexo!="f") {
             throw new ModelsException('Sexo no válido.');
         }
@@ -805,6 +847,7 @@ class Users extends Models implements IModels {
             'segundo_apellido' => $this->segundo_apellido,
             'usuario' => $this->usuario,
             'pass' => Helper\Strings::hash($this->pass),
+            'pin' => Functions::emp($this->pin) ? null : Helper\Strings::hash($this->pin),
             'sexo' => $this->sexo,
             'nombre_banco' => $this->nombre_banco,
             'numero_cuenta' => $this->numero_cuenta,
@@ -816,7 +859,7 @@ class Users extends Models implements IModels {
              #Array con datos validos para el insert
              $data = array();
   
-             #Valida que los datos no esten vacios y los inserta en el array "data"
+             #Valida que los datos no esten vacíos y los inserta en el array "data"
              foreach ($u as $key=>$val) {
                if(NULL !== $u[$key] && !Functions::emp($u[$key])){
                  $data[$key] = $u[$key];
@@ -897,16 +940,18 @@ class Users extends Models implements IModels {
                 'numero_cuenta' => $this->numero_cuenta,
             );
                     
-             #Si la password no esta vacía le hago el hash y la introduzco al array
+             #Si la password/pin no esta vacía/o le hago el hash y la/o introduzco al array
             if( ! (Helper\Functions::e($this->pass)) ){
-                $u['pass'] = Helper\Strings::hash($this->pass);
-                            
-            }           
+                $u['pass'] = Helper\Strings::hash($this->pass);          
+            }      
+            if( ! (Helper\Functions::e($this->pin)) ){
+                $u['pin'] = Helper\Strings::hash($this->pin);            
+            }    
 
             #Array con datos validos para el update
             $data = array();
 
-            #Valida que los datos no esten vacios y los inserta en el array "data"
+            #Valida que los datos no esten vacíos y los inserta en el array "data"
             foreach ($u as $key=>$val) {
                 if(NULL !== $u[$key] && !Functions::emp($u[$key])){
                     $data[$key] = $u[$key];
@@ -1112,7 +1157,7 @@ class Users extends Models implements IModels {
                     'referencia_bancaria_2' => $dir_ref2 == null ? null : $config['build']['url'] . $dir_ref2
                 );
 
-                #Valida que los datos no esten vacios y los inserta en el array "data"
+                #Valida que los datos no esten vacíos y los inserta en el array "data"
                 foreach ($docs as $key=>$val) {
                     if(NULL !== $docs[$key] && !Functions::emp($docs[$key])){
                         $data[$key] = $docs[$key];

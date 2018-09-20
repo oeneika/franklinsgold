@@ -224,6 +224,14 @@ final class Strings extends \Twig_Extension {
 
 
   /**
+   * Analiza si una cadena de texto con acentos o eñes(ñ) posee solamente letras
+   */
+  public static function checkCaracteresLatinos(string $s){
+    return ctype_alpha(str_replace(['á', 'é', 'í', 'ó', 'ú', 'ñ', 'Á', 'É', 'Í', 'Ó', 'Ú'], ['a', 'e', 'i', 'o', 'u', 'n', 'A', 'E', 'I', 'O', 'U'], $s));
+  }
+
+
+  /**
    * Convierte una expresión de texto, a una compatible con url amigables
    *
    * @param string $url: Cadena de texto a convertir
@@ -357,6 +365,7 @@ final class Strings extends \Twig_Extension {
       new \Twig_Function('only_letters', array($this, 'only_letters')),
       new \Twig_Function('letters_and_numbers', array($this, 'letters_and_numbers')),
       new \Twig_Function('url_amigable', array($this, 'url_amigable')),
+      new \Twig_Function('checkCaracteresLatinos', array($this, 'checkCaracteresLatinos')),
       new \Twig_Function('bbcode', array($this, 'bbcode')),
       new \Twig_Function('begin_with', array($this, 'begin_with')),
       new \Twig_Function('end_with', array($this, 'end_with')),

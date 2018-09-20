@@ -553,18 +553,29 @@ class Orden extends Models implements IModels {
             global $http;
     
             #Obtener los datos $_POST
-            $codigo_confirmacion = $http->request->get('codigo_confirmacion'); 
+            $codigo_confirmacion = $this->db->scape($http->request->get('codigo_confirmacion')); 
+            $pin = $this->db->scape($http->request->get('pin'));
 
             #Busca la orden en espera
             $orden = $this->db->select("*","orden_en_espera",null,"codigo_confirmacion='$codigo_confirmacion'");
 
             #Verifica si existe la orden en espera
             if($orden == false){
-                throw new ModelsException('El código no corresponde a ninguna orden en espera.');
+                throw new ModelsException('El código no corresponde a ninguna orden.');
+            }
+
+            #Guarda el id del cliente
+            $id_cliente = $orden[0]["id_usuario_cliente"];
+                
+            #Trae el pin del usuario
+            $datos_usuario = $this->db->select("pin","users",null,"id_user='$id_cliente'");
+
+            #Valída el pin
+            if(!Helper\Strings::chash($datos_usuario[0]['pin'],$pin)){
+                throw new ModelsException('Pin inválido.');
             }
 
             #Contiene los datos de la orden
-            $id_cliente = $orden[0]["id_usuario_cliente"];
             $tipo_gramo = $orden[0]["tipo_gramo"];
             $cantidad_en_orden = $orden[0]["cantidad"];
             $id_usuario_vendedor = $orden[0]["id_usuario_vendedor"];
