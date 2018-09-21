@@ -11,6 +11,7 @@
                             <thead>
                             <tr>
                                 <th>Mensaje</th>
+                                <th>Marcar como leída</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -18,7 +19,8 @@
                             {% for n in notifications %}
                             <tr>
                                 
-                                <td>{{n.mensaje}} </td>
+                                <td id="mensaje_{{n.id_notificacion}}" bgcolor="{{n.estado == 0 ? "blue" : "yellow"}}">{{n.mensaje}} </td>
+                                <td><a id="boton_{{n.id_notificacion}}" onclick="mark_as_read({{ n.id_notificacion }})"><i class="fa fa-sliders-h naranja"></i></a></td>
                                 
                             </tr>
                             {% endfor %}
@@ -31,3 +33,4 @@
         </div>
     </div>
 </div>
+<script src="assets/jscontrollers/usuarios/notificaciones.js"></script>

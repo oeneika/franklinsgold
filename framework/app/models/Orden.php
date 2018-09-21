@@ -278,7 +278,8 @@ class Orden extends Models implements IModels {
 
             $this->db->insert('notificacion',array(
                 'id_usuario'=>$id_user,
-                'mensaje'=>$mensaje
+                'mensaje'=>$mensaje,
+                'fecha' => time()
             ));
 
             #Envía correo informativo sobre la orden al usuario
@@ -307,7 +308,8 @@ class Orden extends Models implements IModels {
 
             $this->db->insert('notificacion',array(
                 'id_usuario'=>$id_user,
-                'mensaje'=>$mensaje
+                'mensaje'=>$mensaje,
+                'fecha' => time()
             ));
 
             #Envía correo informativo sobre la orden al usuario
@@ -383,7 +385,8 @@ class Orden extends Models implements IModels {
 
                 $this->db->insert('notificacion',array(
                     'id_usuario'=>$id_usuario,
-                    'mensaje'=>$mensaje
+                    'mensaje'=>$mensaje,
+                    'fecha' => time()
                 ));
 
                 #Envía correo informativo sobre la orden al usuario

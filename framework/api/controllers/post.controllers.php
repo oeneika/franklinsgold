@@ -329,3 +329,15 @@ $app->post('/inicio', function() use($app) {
 
     return $app->json($i->foo());   
 });
+
+
+/**
+ * Cambia el estado de una notificación
+ *
+ * @return json
+*/
+$app->post('/set/notifications', function() use($app) {
+    $u = new Model\Users; 
+
+    return $app->json($u->setNotifications());   
+});

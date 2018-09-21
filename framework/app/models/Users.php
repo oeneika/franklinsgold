@@ -435,6 +435,10 @@ class Users extends Models implements IModels {
             if(!array_key_exists('numero_cuenta',$user_data) || Functions::emp($user_data['numero_cuenta'])){
                 throw new ModelsException('Debe introducir un número de cuenta.');
             }
+
+            if( !ctype_digit($user_data['numero_cuenta']) ){
+                throw new ModelsException('Número de cuenta inválido.');
+            }   
             
             if ( strlen($user_data['numero_cuenta']) != 20  ){
                 throw new ModelsException("Número de cuenta inválido.");              
@@ -754,16 +758,20 @@ class Users extends Models implements IModels {
         }
 
         if (strlen($this->telefono) < 11){
-            throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
+            throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos.");              
         }
 
         if( Helper\Functions::emp($this->nombre_banco) ){
-            throw new ModelsException('Debe introducir el nombre de la entidad bancaria');
+            throw new ModelsException('Debe introducir el nombre de la entidad bancaria.');
         }
 
         if( Helper\Functions::emp($this->numero_cuenta) ){
-            throw new ModelsException('Debe introducir un número de cuenta');
+            throw new ModelsException('Debe introducir un número de cuenta.');
         }
+
+        if( !ctype_digit($this->numero_cuenta) ){
+            throw new ModelsException('Número de cuenta inválido.');
+        }     
         
         if ( strlen($this->numero_cuenta) != 20  ){
             throw new ModelsException("Número de cuenta inválido.");              
@@ -1271,7 +1279,41 @@ class Users extends Models implements IModels {
      */
     public function getNotifications(int $id_usuario){
 
-        return $this->db->select("mensaje","notificacion",null,"id_usuario=$id_usuario",5,"ORDER BY id_notificacion DESC");
+        #Fecha de hace 7 días
+        $hace_una_semana = strtotime("-1 week");
+
+        $notificaciones = $this->db->select("mensaje,id_notificacion,estado","notificacion",null,"id_usuario=$id_usuario and fecha>$hace_una_semana",5,"ORDER BY id_notificacion DESC");
+        $sin_leer = $this->db->select("COUNT(id_notificacion) as cantidad","notificacion",null,"estado=0 and id_usuario=$id_usuario and fecha>$hace_una_semana");
+
+            #Si existen notificaciones
+            if($notificaciones != false){      
+
+                if($sin_leer != false){
+                    $notificaciones[0]["sin_leer"] = $sin_leer[0]["cantidad"];
+                }else{
+                    $notificaciones[0]["sin_leer"] = 0;
+                }
+
+            }
+
+        return $notificaciones; 
+
+    }
+
+    /**
+     * Coloca cómo leída una notificación
+     * 
+     * @return false|array con información de los documentos
+     */
+    public function setNotifications(){
+        global $http;
+
+        $id_notificacion = $this->db->scape($http->request->get('id_notificacion'));
+
+        #Edita la sucursal
+        $this->db->update('notificacion',array(
+            'estado' => 1
+        ),"id_notificacion = '$id_notificacion'");
 
     }
 
