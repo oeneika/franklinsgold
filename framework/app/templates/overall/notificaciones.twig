@@ -24,7 +24,7 @@
                                 {% if n.estado == 0 %} 
                                     <td class="centrar">
                                         <a title="Mensaje no leído" id="boton_{{n.id_notificacion}}" onclick="mark_as_read({{ n.id_notificacion }})">
-                                            <i class="fa fa-check-square gris font-20" style="color:#5ebac4;" class="btn-noleido"></i>
+                                            <i id="boto_{{n.id_notificacion}}" class="fa fa-check-square gris font-20 azulito"></i>
                                         </a>
                                     </td>
                                 {% else %}
