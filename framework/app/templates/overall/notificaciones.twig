@@ -7,11 +7,12 @@
                 <small class="font-bold">Franklin Gold</small>
             </div>
             <div class="modal-body">
+                <p align="center">Haga click sobre el icono de <strong>"Marcar como leído"</strong> para indicarle al sistema que su notificación ya fue leída con éxito.</p>
                     <table class="table">
                             <thead>
                             <tr>
-                                <th>Mensaje</th>
-                                <th>Marcar como leída</th>
+                                <th width="80%">Mensaje</th>
+                                <th>Marcar como leído</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -19,8 +20,16 @@
                             {% for n in notifications %}
                             <tr>
                                 
-                                <td id="mensaje_{{n.id_notificacion}}" bgcolor="{{n.estado == 0 ? "blue" : "yellow"}}">{{n.mensaje}} </td>
-                                <td><a id="boton_{{n.id_notificacion}}" onclick="mark_as_read({{ n.id_notificacion }})"><i class="fa fa-sliders-h naranja"></i></a></td>
+                                <td id="mensaje_{{n.id_notificacion}}" bgcolor="{{n.estado == 0 ? "#E4F3F2" : "#f8fafb"}}"style="text-align:justify;">{{n.mensaje}} </td>
+                                {% if n.estado == 0 %} 
+                                    <td class="centrar">
+                                        <a title="Mensaje no leído" id="boton_{{n.id_notificacion}}" onclick="mark_as_read({{ n.id_notificacion }})">
+                                            <i class="fa fa-check-square gris font-20" style="color:#5ebac4;" class="btn-noleido"></i>
+                                        </a>
+                                    </td>
+                                {% else %}
+                                <td class="centrar"><a title="Mensaje leído" href="/" id="boton_{{n.id_notificacion}}" onclick="return false;" disabled><i class="fa fa-check-square gris font-20" style=" color:#e7e7e7;"></i></a></td>
+                                {% endif %}
                                 
                             </tr>
                             {% endfor %}
