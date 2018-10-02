@@ -30,7 +30,7 @@ class ordenclienteController extends Controllers implements IControllers {
         
         $id_owner = $this->user["id_user"];
 
-        $select = "orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,u.primer_nombre,u.primer_apellido";
+        $select = "orden.id_orden,orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,u.primer_nombre,u.primer_apellido";
         $where_oro = "orden.estado=4 and orden.tipo_gramo='oro' and u.id_user='$id_owner'";
         $where_plata = "orden.estado=4 and orden.tipo_gramo='plata' and u.id_user='$id_owner'";
         $precio_bolivar = ($d->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"];

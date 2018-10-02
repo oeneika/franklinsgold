@@ -113,6 +113,7 @@
                                     <table class="table table-striped table-bordered table-hover tablita" >
                                         <thead>
                                         <tr>
+                                            <th>Nro orden</th>
                                             <th>Fecha</th>
                                             <th>Usuario</th>
                                             <!--<th>Sucursal</th>-->
@@ -125,13 +126,15 @@
                                         <tbody>  
                                             {% for a in ultimas_cinco_ordenes_oro %} 
                                             <tr>
+                                                <td>{{ a.id_orden }}</td>
                                                 <td>{{ fecha('D, d F, Y h:i a', a.fecha) }}</td>
                                                 <td>{{ a.primer_nombre }} {{ a.primer_apellido }}</td>
                                                 {#<td>{{ a.nombre_sucursal }}</td>#}
                                                 <td>{{ a.cantidad }}</td>
                                                 <td>{{ a.precio|number_format(2, ',', '.') }}</td>
                                                 <td>{{ (a.cantidad * a.precio)|number_format(2, ',', '.') }}</td>
-                                                <td style="{{ a.tipo_orden == 1 ? 'color: green;' : a.tipo_orden == 2 ? 'color: red;' : 'color: blue;'}}">{{ a.tipo_orden == 1 ? 'Compra' : a.tipo_orden == 2 ? "Venta" : "Intercambio" }}</td>
+                                                <td style="{{ a.tipo_orden == 1 ? 'color: green;' : a.tipo_orden == 2 ? 'color: red;' : 'color: blue;'}}">
+                                                    {{ a.tipo_orden == 1 ? 'Compra' : a.tipo_orden == 2 ? "Venta" : a.tipo_orden == 3 ? "Intercambio" : "Intercambio en comercio" }}</td>
                                             </tr>
                                             {% endfor %}  
                                         </tbody>
@@ -150,6 +153,7 @@
                                     <table class="table table-striped table-bordered table-hover tablita" >
                                         <thead>
                                         <tr>
+                                            <th>Nro orden</th>
                                             <th>Fecha</th>
                                             <th>Usuario</th>
                                             <!--<th>Sucursal</th>-->
@@ -162,6 +166,7 @@
                                         <tbody>  
                                            {% for a in ultimas_cinco_ordenes_plata %} 
                                             <tr>
+                                                <td>{{ a.id_orden }}</td>
                                                 <td>{{ fecha('D, d F, Y h:i a', a.fecha) }}</td>
                                                 <td>{{ a.primer_nombre }} {{ a.primer_apellido }}</td>
                                                 {#<td>{{ a.nombre_sucursal }}</td>#}

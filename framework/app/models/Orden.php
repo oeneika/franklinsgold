@@ -621,7 +621,7 @@ class Orden extends Models implements IModels {
                     'tipo_gramo' => $tipo_gramo,
                     'cantidad' => $cantidad_en_orden,
                     'precio' => $precio,
-                    'tipo_orden' => 2,
+                    'tipo_orden' => 4,
                     'fecha' => time(),
                     'estado' => 4
                 );
@@ -780,17 +780,20 @@ class Orden extends Models implements IModels {
         $where="o.estado=4";
 
         if($id_comercio_afiliado != 0){
-            $where = $where." and u.id_comercio_afiliado=$id_comercio_afiliado";
+            $where = $where." and uv.id_comercio_afiliado=$id_comercio_afiliado";
         }
 
         if($id_vendedor != 0){
-            $where = $where." and u.id_user=$id_vendedor";
+            $where = $where." and uv.id_user=$id_vendedor";
         }
 
-        $inner = "INNER JOIN users u ON u.id_user=o.id_vendedor
-                  INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=u.id_comercio_afiliado "; 
+        $inner = "INNER JOIN users u ON u.id_user=o.id_usuario
+                  INNER JOIN users uv ON uv.id_user=o.id_vendedor
+                  INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=uv.id_comercio_afiliado "; 
  
-        return $this->db->select("o.*,ca.nombre as nombre_afiliado,ca.sucursal,u.primer_nombre,u.primer_apellido",
+        return $this->db->select("o.*,ca.nombre as nombre_afiliado,ca.sucursal,
+                                 u.primer_nombre as nombre_usuario,u.primer_apellido as apellido_usuario,
+                                 uv.primer_nombre as nombre_vendedor,uv.primer_apellido as apellido_vendedor",
                                  "orden o",$inner,$where,null,"ORDER BY o.id_orden DESC");
     }
 

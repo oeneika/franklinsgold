@@ -56,12 +56,14 @@
                             </div>                         
                         </div>
 
+                        {% if owner_user.tipo != 1 %}
                         <div class="col-md-12 col-xs-12">
                             <div class="form-group">
                                 <label for="foto_transferencia" class="float-left">Subir imagen de la transferencia  </label>
                                 <input type="file" class="form-control-file" name="foto_transferencia" id="id_foto_transferencia">
                             </div>
                         </div>
+                        {% endif %}
 
                     </div>
 

@@ -85,7 +85,9 @@
                                    <table class="table table-striped table-bordered table-hover tablita" >
                                        <thead>
                                        <tr>
+                                            <th>Nro orden</th>
                                             <th>Usuario</th>
+                                            <th>Vendedor</th>
                                             <th>Comercio afiliado</th>
                                             <th>Sucursal</th>
                                             <th>Composición</th>
@@ -98,7 +100,9 @@
                                        <tbody>  
                                            {% for o in ordenes %}
                                            <tr>
-                                                <td>{{ o.primer_nombre }} {{ o.primer_apellido }}</td>
+                                                <td>{{ o.id_orden }}</td>
+                                                <td>{{ o.nombre_usuario }} {{ o.apellido_usuario }}</td>
+                                                <td>{{ o.nombre_vendedor }} {{ o.apellido_vendedor }}</td>
                                                 <td>{{ o.nombre_afiliado }}</td>
                                                 <td>{{ o.sucursal }}</td>
                                                 <td>{{ o.tipo_gramo }}</td>
@@ -128,40 +132,40 @@
                            <div class="ibox-content">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th>Kilogramos (oz) / Kilograms</th>
-                                                                    <th>Gramos (g) / Grams</th>
-                                                                    <th>Onzas (oz) / Ounces</th>
-                                                                    <th>Libras (oz) / Pounds</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>1</td>
-                                                                        <td>1000</td>
-                                                                        <td>35.3</td>
-                                                                        <td>2.20</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>0.001</td>
-                                                                        <td>1</td>
-                                                                        <td>0.035</td>
-                                                                        <td>0.0022</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>0.0283</td>
-                                                                        <td>28.3</td>
-                                                                        <td>1</td>
-                                                                        <td>0.0625</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>0.453</td>
-                                                                        <td>453</td>
-                                                                        <td>16</td>
-                                                                        <td>1</td>
-                                                                    </tr>
-                                                                </tbody>
+                                        <thead>
+                                        <tr>
+                                            <th>Kilogramos (oz) / Kilograms</th>
+                                            <th>Gramos (g) / Grams</th>
+                                            <th>Onzas (oz) / Ounces</th>
+                                            <th>Libras (oz) / Pounds</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>1000</td>
+                                                <td>35.3</td>
+                                                <td>2.20</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.001</td>
+                                                <td>1</td>
+                                                <td>0.035</td>
+                                                <td>0.0022</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.0283</td>
+                                                <td>28.3</td>
+                                                <td>1</td>
+                                                <td>0.0625</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.453</td>
+                                                <td>453</td>
+                                                <td>16</td>
+                                                <td>1</td>
+                                            </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                            </div>

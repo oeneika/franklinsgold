@@ -91,8 +91,8 @@ function createOrden(formulario){
     if(undefined == $ocrendForm.data('locked') || false == $ocrendForm.data('locked')) {
 
         var paqueteDeDatos = new FormData();
-
-            if($('#id_tipo_orden').val() != 3){
+        
+            if($('#id_tipo_orden').val() != 3 && $('#id_foto_transferencia').val() != null){
                 paqueteDeDatos.append('foto_transferencia', $('#id_foto_transferencia')[0].files[0]);
             } 
             
