@@ -469,8 +469,8 @@ class Orden extends Models implements IModels {
         $id_vendedor_owner = ((new Model\Users)->getOwnerUser())["id_user"];
         $id_cliente = $http->request->get('id_cliente'); 
         $tipo_gramo = $http->request->get('tipo_gramo');     
-        $cantidad = $http->request->get('cantidad');
-        
+        $cantidad = $http->request->get('cantidad');       
+        $cantidadBss = $http->request->get('cantidad_bolivar_soberano');
 
         # Verificar que no están vacíos
         if (Helper\Functions::e($id_cliente,$tipo_gramo,$cantidad)) {
@@ -509,6 +509,7 @@ class Orden extends Models implements IModels {
                 'id_usuario_cliente' => $id_cliente,
                 'tipo_gramo' => $tipo_gramo,
                 'cantidad' => $cantidad,
+                'cantidad_bolivar_soberano' => $cantidadBss,
                 'codigo_confirmacion' => $token
             );
                    
@@ -558,7 +559,7 @@ class Orden extends Models implements IModels {
             #Obtener los datos $_POST
             $codigo_confirmacion = $this->db->scape($http->request->get('codigo_confirmacion')); 
             $pin = $this->db->scape($http->request->get('pin'));
-
+            
             #Busca la orden en espera
             $orden = $this->db->select("*","orden_en_espera",null,"codigo_confirmacion='$codigo_confirmacion'");
 
@@ -581,6 +582,7 @@ class Orden extends Models implements IModels {
             #Contiene los datos de la orden
             $tipo_gramo = $orden[0]["tipo_gramo"];
             $cantidad_en_orden = $orden[0]["cantidad"];
+            $cantidad_bolivar_soberano = $orden[0]["cantidad_bolivar_soberano"];
             $id_usuario_vendedor = $orden[0]["id_usuario_vendedor"];
             $codigo_confirmacion = $orden[0]["codigo_confirmacion"];
 
@@ -620,6 +622,7 @@ class Orden extends Models implements IModels {
                     'id_vendedor' => $id_usuario_vendedor,
                     'tipo_gramo' => $tipo_gramo,
                     'cantidad' => $cantidad_en_orden,
+                    'cantidad_bolivar_soberano' => $cantidad_bolivar_soberano,
                     'precio' => $precio,
                     'tipo_orden' => 4,
                     'fecha' => time(),
