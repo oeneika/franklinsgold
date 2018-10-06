@@ -1,4 +1,4 @@
-<div class="modal inmodal" id="intercambioencomercioModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal jiji" id="intercambioencomercioModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -15,7 +15,7 @@
                             <div class="col-md-6 col-xs-12 clientes_intercambiocomercio">
                                 <div class="form-group">
                                     <label for="id_cliente" class="control-label mb-1" >Clientes</label>
-                                    <select name="id_cliente" class="form-control" style="width: 100%">
+                                     <select name="email" id="id_cliente" class="form-control select2" style="width: 100%">
                                         <option disabled selected value>Seleccione un cliente</option>
                                         {% for c in clientes %}
                                             <option value="{{c.id_user}}">{{c.usuario}}</option>
@@ -38,14 +38,14 @@
                             <div class="col-md-6 col-xs-12 cantidadbss_intercambiocomercio">
                                 <div class="form-group">
                                     <label for="id_cantidad_bolivar_soberano_int" class="control-label mb-1" >Cantidad BsS</label>
-                                    <input name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_int" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')" class="form-control" >
+                                    <input placeholder="0.00" name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_int" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')" class="form-control" >
                                 </div>
                             </div>  
 
                             <div class="col-md-6 col-xs-12 cantidad_intercambiocomercio">
                                 <div class="form-group">
                                     <label for="id_cantidad_int" class="control-label mb-1" >Cantidad(gramos)</label>
-                                    <input class="form-control" name="cantidad" id="id_cantidad_int" readonly="readonly" type="number"> 
+                                    <input placeholder="0" class="form-control" name="cantidad" id="id_cantidad_int" readonly="readonly" type="number"> 
                                 </div>                         
                             </div>
                         </div>  
