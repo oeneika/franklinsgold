@@ -49,15 +49,19 @@ class homeController extends Controllers implements IControllers {
         }
 
         #Si el usuario logeado es un admin
+        $cantidad_compras_por_comercio = false;
         if($this->user["tipo"] == 0 ){
+
             $ordenes = $o->getOrdenesComerciosAfiliados();
+            $cantidad_compras_por_comercio = $o->getCantOrdenesComerciosAfiliados();           
+
         }
 
-        $ordenes_de_comercios = false;
         $this->template->display('home/home',array(
             'data'=> $d->getData(),//verificar esta data
             'clientes'=> $u->getUsers('*','tipo=2'),
             'ordenes' => $ordenes,
+            'cantidad_compras_por_comercio' => $cantidad_compras_por_comercio,
             'precio_bolivar' => ($di->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"]
         ));
     }

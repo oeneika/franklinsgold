@@ -36,12 +36,12 @@ class Afiliados extends Models implements IModels {
      */
     private function errorsTel(){
         if (!array_key_exists('telefono',$this->data)) {
-            throw new ModelsException('Campo telefono no definido');
+            throw new ModelsException('Campo teléfono no definido.');
         }
         foreach ($this->data['telefono'] as $key => $value) {
 
             if (Helper\Functions::emp($value)){
-                throw new ModelsException('uno o mas telefonos estan vacios');
+                throw new ModelsException('Uno o mas telefonos estan vacíos.');
             }
 
             if (!ctype_digit($value)){
@@ -49,7 +49,7 @@ class Afiliados extends Models implements IModels {
             }
 
             if (strlen($value) < 11){
-                throw new ModelsException("Teléfono inválido, debe tener al menos 11 dígitos");              
+                throw new ModelsException("Teléfono inválido, debe tener al menos 11 dígitos.");              
             }
 
         }
@@ -71,32 +71,32 @@ class Afiliados extends Models implements IModels {
         }
 
         if (!array_key_exists('nombre',$this->data) || Helper\Functions::emp($this->data['nombre'])) {
-            throw new ModelsException('El nombre no debe estar vacio');
+            throw new ModelsException('El nombre no debe estar vacío.');
         }else{
 
             $sucursal_comercio_afiliado= $this->db->scape($this->data['sucursal']);
             $a = $this->db->select('id_comercio_afiliado','comercio_afiliado',null,"sucursal='$sucursal_comercio_afiliado'");
 
             if($a!=false and $this->id_comercio_afiliado!=$a[0]["id_comercio_afiliado"] ){
-                throw new ModelsException("El nombre de la sucursal del comercio ya existe");
+                throw new ModelsException("El nombre de la sucursal del comercio ya existe.");
             }
 
         }
 
         if (!array_key_exists('sucursal',$this->data)  || Helper\Functions::emp($this->data['sucursal']) ) {
-            throw new ModelsException('La sucursal no debe estar vacia');
+            throw new ModelsException('La sucursal no debe estar vacía.');
         }
 
         if (!array_key_exists('direccion',$this->data)  || Helper\Functions::emp($this->data['direccion']) ) {
-            throw new ModelsException('La direccion no debe estar vacia');
+            throw new ModelsException('La direccion no debe estar vacía.');
         }
 
         if( strpos($this->data['nombre'],' ') !== false ){
-            throw new ModelsException('El nombre no puede tener espacios en blanco');
+            throw new ModelsException('El nombre no puede tener espacios en blanco.');
         }
 
         if( strpos($this->data['sucursal'],' ') !== false ){
-            throw new ModelsException('La sucursal no puede tener espacios en blanco');
+            throw new ModelsException('La sucursal no puede tener espacios en blanco.');
         }
 
         

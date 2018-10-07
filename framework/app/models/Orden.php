@@ -800,6 +800,22 @@ class Orden extends Models implements IModels {
                                  "orden o",$inner,$where,null,"ORDER BY o.id_orden DESC");
     }
 
+     /**
+     * Devuelve la cantidad de ordenes por sucursal de comercio afiliado
+     *  @return array|false
+     */
+    public function getCantOrdenesComerciosAfiliados(){
+        Global $http;
+
+        $where="o.estado=4";
+
+        $inner = "INNER JOIN users u ON u.id_user=o.id_vendedor
+                  INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=u.id_comercio_afiliado"; 
+ 
+        return $this->db->select("COUNT(*) as cantidad,ca.nombre as nombre_afiliado,ca.sucursal",
+                                 "orden o",$inner,$where,null,"GROUP BY ca.sucursal");
+    }
+
 
     /**
      * Servicio que devuelve la cantidad de gramos de oro/plata en posesión de un usuario
