@@ -17,6 +17,12 @@ div.modal.inmodal.show{
 	padding: 15px 0;
 }
 
+.coloreado{
+	padding: 5px 15px;
+	background-color: #CC4713;
+	color: white;
+}
+
 .font-20{
 	font-size: 20px;
 }
@@ -71,10 +77,13 @@ li.active strong, .naranja{
 	padding: 10px 10px 60px;
 }
 
-.navbar-top-links li a{
-	padding: 20px;
+.btn-logout{
+ 	border: #4f4f4f;
 }
 
+.btn-logout:hover{
+ 	background: #3E3E3E;
+}
 
 #wrapper{
 	background-color: #1D1D1D;
@@ -146,6 +155,18 @@ li.active strong, .naranja{
 
 .btn-responsive,.btn-responsiv{
 	width: 100%;
+}
+
+.btn-bienvenido{
+	background-color: #D1520D;
+}
+
+.btn-bienvenido:hover{
+	background-color: #C35519;
+}
+
+.btn-logout{
+	background-color: #4F4F4F;
 }
 
 @media (min-width: 768px ){

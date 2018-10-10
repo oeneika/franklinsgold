@@ -1,5 +1,6 @@
 var table_settings = {
     'order'    : [[ 0, "desc" ]],
+    "lengthMenu": [[4, 10, 25], [4, 10, 25]],
     "language" : {
         "sProcessing":     "Procesando...",
         "sLengthMenu":     "Mostrar _MENU_ registros",
