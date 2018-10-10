@@ -1,47 +1,47 @@
 <div class="modal inmodal" id="editarAfiliado" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar {{lang.wrapper.cerrar}}</span></button>
-                                    <h4 class="modal-title">Edición de Comercio Afiliado {{lang.wrapper.edicioncomercioafil}}</h4>
-                                    <small class="font-bold">Franklin Gold</small>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form" id="editar_afiliado_form">
-                                        <input type="hidden" name="id_comercio_afiliado" id='id_afiliados_edit'>
-                                        <input type="hidden" name="id_user" id="id_edit_user" >
-                                        <div class="row">
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="nombre" class="control-label mb-1">Nombre {{lang.wrapper.nombre}}</label>
-                                                    <input name="nombre" id="id_nombre_edit" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                    <h5>*Todas las sucursales de un mismo comercio deben poseer el mismo nombre(nombre del comercio).</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="nombre" class="control-label mb-1">Sucursal {{lang.wrapper.sucursal}}</label>
-                                                    <input name="sucursal" id="id_sucursal_edit" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12 col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="direccion" class="control-label mb-1">Dirección {{lang.wrapper.direccion}}</label>
-                                                    <input name="direccion" id="id_direccion_edit" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="telefonos_edit">
-                                            
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar {{lang.wrapper.cerrar}}</button>
-                                    <button type="button" id="editarafiliadobtn" class="btn btn-primary">Guardar {{lang.wrapper.save}}</button>
-                                </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar {{lang.wrapper.cerrar}}</span></button>
+                <h4 class="modal-title">Edición de Comercio Afiliado {{lang.wrapper.edicioncomercioafil}}</h4>
+                <small class="font-bold">Franklin Gold</small>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="editar_afiliado_form">
+                    <input type="hidden" name="id_comercio_afiliado" id='id_afiliados_edit'>
+                    <input type="hidden" name="id_user" id="id_edit_user" >
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="nombre" class="control-label mb-1">Nombre {{lang.wrapper.nombre}}</label>
+                                <input name="nombre" id="id_nombre_edit" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                                <h5>*Todas las sucursales de un mismo comercio deben poseer el mismo nombre(nombre del comercio).</h5>
                             </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="nombre" class="control-label mb-1">Sucursal {{lang.wrapper.sucursal}}</label>
+                                <input name="sucursal" id="id_sucursal_edit" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="direccion" class="control-label mb-1">Dirección {{lang.wrapper.direccion}}</label>
+                                <input name="direccion" id="id_direccion_edit" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="telefonos_edit">
+                        
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar {{lang.wrapper.cerrar}}</button>
+                <button type="button" id="editarafiliadobtn" class="btn btn-primary">Guardar {{lang.wrapper.save}}</button>
+            </div>
+        </div>
     </div>
 </div>

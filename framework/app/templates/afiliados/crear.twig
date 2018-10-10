@@ -1,57 +1,57 @@
 <div class="modal inmodal" id="crearAfiliado" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar{{lang.wrapper.cerrar}}</span></button>
-                                    <h4 class="modal-title">Creación de Comercio Afiliado{{lang.wrapper.crearcomercioafil}}</h4>
-                                    <small class="font-bold">Franklin Gold</small>
-                                </div>
-                                <div class="modal-body">
-                                    <form role="form" id="crear_afiliado_form">
-                                        <div class="row">
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="nombre" class="control-label mb-1">Nombre{{lang.wrapper.nombre}}</label>
-                                                    <input name="nombre" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                    <h5>*Todas las sucursales de un mismo comercio deben poseer el mismo nombre(nombre del comercio).</h5>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="nombre" class="control-label mb-1">Sucursal{{lang.wrapper.sucursal}}</label>
-                                                    <input name="sucursal" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12 col-xs-12">
-                                                <div class="form-group">
-                                                    <label for="direccion" class="control-label mb-1">Dirección{{lang.wrapper.direccion}}</label>
-                                                    <input name="direccion" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <label class="control-label mb-1">Télefonos{{lang.wrapper.telefono}}</label>
-                                        <div class="row">
-                                            <div class="col-md-10 col-xs-10">
-                                                <div class="form-group">
-                                                    <input type="tel" class="form-control" name="telefono[0]">
-                                                  
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2 col-xs-2">
-                                                <a style="font-size:22px;" title="Agregar Telefono" onclick="addTel()"><i class="fa fa-plus naranja"></i></a>
-                                            </div>
-                                        </div>
-                                        <div id="telefonos">
-                                            
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar{{lang.wrapper.cerrar}}</button>
-                                    <button type="button" id="crearafiliadobtn" class="btn btn-primary">Crear{{lang.wrapper.crear}}</button>
-                                </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar{{lang.wrapper.cerrar}}</span></button>
+                <h4 class="modal-title">Creación de Comercio Afiliado{{lang.wrapper.crearcomercioafil}}</h4>
+                <small class="font-bold">Franklin Gold</small>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="crear_afiliado_form">
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="nombre" class="control-label mb-1">Nombre{{lang.wrapper.nombre}}</label>
+                                <input name="nombre" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                                <h5>*Todas las sucursales de un mismo comercio deben poseer el mismo nombre(nombre del comercio).</h5>
                             </div>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="nombre" class="control-label mb-1">Sucursal{{lang.wrapper.sucursal}}</label>
+                                <input name="sucursal" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <label for="direccion" class="control-label mb-1">Dirección{{lang.wrapper.direccion}}</label>
+                                <input name="direccion" type="text" class="form-control" aria-required="true" aria-invalid="false" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <label class="control-label mb-1">Télefonos{{lang.wrapper.telefono}}</label>
+                    <div class="row">
+                        <div class="col-md-10 col-xs-10">
+                            <div class="form-group">
+                                <input type="tel" class="form-control" name="telefono[0]">
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-2">
+                            <a style="font-size:22px;" title="Agregar Telefono" onclick="addTel()"><i class="fa fa-plus naranja"></i></a>
+                        </div>
+                    </div>
+                    <div id="telefonos">
+                        
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cerrar{{lang.wrapper.cerrar}}</button>
+                <button type="button" id="crearafiliadobtn" class="btn btn-primary">Crear{{lang.wrapper.crear}}</button>
+            </div>
+        </div>
     </div>
 </div>

@@ -637,6 +637,34 @@ class Orden extends Models implements IModels {
                     'cantidad'=> $cantidad_en_cartera - $cantidad_en_orden
                 ),"id_usuario_gramo = '$id_cartera'");  
 
+                #Contiene el id del usuario comercio afiliado
+                $id_usuario_comercio = $this->db->select("ca.id_user","users","INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=users.id_comercio_afiliado"
+                                    ,"users.id_user='$id_usuario_vendedor'")[0]["id_user"];
+                
+                #Verifíca si existe la cartera del usuario comercio afiliado
+                $cartera_comercio = $this->db->select("cantidad,id_usuario_gramo","user_gramo",null,"id_usuario='$id_usuario_comercio' and tipo_gramo='$tipo_gramo'");
+
+                #Si no existe la cartera del usuario comercio afiliado se inserta una nueva
+                if( $cartera_comercio == false){
+
+                    $this->db->insert('user_gramo',array(
+                        'id_usuario' =>  $id_usuario_comercio, 
+                        'tipo_gramo' => $tipo_gramo, 
+                        'cantidad' =>  $cantidad_en_orden
+                    ));
+
+                } #Si existe la cartera del usuario comercio afiliado se actualiza
+                else{
+
+                    $id_cartera_comercio = $cartera_comercio[0]["id_usuario_gramo"];
+                    $cantidad_cartera_comercio = $cartera_comercio[0]["cantidad"];
+
+                    $this->db->update('user_gramo',array(
+                        'cantidad'=> $cantidad_cartera_comercio + $cantidad_en_orden
+                    ),"id_usuario_gramo = '$id_cartera_comercio'");  
+
+                }
+
                 #Borra la orden en espera
                 $this->db->delete('orden_en_espera',"codigo_confirmacion='$codigo_confirmacion'");
           
@@ -651,6 +679,64 @@ class Orden extends Models implements IModels {
 
     }
 
+
+    /**
+     * Descuenta los gramos en posesión de un comercio afiliado
+     * 
+     * @param usuario_logeado :  datos del usuario logeado
+     * 
+     * @return array
+     */
+    public function sendGramos($usuario_logeado){
+
+        #Si el usuario logeado es supervisor de un comercio afiliado
+        if(  $usuario_logeado["tipo"] == 3 and $usuario_logeado["id_comercio_afiliado"] != null  ){
+            
+            #Id del usuario logeado
+            $id_usuario_logeado = $usuario_logeado["id_user"];
+            
+            #Contiene el id del usuario comercio afiliado
+            $id_usuario_comercio = $this->db->select("ca.id_user","users","INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=users.id_comercio_afiliado"
+            ,"users.id_user='$id_usuario_logeado'")[0]["id_user"];
+           
+            #Carteras del comercio afiliado
+            $carteras_comercio = $this->db->select("cantidad,tipo_gramo,id_usuario_gramo","user_gramo",null,"id_usuario='$id_usuario_comercio' and cantidad>0");
+           
+            #Precios de las divisas
+            $precio_oro = (new Model\Divisa)->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
+            $precio_plata = (new Model\Divisa)->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
+            
+            #Crea una orden de venta por cada cartera del usuario comercio afiliado
+            for ($i=0; $i < sizeof($carteras_comercio) and $carteras_comercio!=false; $i++) { 
+
+                $orden = array(
+                    'id_usuario' => $id_usuario_comercio,
+                    'tipo_gramo' => $carteras_comercio[$i]["tipo_gramo"],
+                    'cantidad' => $carteras_comercio[$i]["cantidad"],
+                    'precio' => $carteras_comercio[$i]["tipo_gramo"] == 'oro' ? $precio_oro : $precio_plata,
+                    'tipo_orden' => 2,
+                    'fecha' => time(),
+                    'estado' => 4
+                );
+                             
+                #Crea la orden
+                $this->db->insert('orden',$orden);
+
+                #Trae el id de cada cartera que posee el comercio afiliado
+                $id_cartera_comercio = $carteras_comercio[$i]["id_usuario_gramo"];
+
+                #Coloca la cantidad de la cartera en cero
+                $this->db->update('user_gramo',array(
+                    'cantidad'=> 0
+                ),"id_usuario_gramo = '$id_cartera_comercio'"); 
+
+            }
+
+
+        }
+
+
+    }
 
     /**
      * Trae las ordenes
@@ -770,7 +856,7 @@ class Orden extends Models implements IModels {
     }
 
      /**
-     * Devuelve las ordenes que pertenecen a comercios afiliados
+     * Devuelve las ordenes que pertenecen a comercios afiliados(ordenes de compra de un usuario en el comercio)
      * 
      *  @param int id_comercio_afiliado :  id del comercio afiliado
      *  @param int id_vendedor :  id del vendedor del comercio afiliado
@@ -814,6 +900,20 @@ class Orden extends Models implements IModels {
  
         return $this->db->select("COUNT(*) as cantidad,ca.nombre as nombre_afiliado,ca.sucursal",
                                  "orden o",$inner,$where,null,"GROUP BY ca.sucursal");
+    }
+
+
+    /**
+     * Devuelve la cantidad de ordenes por sucursal de comercio afiliado(ordenes en las cuales el comercio afiliado descontó sus gramos en posesión)
+     *  @return array|false
+     */
+    public function getOrdenesDescuentosComerciosAfiliados(){
+        Global $http;
+
+        $inner = "INNER JOIN comercio_afiliado ca ON ca.id_user=o.id_usuario"; 
+ 
+        return $this->db->select("o.*,ca.nombre as nombre_afiliado,ca.sucursal",
+                                 "orden o",$inner);
     }
 
 
