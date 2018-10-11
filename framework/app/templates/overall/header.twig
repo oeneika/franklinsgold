@@ -15,7 +15,7 @@
 
             {% if owner_user != null  %}   
             <li class="">
-                <button class="btn btn-primary btn-bienvenido" style="font-weight:bold; color:white;">¡Bienvenido, Oeneika!</button>
+                <button class="btn btn-primary btn-bienvenido" style="font-weight:bold; color:white;">¡Bienvenido, {{ owner_user.primer_nombre }}!</button>
             </li>   
             <li>
                 <button role="link" onclick="window.location='logout/'" class="btn btn-primary btn-logout" style="font-weight:bold; color:white;">
