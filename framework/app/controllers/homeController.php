@@ -35,11 +35,6 @@ class homeController extends Controllers implements IControllers {
         $u = new Model\Users;
         $di = new Model\Divisa;
 
-        #Envia los gramos del comercio afiliado a Franklin
-        if($this->method === 'sendgramos'){
-            $o->sendGramos($this->user);
-        }
-
         #Variable que contendrá las ordenes a pedir segun el usuario logeado
         $ordenes = false;
 
@@ -55,21 +50,23 @@ class homeController extends Controllers implements IControllers {
 
         #Si el usuario logeado es un admin
         $cantidad_compras_por_comercio = false;
-        $descuentos_comercios = false;
+        $ordenes_descuentos_comercios = false;
+        $cantidades_gramos_comercios = false;
         if($this->user["tipo"] == 0 ){
 
             $ordenes = $o->getOrdenesComerciosAfiliados();
             $cantidad_compras_por_comercio = $o->getCantOrdenesComerciosAfiliados(); 
-            $descuentos_comercios = $o->getOrdenesDescuentosComerciosAfiliados();          
-
+            $ordenes_descuentos_comercios = $o->getOrdenesDescuentosComerciosAfiliados();          
+            $cantidades_gramos_comercios = $o->getGramosComerciosAfiliados();    
         }
 
         $this->template->display('home/home',array(
-            'data'=> $d->getData(),//verificar esta data
+            'data'=> $d->getData(),
             'clientes'=> $u->getUsers('*','tipo=2'),
             'ordenes' => $ordenes,
             'cantidad_compras_por_comercio' => $cantidad_compras_por_comercio,
-            'descuentos_comercios' => $descuentos_comercios,
+            'cantidades_gramos_comercios' => $cantidades_gramos_comercios,
+            'ordenes_descuentos_comercios' => $ordenes_descuentos_comercios,
             'precio_bolivar' => ($di->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"]
         ));
     }

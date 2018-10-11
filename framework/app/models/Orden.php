@@ -683,58 +683,107 @@ class Orden extends Models implements IModels {
     /**
      * Descuenta los gramos en posesión de un comercio afiliado
      * 
-     * @param usuario_logeado :  datos del usuario logeado
-     * 
      * @return array
      */
-    public function sendGramos($usuario_logeado){
+    public function sendGramos(){
 
-        #Si el usuario logeado es supervisor de un comercio afiliado
-        if(  $usuario_logeado["tipo"] == 3 and $usuario_logeado["id_comercio_afiliado"] != null  ){
-            
-            #Id del usuario logeado
-            $id_usuario_logeado = $usuario_logeado["id_user"];
-            
-            #Contiene el id del usuario comercio afiliado
-            $id_usuario_comercio = $this->db->select("ca.id_user","users","INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=users.id_comercio_afiliado"
-            ,"users.id_user='$id_usuario_logeado'")[0]["id_user"];
-           
-            #Carteras del comercio afiliado
-            $carteras_comercio = $this->db->select("cantidad,tipo_gramo,id_usuario_gramo","user_gramo",null,"id_usuario='$id_usuario_comercio' and cantidad>0");
-           
-            #Precios de las divisas
-            $precio_oro = (new Model\Divisa)->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
-            $precio_plata = (new Model\Divisa)->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
-            
-            #Crea una orden de venta por cada cartera del usuario comercio afiliado
-            for ($i=0; $i < sizeof($carteras_comercio) and $carteras_comercio!=false; $i++) { 
+        try {
+            global $http;
+                
+                #Datos del post
+                $gramosOro = $http->request->get('cantidad_oro');       
+                $gramosPlata = $http->request->get('cantidad_plata');
 
-                $orden = array(
-                    'id_usuario' => $id_usuario_comercio,
-                    'tipo_gramo' => $carteras_comercio[$i]["tipo_gramo"],
-                    'cantidad' => $carteras_comercio[$i]["cantidad"],
-                    'precio' => $carteras_comercio[$i]["tipo_gramo"] == 'oro' ? $precio_oro : $precio_plata,
-                    'tipo_orden' => 2,
-                    'fecha' => time(),
-                    'estado' => 4
-                );
-                             
-                #Crea la orden
-                $this->db->insert('orden',$orden);
-
-                #Trae el id de cada cartera que posee el comercio afiliado
-                $id_cartera_comercio = $carteras_comercio[$i]["id_usuario_gramo"];
-
-                #Coloca la cantidad de la cartera en cero
-                $this->db->update('user_gramo',array(
-                    'cantidad'=> 0
-                ),"id_usuario_gramo = '$id_cartera_comercio'"); 
-
-            }
+                #Id del usuario logeado
+                $id_usuario_logeado = (new Model\Users)->getOwnerUser()["id_user"];
+                
+                #Contiene el id del usuario comercio afiliado
+                $id_usuario_comercio = $this->db->select("ca.id_user","users","INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=users.id_comercio_afiliado"
+                ,"users.id_user='$id_usuario_logeado'")[0]["id_user"];
 
 
+                #Trae la cartera de gramos de oro del comercio
+                $cartera_oro_comercio = $this->db->select("cantidad,id_usuario_gramo","user_gramo",null,"id_usuario='$id_usuario_comercio' and tipo_gramo='oro'");
+
+                if ( $gramosOro>0 and (($cartera_oro_comercio==false) or ($cartera_oro_comercio!=false and $cartera_oro_comercio[0]["cantidad"]<$gramosOro))) {
+                    throw new ModelsException('El comercio afiliado no contiene los gramos de oro.');
+                }
+
+                #Trae la cartera de gramos de plata del comercio
+                $cartera_plata_comercio = $this->db->select("cantidad,id_usuario_gramo","user_gramo",null,"id_usuario='$id_usuario_comercio' and tipo_gramo='plata'");
+
+                if ( $gramosPlata>0 and (($cartera_plata_comercio==false) or ($cartera_plata_comercio!=false and $cartera_plata_comercio[0]["cantidad"]<$gramosPlata))) {
+                    throw new ModelsException('El comercio afiliado no contiene los gramos de plata.');
+                }
+
+
+                #Si se desea envíar gramos de oro
+                if($gramosOro>0){
+
+                    #Precio del oro
+                    $precio_oro = (new Model\Divisa)->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
+
+                    #Array con los datos de la orden
+                    $orden = array(
+                        'id_usuario' => $id_usuario_comercio,
+                        'tipo_gramo' => 'oro',
+                        'cantidad' => $gramosOro,
+                        'precio' => $precio_oro,
+                        'tipo_orden' => 2,
+                        'fecha' => time(),
+                        'estado' => 4
+                    );
+                                
+                    #Crea la orden
+                    $this->db->insert('orden',$orden);
+
+                    #Trae el id de cada cartera que posee el comercio afiliado
+                    $id_cartera_comercio = $cartera_oro_comercio[0]["id_usuario_gramo"];
+
+                    #Coloca la cantidad de la cartera en cero
+                    $this->db->update('user_gramo',array(
+                        'cantidad'=> $cartera_oro_comercio[0]["cantidad"] - $gramosOro
+                    ),"id_usuario_gramo = '$id_cartera_comercio'"); 
+
+
+                }
+
+                #Si se desea envíar gramos de oro
+                if($gramosPlata>0){
+
+                    
+                    #Precio de la plata
+                    $precio_plata = (new Model\Divisa)->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
+
+                    #Array con los datos de la orden
+                    $orden = array(
+                        'id_usuario' => $id_usuario_comercio,
+                        'tipo_gramo' => 'plata',
+                        'cantidad' => $gramosPlata,
+                        'precio' => $precio_plata,
+                        'tipo_orden' => 2,
+                        'fecha' => time(),
+                        'estado' => 4
+                    );
+                                
+                    #Crea la orden
+                    $this->db->insert('orden',$orden);
+
+                    #Trae el id de cada cartera que posee el comercio afiliado
+                    $id_cartera_comercio = $cartera_plata_comercio[0]["id_usuario_gramo"];
+
+                    #Coloca la cantidad de la cartera en cero
+                    $this->db->update('user_gramo',array(
+                        'cantidad'=> $cartera_plata_comercio[0]["cantidad"] - $gramosPlata
+                    ),"id_usuario_gramo = '$id_cartera_comercio'"); 
+
+
+                }
+               
+            return array('success' => 1, 'message' => '¡Se han enviado los gramos!');
+        } catch(ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
         }
-
 
     }
 
@@ -898,8 +947,20 @@ class Orden extends Models implements IModels {
         $inner = "INNER JOIN users u ON u.id_user=o.id_vendedor
                   INNER JOIN comercio_afiliado ca ON ca.id_comercio_afiliado=u.id_comercio_afiliado"; 
  
-        return $this->db->select("COUNT(*) as cantidad,ca.nombre as nombre_afiliado,ca.sucursal",
+        return $this->db->select("COUNT(*) as cantidad,ca.nombre,ca.sucursal",
                                  "orden o",$inner,$where,null,"GROUP BY ca.sucursal");
+    }
+
+    /**
+     * Devuelve la cantidad de ordenes por sucursal de comercio afiliado
+     *  @return array|false
+     */
+    public function getGramosComerciosAfiliados(){
+
+        $inner = "INNER JOIN comercio_afiliado ca ON ca.id_user=ug.id_usuario"; 
+ 
+        return $this->db->select("ug.cantidad,ug.tipo_gramo,ca.nombre as nombre,ca.sucursal",
+                                 "user_gramo ug",$inner,"cantidad>0");
     }
 
 
@@ -908,7 +969,6 @@ class Orden extends Models implements IModels {
      *  @return array|false
      */
     public function getOrdenesDescuentosComerciosAfiliados(){
-        Global $http;
 
         $inner = "INNER JOIN comercio_afiliado ca ON ca.id_user=o.id_usuario"; 
  

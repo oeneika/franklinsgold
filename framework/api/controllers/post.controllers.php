@@ -341,3 +341,14 @@ $app->post('/set/notifications', function() use($app) {
 
     return $app->json($u->setNotifications());   
 });
+
+/**
+ * Envía cantidades de gramos poseidas po un comercio afiliado
+ *
+ * @return json
+*/
+$app->post('/sendGramos', function() use($app) {
+    $o = new Model\Orden; 
+
+    return $app->json($o->sendGramos());   
+});
