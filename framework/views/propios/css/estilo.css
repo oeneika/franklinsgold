@@ -159,10 +159,12 @@ li.active strong, .naranja{
 
 .btn-bienvenido{
 	background-color: #D1520D;
+	border-color: #D1520D;
 }
 
 .btn-bienvenido:hover{
-	background-color: #C35519;
+	background-color: #D1520D;
+	border-color: #D1520D;
 }
 
 .btn-logout{
