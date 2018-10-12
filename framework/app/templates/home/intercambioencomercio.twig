@@ -1,6 +1,6 @@
 <div class="modal inmodal jiji" id="intercambioencomercioModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
                     <h4 class="modal-title">Intercambio en comercio afiliado</h4>
@@ -14,7 +14,12 @@
                             <div class="col-md-6 col-xs-12 clientes_intercambiocomercio">
                                 <div class="form-group">
                                     <label for="id_cliente" class="control-label mb-1" >Clientes</label>
-                                    <input name="id_cliente" id="id_cliente" type="text" placeholder="Email o cédula de identidad" class="typeahead_1 form-control" />
+                                    <select name="id_cliente" id="id_cliente" class="form-control" style="width: 100%">
+                                        <option disabled selected value>Seleccione un cliente</option>
+                                        {% for c in clientes %}
+                                            <option value="{{c.id_user}}">{{c.email}} - {{c.id_documentos}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div> 
                             
@@ -44,16 +49,14 @@
                                 </div>                         
                             </div>
                         </div>  
-                         
                     </form>
-    
                 </div>
     
                 <div class="modal-footer">
                     <button type="button" id="cerrarIntercambioModal" class="btn btn-white" data-dismiss="modal">Cerrar</button>
                     <button type="button" id="crearIntercambioEnComercioBtn" class="btn btn-primary">Crear</button>
                 </div>
-            </div>
         </div>
     </div>
+</div>
     
