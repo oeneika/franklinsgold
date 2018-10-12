@@ -396,4 +396,13 @@
     <script src="./assets/jscontrollers/home/sendgramos.js"></script>
     <script src="./assets/jscontrollers/home/intercambioencomercio.js"></script>
     <script src="./assets/jscontrollers/home/dashboard.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $('.typeahead_1').typeahead({
+                source: ["item 1","item 2","item 3"]
+            });
+
+        });
+    </script>
 {% endblock %}

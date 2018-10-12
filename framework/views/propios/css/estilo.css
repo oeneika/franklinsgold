@@ -17,6 +17,7 @@ div.modal.inmodal.show{
 	padding: 15px 0;
 }
 
+
 .coloreado{
 	padding: 5px 15px;
 	background-color: #CC4713;
@@ -66,7 +67,7 @@ li.active strong, .naranja{
 }
 
 .gris{
-	color: #e0e0e0;
+	color: white;
 }
 
 .azulito{

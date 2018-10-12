@@ -143,6 +143,7 @@ $app->get('/terminosycondiciones/get', function() use($app) {
     return $app->json($r->getTerminos());      
 });
 
+
 /**
  * Servicio que devuelve el precio del BsS, oro y plata almacenado en la base de datos
  *
