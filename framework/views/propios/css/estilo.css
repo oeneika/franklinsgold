@@ -171,6 +171,16 @@ li.active strong, .naranja{
 	background-color: #4F4F4F;
 }
 
+@media (max-width: 767px){
+	.navbar-top-links li{
+		display: block!important;
+	}
+	.btn-bienvenido, .btn-logout{
+	margin: 5px 0;
+	width: 100%;
+	}
+}
+
 @media (min-width: 768px ){
 	.bloque{
 		background-color: #f7a54a;

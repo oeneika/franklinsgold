@@ -18,7 +18,7 @@
                                      <select name="id_cliente" id="id_cliente" class="form-control select2" style="width: 100%">
                                         <option disabled selected value>Seleccione un cliente</option>
                                         {% for c in clientes %}
-                                            <option value="{{c.id_user}}">{{c.email}}</option>
+                                            <option value="{{c.id_user}}">{{c.email}} - {{c.id_documentos}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
