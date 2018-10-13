@@ -41,7 +41,7 @@ class Afiliados extends Models implements IModels {
         foreach ($this->data['telefono'] as $key => $value) {
 
             if (Helper\Functions::emp($value)){
-                throw new ModelsException('Uno o mas telefonos estan vacíos.');
+                throw new ModelsException('Uno o más telefonos estan vacíos.');
             }
 
             if (!ctype_digit($value)){
@@ -154,7 +154,7 @@ class Afiliados extends Models implements IModels {
             $this->addTelefonos($id);
 
 
-            return array('success' => 1, 'message' => 'Comercio creado con exito!');
+            return array('success' => 1, 'message' => 'Comercio creado con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
@@ -213,7 +213,7 @@ class Afiliados extends Models implements IModels {
             #Crea una nueva relacion con los telefonos
             $this->addTelefonos($this->id_comercio_afiliado);
 
-            return array('success' => 1, 'message' => 'Comercio editado con exito!');
+            return array('success' => 1, 'message' => 'Comercio editado con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
@@ -267,7 +267,7 @@ class Afiliados extends Models implements IModels {
             ));
 
 
-            return array('success' => 1, 'message' => 'Intercambio creado con exito!');
+            return array('success' => 1, 'message' => 'Intercambio creado con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }

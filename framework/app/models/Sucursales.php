@@ -71,11 +71,11 @@ class Sucursales extends Models implements IModels {
         }
 
         if (strlen($this->data['telefono']) < 11){
-            throw new ModelsException("Telefono invalido, debe tener al menos 11 digitos");              
+            throw new ModelsException("Teléfono invalido, debe tener al menos 11 dígitos");              
         }
 
         if(Functions::emp($this->data['direccion'])){
-            throw new ModelsException("La direccion no debe estar vacia");
+            throw new ModelsException("La direccion no debe estar vacía");
         }
 
         if(strlen($this->data['direccion']) > 45){

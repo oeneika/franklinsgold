@@ -35,7 +35,7 @@ function confirm_orden(id_orden,tipo_usuario){
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#54dd7b",
-        confirmButtonText: "¡Si, quiero confirmar!",
+        confirmButtonText: "¡Sí, quiero confirmar!",
         closeOnConfirm: false
     }, function () {
         swal("¡Éxito!", "La orden ha sido confirmada", "success");
