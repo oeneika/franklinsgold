@@ -237,7 +237,7 @@ class Orden extends Models implements IModels {
                    
            }
                     
-            return array('success' => 1, 'message' => 'Orden creada con exito!');
+            return array('success' => 1, 'message' => 'Orden creada con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
