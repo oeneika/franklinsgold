@@ -396,6 +396,16 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Campo teléfono no definido');
             }
 
+            if (!array_key_exists('numero_cedula',$user_data) || Functions::emp($user_data['numero_cedula'])) {
+                throw new ModelsException('El número de cédula no debe estar vacío');
+            }
+
+            $numero_cedula = $this->db->scape($user_data['numero_cedula']);
+            $query = $this->db->select('numero_cedula','users',null,"numero_cedula = '$numero_cedula'");
+            if (false !== $query){
+                throw new ModelsException('Ya existe un usuario con ese número de cédula');
+            }
+
             if (!ctype_digit($user_data['telefono'])){
                 throw new ModelsException("Teléfono inválido, debe ser numérico.");              
             }
@@ -494,6 +504,7 @@ class Users extends Models implements IModels {
                 'segundo_nombre' => $user_data['segundo_nombre'],
                 'primer_apellido' => $user_data['primer_apellido'],
                 'segundo_apellido' => $user_data['segundo_apellido'],
+                'numero_cedula' => $user_data['numero_cedula'],
                 'usuario' => $user_data['usuario'],
                 'sexo' => $user_data['sexo'],
                 'email' => $user_data['email'],

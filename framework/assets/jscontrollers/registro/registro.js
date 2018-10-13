@@ -34,7 +34,8 @@ function registro(){
             paqueteDeDatos.append('sexo', $('#id_sexo').prop('value'));
             paqueteDeDatos.append('usuario', $('#id_usuario').prop('value'));
             paqueteDeDatos.append('email', $('#id_email').prop('value'));
-            paqueteDeDatos.append('telefono', $('#id_telefono').prop('value'));   
+            paqueteDeDatos.append('telefono', $('#id_telefono').prop('value')); 
+            paqueteDeDatos.append('numero_cedula', $('#id_numero_cedula').prop('value'));  
             paqueteDeDatos.append('pin', $('#id_pin').prop('value'));    
             paqueteDeDatos.append('pin_re', $('#id_pin_rep').prop('value'));    
             paqueteDeDatos.append('pass', $('#id_pass').prop('value'));
