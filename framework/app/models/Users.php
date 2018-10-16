@@ -333,7 +333,7 @@ class Users extends Models implements IModels {
             $user_data = $http->request->all();
             
             # Obtener los datos $_FILES los cuales contienen las imagenes cargadas
-            $fotos = $_FILES;
+            //$fotos = $_FILES;
             
            
             #Todo usuario que se registre será un cliente
@@ -352,7 +352,7 @@ class Users extends Models implements IModels {
                 throw new ModelsException('El primer apellido no debe estar vacío');
             }
 
-            if (!array_key_exists('foto_documento_identidad',$fotos)) {
+           /* if (!array_key_exists('foto_documento_identidad',$fotos)) {
                 throw new ModelsException('Debe subir una foto de un documento de identidad.');
             }
 
@@ -376,7 +376,7 @@ class Users extends Models implements IModels {
                     throw new ModelsException('El pasaporte debe ser una imagen.');
                 }
 
-            }
+            }*/
 
             if (!array_key_exists('usuario',$user_data) || Functions::emp($user_data['usuario'])) {
                 throw new ModelsException('El usuario no debe estar vacío');
@@ -528,7 +528,7 @@ class Users extends Models implements IModels {
             file_put_contents($img, file_get_contents($url));*/
 
             #Usada para definir correctamente la dirección a guardar las imagenes
-            $path = "../";
+            /*$path = "../";
 
             #Se guarda la foto del documento de identidad
             $dir_documento = "views/img/documentos/usuarios/documentoidentidad".$id_user.".png";
@@ -551,18 +551,18 @@ class Users extends Models implements IModels {
                 move_uploaded_file($tmp_name, "$path"."$dir_pasaporte");
                     
             }
-
+            */
             # Crea la relación con los documentos
             $id_documentos = $this->db->insert('documentos', array(
-                'documento_identidad' => $config['build']['url'] . $dir_documento,
-                'pasaporte' => $dir_pasaporte == null ? null : $config['build']['url'] . $dir_pasaporte
+                'documento_identidad' => ''/*$config['build']['url'] . $dir_documento*/,
+                'pasaporte' => null/*$dir_pasaporte == null ? null : $config['build']['url'] . $dir_pasaporte*/
             )); 
 
             #Se actualiza la db con la ruta de los documentos
             $this->db->update('users',array(
                 'id_documentos'=> $id_documentos
             ), "id_user = '$id_user'");
-
+            
 
             # Iniciar sesión
             $this->generateSession(array(

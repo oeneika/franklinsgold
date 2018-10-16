@@ -24,8 +24,8 @@ function registro(){
 
             var paqueteDeDatos = new FormData();
            
-            paqueteDeDatos.append('foto_documento_identidad', $('#id_foto_documento_identidad')[0].files[0]);
-            paqueteDeDatos.append('foto_pasaporte', $('#id_foto_pasaporte')[0].files[0]);
+            /*paqueteDeDatos.append('foto_documento_identidad', $('#id_foto_documento_identidad')[0].files[0]);
+            paqueteDeDatos.append('foto_pasaporte', $('#id_foto_pasaporte')[0].files[0]);*/
 
             paqueteDeDatos.append('primer_nombre', $('#id_primer_nombre').prop('value'));
             paqueteDeDatos.append('segundo_nombre', $('#id_segundo_nombre').prop('value'));
