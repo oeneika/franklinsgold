@@ -13,15 +13,15 @@
 			           	<div class="row">
 			           		<br>	
 			           		<div class="col-md-4">
-			           			<a href="#"><img src="views/propios/img/colombia.png" alt="" style="width:15px;"> Colombia</a>
+			           			<a href="javascript:redireccionar('colombia');"><img src="views/propios/img/colombia.png" alt="" style="width:15px;"> Colombia</a>
 			           			<br>
 			           		</div>
 			           		<div class="col-md-4">
-			           			<a href="#"><img src="views/propios/img/usa.png" alt="" style="width:15px;"> Estados Unidos</a>
+			           			<a href="javascript:redireccionar('usa');"><img src="views/propios/img/usa.png" alt="" style="width:15px;"> Estados Unidos</a>
 			           			<br>
 			           		</div>
 			           		<div class="col-md-4">
-			           			<a href="#"><img src="views/propios/img/venezuela.png" alt="" style="width:15px;"> Venezuela</a>
+			           			<a href="javascript:redireccionar('vzla');"><img src="views/propios/img/venezuela.png" alt="" style="width:15px;"> Venezuela</a>
 			           			<br>
 			           		</div>
 
@@ -31,4 +31,17 @@
     		</div>
     	</div>
     </div>
+{% endblock %}
+{% block appFooter %}
+	<script>
+	function redireccionar(pais){
+		if (pais == "vzla"){
+			location.href ="http://localhost/franklinsgold/framework/login/";
+		} else if (pais == "usa") {
+			location.href ="http://localhost/franklinsgold/framework/login/";
+		} else if (pais == "colombia") {
+			location.href ="http://localhost/franklinsgold/framework/login/";
+		}
+	}
+	</script>
 {% endblock %}
