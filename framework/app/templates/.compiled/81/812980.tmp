@@ -1,0 +1,1162 @@
+<?php
+
+/* home/home.twig */
+class __TwigTemplate_79f700e7e36172c07a5fa2732cbdc75fef8ffc4bbc0c8442d8d04f9bb97fdf1c extends Twig_Template
+{
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        // line 1
+        $this->parent = $this->loadTemplate("overall/layout", "home/home.twig", 1);
+        $this->blocks = array(
+            'appBody' => array($this, 'block_appBody'),
+            'appFooter' => array($this, 'block_appFooter'),
+        );
+    }
+
+    protected function doGetParent(array $context)
+    {
+        return "overall/layout";
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        $this->parent->display($context, array_merge($this->blocks, $blocks));
+    }
+
+    // line 2
+    public function block_appBody($context, array $blocks = array())
+    {
+        // line 3
+        echo "<div id=\"page-wrapper\" class=\"gray-bg\">
+<div class=\"row border-bottom\">
+    ";
+        // line 5
+        $this->loadTemplate("overall/header", "home/home.twig", 5)->display($context);
+        // line 6
+        echo "</div>
+
+    <div class=\"wrapper wrapper-content\">
+        <div class=\"row\">
+            ";
+        // line 10
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "id_comercio_afiliado", array()) != null)) {
+            // line 11
+            echo "            <div class=\"col-md-12\">
+                <!-- <a onclick=\"showModal(0,0,0,'confirmarintercambioencomercioModal')\" class=\"btn btn-warning btn-rounded\" style=\"float:right; margin-bottom:10px;margin-left:5px;\"><i class=\"fa fa-check\"></i> Confirmar</a>-->
+                <a onclick=\"showModal(";
+            // line 13
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["precio_oro_global"] ?? null), "precio_dolares_venta", array()), "html", null, true);
+            echo ",";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["precio_plata_global"] ?? null), "precio_dolares_venta", array()), "html", null, true);
+            echo ",";
+            echo twig_escape_filter($this->env, ($context["precio_bolivar"] ?? null), "html", null, true);
+            echo ",'intercambioencomercioModal')\" class=\"btn btn-warning btn-rounded\" style=\"float:right; margin-bottom:10px;margin-left:5px;\"><i class=\"fa fa-check\"></i> Crear compra</a>
+            
+
+                ";
+            // line 16
+            if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "tipo", array()) == 3)) {
+                // line 17
+                echo "
+                <a onclick=\"showModal(";
+                // line 18
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["precio_oro_global"] ?? null), "precio_dolares_venta", array()), "html", null, true);
+                echo ",";
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), ($context["precio_plata_global"] ?? null), "precio_dolares_venta", array()), "html", null, true);
+                echo ",";
+                echo twig_escape_filter($this->env, ($context["precio_bolivar"] ?? null), "html", null, true);
+                echo ",'enviogramosModal')\" class=\"btn btn-warning btn-rounded\" style=\"float:right; margin-bottom:10px;margin-left:5px;\">
+                    <i class=\"fa fa-check\"></i>Enviar gramos
+                </a>
+
+                ";
+            }
+            // line 23
+            echo "            </div>
+
+            ";
+        }
+        // line 26
+        echo "        </div>
+
+        ";
+        // line 28
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "tipo", array()) != 1)) {
+            // line 29
+            echo "        <div class=\"row\">
+            <div class=\"col-md-6\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-content\">
+                            <div>
+                                <span class=\"pull-right text-right\">
+                                <small>Cotización en tiempo real del precio del oro en el mercado al contado</small>
+                                </span>
+                                <h3 class=\"font-bold no-margins\">
+                                    Precio del oro (En dólares)
+                                </h3>
+                            </div>
+
+                        <div>
+                            <canvas id=\"lineChart\" height=\"40\" width=\"100%\"></canvas>
+                        </div>
+
+                        <div class=\"m-t-md\">
+                            <small class=\"pull-right\">
+                                <i class=\"fa fa-clock-o\"> </i>
+                                <i id=\"fecha_oro\"> </i>
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-6\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-content\">
+                            <div>
+                                <span class=\"pull-right text-right\">
+                                <small>Cotización en tiempo real del precio de la plata en el mercado al contado</small>
+                                </span>
+                                <h3 class=\"font-bold no-margins\">
+                                    Precio de la plata (USD)
+                                </h3>
+                            </div>
+
+                        <div>
+                            <canvas id=\"plataChart\" height=\"40\" width=\"100%\"></canvas>
+                        </div>
+
+                        <div class=\"m-t-md\">
+                            <small class=\"pull-right\">  
+                                <i class=\"fa fa-clock-o\"> </i>                                     
+                                <i id=\"fecha_plata\"></i>
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        ";
+        }
+        // line 84
+        echo "
+        <div class=\"row\">
+               <div class=\"col-lg-12\">
+                   <div class=\"ibox float-e-margins\">
+                       <div class=\"ibox-title\">
+                           <h5>Intercambio en comercio afiliado</h5>
+                       </div>
+                       <div class=\"ibox-content jiji\">
+                          <form id=\"crearIntercambioComercio_form\">
+                            <div class=\"row\">
+                                <div class=\"col-md-3 col-xs-12 clientes_intercambiocomercio\">
+                                    <div class=\"form-group\">
+                                        <label for=\"id_cliente\" class=\"control-label mb-1\" >Clientes</label>
+                                        <select name=\"id_cliente\" id=\"id_cliente\" class=\"form-control select2\" style=\"width: 100%\">
+                                            <option disabled selected value>Seleccione un cliente</option>
+                                            ";
+        // line 99
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["clientes"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["c"]) {
+            // line 100
+            echo "                                                <option value=\"";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id_user", array()), "html", null, true);
+            echo "\">";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "email", array()), "html", null, true);
+            echo " - ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["c"], "id_documentos", array()), "html", null, true);
+            echo "</option>
+                                            ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['c'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 102
+        echo "                                        </select>
+                                    </div>
+                                </div> 
+                            
+                                <div class=\"col-md-3 col-xs-12 tipo_intercambiocomercio\">
+                                    <div class=\"form-group\">
+                                        <label for=\"id_tipo_int\" class=\"control-label mb-1\" >Tipo metal</label>
+                                        <select name=\"tipo_gramo\" id=\"id_tipo_int\" class=\"form-control\" style=\"width: 100%\" onchange=\"resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')\">
+                                            <option disabled selected value>Tipo</option>
+                                            <option value=\"oro\">Oro</option>
+                                            <option value=\"plata\">Plata</option>
+                                        </select>
+                                    </div>                         
+                                </div>                    
+
+                                <div class=\"col-md-3 col-xs-12 cantidadbss_intercambiocomercio\">
+                                <div class=\"form-group\">
+                                    <label for=\"id_cantidad_bolivar_soberano_int\" class=\"control-label mb-1\" >Cantidad BsS</label>
+                                    <input placeholder=\"0.00\" name=\"cantidad_bolivar_soberano\" id=\"id_cantidad_bolivar_soberano_int\" type=\"number\" onchange=\"resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')\" class=\"form-control\" >
+                                </div>
+                                </div>  
+
+                                <div class=\"col-md-3 col-xs-12 cantidad_intercambiocomercio\">
+                                <div class=\"form-group\">
+                                    <label for=\"id_cantidad_int\" class=\"control-label mb-1\" >Cantidad(gramos)</label>
+                                    <input placeholder=\"0\" class=\"form-control\" name=\"cantidad\" id=\"id_cantidad_int\" readonly=\"readonly\" type=\"number\"> 
+                                </div> 
+                                <button type=\"button\" id=\"crearIntercambioEnComercioBtn\" class=\"btn btn-primary\" style=\"float:right;\">Crear</button>                        
+                                </div>
+                            </div>  
+                          </form>
+                       </div>
+                   </div>
+               </div>
+        </div>
+
+
+        <div class=\"row\">
+                <div class=\"row\">
+                   <div class=\"col-lg-12\">
+                       <div class=\"ibox float-e-margins\">
+                           <div class=\"ibox-title\">
+                               <h5>Transacciones realizadas por los comercios afiliados</h5>
+                           </div>
+                           <div class=\"ibox-content\">
+                                <div class=\"table-responsive\">
+                                   <table class=\"table table-striped table-bordered table-hover tablita\" >
+                                       <thead>
+                                       <tr>
+                                            <th>Nro orden</th>
+                                            <th>Usuario</th>
+                                            <th>Vendedor</th>
+                                            <th>Comercio afiliado</th>
+                                            <th>Sucursal</th>
+                                            <th>Composición</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Monto(USD)</th>
+                                            <th>Monto(Bss)</th>
+                                            <th>Fecha</th>
+                                       </tr>
+                                       </thead>
+                                       <tbody>  
+                                           ";
+        // line 165
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["ordenes"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["o"]) {
+            // line 166
+            echo "                                           <tr>
+                                                <td>";
+            // line 167
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "id_orden", array()), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 168
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "nombre_usuario", array()), "html", null, true);
+            echo " ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "apellido_usuario", array()), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 169
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "nombre_vendedor", array()), "html", null, true);
+            echo " ";
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "apellido_vendedor", array()), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 170
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "nombre_afiliado", array()), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 171
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "sucursal", array()), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 172
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "tipo_gramo", array()), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 173
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "cantidad", array()), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 174
+            echo twig_escape_filter($this->env, twig_number_format_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "precio", array()), 2, ",", "."), "html", null, true);
+            echo "</td>   
+                                                <td>";
+            // line 175
+            echo twig_escape_filter($this->env, twig_number_format_filter($this->env, (twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "cantidad", array()) * twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "precio", array())), 2, ",", "."), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 176
+            echo twig_escape_filter($this->env, twig_number_format_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "cantidad_bolivar_soberano", array()), 2, ",", "."), "html", null, true);
+            echo "</td>
+                                                <td>";
+            // line 177
+            echo twig_escape_filter($this->env, $this->env->getExtension('Ocrend\Kernel\Helpers\Functions')->fecha("D, d F, Y h:i a", twig_get_attribute($this->env, $this->getSourceContext(), $context["o"], "fecha", array())), "html", null, true);
+            echo "</td> 
+                                           </tr>
+                                           ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['o'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 180
+        echo "                                           
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+        </div>
+
+
+        ";
+        // line 191
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "tipo", array()) == 0)) {
+            // line 192
+            echo "
+        
+        <div class=\"row\">
+               <div class=\"col-lg-12\">
+                   <div class=\"ibox float-e-margins\">
+                       <div class=\"ibox-title\">
+                           <h5>Cantidad de transacciones realizadas por los comercios afiliados</h5>
+                       </div>
+                       <div class=\"ibox-content\">
+                            <div class=\"table-responsive\">
+                               <table id=\"example\" class=\"table table-striped table-bordered table-hover tablita\" >
+                                   <thead>
+                                   <tr>
+                                        <th>Comercio Afiliado</th>
+                                        <th>Sucursal</th>
+                                        <th>Cantidad</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>  
+                                       ";
+            // line 211
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(($context["cantidad_compras_por_comercio"] ?? null));
+            foreach ($context['_seq'] as $context["_key"] => $context["ccpc"]) {
+                // line 212
+                echo "                                       <tr>
+                                            <td>";
+                // line 213
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["ccpc"], "nombre", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 214
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["ccpc"], "sucursal", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 215
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["ccpc"], "cantidad", array()), "html", null, true);
+                echo "</td>
+                                       </tr>
+                                       ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['ccpc'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 218
+            echo "                                       
+                                   </tbody>
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+        </div>
+        
+
+
+        <div class=\"row\">
+            <div class=\"row\">
+               <div class=\"col-lg-12\">
+                   <div class=\"ibox float-e-margins\">
+                       <div class=\"ibox-title\">
+                           <h5>Gramos poseídos por un comercio afiliado</h5>
+                       </div>
+                       <div class=\"ibox-content\">
+                            <div class=\"table-responsive\">
+                               <table class=\"table table-striped table-bordered table-hover tablita\" >
+                                   <thead>
+                                   <tr>
+                                        <th>Comercio Afiliado</th>
+                                        <th>Sucursal</th>
+                                        <th>Tipo gramo</th>
+                                        <th>Cantidad</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>  
+                                       ";
+            // line 248
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(($context["cantidades_gramos_comercios"] ?? null));
+            foreach ($context['_seq'] as $context["_key"] => $context["cgc"]) {
+                // line 249
+                echo "                                       <tr>
+                                            <td>";
+                // line 250
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["cgc"], "nombre", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 251
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["cgc"], "sucursal", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 252
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["cgc"], "tipo_gramo", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 253
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["cgc"], "cantidad", array()), "html", null, true);
+                echo "</td>
+                                       </tr>
+                                       ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['cgc'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 256
+            echo "                                       
+                                   </tbody>
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+
+
+        <div class=\"row\">
+            <div class=\"row\">
+               <div class=\"col-lg-12\">
+                   <div class=\"ibox float-e-margins\">
+                       <div class=\"ibox-title\">
+                           <h5>Envío de gramos poseídos por un comercio afiliado a Franklin</h5>
+                       </div>
+                       <div class=\"ibox-content\">
+                            <div class=\"table-responsive\">
+                               <table class=\"table table-striped table-bordered table-hover tablita\" >
+                                   <thead>
+                                   <tr>
+                                        <th>Comercio Afiliado</th>
+                                        <th>Sucursal</th>
+                                        <th>Composición</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Monto(USD)</th>
+                                        <th>Fecha</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>  
+                                       ";
+            // line 289
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(($context["ordenes_descuentos_comercios"] ?? null));
+            foreach ($context['_seq'] as $context["_key"] => $context["odc"]) {
+                // line 290
+                echo "                                       <tr>
+                                            <td>";
+                // line 291
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["odc"], "nombre_afiliado", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 292
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["odc"], "sucursal", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 293
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["odc"], "tipo_gramo", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 294
+                echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["odc"], "cantidad", array()), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 295
+                echo twig_escape_filter($this->env, twig_number_format_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), $context["odc"], "precio", array()), 2, ",", "."), "html", null, true);
+                echo "</td>   
+                                            <td>";
+                // line 296
+                echo twig_escape_filter($this->env, twig_number_format_filter($this->env, (twig_get_attribute($this->env, $this->getSourceContext(), $context["odc"], "cantidad", array()) * twig_get_attribute($this->env, $this->getSourceContext(), $context["odc"], "precio", array())), 2, ",", "."), "html", null, true);
+                echo "</td>
+                                            <td>";
+                // line 297
+                echo twig_escape_filter($this->env, $this->env->getExtension('Ocrend\Kernel\Helpers\Functions')->fecha("D, d F, Y h:i a", twig_get_attribute($this->env, $this->getSourceContext(), $context["odc"], "fecha", array())), "html", null, true);
+                echo "</td> 
+                                       </tr>
+                                       ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['odc'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 300
+            echo "                                       
+                                   </tbody>
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+
+        ";
+        }
+        // line 311
+        echo "
+        <div class=\"row\">
+                <div class=\"row\">
+                   <div class=\"col-lg-12\">
+                       <div class=\"ibox float-e-margins\">
+                           <div class=\"ibox-title\">
+                               <h5>Equivalencias en peso</h5>
+                           </div>
+                           <div class=\"ibox-content\">
+                                <div class=\"table-responsive\">
+                                    <table class=\"table table-bordered\">
+                                        <thead>
+                                        <tr>
+                                            <th>Kilogramos (oz) / Kilograms</th>
+                                            <th>Gramos (g) / Grams</th>
+                                            <th>Onzas (oz) / Ounces</th>
+                                            <th>Penny Weights</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>1000</td>
+                                                <td>35.3</td>
+                                                <td>643.015</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.001</td>
+                                                <td>1</td>
+                                                <td>0.035</td>
+                                                <td>0.6430</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.0283</td>
+                                                <td>28.3</td>
+                                                <td>1</td>
+                                                <td>18.1973</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.453</td>
+                                                <td>453</td>
+                                                <td>16</td>
+                                                <td>291.2857</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+        </div>
+
+
+        ";
+        // line 365
+        if ((twig_get_attribute($this->env, $this->getSourceContext(), ($context["owner_user"] ?? null), "tipo", array()) != 1)) {
+            // line 366
+            echo "        <div class=\"row\">
+
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <span class=\"label label-primary pull-right\">Hoy</span>
+                        <h5>Ventas Diarias</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">";
+            // line 375
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["data"] ?? null), "diarias", array()), "total", array()), "html", null, true);
+            echo "</h1>
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <span class=\"label label-info pull-right\">Mensual</span>
+                        <h5>Ventas Mensuales</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">";
+            // line 386
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["data"] ?? null), "mensuales", array()), "total", array()), "html", null, true);
+            echo "</h1>
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <span class=\"label label-warning pull-right\">Anual</span>
+                        <h5>Ventas del año</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">";
+            // line 397
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["data"] ?? null), "anuales", array()), "total", array()), "html", null, true);
+            echo "</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=\"row\">
+
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <h5>Usuarios registrados en el sistema</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">";
+            // line 411
+            echo twig_escape_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["data"] ?? null), "usuarios", array()), "total", array()), "html", null, true);
+            echo "</h1>
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <h5>Dólares de monedas vendidas en oro</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">\$";
+            // line 421
+            echo twig_escape_filter($this->env, twig_number_format_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["data"] ?? null), "ventas_oro", array()), "total", array()), 2, ".", ","), "html", null, true);
+            echo "</h1>
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <h5>Dólares de monedas vendidas en plata</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">\$";
+            // line 431
+            echo twig_escape_filter($this->env, twig_number_format_filter($this->env, twig_get_attribute($this->env, $this->getSourceContext(), twig_get_attribute($this->env, $this->getSourceContext(), ($context["data"] ?? null), "ventas_plata", array()), "total", array()), 2, ".", ","), "html", null, true);
+            echo "</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ";
+        }
+        // line 437
+        echo "
+    </div>
+
+";
+        // line 440
+        $this->loadTemplate("home/confirmarintercambioencomercio", "home/home.twig", 440)->display($context);
+        // line 441
+        $this->loadTemplate("home/intercambioencomercio", "home/home.twig", 441)->display($context);
+        echo "   
+";
+        // line 442
+        $this->loadTemplate("home/enviargramos", "home/home.twig", 442)->display($context);
+        echo "   
+";
+        // line 443
+        $this->loadTemplate("overall/footer", "home/home.twig", 443)->display($context);
+        // line 444
+        echo "</div>
+";
+    }
+
+    // line 447
+    public function block_appFooter($context, array $blocks = array())
+    {
+        // line 448
+        echo "    <script src=\"./assets/jscontrollers/home/sendgramos.js\"></script>
+    <script src=\"./assets/jscontrollers/home/intercambioencomercio.js\"></script>
+    <script src=\"./assets/jscontrollers/home/dashboard.js\"></script>
+";
+    }
+
+    public function getTemplateName()
+    {
+        return "home/home.twig";
+    }
+
+    public function isTraitable()
+    {
+        return false;
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  686 => 448,  683 => 447,  678 => 444,  676 => 443,  672 => 442,  668 => 441,  666 => 440,  661 => 437,  652 => 431,  639 => 421,  626 => 411,  609 => 397,  595 => 386,  581 => 375,  570 => 366,  568 => 365,  512 => 311,  499 => 300,  490 => 297,  486 => 296,  482 => 295,  478 => 294,  474 => 293,  470 => 292,  466 => 291,  463 => 290,  459 => 289,  424 => 256,  415 => 253,  411 => 252,  407 => 251,  403 => 250,  400 => 249,  396 => 248,  364 => 218,  355 => 215,  351 => 214,  347 => 213,  344 => 212,  340 => 211,  319 => 192,  317 => 191,  304 => 180,  295 => 177,  291 => 176,  287 => 175,  283 => 174,  279 => 173,  275 => 172,  271 => 171,  267 => 170,  261 => 169,  255 => 168,  251 => 167,  248 => 166,  244 => 165,  179 => 102,  166 => 100,  162 => 99,  145 => 84,  88 => 29,  86 => 28,  82 => 26,  77 => 23,  65 => 18,  62 => 17,  60 => 16,  50 => 13,  46 => 11,  44 => 10,  38 => 6,  36 => 5,  32 => 3,  29 => 2,  11 => 1,);
+    }
+
+    public function getSourceContext()
+    {
+        return new Twig_Source("{% extends 'overall/layout' %}
+{% block appBody %}
+<div id=\"page-wrapper\" class=\"gray-bg\">
+<div class=\"row border-bottom\">
+    {% include 'overall/header' %}
+</div>
+
+    <div class=\"wrapper wrapper-content\">
+        <div class=\"row\">
+            {% if owner_user.id_comercio_afiliado != null %}
+            <div class=\"col-md-12\">
+                <!-- <a onclick=\"showModal(0,0,0,'confirmarintercambioencomercioModal')\" class=\"btn btn-warning btn-rounded\" style=\"float:right; margin-bottom:10px;margin-left:5px;\"><i class=\"fa fa-check\"></i> Confirmar</a>-->
+                <a onclick=\"showModal({{precio_oro_global.precio_dolares_venta}},{{precio_plata_global.precio_dolares_venta}},{{precio_bolivar}},'intercambioencomercioModal')\" class=\"btn btn-warning btn-rounded\" style=\"float:right; margin-bottom:10px;margin-left:5px;\"><i class=\"fa fa-check\"></i> Crear compra</a>
+            
+
+                {% if owner_user.tipo == 3 %}
+
+                <a onclick=\"showModal({{precio_oro_global.precio_dolares_venta}},{{precio_plata_global.precio_dolares_venta}},{{precio_bolivar}},'enviogramosModal')\" class=\"btn btn-warning btn-rounded\" style=\"float:right; margin-bottom:10px;margin-left:5px;\">
+                    <i class=\"fa fa-check\"></i>Enviar gramos
+                </a>
+
+                {% endif %}
+            </div>
+
+            {% endif %}
+        </div>
+
+        {% if owner_user.tipo != 1 %}
+        <div class=\"row\">
+            <div class=\"col-md-6\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-content\">
+                            <div>
+                                <span class=\"pull-right text-right\">
+                                <small>Cotización en tiempo real del precio del oro en el mercado al contado</small>
+                                </span>
+                                <h3 class=\"font-bold no-margins\">
+                                    Precio del oro (En dólares)
+                                </h3>
+                            </div>
+
+                        <div>
+                            <canvas id=\"lineChart\" height=\"40\" width=\"100%\"></canvas>
+                        </div>
+
+                        <div class=\"m-t-md\">
+                            <small class=\"pull-right\">
+                                <i class=\"fa fa-clock-o\"> </i>
+                                <i id=\"fecha_oro\"> </i>
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-6\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-content\">
+                            <div>
+                                <span class=\"pull-right text-right\">
+                                <small>Cotización en tiempo real del precio de la plata en el mercado al contado</small>
+                                </span>
+                                <h3 class=\"font-bold no-margins\">
+                                    Precio de la plata (USD)
+                                </h3>
+                            </div>
+
+                        <div>
+                            <canvas id=\"plataChart\" height=\"40\" width=\"100%\"></canvas>
+                        </div>
+
+                        <div class=\"m-t-md\">
+                            <small class=\"pull-right\">  
+                                <i class=\"fa fa-clock-o\"> </i>                                     
+                                <i id=\"fecha_plata\"></i>
+                            </small>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class=\"row\">
+               <div class=\"col-lg-12\">
+                   <div class=\"ibox float-e-margins\">
+                       <div class=\"ibox-title\">
+                           <h5>Intercambio en comercio afiliado</h5>
+                       </div>
+                       <div class=\"ibox-content jiji\">
+                          <form id=\"crearIntercambioComercio_form\">
+                            <div class=\"row\">
+                                <div class=\"col-md-3 col-xs-12 clientes_intercambiocomercio\">
+                                    <div class=\"form-group\">
+                                        <label for=\"id_cliente\" class=\"control-label mb-1\" >Clientes</label>
+                                        <select name=\"id_cliente\" id=\"id_cliente\" class=\"form-control select2\" style=\"width: 100%\">
+                                            <option disabled selected value>Seleccione un cliente</option>
+                                            {% for c in clientes %}
+                                                <option value=\"{{c.id_user}}\">{{c.email}} - {{c.id_documentos}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div> 
+                            
+                                <div class=\"col-md-3 col-xs-12 tipo_intercambiocomercio\">
+                                    <div class=\"form-group\">
+                                        <label for=\"id_tipo_int\" class=\"control-label mb-1\" >Tipo metal</label>
+                                        <select name=\"tipo_gramo\" id=\"id_tipo_int\" class=\"form-control\" style=\"width: 100%\" onchange=\"resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')\">
+                                            <option disabled selected value>Tipo</option>
+                                            <option value=\"oro\">Oro</option>
+                                            <option value=\"plata\">Plata</option>
+                                        </select>
+                                    </div>                         
+                                </div>                    
+
+                                <div class=\"col-md-3 col-xs-12 cantidadbss_intercambiocomercio\">
+                                <div class=\"form-group\">
+                                    <label for=\"id_cantidad_bolivar_soberano_int\" class=\"control-label mb-1\" >Cantidad BsS</label>
+                                    <input placeholder=\"0.00\" name=\"cantidad_bolivar_soberano\" id=\"id_cantidad_bolivar_soberano_int\" type=\"number\" onchange=\"resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')\" class=\"form-control\" >
+                                </div>
+                                </div>  
+
+                                <div class=\"col-md-3 col-xs-12 cantidad_intercambiocomercio\">
+                                <div class=\"form-group\">
+                                    <label for=\"id_cantidad_int\" class=\"control-label mb-1\" >Cantidad(gramos)</label>
+                                    <input placeholder=\"0\" class=\"form-control\" name=\"cantidad\" id=\"id_cantidad_int\" readonly=\"readonly\" type=\"number\"> 
+                                </div> 
+                                <button type=\"button\" id=\"crearIntercambioEnComercioBtn\" class=\"btn btn-primary\" style=\"float:right;\">Crear</button>                        
+                                </div>
+                            </div>  
+                          </form>
+                       </div>
+                   </div>
+               </div>
+        </div>
+
+
+        <div class=\"row\">
+                <div class=\"row\">
+                   <div class=\"col-lg-12\">
+                       <div class=\"ibox float-e-margins\">
+                           <div class=\"ibox-title\">
+                               <h5>Transacciones realizadas por los comercios afiliados</h5>
+                           </div>
+                           <div class=\"ibox-content\">
+                                <div class=\"table-responsive\">
+                                   <table class=\"table table-striped table-bordered table-hover tablita\" >
+                                       <thead>
+                                       <tr>
+                                            <th>Nro orden</th>
+                                            <th>Usuario</th>
+                                            <th>Vendedor</th>
+                                            <th>Comercio afiliado</th>
+                                            <th>Sucursal</th>
+                                            <th>Composición</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Monto(USD)</th>
+                                            <th>Monto(Bss)</th>
+                                            <th>Fecha</th>
+                                       </tr>
+                                       </thead>
+                                       <tbody>  
+                                           {% for o in ordenes %}
+                                           <tr>
+                                                <td>{{ o.id_orden }}</td>
+                                                <td>{{ o.nombre_usuario }} {{ o.apellido_usuario }}</td>
+                                                <td>{{ o.nombre_vendedor }} {{ o.apellido_vendedor }}</td>
+                                                <td>{{ o.nombre_afiliado }}</td>
+                                                <td>{{ o.sucursal }}</td>
+                                                <td>{{ o.tipo_gramo }}</td>
+                                                <td>{{ o.cantidad }}</td>
+                                                <td>{{ o.precio|number_format(2, ',', '.') }}</td>   
+                                                <td>{{ (o.cantidad * o.precio )|number_format(2, ',', '.') }}</td>
+                                                <td>{{ (o.cantidad_bolivar_soberano )|number_format(2, ',', '.') }}</td>
+                                                <td>{{ fecha('D, d F, Y h:i a', o.fecha) }}</td> 
+                                           </tr>
+                                           {% endfor %}
+                                           
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+        </div>
+
+
+        {% if owner_user.tipo == 0 %}
+
+        
+        <div class=\"row\">
+               <div class=\"col-lg-12\">
+                   <div class=\"ibox float-e-margins\">
+                       <div class=\"ibox-title\">
+                           <h5>Cantidad de transacciones realizadas por los comercios afiliados</h5>
+                       </div>
+                       <div class=\"ibox-content\">
+                            <div class=\"table-responsive\">
+                               <table id=\"example\" class=\"table table-striped table-bordered table-hover tablita\" >
+                                   <thead>
+                                   <tr>
+                                        <th>Comercio Afiliado</th>
+                                        <th>Sucursal</th>
+                                        <th>Cantidad</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>  
+                                       {% for ccpc in cantidad_compras_por_comercio %}
+                                       <tr>
+                                            <td>{{ ccpc.nombre }}</td>
+                                            <td>{{ ccpc.sucursal }}</td>
+                                            <td>{{ ccpc.cantidad }}</td>
+                                       </tr>
+                                       {% endfor %}
+                                       
+                                   </tbody>
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+        </div>
+        
+
+
+        <div class=\"row\">
+            <div class=\"row\">
+               <div class=\"col-lg-12\">
+                   <div class=\"ibox float-e-margins\">
+                       <div class=\"ibox-title\">
+                           <h5>Gramos poseídos por un comercio afiliado</h5>
+                       </div>
+                       <div class=\"ibox-content\">
+                            <div class=\"table-responsive\">
+                               <table class=\"table table-striped table-bordered table-hover tablita\" >
+                                   <thead>
+                                   <tr>
+                                        <th>Comercio Afiliado</th>
+                                        <th>Sucursal</th>
+                                        <th>Tipo gramo</th>
+                                        <th>Cantidad</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>  
+                                       {% for cgc in cantidades_gramos_comercios %}
+                                       <tr>
+                                            <td>{{ cgc.nombre }}</td>
+                                            <td>{{ cgc.sucursal }}</td>
+                                            <td>{{ cgc.tipo_gramo }}</td>
+                                            <td>{{ cgc.cantidad }}</td>
+                                       </tr>
+                                       {% endfor %}
+                                       
+                                   </tbody>
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+
+
+        <div class=\"row\">
+            <div class=\"row\">
+               <div class=\"col-lg-12\">
+                   <div class=\"ibox float-e-margins\">
+                       <div class=\"ibox-title\">
+                           <h5>Envío de gramos poseídos por un comercio afiliado a Franklin</h5>
+                       </div>
+                       <div class=\"ibox-content\">
+                            <div class=\"table-responsive\">
+                               <table class=\"table table-striped table-bordered table-hover tablita\" >
+                                   <thead>
+                                   <tr>
+                                        <th>Comercio Afiliado</th>
+                                        <th>Sucursal</th>
+                                        <th>Composición</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Monto(USD)</th>
+                                        <th>Fecha</th>
+                                   </tr>
+                                   </thead>
+                                   <tbody>  
+                                       {% for odc in ordenes_descuentos_comercios %}
+                                       <tr>
+                                            <td>{{ odc.nombre_afiliado }}</td>
+                                            <td>{{ odc.sucursal }}</td>
+                                            <td>{{ odc.tipo_gramo }}</td>
+                                            <td>{{ odc.cantidad }}</td>
+                                            <td>{{ odc.precio|number_format(2, ',', '.') }}</td>   
+                                            <td>{{ (odc.cantidad * odc.precio )|number_format(2, ',', '.') }}</td>
+                                            <td>{{ fecha('D, d F, Y h:i a', odc.fecha) }}</td> 
+                                       </tr>
+                                       {% endfor %}
+                                       
+                                   </tbody>
+                               </table>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+
+        {% endif %}
+
+        <div class=\"row\">
+                <div class=\"row\">
+                   <div class=\"col-lg-12\">
+                       <div class=\"ibox float-e-margins\">
+                           <div class=\"ibox-title\">
+                               <h5>Equivalencias en peso</h5>
+                           </div>
+                           <div class=\"ibox-content\">
+                                <div class=\"table-responsive\">
+                                    <table class=\"table table-bordered\">
+                                        <thead>
+                                        <tr>
+                                            <th>Kilogramos (oz) / Kilograms</th>
+                                            <th>Gramos (g) / Grams</th>
+                                            <th>Onzas (oz) / Ounces</th>
+                                            <th>Penny Weights</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>1000</td>
+                                                <td>35.3</td>
+                                                <td>643.015</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.001</td>
+                                                <td>1</td>
+                                                <td>0.035</td>
+                                                <td>0.6430</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.0283</td>
+                                                <td>28.3</td>
+                                                <td>1</td>
+                                                <td>18.1973</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0.453</td>
+                                                <td>453</td>
+                                                <td>16</td>
+                                                <td>291.2857</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+        </div>
+
+
+        {% if owner_user.tipo != 1  %}
+        <div class=\"row\">
+
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <span class=\"label label-primary pull-right\">Hoy</span>
+                        <h5>Ventas Diarias</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">{{ data.diarias.total }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <span class=\"label label-info pull-right\">Mensual</span>
+                        <h5>Ventas Mensuales</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">{{ data.mensuales.total }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <span class=\"label label-warning pull-right\">Anual</span>
+                        <h5>Ventas del año</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">{{ data.anuales.total }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=\"row\">
+
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <h5>Usuarios registrados en el sistema</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">{{ data.usuarios.total }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <h5>Dólares de monedas vendidas en oro</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">\${{ data.ventas_oro.total|number_format(2,'.',',') }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class=\"col-md-4\">
+                <div class=\"ibox float-e-margins\">
+                    <div class=\"ibox-title\">
+                        <h5>Dólares de monedas vendidas en plata</h5>
+                    </div>
+                    <div class=\"ibox-content\">
+                        <h1 class=\"no-margins\">\${{ data.ventas_plata.total|number_format(2,'.',',') }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+{% include 'home/confirmarintercambioencomercio' %}
+{% include 'home/intercambioencomercio' %}   
+{% include 'home/enviargramos' %}   
+{% include 'overall/footer' %}
+</div>
+{% endblock %}
+
+{% block appFooter %}
+    <script src=\"./assets/jscontrollers/home/sendgramos.js\"></script>
+    <script src=\"./assets/jscontrollers/home/intercambioencomercio.js\"></script>
+    <script src=\"./assets/jscontrollers/home/dashboard.js\"></script>
+{% endblock %}
+", "home/home.twig", "C:\\xampp\\htdocs\\franklinsgold\\framework\\app\\templates\\home\\home.twig");
+    }
+}

@@ -1,4 +1,4 @@
-<div class="modal inmodal jiji" id="intercambioencomercioModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal jiji" id="myModalcito" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
                 <div class="modal-header">
@@ -8,53 +8,11 @@
                 </div>
     
                 <div class="modal-body">
-    
-                    <form id="crearIntercambioComercio_form">
-                        <div class="row">
-                            <div class="col-md-6 col-xs-12 clientes_intercambiocomercio">
-                                <div class="form-group">
-                                    <label for="id_cliente" class="control-label mb-1" >Clientes</label>
-                                    <select name="id_cliente" id="id_cliente" class="form-control" style="width: 100%">
-                                        <option disabled selected value>Seleccione un cliente</option>
-                                        {% for c in clientes %}
-                                            <option value="{{c.id_user}}">{{c.email}} - {{c.id_documentos}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div> 
-                            
 
-                            <div class="col-md-6 col-xs-12 tipo_intercambiocomercio">
-                                <div class="form-group">
-                                    <label for="id_tipo_int" class="control-label mb-1" >Tipo metal</label>
-                                    <select name="tipo_gramo" id="id_tipo_int" class="form-control" style="width: 100%" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')">
-                                        <option disabled selected value>Tipo</option>
-                                        <option value="oro">Oro</option>
-                                        <option value="plata">Plata</option>
-                                    </select>
-                                </div>                         
-                            </div>                    
-
-                            <div class="col-md-6 col-xs-12 cantidadbss_intercambiocomercio">
-                                <div class="form-group">
-                                    <label for="id_cantidad_bolivar_soberano_int" class="control-label mb-1" >Cantidad BsS</label>
-                                    <input placeholder="0.00" name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_int" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')" class="form-control" >
-                                </div>
-                            </div>  
-
-                            <div class="col-md-6 col-xs-12 cantidad_intercambiocomercio">
-                                <div class="form-group">
-                                    <label for="id_cantidad_int" class="control-label mb-1" >Cantidad(gramos)</label>
-                                    <input placeholder="0" class="form-control" name="cantidad" id="id_cantidad_int" readonly="readonly" type="number"> 
-                                </div>                         
-                            </div>
-                        </div>  
-                    </form>
                 </div>
     
                 <div class="modal-footer">
                     <button type="button" id="cerrarIntercambioModal" class="btn btn-white" data-dismiss="modal">Cerrar</button>
-                    <button type="button" id="crearIntercambioEnComercioBtn" class="btn btn-primary">Crear</button>
                 </div>
         </div>
     </div>

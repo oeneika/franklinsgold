@@ -1,16 +1,14 @@
 {% extends 'overall/layout' %}
 {% block appBody %}
-<div id="page-wrapper" class="gray-bg">
+<div id="page-wrapper" class="gray-bg" onload="">
 <div class="row border-bottom">
     {% include 'overall/header' %}
 </div>
-
     <div class="wrapper wrapper-content">
         <div class="row">
             {% if owner_user.id_comercio_afiliado != null %}
             <div class="col-md-12">
-                <!-- <a onclick="showModal(0,0,0,'confirmarintercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Confirmar</a>-->
-                <a onclick="showModal({{precio_oro_global.precio_dolares_venta}},{{precio_plata_global.precio_dolares_venta}},{{precio_bolivar}},'intercambioencomercioModal')" class="btn btn-warning btn-rounded" style="float:right; margin-bottom:10px;margin-left:5px;"><i class="fa fa-check"></i> Crear compra</a>
+                
             
 
                 {% if owner_user.tipo == 3 %}
@@ -82,6 +80,69 @@
         </div>
         {% endif %}
 
+        <div class="row">
+               <div class="col-lg-12">
+                   <div class="ibox float-e-margins">
+                       <div class="ibox-title">
+                           <h5>Intercambio en comercio afiliado</h5>
+                           <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                       </div>
+                       <div class="ibox-content" id="intercambioencomercioModal">
+                          <form id="crearIntercambioComercio_form">
+                            <div class="row">
+                                <div class="col-md-3 col-xs-12 clientes_intercambiocomercio">
+                                    <div class="form-group">
+                                      <label for="id_cliente" class="control-label mb-1" >Clientes</label>
+                                      <select name="id_cliente" id="id_cliente" class="form-control selectxxx" style="width: 100%">
+                                        <option disabled selected value>Seleccione un cliente</option>
+                                        {% for c in clientes %}
+                                          <option value="{{c.id_user}}">{{c.email}} - {{c.id_documentos}}</option>
+                                        {% endfor %}
+                                      </select>
+                                    </div>
+                                </div> 
+                            
+                                <div class="col-md-3 col-xs-12 tipo_intercambiocomercio">
+                                    <div class="form-group">
+                                        <label for="id_tipo_int" class="control-label mb-1" >Tipo metal</label>
+                                        <select name="tipo_gramo" id="id_tipo_int" class="form-control" style="width: 100%" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')">
+                                            <option disabled selected value>Tipo</option>
+                                            <option value="oro">Oro</option>
+                                            <option value="plata">Plata</option>
+                                        </select>
+                                    </div>                         
+                                </div>                    
+
+                                <div class="col-md-3 col-xs-12 cantidadbss_intercambiocomercio">
+                                <div class="form-group">
+                                    <label for="id_cantidad_bolivar_soberano_int" class="control-label mb-1" >Cantidad BsS</label>
+                                    <input placeholder="0.00" name="cantidad_bolivar_soberano" id="id_cantidad_bolivar_soberano_int" type="number" onchange="resetQuantity('id_cantidad_bolivar_soberano_int','id_tipo_int','id_cantidad_int')" class="form-control" >
+                                </div>
+                                </div>  
+
+                                <div class="col-md-3 col-xs-12 cantidad_intercambiocomercio">
+                                <div class="form-group">
+                                    <label for="id_cantidad_int" class="control-label mb-1" >Cantidad(gramos)</label>
+                                    <input placeholder="0" class="form-control" name="cantidad" id="id_cantidad_int" readonly="readonly" type="number"> 
+                                </div>                      
+                                </div>
+                            </div>  
+                          </form>
+                          <div class="row">
+                            <div style="float:right">
+                              <button type="button" id="crearIntercambioEnComercioBtn" class="btn btn-primary" >Crear</button>  
+                            </div>
+                          </div>
+                           
+                       </div>
+                   </div>
+               </div>
+        </div>
+
 
         <div class="row">
                 <div class="row">
@@ -137,8 +198,8 @@
 
         {% if owner_user.tipo == 0 %}
 
+        
         <div class="row">
-            <div class="row">
                <div class="col-lg-12">
                    <div class="ibox float-e-margins">
                        <div class="ibox-title">
@@ -169,8 +230,8 @@
                        </div>
                    </div>
                </div>
-           </div>
         </div>
+        
 
 
         <div class="row">
@@ -381,7 +442,6 @@
             </div>
         </div>
         {% endif %}
-
     </div>
 
 {% include 'home/confirmarintercambioencomercio' %}
@@ -392,6 +452,20 @@
 {% endblock %}
 
 {% block appFooter %}
+    <script>
+        /**
+        * Variables que contienen los precios actuales del oro y de la plata y del BsS
+        */
+        var ultimo_precio_oro=0;
+        var ultimo_precio_plata=0;
+        var precio_bolivar_soberano=0;
+        $(document).ready(function(){
+            
+           ultimo_precio_oro ={{ precio_oro_global.precio_dolares_venta }};
+           ultimo_precio_plata ={{ precio_plata_global.precio_dolares_venta }};
+           precio_bolivar_soberano ={{ precio_bolivar }};
+        });     
+    </script>
     <script src="./assets/jscontrollers/home/sendgramos.js"></script>
     <script src="./assets/jscontrollers/home/intercambioencomercio.js"></script>
     <script src="./assets/jscontrollers/home/dashboard.js"></script>

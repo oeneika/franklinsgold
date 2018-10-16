@@ -15,9 +15,10 @@
 
     <link href="views/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="views/css/animate.css" rel="stylesheet">
+    <link href="views/intl-tel-input-master/build/css/intlTelInput.css" rel="stylesheet">
+    <link href="views/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
 
-    <!-- Select2 -->
-    <link href="views/css/plugins/select2/select2.min.css" rel="stylesheet">
 
     <!-- Toastr style -->
     <link href="views/css/plugins/toastr/toastr.min.css" rel="stylesheet">
@@ -28,11 +29,10 @@
     <!-- SweetAlert -->
     <link href="views/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 
-    <link href="views/css/animate.css" rel="stylesheet">
-    <link href="views/intl-tel-input-master/build/css/intlTelInput.css" rel="stylesheet">
-    <link href="views/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="views/css/plugins/select2/select2.min.css" rel="stylesheet">
+
     <link href="views/css/style.css" rel="stylesheet">
-    
     <link href="views/propios/css/estilo.css" rel="stylesheet">
 
     <style>
@@ -71,9 +71,6 @@
 
     <script src="views/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="views/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    <!-- Select2 -->
-    <script src="views/js/plugins/select2/select2.full.min.js"></script>
 
     <!-- SweetAlert-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -130,6 +127,9 @@
     <!-- Typehead -->
     <script src="views/js/plugins/Bootstrap-3-Typeahead-master/bootstrap3-typeahead.min.js"></script>
 
+    <!-- Select2 -->
+    <script src="views/js/plugins/select2/select2.full.min.js"></script>
+
 
     <script>
     $( document ).ready(function() {
@@ -149,6 +149,26 @@
             width: 'resolve',
             closeOnSelect: false,
             dropdownParent: $('.jiji')
+        });
+    });
+    </script>
+        <script>
+    $( document ).ready(function() {
+        $(".selectxxx").select2({
+            language: {
+
+            noResults: function() {
+
+              return "No hay resultado";        
+            },
+            searching: function() {
+
+              return "Buscando..";
+            }
+          },
+            dropdownCssClass:'increasezindex',
+            width: 'resolve',
+            closeOnSelect: false
         });
     });
     </script>

@@ -23,7 +23,7 @@ function sendGramos(formulario) {
                         timeOut: 4000
                     };
     
-                    toastr.info(json.message,'Exito!');
+                    toastr.info(json.message,'Éxito!');
                     
                     setTimeout(function () {
                         location.reload();
