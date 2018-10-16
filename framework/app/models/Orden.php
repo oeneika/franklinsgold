@@ -273,7 +273,7 @@ class Orden extends Models implements IModels {
             $tipo_orden = $orden[0]["tipo_orden"] == 2 ? "venta" : "compra" ;
             $mensaje = 'Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] .', le informamos que su orden de '.$tipo_orden.
             ' de ' . $orden[0]["cantidad"] . ' gramos de ' . $orden[0]["tipo_gramo"] . ' realizada el ' .  Functions::fecha('d M Y h:i:s',$orden[0]["fecha"]).
-            ' ha sido confirmada por un vendedor de Franklins Gold, la misma se hará efectiva con la confirmación de un supervisor y '.
+            ' ha sido confirmada por un vendedor de Franklin Gold, la misma se hará efectiva con la confirmación de un supervisor y '.
             'posteriormente la confirmación de un administrador, le estaremos informando dicha trama.';
 
             $this->db->insert('notificacion',array(
@@ -303,7 +303,7 @@ class Orden extends Models implements IModels {
             $tipo_orden = $orden[0]["tipo_orden"] == 2 ? "venta" : "compra" ;
             $mensaje = 'Estimado ' . $user[0]["primer_nombre"] . ' ' . $user[0]["primer_apellido"] .', le informamos que su orden de '.$tipo_orden.
             ' de ' . $orden[0]["cantidad"] . ' gramos de ' . $orden[0]["tipo_gramo"] . ' realizada el ' .  Functions::fecha('d M Y h:i:s',$orden[0]["fecha"]).
-            ' ha sido confirmada por un supervisor de Franklins Gold, la misma se hará efectiva con la confirmación de un administrador,'.
+            ' ha sido confirmada por un supervisor de Franklin Gold, la misma se hará efectiva con la confirmación de un administrador,'.
             ' le estaremos informando dicha trama.';
 
             $this->db->insert('notificacion',array(
