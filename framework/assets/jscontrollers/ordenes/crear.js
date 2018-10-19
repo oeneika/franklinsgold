@@ -4,6 +4,7 @@
 var ultimo_precio_oro=0;
 var ultimo_precio_plata=0;
 var precio_bolivar_soberano=0;
+var precio_bolivar_soberano_venta=0;
 
 /**
  * 
@@ -11,11 +12,11 @@ var precio_bolivar_soberano=0;
  * @param {int} ultimo_precio_plata : precio actual de la plata
  * @param {int} precio_BsS : precio del BsS almacenado en la base de datos
  */
-function showModal(ultimo_precio_oro,ultimo_precio_plata,precio_BsS,modal=null) {
+function showModal(ultimo_precio_oro,ultimo_precio_plata,precio_BsS,precio_BsS_venta,modal=null) {
     this.ultimo_precio_oro = ultimo_precio_oro/*/28.3495*/;
     this.ultimo_precio_plata = ultimo_precio_plata/*/28.3495*/;
     this.precio_bolivar_soberano = precio_BsS;
-
+    this.precio_bolivar_soberano_venta = precio_BsS_venta;
 
     if(modal!=null){
         $('#'+modal).modal('show');
@@ -35,15 +36,39 @@ function resetQuantity(id_cantidad_BsS,id_tipo,id_cantidad_gramos,id_monto_dolar
     var cantidad_BsS = $('#'+id_cantidad_BsS).val();
 
     if($('#'+id_tipo).val() === 'oro'){
+
+        if($('#id_tipo_orden').val() == 1 ){
+
+            var cantidad = cantidad_BsS * (1/precio_bolivar_soberano / this.ultimo_precio_oro);
+            $('#'+id_monto_dolares).val(Math.ceil10(cantidad_BsS*(1/precio_bolivar_soberano), -2));
+            
+        }else{
+  
+            var cantidad = cantidad_BsS * (1/precio_bolivar_soberano_venta / this.ultimo_precio_oro);
+            $('#'+id_monto_dolares).val(Math.ceil10(cantidad_BsS*(1/precio_bolivar_soberano_venta), -2));
+
+        }
         
-        var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_oro);
+        
     }else
+    
     if($('#'+id_tipo).val() === 'plata'){
+
+        if($('#id_tipo_orden').val() == 1 ){
+
+            var cantidad = cantidad_BsS * (1/precio_bolivar_soberano / this.ultimo_precio_plata);
+            $('#'+id_monto_dolares).val(Math.ceil10(cantidad_BsS*(1/precio_bolivar_soberano), -2));
+        }else{
+
+            var cantidad = cantidad_BsS * (1/precio_bolivar_soberano_venta / this.ultimo_precio_plata);
+            $('#'+id_monto_dolares).val(Math.ceil10(cantidad_BsS*(1/precio_bolivar_soberano_venta), -2));
+
+        }
         
-        var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_plata);
+        
     }
       
-    $('#'+id_monto_dolares).val(Math.ceil10(cantidad_BsS*precio_bolivar_soberano, -2));
+    
     $('#'+id_cantidad_gramos).val(Math.ceil10(cantidad, -2));
 }
 

@@ -91,13 +91,13 @@ class Afiliados extends Models implements IModels {
             throw new ModelsException('La direccion no debe estar vacía.');
         }
 
-        if( strpos($this->data['nombre'],' ') !== false ){
+        /*if( strpos($this->data['nombre'],' ') !== false ){
             throw new ModelsException('El nombre no puede tener espacios en blanco.');
         }
 
         if( strpos($this->data['sucursal'],' ') !== false ){
             throw new ModelsException('La sucursal no puede tener espacios en blanco.');
-        }
+        }*/
 
         
 

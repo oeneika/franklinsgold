@@ -33,27 +33,27 @@ class ordenclienteController extends Controllers implements IControllers {
         $select = "orden.id_orden,orden.cantidad,orden.precio,orden.tipo_orden,orden.precio,orden.fecha,u.primer_nombre,u.primer_apellido";
         $where_oro = "orden.estado=4 and orden.tipo_gramo='oro' and u.id_user='$id_owner'";
         $where_plata = "orden.estado=4 and orden.tipo_gramo='plata' and u.id_user='$id_owner'";
-        $precio_bolivar = ($d->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"];
+        $precio_bolivar = ($d->getDivisas("precio_dolares,precio_dolares_venta","nombre_divisa='Bolívar Soberano'"))[0];
 
         switch($this->method) {
           case 'compraoro':
             $this->template->display('ordenes/compraoro',array(
-                'precio_bolivar' => $precio_bolivar
+                'precio_bolivar' => $precio_bolivar["precio_dolares"]
             ));
           break;
           case 'compraplata':
             $this->template->display('ordenes/compraplata',array(
-                'precio_bolivar' => $precio_bolivar
+                'precio_bolivar' => $precio_bolivar["precio_dolares"]
             ));
           break;
           case 'ventaoro':
             $this->template->display('ordenes/ventaoro',array(
-                'precio_bolivar' => $precio_bolivar
+                'precio_bolivar' => $precio_bolivar["precio_dolares_venta"]
             ));
           break;
           case 'ventaplata':
             $this->template->display('ordenes/ventaplata',array(
-                'precio_bolivar' => $precio_bolivar
+                'precio_bolivar' => $precio_bolivar["precio_dolares_venta"]
             ));
           break;
           case 'intercambiomoneda':
@@ -68,7 +68,7 @@ class ordenclienteController extends Controllers implements IControllers {
             'ultimas_cinco_ordenes_plata' => $o->get($select,$where_plata,5,"ORDER BY orden.id_orden DESC"),
             'total_oro_comprado' => $o->getTotalGramos("oro","id_usuario='$id_owner'"),
             'total_plata_comprado' => $o->getTotalGramos("plata","id_usuario='$id_owner'"),
-            'precio_bolivar' => $precio_bolivar
+            'precio_bolivar' => $precio_bolivar["precio_dolares"]
            ));
           break;
         }

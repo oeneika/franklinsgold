@@ -82,9 +82,9 @@ class Sucursales extends Models implements IModels {
             throw new ModelsException("La dirección no debe tener más de 45 carácteres");
         }
 
-        if( strpos($this->data['nombre'],' ') !== false ){
+        /*if( strpos($this->data['nombre'],' ') !== false ){
             throw new ModelsException('El nombre no puede tener espacios en blanco');
-        }       
+        } */      
     }
 
     /**

@@ -67,7 +67,7 @@ class homeController extends Controllers implements IControllers {
             'cantidad_compras_por_comercio' => $cantidad_compras_por_comercio,
             'cantidades_gramos_comercios' => $cantidades_gramos_comercios,
             'ordenes_descuentos_comercios' => $ordenes_descuentos_comercios,
-            'precio_bolivar' => ($di->getDivisas("precio_dolares","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares"]
+            'precio_bolivar' => ($di->getDivisas("precio_dolares_venta","nombre_divisa='Bolívar Soberano'"))[0]["precio_dolares_venta"]
         ));
     }
 }

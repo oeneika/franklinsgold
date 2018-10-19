@@ -1,3 +1,18 @@
+/**
+ * 
+ * @param {int} ultimo_precio_oro : precio actual del oro
+ * @param {int} ultimo_precio_plata : precio actual de la plata
+ * @param {int} precio_bolivar_soberano : precio del BsS almacenado en la base de datos
+ */
+function showModal(ultimo_precio_oro,ultimo_precio_plata,precio_bolivar_soberano,modal){
+
+    this.ultimo_precio_oro=ultimo_precio_oro;
+    this.ultimo_precio_plata=ultimo_precio_plata;
+    this.precio_bolivar_soberano=precio_bolivar_soberano;
+
+
+    $('#'+modal).modal('show');
+}
 
 
 /**
@@ -13,11 +28,11 @@ function resetQuantity(id_cantidad_BsS,id_tipo,id_cantidad_gramos){
 
     if($('#'+id_tipo).val() === 'oro'){
         
-        var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_oro);
+        var cantidad = cantidad_BsS * (1/precio_bolivar_soberano / this.ultimo_precio_oro);
     }else
     if($('#'+id_tipo).val() === 'plata'){
         
-        var cantidad = cantidad_BsS * (precio_bolivar_soberano / this.ultimo_precio_plata);
+        var cantidad = cantidad_BsS * (1/precio_bolivar_soberano / this.ultimo_precio_plata);
     }
 
     $('#'+id_cantidad_gramos).val(Math.ceil10(cantidad, -2));
