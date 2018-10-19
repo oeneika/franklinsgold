@@ -1,5 +1,5 @@
 /**
- * Resetea el precio de la dívisa inicial mostrando el de la actual
+ * Resetea el precio de la divisa inicial mostrando el de la actual
  */
 function changePrice(){
 

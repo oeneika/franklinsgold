@@ -12,6 +12,12 @@ div.modal.inmodal.show{
 	font-size: 11px;
 }
 
+@media (min-width: 768px){
+	.hey{
+	padding: 0 20px;
+	}
+}
+
 .fonditola{
 	background: #ededed;
 	padding: 15px 0;

@@ -76,7 +76,7 @@ class Divisa extends Models implements IModels {
                 'precio_dolares_venta' => $this->precio_dolares_venta
             ));
 
-            return array('success' => 1, 'message' => 'Dívisa creada con éxito!');
+            return array('success' => 1, 'message' => 'Divisa creada con éxito!');
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
@@ -103,7 +103,7 @@ class Divisa extends Models implements IModels {
             #Edita un origen
             $this->db->update('divisa',$data,"id_divisa = '$id'",'1');
 
-            return array('success' => 1, 'message' => 'Dívisa editada con éxito!');
+            return array('success' => 1, 'message' => 'Divisa editada con éxito!');
 
         } catch(ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());

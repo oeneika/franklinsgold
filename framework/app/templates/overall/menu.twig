@@ -4,7 +4,7 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <span>
-                    <a href="home/"><img alt="image" src="views/propios/img/logo.png" style="height:100px; margin: 0 40px;" /></a>
+                    <a href="javascript:void(0)"><img alt="image" src="views/propios/img/logo.png" style="height:100px; margin: 0 40px;" /></a>
                     </span>
                     <span class="clear"> 
                         <a href="home/" title="Ir al inicio del sistema"><span class="block m-t-xs"><strong class="font-bold hover" style="margin: 0 35px;">Franklin Gold</strong></span></a>
@@ -15,6 +15,9 @@
                 <div class="logo-element">
                     <a href="home/">FG</a>
                 </div>
+            </li>
+            <li class="">
+                <a href="home/"><i class="fa fa-home"></i><span class="nav-label">Resumen</span></a>
             </li>
             <li class="">
                 <a href="dashboardpublico/"><i class="fa fa-sliders-h"></i><span class="nav-label">Tablero</span></a>
@@ -76,7 +79,7 @@
                 {% endif %}
                 {% if owner_user.tipo != 2 and owner_user.id_comercio_afiliado == null %}
                 <li class="">
-                    <a href="ordenadmin/"><i class="fa fa-shopping-cart"></i><span class="nav-label">Ordenes</span></a>
+                    <a href="ordenadmin/"><i class="fa fa-shopping-cart"></i><span class="nav-label">Órdenes</span></a>
                 </li>    
                 {% endif %}
                 {% if owner_user.tipo == 0 or (owner_user.tipo == 3 and owner_user.id_comercio_afiliado == null)  %}
