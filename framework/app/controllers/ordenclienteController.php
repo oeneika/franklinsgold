@@ -38,22 +38,22 @@ class ordenclienteController extends Controllers implements IControllers {
         switch($this->method) {
           case 'compraoro':
             $this->template->display('ordenes/compraoro',array(
-                'precio_bolivar' => $precio_bolivar["precio_dolares"]
+                'precio_bolivar' => $precio_bolivar["precio_dolares_venta"]
             ));
           break;
           case 'compraplata':
             $this->template->display('ordenes/compraplata',array(
-                'precio_bolivar' => $precio_bolivar["precio_dolares"]
+                'precio_bolivar' => $precio_bolivar["precio_dolares_venta"]
             ));
           break;
           case 'ventaoro':
             $this->template->display('ordenes/ventaoro',array(
-                'precio_bolivar' => $precio_bolivar["precio_dolares_venta"]
+                'precio_bolivar' => $precio_bolivar["precio_dolares"]
             ));
           break;
           case 'ventaplata':
             $this->template->display('ordenes/ventaplata',array(
-                'precio_bolivar' => $precio_bolivar["precio_dolares_venta"]
+                'precio_bolivar' => $precio_bolivar["precio_dolares"]
             ));
           break;
           case 'intercambiomoneda':

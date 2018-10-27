@@ -179,20 +179,20 @@ class Orden extends Models implements IModels {
             #Si es oro trae el precio del oro 
             if($this->tipo_gramo === 'oro'){
 
-                #Si es compra trae el precio de compra
+                #Si es compra trae el precio de venta
                 if($this->tipo_orden==1){
-                    $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
-                }else{
                     $precio = $d->getDivisas("precio_dolares_venta","nombre_divisa='Oro Franklin'")[0]["precio_dolares_venta"];
+                }else{
+                    $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
                 }             
 
             }else{
 
-                #Si es compra trae el precio de compra
+                #Si es compra trae el precio de venta
                 if($this->tipo_orden==1){
-                    $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
-                }else{
                     $precio = $d->getDivisas("precio_dolares_venta","nombre_divisa='Plata Franklin'")[0]["precio_dolares_venta"];
+                }else{
+                    $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
                 }     
 
             }
@@ -599,20 +599,20 @@ class Orden extends Models implements IModels {
                 #Si es oro trae el precio del oro 
                 if($tipo_gramo === 'oro'){
 
-                    #Si es compra trae el precio de compra
+                    #Si es compra trae el precio de venta
                     if($this->tipo_orden==1){
-                        $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
-                    }else{
                         $precio = $d->getDivisas("precio_dolares_venta","nombre_divisa='Oro Franklin'")[0]["precio_dolares_venta"];
+                    }else{
+                        $precio = $d->getDivisas("precio_dolares","nombre_divisa='Oro Franklin'")[0]["precio_dolares"];
                     }
 
                 }else{
 
-                    #Si es compra trae el precio de compra
+                    #Si es compra trae el precio de venta
                     if($this->tipo_orden==1){
-                        $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
-                    }else{
                         $precio = $d->getDivisas("precio_dolares_venta","nombre_divisa='Plata Franklin'")[0]["precio_dolares_venta"];
+                    }else{
+                        $precio = $d->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
                     }
 
                 }
@@ -750,8 +750,7 @@ class Orden extends Models implements IModels {
 
                 #Si se desea envíar gramos de oro
                 if($gramosPlata>0){
-
-                    
+                   
                     #Precio de la plata
                     $precio_plata = (new Model\Divisa)->getDivisas("precio_dolares","nombre_divisa='Plata Franklin'")[0]["precio_dolares"];
 
